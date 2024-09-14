@@ -18,16 +18,18 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         // backgroundColor: Colors.blue,
         body: SafeArea(
-          child: Column(
-            children: [
-              Home(),
-              // UpComingProjects(
-              //     image: AssetImage("Assests/images/screen1/pic1.png")),
-              // UpComingProjects(
-              //     image: AssetImage("Assests/images/screen1/pic1.png")),
-              // UpComingProjects(
-              //     image: AssetImage("Assests/images/screen1/pic1.png")),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Home(),
+                // UpComingProjects(
+                //     image: AssetImage("Assests/images/screen1/pic1.png")),
+                // UpComingProjects(
+                //     image: AssetImage("Assests/images/screen1/pic1.png")),
+                // UpComingProjects(
+                //     image: AssetImage("Assests/images/screen1/pic1.png")),
+              ],
+            ),
           ),
         ),
       ),

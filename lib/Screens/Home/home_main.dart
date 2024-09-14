@@ -3,18 +3,25 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zakat_app/Screens/Calculator/Calculator.dart';
 import 'package:zakat_app/Screens/Need%20Support/need_support.dart';
 import 'package:zakat_app/Screens/New%20Campaign/new_campaign.dart';
+import 'package:zakat_app/components/H1Main.dart';
+import 'package:zakat_app/components/homeScreen_carousel.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
   // final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      children: [HomeH1()],
+    return const SingleChildScrollView(
+      child: Column(
+        children: [
+          HomeH1(),
+          CarouselHome(),
+          H1Main(),
+        ],
+      ),
     );
   }
 }
-
 
 class CarouselHome extends StatelessWidget {
   const CarouselHome({super.key});
@@ -23,17 +30,17 @@ class CarouselHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: 200,
         // color: Colors.red,
         child: const HomePageCarousel(
           imageList: [
-            "Assests/Images/10007.png",
-            "Assests/Images/10008.png",
-            "Assests/Images/10009.png",
-            "Assests/Images/10010.png",
-            "Assests/Images/10011.png",
+            "Assests/Images/screen1/10007.png",
+            "Assests/Images/screen1/10008.png",
+            "Assests/Images/screen1/10009.png",
+            "Assests/Images/screen1/10010.png",
+            "Assests/Images/screen1/10011.png",
           ],
           carouselHeight: 200,
         ),
@@ -41,7 +48,6 @@ class CarouselHome extends StatelessWidget {
     );
   }
 }
-
 
 class HomeH1 extends StatelessWidget {
   const HomeH1({super.key});

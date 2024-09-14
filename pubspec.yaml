@@ -39,11 +39,13 @@ dependencies:
   vector_graphics: ^1.1.11+1
   sizer: ^3.0.3
   widget_mask: ^1.0.0+0
+  carousel_slider: ^5.0.0
   flutter_animate_on_scroll: ^0.1.1  
   video_player: ^2.9.1
   animations: ^2.0.8
   simple_animations: ^5.0.2
   font_awesome_flutter: ^10.6.0
+  get: ^4.6.6
 dev_dependencies:
   flutter_test:
     sdk: flutter

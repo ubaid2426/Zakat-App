@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:mainpage/core/App_assest.dart';
-import 'package:zakat_app/core/AppAssests.dart';
-// import 'package:flutter_japanese_restaurant_app/core/app_asset.dart';
+// import 'package:zakat_app/core/AppAssests.dart';
 
 enum EmptyWidgetType { cart, favorite }
 
@@ -28,8 +27,7 @@ class EmptyWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
               
-                    Image.asset(AppAssest.picture2, width: 300),
-                    // : Image.asset(AppAssest.emptyFavorite, width: 300),
+                    Image.asset("Assests/images/screen1/empty_cart2.png", width: 300),
                 const SizedBox(height: 10),
                 Text(title, style: Theme.of(context).textTheme.displayMedium)
               ],

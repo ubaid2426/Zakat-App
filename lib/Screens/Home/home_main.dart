@@ -1,23 +1,278 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:zakat_app/Screens/All_Category/all_category.dart';
+// import 'package:zakat_app/Screens/All_Category/Screen/all_category.dart';
 import 'package:zakat_app/Screens/Calculator/Calculator.dart';
+import 'package:zakat_app/Screens/Home/components/food_donation.dart';
 import 'package:zakat_app/Screens/Need%20Support/need_support.dart';
 import 'package:zakat_app/Screens/New%20Campaign/new_campaign.dart';
+import 'package:zakat_app/Screens/Notification/Screen/notification.dart';
+import 'package:zakat_app/Widgets/drawers_main.dart';
 import 'package:zakat_app/components/H1Main.dart';
+import 'package:zakat_app/components/help_child.dart';
 import 'package:zakat_app/components/homeScreen_carousel.dart';
+import 'package:zakat_app/components/upcoming_project.dart';
+import 'package:zakat_app/controller/fade_animation.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
   // final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-      child: Column(
-        children: [
-          HomeH1(),
-          CarouselHome(),
-          H1Main(),
-        ],
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xFF29C77B),
+          title: Column(
+            children: [
+              // const Text("Sadqahzakat"),
+              Image.asset(
+                'Assests/images/screen1/10001.png', // Replace with your image path
+                fit: BoxFit.contain,
+                height: 200,
+                width: 200, // Adjust the height as per your requirement
+              ),
+              // const SizedBox(width: 10), // Spacing between image and text
+              // You can add a title next to the image
+            ],
+          ),
+        ),
+        drawer: const MainDrawer(),
+        body: const SingleChildScrollView(
+          child: Column(
+            children: [
+              HomeH1(),
+              CarouselHome(),
+              H1Main(),
+              BoxText(),
+              SizedBox(
+                height: 50,
+              ),
+              MarriageSupportH(
+                h3: "Our Numbers",
+                h1: 'Rs.100000+',
+                h2: 'Meal Donations',
+                fontawesome: FontAwesomeIcons.faceDizzy,
+              ),
+              MarriageSupportH(
+                h1: 'Rs.400000+',
+                h2: 'Flood Donations',
+                fontawesome: FontAwesomeIcons.bolt,
+              ),
+              MarriageSupportH(
+                h1: 'Rs.200000+',
+                h2: 'Medical Donations',
+                fontawesome: FontAwesomeIcons.houseChimneyUser,
+              ),
+              MarriageSupportH(
+                h1: 'Rs.300000+',
+                h2: 'Marriage Support',
+                fontawesome: FontAwesomeIcons.solidHeart,
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              FoodDonation(),
+              UpComingRender(),
+              // UpComingProjects(
+              //     image: AssetImage("Assests/images/screen1/upcoming1.png")),
+              // UpComingMain(image: AssetImage("Assests/images/screen1/upcoming1.png")),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class UpComingRender extends StatelessWidget {
+  const UpComingRender({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        Text(
+          "Our UpComing Projects",
+          style: TextStyle(
+              color: Colors.black,
+              fontSize: 30,
+              fontWeight: FontWeight.w900,
+              //  decoration: TextDecoration.underline,
+              fontFamily: "Roboto"),
+        ),
+        SizedBox(
+          width: 300,
+          child: Divider(
+            thickness: 5,
+            color: Color(0xFF29C77B),
+            height: 30,
+          ),
+        ),
+        UpComingProjects(
+          image: AssetImage("Assests/images/screen1/upcoming3.png"),
+          text1: 'SEPT',
+          text2: '02',
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(25, 15, 25, 25),
+          child: Text(
+            "Your Donation can help provide food to people",
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 25,
+                fontWeight: FontWeight.w900,
+                fontFamily: "Roboto"),
+          ),
+        ),
+        UpComingProjects(
+          image: AssetImage("Assests/images/screen1/upcoming2.png"),
+          text1: 'OCT',
+          text2: '20',
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(25, 15, 25, 25),
+          child: Text(
+            "The shop makes donation for conjure EarthQuake. ",
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 25,
+                fontWeight: FontWeight.w900,
+                fontFamily: "Roboto"),
+          ),
+        ),
+        UpComingProjects(
+          image: AssetImage("Assests/images/screen1/upcoming1.png"),
+          text1: 'Nov',
+          text2: '16',
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(25, 15, 25, 25),
+          child: Text(
+            "Your Donation can help provide food to people",
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 25,
+                fontWeight: FontWeight.w900,
+                fontFamily: "Roboto"),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class UpComingProjects extends StatelessWidget {
+  const UpComingProjects(
+      {super.key,
+      required this.image,
+      required this.text1,
+      required this.text2});
+  final ImageProvider image;
+  final String text1;
+  final String text2;
+  @override
+  Widget build(BuildContext context) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        // home: Scaffold(
+        home: SafeArea(
+          child: InkWell(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const AllCategory()));
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 300,
+                child: Stack(
+                  children: [
+                    UpComingMain(image: image),
+                    Positioned(
+                      top: 0,
+                      right: 10,
+                      width: 100,
+                      height: 100,
+                      child: SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: Stack(
+                          children: [
+                            SvgPicture.asset(
+                              'Assests/svg/button.svg',
+                              width: 100,
+                              height: 90,
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    text1,
+                                    style: const TextStyle(
+                                        fontSize: 28,
+                                        color: Colors.white,
+                                        decoration: TextDecoration.none,
+                                        // height: 1.0,
+                                        fontWeight: FontWeight.w300),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Text(
+                                    text2,
+                                    style: const TextStyle(
+                                        fontSize: 28,
+                                        decoration: TextDecoration.none,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+}
+
+class BoxText extends StatelessWidget {
+  const BoxText({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        HelpChild(image: AssetImage("Assests/images/screen1/poverty3.png")),
+        HelpText(text: "Help children Rise out of the poverty"),
+        HelpChild(image: AssetImage("Assests/images/screen1/poverty4.png")),
+        HelpText(text: "Little help that gooes a long way"),
+      ],
+    );
+  }
+}
+
+class HelpText extends StatelessWidget {
+  const HelpText({super.key, required this.text});
+  final String text;
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: const TextStyle(
+        color: Colors.black,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
       ),
     );
   }
@@ -36,11 +291,11 @@ class CarouselHome extends StatelessWidget {
         // color: Colors.red,
         child: const HomePageCarousel(
           imageList: [
-            "Assests/Images/screen1/10007.png",
-            "Assests/Images/screen1/10008.png",
-            "Assests/Images/screen1/10009.png",
-            "Assests/Images/screen1/10010.png",
-            "Assests/Images/screen1/10011.png",
+            "Assests/images/screen1/10007.png",
+            "Assests/images/screen1/10008.png",
+            "Assests/images/screen1/10009.png",
+            "Assests/images/screen1/10010.png",
+            "Assests/images/screen1/10011.png",
           ],
           carouselHeight: 200,
         ),
@@ -80,7 +335,7 @@ class HomeH2 extends StatelessWidget {
             height: 230,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              color: const Color(0xFF3973E5),
+              color: const Color(0xFF29C77B),
               borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20),
@@ -96,6 +351,9 @@ class HomeH2 extends StatelessWidget {
             ),
             child: Column(
               children: [
+                // const SizedBox(
+                //   height: 50,
+                // ),
                 Container(
                   // color: Colors.red,
                   width: MediaQuery.of(context).size.width,
@@ -159,7 +417,13 @@ class HomeH2 extends StatelessWidget {
                             ),
                           ),
                           child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const NotificationMain()));
+                            },
                             icon: const Icon(
                               FontAwesomeIcons.bell,
                               color: Colors.white,
@@ -304,17 +568,103 @@ class ButtonNavBar extends StatelessWidget {
             ),
             child: Icon(fontawesome),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.black,
               fontSize: 15,
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class MarriageSupportH extends StatelessWidget {
+  final String h1;
+  final String h2;
+  final String? h3;
+  final IconData fontawesome;
+  const MarriageSupportH({
+    super.key,
+    required this.h1,
+    required this.h2,
+    required this.fontawesome,
+    this.h3,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // ignore: prefer_const_constructors
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      color: const Color(0xFF29C77B),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            FadeAnimation(
+              animationType: 'FadeInRight',
+              delay: 1000,
+              child: Text(
+                h3 ?? '',
+                style: const TextStyle(
+                  color: Color.fromARGB(255, 19, 19, 19),
+                  fontSize: 40,
+                  fontFamily: "Cormorant",
+                  letterSpacing: 2,
+                  fontWeight: FontWeight.w900,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(height: 10),
+            FadeAnimation(
+              animationType: 'FadeInLeft',
+              delay: 1000,
+              child: Icon(
+                fontawesome,
+                size: 50,
+              ),
+            ),
+            const SizedBox(height: 30),
+            FadeAnimation(
+              animationType: 'FadeInRight',
+              delay: 1000,
+              child: Text(
+                h1,
+                style: const TextStyle(
+                  color: Color.fromARGB(255, 8, 8, 8),
+                  fontSize: 30,
+                  fontFamily: "Cormorant",
+                  letterSpacing: 2,
+                  fontWeight: FontWeight.w900,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(height: 20),
+            FadeAnimation(
+              animationType: 'FadeInLeft',
+              delay: 1000,
+              child: Text(
+                h2,
+                style: const TextStyle(
+                  color: Color.fromARGB(255, 8, 8, 8),
+                  fontSize: 30,
+                  fontFamily: "Roboto",
+                  letterSpacing: 2,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -22,17 +22,17 @@ class CartScreen extends StatelessWidget {
         "Cart screen",
         style: Theme.of(context).textTheme.displayMedium,
       ),
-      backgroundColor: ThemeData()
-          .copyWith(
-            scaffoldBackgroundColor: const Color(0xFF8BCCC1),
-          )
-          .scaffoldBackgroundColor,
+      // backgroundColor: ThemeData()
+      //     .copyWith(
+      //       // scaffoldBackgroundColor: const Color(0xFF8BCCC1),
+      //     )
+          // .scaffoldBackgroundColor,
     );
   }
 
   Widget _bottomAppBar(BuildContext context) {
     return BottomAppBar(
-      color: const Color(0xFF8BCCC1),
+      // color: const Color(0xFF8BCCC1),
       height: MediaQuery.of(context).size.height * 0.35,
       child: Container(
         height: 500,

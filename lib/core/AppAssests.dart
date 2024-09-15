@@ -1,8 +1,8 @@
 class AppAssest {
   const AppAssest._();
 
-  static const picture1 = "Assests/Images/screen1/profile_pic.png";
-  static const picture2 = "Assests/Images/screen1/empty_cart.png";
+  static const picture1 = "Assests/Images/screen1/10001.png";
+  static const picture2 = "Assests/Images/screen1/empty_cart2.png";
   static const picture3 = "Assests/Images/screen1/github_pic.png";
   static const picture4 = "Assests/Images/10004.png";
   static const picture5 = "Assests/Images/10005.png";

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:zakat_app/Screens/All_Category/all_category.dart';
+// import 'package:zakat_app/Screens/All_Category/Screen/all_category.dart';
 import 'package:zakat_app/controller/fade_animation.dart';
 
 class H1Main extends StatelessWidget {
@@ -9,11 +11,9 @@ class H1Main extends StatelessWidget {
     return SingleChildScrollView(
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
-        // height: MediaQuery.of(context).size.height,
         height: 700,
         child: Stack(
           children: [
-            // Background image
             FadeAnimation(
               animationType: 'ZoomIn',
               delay: 500,
@@ -143,27 +143,24 @@ class H1Main extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 40),
-                    FadeAnimation(
-                      animationType: "FadeInLeft",
-                      delay: 1000,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Handle Donate button press
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green, // Button color
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 40,
-                            vertical: 15,
-                          ),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Navigate to the donation page
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => AllCategory()));
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF29C77B), // Button color
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 40,
+                          vertical: 15,
                         ),
-                        child: const Text(
-                          "DONATE",
-                          style: TextStyle(
-                            fontSize: 18.8,
-                            fontFamily: "Roboto",
-                            color: Colors.white,
-                          ),
+                      ),
+                      child: const Text(
+                        "DONATE",
+                        style: TextStyle(
+                          fontSize: 18.8,
+                          fontFamily: "Roboto",
+                          color: Colors.white,
                         ),
                       ),
                     ),

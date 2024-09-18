@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zakat_app/model/all_category.dart';
 // import 'package:zakat_app/core/app_icons.dart';
 import 'package:zakat_app/model/buttom-nevigation-item.dart';
+// import 'package:zakat_app/model/donate_model.dart';
 
 List<BottomNavigationItem> bottomNavigationItems = [
   BottomNavigationItem(
@@ -44,94 +45,104 @@ const availableCategories = [
     // image: "Assests/images/AllCategory/file.png",
     route: '/PortableHouse',
   ),
-   AllCategoryModel(
+  AllCategoryModel(
     id: 'c2',
     title: 'Masjid Maintenance',
     image: "Assests/images/AllCategory/masjid.png",
     route: '/MasjidMaintenance',
   ),
-   AllCategoryModel(
+  AllCategoryModel(
     id: 'c3',
     title: 'Marriage Support',
-    image: "Assests/images/AllCategory/masjid.png",
+    image: "Assests/images/AllCategory/marriage.png",
     route: '/MarriageSupport',
   ),
-   AllCategoryModel(
+  AllCategoryModel(
     id: 'c4',
     title: 'Flood Relief',
-    image: "Assests/images/AllCategory/masjid.png",
+    image: "Assests/images/AllCategory/food.png",
     route: '/FloodRelief',
   ),
-   AllCategoryModel(
+  AllCategoryModel(
     id: 'c5',
     title: 'Widow Family Support',
-    image: "Assests/images/AllCategory/masjid.png",
+    image: "Assests/images/screen1/10012.png",
     route: '/WidowFamily',
   ),
-   AllCategoryModel(
+  AllCategoryModel(
     id: 'c6',
     title: 'Small Business Setup',
-    image: "Assests/images/AllCategory/masjid.png",
+    image: "Assests/images/AllCategory/smallbusiness.png",
     route: '/SmallBusinessSetup',
   ),
-   AllCategoryModel(
+  AllCategoryModel(
     id: 'c7',
     title: 'Clothes',
-    image: "Assests/images/AllCategory/masjid.png",
+    image: "Assests/images/AllCategory/clothes.png",
     route: '/Clothes',
   ),
-   AllCategoryModel(
+  AllCategoryModel(
     id: 'c8',
     title: 'Medical Bed',
-    image: "Assests/images/AllCategory/masjid.png",
+    image: "Assests/images/AllCategory/medicalbed.png",
     route: '/MedicalBed',
   ),
-   AllCategoryModel(
+  AllCategoryModel(
     id: 'c9',
     title: 'Wheel Chair',
     image: "Assests/images/AllCategory/wheelchair.png",
     route: '/WheelChair',
   ),
-   AllCategoryModel(
+  AllCategoryModel(
     id: 'c10',
     title: 'Tree Donation',
     image: "Assests/images/AllCategory/tree.png",
     route: '/TreeDonation',
   ),
-   AllCategoryModel(
+  AllCategoryModel(
     id: 'c11',
     title: 'Daig Donation',
     image: "Assests/images/AllCategory/daig.png",
     route: '/DaigDonation',
   ),
-   AllCategoryModel(
+  AllCategoryModel(
     id: 'c12',
     title: 'Meal Donation',
     image: "Assests/images/AllCategory/meal.png",
     route: '/MealDonation',
   ),
-   AllCategoryModel(
+  AllCategoryModel(
     id: 'c13',
     title: 'Orphan Support',
     image: "Assests/images/AllCategory/orphan.png",
     route: '/OrphanSupport',
   ),
-   AllCategoryModel(
+  AllCategoryModel(
     id: 'c14',
     title: 'Water Cooler',
     image: "Assests/images/AllCategory/watercooler.png",
     route: '/WaterCooler',
   ),
-   AllCategoryModel(
+  AllCategoryModel(
     id: 'c15',
     title: 'Masjid Construction',
     image: "Assests/images/AllCategory/masjidconst.png",
     route: '/MasjidConst',
   ),
-   AllCategoryModel(
+  AllCategoryModel(
     id: 'c16',
     title: 'Other',
     image: "Assests/images/AllCategory/other.png",
     route: '/Other',
   ),
 ];
+
+// const daigcatogories = [
+//    DonateModel(
+//     id: 'a1',
+//     title: 'Ot',
+//     image: "Assests/images/AllCategory/other.png",
+//     des:"fgf",
+//     route: '/Other', 
+//   ),
+// ];

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:zakat_app/Screens/All_Category/Screen/individual_donation.dart';
+import 'package:zakat_app/Screens/All_Category/Screen/request_donation.dart';
 import 'package:zakat_app/Screens/All_Category/all_category.dart';
 // import 'package:zakat_app/Screens/All_Category/Screen/all_category.dart';
 import 'package:zakat_app/Screens/Calculator/Calculator.dart';
 import 'package:zakat_app/Screens/Home/components/food_donation.dart';
-import 'package:zakat_app/Screens/Need%20Support/need_support.dart';
-import 'package:zakat_app/Screens/New%20Campaign/new_campaign.dart';
+// import 'package:zakat_app/Screens/Need%20Support/need_support.dart';
+// import 'package:zakat_app/Screens/New%20Campaign/new_campaign.dart';
 import 'package:zakat_app/Screens/Notification/Screen/notification.dart';
 import 'package:zakat_app/Widgets/drawers_main.dart';
 import 'package:zakat_app/components/H1Main.dart';
@@ -15,8 +17,60 @@ import 'package:zakat_app/components/homeScreen_carousel.dart';
 import 'package:zakat_app/components/upcoming_project.dart';
 import 'package:zakat_app/controller/fade_animation.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+
+   @override
+  void initState() {
+    super.initState();
+    // Show the dialog as soon as the widget is loaded
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showFoodDialog(context);
+    });
+  }
+
+  void showFoodDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          // content: const Text('Choose your donation option:'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Individual Donation'),
+              onPressed: () {
+             Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>  IndividualDonation(),
+                    ),
+                  );
+              },
+            ),
+            TextButton(
+              child: const Text('Request For Donation'),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>  RequestDonation(),
+                    ),
+                  );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
   // final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
@@ -24,7 +78,7 @@ class Home extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF29C77B),
+          backgroundColor: const Color(0xFF29C77B),
           title: Column(
             children: [
               // const Text("Sadqahzakat"),
@@ -372,8 +426,8 @@ class HomeH2 extends StatelessWidget {
                               image: DecorationImage(
                                 // scale: 6,
                                 image: AssetImage(
-                                    'Assests/images/screen1/10001.png'), // Adjust the image path
-                                fit: BoxFit.cover, // Adjust the fit as needed
+                                    'Assests/images/screen1/profile_pic.png'), // Adjust the image path
+                                fit: BoxFit.contain, // Adjust the fit as needed
                               ),
                             ),
                           ),
@@ -501,10 +555,10 @@ class HomeH3 extends StatelessWidget {
             ),
           ],
         ),
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ButtonNavBar(
+            const ButtonNavBar(
               text: 'Calculator',
               fontawesome: FontAwesomeIcons.bell,
               navigateTo: Calculator(),
@@ -512,12 +566,12 @@ class HomeH3 extends StatelessWidget {
             ButtonNavBar(
               text: 'New Campaign',
               fontawesome: FontAwesomeIcons.bullhorn,
-              navigateTo: NewCampaign(),
+              navigateTo: IndividualDonation(),
             ),
-            ButtonNavBar(
+             ButtonNavBar(
               text: 'Need Support',
               fontawesome: FontAwesomeIcons.handshake,
-              navigateTo: NeedSupport(),
+              navigateTo: RequestDonation(),
             ),
             // ButtonNavBar(
             //   text: 'All Category',

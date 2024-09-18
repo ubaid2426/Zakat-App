@@ -1,54 +1,62 @@
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:zakat_app/Screens/Accounts/account_detail.dart';
+import 'package:get/get.dart';
+// import 'package:get/get_core/src/get_main.dart';
+// import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:zakat_app/Widgets/empty_widget.dart';
+import 'package:zakat_app/components/navigation.dart';
 import 'package:zakat_app/controller/controller.dart';
-// import 'package:mainpage/core/App_extension.dart';
-// import 'package:mainpage/src/Screens/PopupScreen.dart';
-// import 'package:mainpage/src/Widgets/EmptyWidget.dart';
-// import 'package:mainpage/src/Widgets/counter_button.dart';
-// import 'package:mainpage/src/controller/controller.dart';
-// import 'package:mainpage/src/controller/FoodController.dart';
 
 final FoodController controller = Get.put(FoodController());
 
+// final FoodController foodController = Get.find<FoodController>();
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 
   PreferredSizeWidget _appBar(BuildContext context) {
     return AppBar(
-      title: Text(
-        "Cart screen",
-        style: Theme.of(context).textTheme.displayMedium,
+      title: Row(
+        children: [
+          Text(
+            "Cart screen",
+            // style: Theme.of(context).textTheme.displayMedium,
+          ),
+          IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        Navigation()), // Navigate to the screen
+              );
+            },
+          )
+        ],
       ),
-      // backgroundColor: ThemeData()
-      //     .copyWith(
-      //       // scaffoldBackgroundColor: const Color(0xFF8BCCC1),
-      //     )
-          // .scaffoldBackgroundColor,
+      // leading: IconButton(
+      //   onPressed: () => Navigator.pop(context),
+      //   icon: const Icon(Icons.arrow_back),
+      // ),
     );
   }
 
   Widget _bottomAppBar(BuildContext context) {
     return BottomAppBar(
-      // color: const Color(0xFF8BCCC1),
-      height: MediaQuery.of(context).size.height * 0.35,
+      height: MediaQuery.of(context).size.height * 0.30,
       child: Container(
         height: 500,
-        // width:double.infinity,
-        // color: Colors.green,
         width: MediaQuery.of(context).size.width,
         child: Container(
           decoration: const BoxDecoration(
+            color: Colors.red,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30),
               topRight: Radius.circular(30),
             ),
-            // color:Colors.black,
           ),
           child: Padding(
-            padding: const EdgeInsets.all(30),
+            padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -61,8 +69,8 @@ class CartScreen extends StatelessWidget {
                           "Subtotal",
                           style: TextStyle(
                             color: Colors.black,
+                            fontWeight: FontWeight.w700,
                           ),
-                          // style: Theme.of(context).textTheme.headlineSmall,
                         ),
                         Obx(() {
                           return Text(
@@ -70,7 +78,6 @@ class CartScreen extends StatelessWidget {
                             style: const TextStyle(
                               color: Colors.black,
                             ),
-                            // style: Theme.of(context).textTheme.displayMedium,
                           );
                         }),
                       ],
@@ -78,7 +85,7 @@ class CartScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 15),
                   const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -87,14 +94,13 @@ class CartScreen extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.black,
                           ),
-                          // style: Theme.of(context).textTheme.headlineSmall,
+                          textAlign: TextAlign.start,
                         ),
                         Text(
-                          "\$${5.00}",
+                          "\$0.0", // Assuming no taxes for donations
                           style: TextStyle(
                             color: Colors.black,
                           ),
-                          // style: Theme.of(context).textTheme.displayMedium,
                         ),
                       ],
                     ),
@@ -116,52 +122,40 @@ class CartScreen extends StatelessWidget {
                           "Total",
                           style: TextStyle(
                             color: Colors.black,
+                            fontWeight: FontWeight.w700,
                           ),
-                          // style: Theme.of(context).textTheme.displayMedium,
                         ),
                         Obx(() {
-                          return Text(
-                              controller.totalPrice.value == 5.0
-                                  ? "\$0.0"
-                                  : "\$${controller.totalPrice}",
+                          return Text("\$${controller.totalPrice.value}",
                               style: const TextStyle(
                                 fontSize: 19,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
-                              )
-                              // style: h2Style.copyWith(
-                              //   color: LightThemeColor.accent,
-                              // ),
-                              );
+                              ));
                         }),
                       ],
                     ),
                   ),
                   const SizedBox(height: 30),
                   Container(
-                    // width: double.infinity,
                     width: MediaQuery.of(context).size.width * 0.60,
-                    // color: Colors.red,
                     height: 60,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: ElevatedButton(
                         onPressed: () {
-                          // Colors.red;
-                            Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>const AccountDetail()),
-                          );
-                          // print('Press button');
+                          // Navigate to checkout page or perform checkout
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => const AccountDetail()),
+                          // );
                         },
                         child: const Text(
                           "Checkout",
                           style: TextStyle(
                             fontSize: 24,
                             color: Colors.black,
-
-                            // backgroundColor: Colors.green,
                           ),
                         ),
                       ),
@@ -192,82 +186,106 @@ class CartScreen extends StatelessWidget {
           background: Row(
             children: [
               Container(
+                width: 100,
+                height: 100,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 15,
                   vertical: 25,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.red,
+                  color: const Color.fromARGB(255, 245, 2, 2),
                   borderRadius: BorderRadius.circular(15),
                 ),
-                child: const FaIcon(FontAwesomeIcons.trash),
+                child: const FaIcon(
+                  FontAwesomeIcons.trash,
+                  color: Colors.black,
+                ),
               ),
             ],
           ),
           child: Container(
-            padding: const EdgeInsets.all(5),
+            width: double.infinity,
+            height: 150,
+            // padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: Colors.white,
-              // controller.isLightTheme
-              // ? Colors.white
-              // : DarkThemeColor.primaryLight,
+              // color: const Color.fromARGB(255, 244, 4, 4),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            child: Column(
               children: [
-                const SizedBox(width: 20),
-                Image.asset(controller.cartFood[index].image, scale: 10),
-                const SizedBox(width: 20),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
                   children: [
-                    Text(
-                      controller.cartFood[index].title,
-                      style: const TextStyle(
-                        fontSize: 12,
+                    Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15)),
+                        color: const Color.fromARGB(255, 63, 244, 54),
                       ),
-                      // style: Theme.of(context).textTheme.displayMedium,
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      "\$${controller.cartFood[index].price}",
-                      style: const TextStyle(
-                        fontSize: 12,
+                      width: MediaQuery.of(context).size.width - 60,
+                      //  width: double.infinity,
+                      height: 40,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20, top: 6),
+                        child: Text(
+                          controller.cartFood[index].title,
+                          style: const TextStyle(
+                            fontSize: 18,
+
+                            fontWeight: FontWeight.w400,
+                            // backgroundColor: Color.fromARGB(255, 67, 244, 54),
+                          ),
+                          textAlign: TextAlign.start,
+                        ),
                       ),
-                      // style: Theme.of(context).textTheme.headlineSmall,
                     ),
                   ],
                 ),
-                const Spacer(),
-                // Column(
-                //   children: [
-                //     CounterButton(
-                //       onIncrementSelected: () =>
-                //           controller.increaseItem(controller.cartFood[index]),
-                //       onDecrementSelected: () =>
-                //           controller.decreaseItem(controller.cartFood[index]),
-                //       size: const Size(20, 20),
-                //       padding: 0,
-                //       label: Text(
-                //         controller.cartFood[index].quantity.toString(),
-                //         style: const TextStyle(
-                //           fontSize: 12,
-                //         ),
-                //         // style: Theme.of(context).textTheme.displayMedium,
-                //       ),
-                //     ),
-                //     Text(
-                //       "\$${controller.calculatePricePerEachItem(controller.cartFood[index])}",
-                //       style: const TextStyle(
-                //         fontSize: 14,
-                //         fontWeight: FontWeight.bold,
-                //         color: Colors.black,
-                //       ),
-                //       // style: h2Style.copyWith(color: LightThemeColor.accent),
-                //     )
-                //   ],
-                // )
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(width: 10),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 245, 188,
+                            2), // Optional, for background color if the image doesn't cover
+                        borderRadius: BorderRadius.circular(15),
+                        image: DecorationImage(
+                          image: AssetImage(controller.cartFood[index].image),
+                          fit: BoxFit
+                              .cover, // To ensure the image covers the entire container
+                        ),
+                      ),
+                      width: 100,
+                      height: 100,
+                    ),
+                    const SizedBox(width: 20),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Donation Cost",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: Color.fromARGB(255, 85, 84, 84),
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          // "",
+                          "\$${controller.cartFood[index].price}",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Spacer(),
+                  ],
+                ),
               ],
             ),
           ),
@@ -280,7 +298,6 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    // double width = MediaQuery.of(context).size.width;
     return Scaffold(
       bottomNavigationBar: controller.cartFood.isNotEmpty
           ? _bottomAppBar(context)

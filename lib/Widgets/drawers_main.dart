@@ -370,7 +370,7 @@ class DonationMenu extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const IndividualDonation(),
+                      builder: (context) => IndividualDonation(),
                     ),
                   );
                   break;
@@ -378,7 +378,7 @@ class DonationMenu extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const RequestDonation(),
+                      builder: (context) =>  RequestDonation(),
                     ),
                   );
                   break;

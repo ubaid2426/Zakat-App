@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:video_player/video_player.dart';
 import 'package:zakat_app/Screens/All_Category/Screen/individual_donation.dart';
 import 'package:zakat_app/Screens/All_Category/Screen/request_donation.dart';
 import 'package:zakat_app/Screens/All_Category/all_category.dart';
@@ -11,9 +12,10 @@ import 'package:zakat_app/Screens/Home/components/food_donation.dart';
 // import 'package:zakat_app/Screens/New%20Campaign/new_campaign.dart';
 import 'package:zakat_app/Screens/Notification/Screen/notification.dart';
 import 'package:zakat_app/Widgets/drawers_main.dart';
-import 'package:zakat_app/components/H1Main.dart';
+// import 'package:zakat_app/components/H1Main.dart';
 import 'package:zakat_app/components/help_child.dart';
 import 'package:zakat_app/components/homeScreen_carousel.dart';
+// import 'package:zakat_app/components/navigation.dart';
 import 'package:zakat_app/components/upcoming_project.dart';
 import 'package:zakat_app/controller/fade_animation.dart';
 
@@ -25,15 +27,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
-   @override
-  void initState() {
-    super.initState();
-    // Show the dialog as soon as the widget is loaded
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showFoodDialog(context);
-    });
-  }
+  //  @override
+  // void initState() {
+  //   super.initState();
+  //   // Show the dialog as soon as the widget is loaded
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     showFoodDialog(context);
+  //   });
+  // }
 
   void showFoodDialog(BuildContext context) {
     showDialog(
@@ -45,23 +46,23 @@ class _HomeState extends State<Home> {
             TextButton(
               child: const Text('Individual Donation'),
               onPressed: () {
-             Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>  IndividualDonation(),
-                    ),
-                  );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => IndividualDonation(),
+                  ),
+                );
               },
             ),
             TextButton(
               child: const Text('Request For Donation'),
               onPressed: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>  RequestDonation(),
-                    ),
-                  );
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RequestDonation(),
+                  ),
+                );
               },
             ),
           ],
@@ -70,15 +71,26 @@ class _HomeState extends State<Home> {
     );
   }
 
-
   // final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 247, 243, 243),
         appBar: AppBar(
-          backgroundColor: const Color(0xFF29C77B),
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF33A248), // First color (#33A248)
+                  Color(0xFFB2EA50), // Second color (#B2EA50)
+                ],
+                begin: Alignment.topRight,
+                end: Alignment.topLeft,
+              ),
+            ),
+          ),
           title: Column(
             children: [
               // const Text("Sadqahzakat"),
@@ -97,9 +109,12 @@ class _HomeState extends State<Home> {
         body: const SingleChildScrollView(
           child: Column(
             children: [
+              // MyHomePage(showFoodDialog: showFoodDialog),
               HomeH1(),
+              ReelsSection(),
               CarouselHome(),
-              H1Main(),
+              MainCategory(),
+              // H1Main(),
               BoxText(),
               SizedBox(
                 height: 50,
@@ -130,6 +145,7 @@ class _HomeState extends State<Home> {
               ),
               FoodDonation(),
               UpComingRender(),
+              //  MyHomePage(showFoodDialog: showFoodDialog),
               // UpComingProjects(
               //     image: AssetImage("Assests/images/screen1/upcoming1.png")),
               // UpComingMain(image: AssetImage("Assests/images/screen1/upcoming1.png")),
@@ -140,6 +156,61 @@ class _HomeState extends State<Home> {
     );
   }
 }
+
+
+
+class MainCategory extends StatelessWidget {
+  const MainCategory({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+             Padding(
+               padding: const EdgeInsets.all(15.0),
+               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                 children: [
+                   const Text(
+                      "All categories",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF7fc23a)),
+                    ),
+                      TextButton(
+                  onPressed: () {
+
+                  },
+                  child: const Text(
+                    "see more",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      // color: Colors.black,
+                    ),
+                  ),
+                ),
+                 ],
+               ),
+             ),
+            
+      const  SizedBox(
+          width: double.infinity,
+          height: 600,
+          // color: Colors.pink,
+          child: Category(),
+        ),
+      ],
+    );
+  }
+}
+
+
+
+
+
+
 
 class UpComingRender extends StatelessWidget {
   const UpComingRender({super.key});
@@ -389,7 +460,14 @@ class HomeH2 extends StatelessWidget {
             height: 230,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              color: const Color(0xFF29C77B),
+              gradient: const LinearGradient(
+                colors: [
+                  Color(0xFF33A248), // First color (#33A248)
+                  Color(0xFFB2EA50), // Second color (#B2EA50)
+                ],
+                begin: Alignment.bottomRight, // Start at bottom-right
+                end: Alignment.topLeft, // End at top-left
+              ),
               borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20),
@@ -450,11 +528,11 @@ class HomeH2 extends StatelessWidget {
                             ),
                             // SizedBox(height: 10),
                             Text(
-                              'Have You Paid Zakat?',
+                              'Is your zakat payment up to date?',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w800,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ],
@@ -558,17 +636,17 @@ class HomeH3 extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const ButtonNavBar(
-              text: 'Calculator',
+             ButtonNavBar(
+              text: 'Zakat\nCalculator',
               fontawesome: FontAwesomeIcons.bell,
-              navigateTo: Calculator(),
+              navigateTo: ZakatCalculator(),
             ),
             ButtonNavBar(
               text: 'New Campaign',
               fontawesome: FontAwesomeIcons.bullhorn,
               navigateTo: IndividualDonation(),
             ),
-             ButtonNavBar(
+            ButtonNavBar(
               text: 'Need Support',
               fontawesome: FontAwesomeIcons.handshake,
               navigateTo: RequestDonation(),
@@ -629,8 +707,9 @@ class ButtonNavBar extends StatelessWidget {
             text,
             style: const TextStyle(
               color: Colors.black,
-              fontSize: 15,
+              fontSize: 12,
             ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
@@ -719,6 +798,213 @@ class MarriageSupportH extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+// import 'package:flutter/material.dart';
+
+class ReelsSection extends StatelessWidget {
+  const ReelsSection({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Reels Section",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF7fc23a)),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: const Text(
+                  "see more",
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    // color: Colors.black,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 150,
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: List.generate(
+                10, // Number of reels you want to display
+                (index) => GestureDetector(
+                  onTap: () {
+                    // Navigate to the full-screen reel page on tap
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ReelsPage(),
+                      ),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: ClipOval(
+                      child: Container(
+                        width: 120, // Width of each reel
+                        height: 100,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Color(0xFF33A248), Color(0xFFB2EA50)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          border: Border.all(
+                            color: Color(0xFF29C77B), // Border color around the reel
+                            width: 3.0,
+                          ),
+                        ),
+                        child: Image.asset(
+                          'Assests/images/AllCategory/medicalbed.png', // Replace with your asset paths
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ReelsPage extends StatefulWidget {
+  const ReelsPage({Key? key}) : super(key: key);
+
+  @override
+  _ReelsPageState createState() => _ReelsPageState();
+}
+
+class _ReelsPageState extends State<ReelsPage> {
+  final List<String> videoUrls = [
+    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    'https://youtube.com/shorts/Mjg5_3eusu4?si=Uw1ZA0lXWfufbWd8',
+    'https://www.instagram.com/reel/C2kqKyViKMM/?igsh=MW92NjZrZ2N5NG90ag==', // Replace with your video URLs
+    // Add more video URLs here
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return PageView.builder(
+      scrollDirection: Axis.vertical,
+      itemCount: videoUrls.length,
+      itemBuilder: (context, index) {
+        return ReelVideoPlayer(videoUrl: videoUrls[index]);
+      },
+    );
+  }
+}
+
+class ReelVideoPlayer extends StatefulWidget {
+  final String videoUrl;
+
+  const ReelVideoPlayer({Key? key, required this.videoUrl}) : super(key: key);
+
+  @override
+  _ReelVideoPlayerState createState() => _ReelVideoPlayerState();
+}
+
+class _ReelVideoPlayerState extends State<ReelVideoPlayer> {
+  late VideoPlayerController _controller;
+  bool _isPlaying = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.network(widget.videoUrl)
+      ..initialize().then((_) {
+        setState(() {
+          _controller.play();
+          _isPlaying = true;
+        });
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _togglePlayPause() {
+    setState(() {
+      if (_isPlaying) {
+        _controller.pause();
+      } else {
+        _controller.play();
+      }
+      _isPlaying = !_isPlaying;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF33A248), // First color (#33A248)
+                Color(0xFFB2EA50), // Second color (#B2EA50)
+              ],
+              begin:
+                  Alignment.bottomRight, // Start the gradient from bottom-right
+              end: Alignment.topLeft, // End the gradient at top-left
+            ),
+          ),
+        ),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back),
+        ),
+      ),
+      backgroundColor: Colors.black,
+      body: Center(
+        child: _controller.value.isInitialized
+            ? GestureDetector(
+                onTap: _togglePlayPause, // Toggle play/pause on tap
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    AspectRatio(
+                      aspectRatio: _controller.value.aspectRatio,
+                      child: VideoPlayer(_controller),
+                    ),
+                    if (!_isPlaying)
+                      const Icon(
+                        Icons.play_arrow,
+                        color: Colors.white,
+                        size: 80.0,
+                      ),
+                  ],
+                ),
+              )
+            : const CircularProgressIndicator(),
       ),
     );
   }

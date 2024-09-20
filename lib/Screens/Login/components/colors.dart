@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
 
 class MyColors {
-  Color maincolor = const Color(0xFF29C77B);
+  Color maincolor = Color(0xFF7fc23a);
 }

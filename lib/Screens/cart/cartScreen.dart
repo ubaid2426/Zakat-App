@@ -15,7 +15,21 @@ class CartScreen extends StatelessWidget {
 
   PreferredSizeWidget _appBar(BuildContext context) {
     return AppBar(
+             flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF33A248), // First color (#33A248)
+                  Color(0xFFB2EA50), // Second color (#B2EA50)
+                ],
+                begin: Alignment
+                    .bottomRight, // Start the gradient from bottom-right
+                end: Alignment.topLeft, // End the gradient at top-left
+              ),
+            ),
+          ),
       title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             "Cart screen",
@@ -49,7 +63,14 @@ class CartScreen extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         child: Container(
           decoration: const BoxDecoration(
-            color: Colors.red,
+            gradient: LinearGradient(
+                colors: [
+                  Color(0xFF33A248), // First color (#33A248)
+                  Color(0xFFB2EA50), // Second color (#B2EA50)
+                ],
+                begin: Alignment.bottomRight,
+                end: Alignment.topLeft,
+              ),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30),
               topRight: Radius.circular(30),
@@ -220,7 +241,7 @@ class CartScreen extends StatelessWidget {
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(15),
                             topRight: Radius.circular(15)),
-                        color: const Color.fromARGB(255, 63, 244, 54),
+                        color: Color.fromARGB(255, 137, 212, 63),
                       ),
                       width: MediaQuery.of(context).size.width - 60,
                       //  width: double.infinity,

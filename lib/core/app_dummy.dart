@@ -41,7 +41,7 @@ const availableCategories = [
   AllCategoryModel(
     id: 'c1',
     title: 'Portable House',
-    image: "Assests/images/AllCategory/portablehouse.png",
+    image: "Assests/images/AllCategory/tent.png",
     // image: "Assests/images/AllCategory/file.png",
     route: '/PortableHouse',
   ),
@@ -54,19 +54,19 @@ const availableCategories = [
   AllCategoryModel(
     id: 'c3',
     title: 'Marriage Support',
-    image: "Assests/images/AllCategory/marriage.png",
+    image: "Assests/images/AllCategory/marry.png",
     route: '/MarriageSupport',
   ),
   AllCategoryModel(
     id: 'c4',
     title: 'Flood Relief',
-    image: "Assests/images/AllCategory/food.png",
+    image: "Assests/images/AllCategory/food1.png",
     route: '/FloodRelief',
   ),
   AllCategoryModel(
     id: 'c5',
     title: 'Widow Family Support',
-    image: "Assests/images/screen1/10012.png",
+    image: "Assests/images/AllCategory/widow.png",
     route: '/WidowFamily',
   ),
   AllCategoryModel(
@@ -78,7 +78,7 @@ const availableCategories = [
   AllCategoryModel(
     id: 'c7',
     title: 'Clothes',
-    image: "Assests/images/AllCategory/clothes.png",
+    image: "Assests/images/AllCategory/clothes1.png",
     route: '/Clothes',
   ),
   AllCategoryModel(
@@ -102,7 +102,7 @@ const availableCategories = [
   AllCategoryModel(
     id: 'c11',
     title: 'Daig Donation',
-    image: "Assests/images/AllCategory/daig.png",
+    image: "Assests/images/AllCategory/dgg.png",
     route: '/DaigDonation',
   ),
   AllCategoryModel(
@@ -126,7 +126,7 @@ const availableCategories = [
   AllCategoryModel(
     id: 'c15',
     title: 'Masjid Construction',
-    image: "Assests/images/AllCategory/masjidconst.png",
+    image: "Assests/images/AllCategory/masjidcot.png",
     route: '/MasjidConst',
   ),
   AllCategoryModel(

@@ -63,7 +63,14 @@ class MainDrawer extends StatelessWidget {
           DrawerHeader(
             padding: const EdgeInsets.all(20),
             decoration: const BoxDecoration(
-              color: Color(0xFF29C77B),
+               gradient: LinearGradient(
+                colors: [
+                  Color(0xFF33A248), // First color (#33A248)
+                  Color(0xFFB2EA50), // Second color (#B2EA50)
+                ],
+                begin: Alignment.bottomRight,
+                end: Alignment.topLeft,
+              ),
             ),
             child: Row(
               children: [
@@ -84,7 +91,7 @@ class MainDrawer extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
-                ManyOption(
+                const ManyOption(
                   menuTitle: "Home",
                   fontawesome: FontAwesomeIcons.home,
                   navigateTo: Navigation(),
@@ -125,12 +132,12 @@ class MainDrawer extends StatelessWidget {
                   fontawesome: FontAwesomeIcons.envelope,
                   navigateTo: AllCategory(),
                 ),
-                const ManyOption(
+                 const ManyOption(
                   menuTitle: "What We Do",
                   fontawesome: FontAwesomeIcons.briefcase,
-                  navigateTo: WhatWedo(),
+                  navigateTo: DonationData(),
                 ),
-                const ManyOption(
+                ManyOption(
                   menuTitle: "Become A Volunteer",
                   fontawesome: FontAwesomeIcons.handsHelping,
                   navigateTo: Volunteer(),
@@ -179,6 +186,7 @@ class ManyOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+         selectedColor: const Color(0xFF7fc23a),
       leading: Icon(
         fontawesome,
         size: 22,
@@ -218,6 +226,7 @@ class DonationMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
+        //  selectedColor: Color(0xFF7fc23a),
       leading: Icon(
         fontawesome,
         size: 22,

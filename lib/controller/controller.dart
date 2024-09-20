@@ -13,7 +13,20 @@ class FoodController extends GetxController {
   void switchBetweenBottomNavigationItems(int currentIndex) {
     currentBottomNavItemIndex.value = currentIndex;
   }
+  // void increaseItem(Food food) {
+  //   food.quantity++;
+  //   update();
+  //   calculateTotalPrice();
+  // }
 
+  // void decreaseItem(Food food) {
+  //   food.quantity = food.quantity-- < 1 ? 0 : food.quantity--;
+  //   calculateTotalPrice();
+  //   update();
+  //   if (food.quantity < 1) {
+  //     cartFood.removeWhere((element) => element == food);
+  //   }
+  // }
   // Function to calculate total and subtotal prices
   void calculateTotalPrice() {
     totalPrice.value = 0; // Reset total price

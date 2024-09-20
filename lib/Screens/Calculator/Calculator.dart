@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:zakat_app/components/custom_button.dart';
 
 class ZakatCalculator extends StatefulWidget {
   @override
@@ -97,23 +99,8 @@ class _ZakatCalculatorState extends State<ZakatCalculator> {
             ),
             const SizedBox(height: 24),
             Center(
-              child: ElevatedButton(
-                onPressed: calculate, // Call calculate function on button press
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 40,
-                    vertical: 15,
-                  ),
-                  backgroundColor: Color(0xFF7fc23a),
-                ),
-                child: const Text(
-                  'Calculate',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
+              child:CustomButton(title: "Calculate", icon: FontAwesomeIcons.calculator, onNavigate: calculate)
+           
             ),
             const SizedBox(height: 24),
             // Display the results

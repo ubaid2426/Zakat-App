@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:get/get_core/src/get_main.dart';
-// import 'package:zakat_app/controller/FoodController.dart';
 import 'package:zakat_app/controller/controller.dart';
-// import 'package:zakat_app/model/donate_model.dart';
-// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CustomButton extends StatefulWidget {
-    final String title;
+  final String title;
   final IconData icon;
-  final Widget navigateTo;
-  const CustomButton(
-      {super.key,
-      required this.title,
-      required this.icon,
-      required this.navigateTo});
+  final Widget? navigateTo;
+  final Function? onNavigate; // Function to call if not navigating to a Widget
+
+  const CustomButton({
+    super.key,
+    required this.title,
+    required this.icon,
+    this.navigateTo,
+    this.onNavigate,
+  });
 
   @override
   State<CustomButton> createState() => _CustomButtonState();
@@ -22,32 +22,40 @@ class CustomButton extends StatefulWidget {
 
 class _CustomButtonState extends State<CustomButton> {
   bool isSelected = false;
-    final FoodController controller = Get.put(FoodController());
+  final FoodController controller = Get.put(FoodController());
+
+  void _handleTap() {
+    if (widget.navigateTo != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => widget.navigateTo!),
+      );
+    } else if (widget.onNavigate != null) {
+      widget.onNavigate!(); // Call the provided function if no navigation widget
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onHover: (value) {
-          setState(() {
-                    isSelected = !isSelected;
-                  });
+        setState(() {
+          isSelected = value; // Update selection based on hover
+        });
       },
       onTap: () {
-         setState(() {
-                    isSelected = !isSelected;
-                  });
-             Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => widget.navigateTo), // Navigate to the screen
-        );
-                },
-      splashColor: Color(0xFF7fc23a),
+        setState(() {
+          isSelected = !isSelected; // Toggle selection on tap
+        });
+        _handleTap(); // Handle navigation
+      },
+      splashColor: const Color(0xFF7fc23a),
       child: Container(
-        width: 150,
+        width: 190,
         height: 60,
         decoration: BoxDecoration(
-          color: isSelected ? Colors.white : Color(0xFF7fc23a),
-          border: Border.all(color: Color(0xFF7fc23a)),
+          color: isSelected ? Colors.white : const Color(0xFF7fc23a),
+          border: Border.all(color: const Color(0xFF7fc23a)),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -55,9 +63,8 @@ class _CustomButtonState extends State<CustomButton> {
             Text(
               widget.title,
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 17,
                 fontWeight: FontWeight.w400,
-                decoration: TextDecoration.none,
                 color: isSelected ? Colors.black : Colors.white,
               ),
             ),

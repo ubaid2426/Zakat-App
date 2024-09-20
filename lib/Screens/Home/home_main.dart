@@ -157,8 +157,6 @@ class _HomeState extends State<Home> {
   }
 }
 
-
-
 class MainCategory extends StatelessWidget {
   const MainCategory({super.key});
 
@@ -166,36 +164,33 @@ class MainCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-             Padding(
-               padding: const EdgeInsets.all(15.0),
-               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                 children: [
-                   const Text(
-                      "All categories",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF7fc23a)),
-                    ),
-                      TextButton(
-                  onPressed: () {
-
-                  },
-                  child: const Text(
-                    "see more",
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      // color: Colors.black,
-                    ),
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "All categories",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF7fc23a)),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: const Text(
+                  "see more",
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    // color: Colors.black,
                   ),
                 ),
-                 ],
-               ),
-             ),
-            
-      const  SizedBox(
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(
           width: double.infinity,
           height: 600,
           // color: Colors.pink,
@@ -205,12 +200,6 @@ class MainCategory extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
 
 class UpComingRender extends StatelessWidget {
   const UpComingRender({super.key});
@@ -636,7 +625,7 @@ class HomeH3 extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-             ButtonNavBar(
+            ButtonNavBar(
               text: 'Zakat\nCalculator',
               fontawesome: FontAwesomeIcons.bell,
               navigateTo: ZakatCalculator(),
@@ -802,10 +791,50 @@ class MarriageSupportH extends StatelessWidget {
     );
   }
 }
+
 // import 'package:flutter/material.dart';
 
-class ReelsSection extends StatelessWidget {
+class ReelsSection extends StatefulWidget {
   const ReelsSection({Key? key}) : super(key: key);
+
+  @override
+  _ReelsSectionState createState() => _ReelsSectionState();
+}
+
+class _ReelsSectionState extends State<ReelsSection>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  final List<String> videoUrls = [
+    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    'https://youtube.com/shorts/Mjg5_3eusu4?si=Uw1ZA0lXWfufbWd8',
+    'https://www.instagram.com/reel/C2kqKyViKMM/?igsh=MW92NjZrZ2N5NG90ag==', // Add your video URLs
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Color getAnimatedBorderColor() {
+    return ColorTween(
+          begin: const Color(0xFF33A248),
+          end: const Color(0xFFB2EA50),
+        ).evaluate(_controller) ??
+        Colors.green;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -830,7 +859,6 @@ class ReelsSection extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
-                    // color: Colors.black,
                   ),
                 ),
               )
@@ -845,39 +873,43 @@ class ReelsSection extends StatelessWidget {
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: List.generate(
-                10, // Number of reels you want to display
+                videoUrls.length, // Use the length of videoUrls
                 (index) => GestureDetector(
                   onTap: () {
-                    // Navigate to the full-screen reel page on tap
+                    // Navigate to the full-screen reel page with the selected video URL
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ReelsPage(),
+                        builder: (context) =>
+                            ReelsPage(videoUrl: videoUrls[index]),
                       ),
                     );
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: ClipOval(
-                      child: Container(
-                        width: 120, // Width of each reel
-                        height: 100,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Color(0xFF33A248), Color(0xFFB2EA50)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
+                    child: AnimatedBuilder(
+                      animation: _controller,
+                      builder: (context, child) {
+                        Color borderColor = getAnimatedBorderColor();
+                        return Container(
+                          width: 120,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFF33A248), Color(0xFFB2EA50)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            border: Border.all(color: borderColor, width: 3.0),
+                            borderRadius: BorderRadius.circular(100.0),
+                            image:const DecorationImage(
+                              image: AssetImage(
+                                  'Assests/images/AllCategory/medicalbed.png'), // Update the image path
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                          border: Border.all(
-                            color: Color(0xFF29C77B), // Border color around the reel
-                            width: 3.0,
-                          ),
-                        ),
-                        child: Image.asset(
-                          'Assests/images/AllCategory/medicalbed.png', // Replace with your asset paths
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -890,31 +922,24 @@ class ReelsSection extends StatelessWidget {
   }
 }
 
-class ReelsPage extends StatefulWidget {
-  const ReelsPage({Key? key}) : super(key: key);
+class ReelsPage extends StatelessWidget {
+  final String videoUrl;
 
-  @override
-  _ReelsPageState createState() => _ReelsPageState();
-}
-
-class _ReelsPageState extends State<ReelsPage> {
-  final List<String> videoUrls = [
-    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-    'https://youtube.com/shorts/Mjg5_3eusu4?si=Uw1ZA0lXWfufbWd8',
-    'https://www.instagram.com/reel/C2kqKyViKMM/?igsh=MW92NjZrZ2N5NG90ag==', // Replace with your video URLs
-    // Add more video URLs here
-  ];
+  const ReelsPage({Key? key, required this.videoUrl}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-      scrollDirection: Axis.vertical,
-      itemCount: videoUrls.length,
-      itemBuilder: (context, index) {
-        return ReelVideoPlayer(videoUrl: videoUrls[index]);
-      },
+    return Scaffold(
+      // appBar: AppBar(title: const Text('Reel Video')),
+      body: Center(
+        child: PageView.builder(
+          scrollDirection: Axis.vertical,
+          // itemCount: videoUrls.length,
+          itemBuilder: (context, index) {
+            return ReelVideoPlayer(videoUrl: videoUrl);
+          },
+        ),
+      ),
     );
   }
 }

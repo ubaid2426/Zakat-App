@@ -8,6 +8,7 @@ import 'package:zakat_app/Screens/All_Category/all_category.dart';
 // import 'package:zakat_app/Screens/All_Category/Screen/all_category.dart';
 import 'package:zakat_app/Screens/Calculator/Calculator.dart';
 import 'package:zakat_app/Screens/Home/components/food_donation.dart';
+import 'package:zakat_app/Screens/Islam/islam_main.dart';
 // import 'package:zakat_app/Screens/Need%20Support/need_support.dart';
 // import 'package:zakat_app/Screens/New%20Campaign/new_campaign.dart';
 import 'package:zakat_app/Screens/Notification/Screen/notification.dart';
@@ -442,11 +443,11 @@ class HomeH2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
+      height: 230,
       child: Column(
         children: [
           Container(
-            height: 230,
+            height: 160,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               gradient: const LinearGradient(
@@ -555,41 +556,41 @@ class HomeH2 extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width - 50,
-                  height: 50,
-                  child: TextField(
-                    // controller: ,
-                    decoration: InputDecoration(
-                      hintText: 'Zakat Profession etc....',
-                      prefixIcon:
-                          const Icon(Icons.search), // Search icon provided here
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
-                        borderSide: const BorderSide(
-                          color: Colors.white, // Default border color
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
-                        borderSide: const BorderSide(
-                          color: Colors
-                              .white, // Border color when the field is enabled
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
-                        borderSide: const BorderSide(
-                          color: Colors
-                              .white, // Border color when the field is focused
-                          width: 1.0, // Border thickness when focused
-                        ),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 12),
-                    ),
-                  ),
-                ),
+                // SizedBox(
+                //   width: MediaQuery.of(context).size.width - 50,
+                //   height: 50,
+                //   child: TextField(
+                //     // controller: ,
+                //     decoration: InputDecoration(
+                //       hintText: 'Zakat Profession etc....',
+                //       prefixIcon:
+                //           const Icon(Icons.search), // Search icon provided here
+                //       border: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(25),
+                //         borderSide: const BorderSide(
+                //           color: Colors.white, // Default border color
+                //         ),
+                //       ),
+                //       enabledBorder: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(25),
+                //         borderSide: const BorderSide(
+                //           color: Colors
+                //               .white, // Border color when the field is enabled
+                //         ),
+                //       ),
+                //       focusedBorder: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(25),
+                //         borderSide: const BorderSide(
+                //           color: Colors
+                //               .white, // Border color when the field is focused
+                //           width: 1.0, // Border thickness when focused
+                //         ),
+                //       ),
+                //       contentPadding: const EdgeInsets.symmetric(
+                //           horizontal: 16, vertical: 12),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -630,10 +631,10 @@ class HomeH3 extends StatelessWidget {
               fontawesome: FontAwesomeIcons.bell,
               navigateTo: ZakatCalculator(),
             ),
-            ButtonNavBar(
-              text: 'New Campaign',
-              fontawesome: FontAwesomeIcons.bullhorn,
-              navigateTo: IndividualDonation(),
+           const ButtonNavBar(
+              text: 'Islam',
+              fontawesome: FontAwesomeIcons.mosque,
+              navigateTo: IslamScreen(),
             ),
             ButtonNavBar(
               text: 'Need Support',
@@ -793,6 +794,7 @@ class MarriageSupportH extends StatelessWidget {
 }
 
 // import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
 class ReelsSection extends StatefulWidget {
   const ReelsSection({Key? key}) : super(key: key);
@@ -811,6 +813,14 @@ class _ReelsSectionState extends State<ReelsSection>
     'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
     'https://youtube.com/shorts/Mjg5_3eusu4?si=Uw1ZA0lXWfufbWd8',
     'https://www.instagram.com/reel/C2kqKyViKMM/?igsh=MW92NjZrZ2N5NG90ag==', // Add your video URLs
+  ];
+
+  final List<String> reelTitles = [
+    "Bee 1",
+    "Bee 2",
+    "Bee 3",
+    "YouTube Short",
+    "Instagram Reel",
   ];
 
   @override
@@ -841,7 +851,7 @@ class _ReelsSectionState extends State<ReelsSection>
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -855,7 +865,7 @@ class _ReelsSectionState extends State<ReelsSection>
               TextButton(
                 onPressed: () {},
                 child: const Text(
-                  "see more",
+                  "See More",
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
@@ -866,14 +876,14 @@ class _ReelsSectionState extends State<ReelsSection>
           ),
         ),
         SizedBox(
-          height: 150,
+          height: 150, // Increased height to accommodate titles
           width: double.infinity,
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(0.0),
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: List.generate(
-                videoUrls.length, // Use the length of videoUrls
+                videoUrls.length,
                 (index) => GestureDetector(
                   onTap: () {
                     // Navigate to the full-screen reel page with the selected video URL
@@ -887,29 +897,42 @@ class _ReelsSectionState extends State<ReelsSection>
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: AnimatedBuilder(
-                      animation: _controller,
-                      builder: (context, child) {
-                        Color borderColor = getAnimatedBorderColor();
-                        return Container(
-                          width: 120,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [Color(0xFF33A248), Color(0xFFB2EA50)],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            border: Border.all(color: borderColor, width: 3.0),
-                            borderRadius: BorderRadius.circular(100.0),
-                            image:const DecorationImage(
-                              image: AssetImage(
-                                  'Assests/images/AllCategory/medicalbed.png'), // Update the image path
-                              fit: BoxFit.cover,
-                            ),
+                    child: Column(
+                      children: [
+                        AnimatedBuilder(
+                          animation: _controller,
+                          builder: (context, child) {
+                            Color borderColor = getAnimatedBorderColor();
+                            return Container(
+                              width: 100,
+                              height: 100, // Fixed height for the video thumbnail
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  colors: [Color(0xFF33A248), Color(0xFFB2EA50)],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                border: Border.all(color: borderColor, width: 3.0),
+                                borderRadius: BorderRadius.circular(100.0),
+                                image: const DecorationImage(
+                                  image: AssetImage(
+                                      'Assests/images/AllCategory/medicalbed.png'), // Update the image path
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 5), // Spacing between thumbnail and title
+                        Text(
+                          reelTitles[index], // Display the title of the reel
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
                           ),
-                        );
-                      },
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -921,6 +944,7 @@ class _ReelsSectionState extends State<ReelsSection>
     );
   }
 }
+
 
 class ReelsPage extends StatelessWidget {
   final String videoUrl;

@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:zakat_app/components/donate.dart';
 import 'package:zakat_app/core/app_dummy.dart';
+import 'package:zakat_app/model/doantion_model.dart';
 
-class Clothes extends StatelessWidget {
+class Clothes extends StatefulWidget {
   const Clothes({super.key});
+
+  @override
+  _ClothesState createState() => _ClothesState();
+}
+
+class _ClothesState extends State<Clothes> {
+  String selectedSort = 'Not finished projects first';
+  late List<DoantionModel> sortedClothes;
+
+  @override
+  void initState() {
+    super.initState();
+    sortedClothes = List.from(clothes);
+    _sortList(selectedSort);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +29,8 @@ class Clothes extends StatelessWidget {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color(0xFF33A248), // First color (#33A248)
-                Color(0xFFB2EA50), // Second color (#B2EA50)
+                Color(0xFF33A248),
+                Color(0xFFB2EA50),
               ],
               begin: Alignment.topRight,
               end: Alignment.topLeft,
@@ -26,16 +42,48 @@ class Clothes extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
         ),
         title: const Text("Clothes Donation"),
+        actions: [
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              setState(() {
+                selectedSort = value;
+                _sortList(selectedSort);
+              });
+            },
+            itemBuilder: (BuildContext context) => [
+              const PopupMenuItem(
+                value: 'Not finished projects first',
+                child: Text('Not finished projects first'),
+              ),
+              const PopupMenuItem(
+                value: 'Oldest Items First',
+                child: Text('Oldest Items First'),
+              ),
+              const PopupMenuItem(
+                value: 'Newest Items First',
+                child: Text('Newest Items First'),
+              ),
+              const PopupMenuItem(
+                value: 'Sort by Remaining Value: Low to High',
+                child: Text('Sort by Remaining Value: Low to High'),
+              ),
+              const PopupMenuItem(
+                value: 'Sort by Remaining Value: High to Low',
+                child: Text('Sort by Remaining Value: High to Low'),
+              ),
+            ],
+            icon: const Icon(Icons.sort),
+          ),
+        ],
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Checking if the `clothes` list is not empty
-              if (clothes.isNotEmpty)
+              if (sortedClothes.isNotEmpty)
                 Column(
-                  children: clothes.map((donation) {
+                  children: sortedClothes.map((donation) {
                     return Data(
                       imageUrl: donation.imageUrl,
                       title: donation.title,
@@ -46,7 +94,6 @@ class Clothes extends StatelessWidget {
                   }).toList(),
                 )
               else
-                // Show message if `clothes` list is empty
                 const Padding(
                   padding: EdgeInsets.all(20.0),
                   child: Text(
@@ -65,4 +112,36 @@ class Clothes extends StatelessWidget {
       ),
     );
   }
+
+  void _sortList(String sortOption) {
+    setState(() {
+      switch (sortOption) {
+        case 'Not finished projects first':
+          sortedClothes.sort((a, b) =>
+              (b.projectvalue - b.paidvlaue).compareTo(a.projectvalue - a.paidvlaue));
+          break;
+        case 'Oldest Items First':
+          sortedClothes.sort((a, b) => a.date.compareTo(b.date));
+          break;
+        case 'Newest Items First':
+          sortedClothes.sort((a, b) => b.date.compareTo(a.date));
+          break;
+        case 'Sort by Remaining Value: Low to High':
+          sortedClothes.sort((a, b) => 
+              (a.projectvalue - a.paidvlaue).compareTo(b.projectvalue - b.paidvlaue));
+          break;
+        case 'Sort by Remaining Value: High to Low':
+          sortedClothes.sort((a, b) => 
+              (b.projectvalue - b.paidvlaue).compareTo(a.projectvalue - a.paidvlaue));
+          break;
+        default:
+          break;
+      }
+    });
+  }
 }
+
+
+
+
+

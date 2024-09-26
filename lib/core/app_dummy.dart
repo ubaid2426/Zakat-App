@@ -161,7 +161,7 @@ const availableCategories = [
 //   ),
 // ];
 
-const portablehouse = [
+var portablehouse = [
   DoantionModel(
     id: '1',
     title: 'Portable House Donations for Displaced Families',
@@ -169,17 +169,31 @@ const portablehouse = [
     description: 'We are urgently seeking donations of portable houses to provide safe and temporary shelter for families displaced by natural disasters and emergencies',
     projectvalue: 10000,
     paidvlaue: 0,
+    date: DateTime(2024, 9, 1),
+       position: 3,
   ),
-   DoantionModel(
+    DoantionModel(
+    id: '1',
+    title: 'Portable House Donations for Displaced Families',
+    imageUrl: 'Assests/images/AllCategory/portablehouse.png',
+    description: 'We are urgently seeking donations of portable houses to provide safe and temporary shelter for families displaced by natural disasters and emergencies',
+    projectvalue: 10000,
+    paidvlaue: 3450,
+    date: DateTime(2024, 3, 1),
+       position: 2,
+  ),
+    DoantionModel(
     id: '2',
     title: 'Urgent Need Portable House',
     imageUrl: 'Assests/images/DetailCategory/portable.png',
     description: 'We are urgently seeking donations of portable houses to provide safe and temporary shelter for families displaced by natural disasters and emergencies',
     projectvalue: 10000,
     paidvlaue: 10000,
+     date: DateTime(2023, 9, 1),
+        position: 1,
   ),
 ];
-const masjidmaintenance = [
+var  masjidmaintenance = [
   DoantionModel(
     id: '1',
     title: 'Support Needed for Masjid Maintenance',
@@ -187,10 +201,12 @@ const masjidmaintenance = [
     description: 'Our local masjid is in need of maintenance and repairs to ensure a safe and welcoming environment for all worshippers.',
     projectvalue: 10000,
     paidvlaue: 0,
+     date: DateTime(2023, 9, 1),
+        position: 1,
   ),
 ];
 
-const marriagesupport = [
+var marriagesupport = [
   DoantionModel(
     id: '1',
     title: 'Marriage Support Donations for Low-Income Couples',
@@ -198,11 +214,14 @@ const marriagesupport = [
     description: 'Help us support low-income couples as they start their journey together. We are collecting donations for wedding expenses, including attire, venue costs, and essential household items.',
     projectvalue: 10000,
     paidvlaue: 0,
+     date: DateTime(2023, 9, 1),
+        position: 1,
   ),
+  
 ];
 
 
-const floodrelief = [
+var floodrelief = [
   DoantionModel(
     id: '1',
     title: 'Urgent Flood Relief Donations Needed',
@@ -210,11 +229,13 @@ const floodrelief = [
     description: 'Recent floods have devastated our community, leaving many families without basic necessities. We urgently need donations of clean water, non-perishable food, hygiene products, blankets.',
     projectvalue: 10000,
     paidvlaue: 0,
+     date: DateTime(2023, 9, 1),
+        position: 1,
   ),
 ];
 
 
-const widowfamily = [
+var widowfamily = [
   DoantionModel(
     id: '1',
     title: 'Support for Widow Families in Need',
@@ -222,11 +243,13 @@ const widowfamily = [
     description: 'Providing essential resources and financial aid to help widow families overcome challenges and achieve stability.',
     projectvalue: 10000,
     paidvlaue: 0,
+     date: DateTime(2023, 9, 1),
+        position: 1,
   ),
 ];
 
 
-const clothes = [
+var clothes = [
   DoantionModel(
     id: '1',
     title: 'Winter Clothes Needed for Families in Need',
@@ -234,11 +257,33 @@ const clothes = [
     description: 'As winter approaches, many families in our community lack the necessary warm clothing to stay comfortable and healthy.',
     projectvalue: 10000,
     paidvlaue: 0,
+     date: DateTime(2024, 9, 1),
+        position: 3,
+  ),
+   DoantionModel(
+    id: '2',
+    title: 'Summer Clothes Needed for Families in Need',
+    imageUrl: 'Assests/images/AllCategory/wheelchair.png',
+    description: 'As Summer approaches, many families in our community lack the necessary warm clothing to stay comfortable and healthy.',
+    projectvalue: 10000,
+    paidvlaue: 1250,
+     date: DateTime(2024, 2, 1),
+        position: 2,
+  ),
+   DoantionModel(
+    id: '3',
+    title: 'Checking Clothes Needed for Families in Need',
+    imageUrl: 'Assests/images/AllCategory/medicalbed.png',
+    description: 'As Checking approaches, many families in our community lack the necessary warm clothing to stay comfortable and healthy.',
+    projectvalue: 10000,
+    paidvlaue: 10000,
+     date: DateTime(2023, 10, 1),
+        position: 1,
   ),
 ];
 
 
-const medicalbed = [
+var medicalbed = [
   DoantionModel(
     id: '1',
     title: 'Donations Needed for Medical Beds',
@@ -246,11 +291,13 @@ const medicalbed = [
     description: 'We are seeking donations of medical beds to support patients in need of specialized care at home.',
     projectvalue: 10000,
     paidvlaue: 0,
+       position: 1,
+     date: DateTime(2023, 9, 1),
   ),
 ];
 
 
-const wheelchair = [
+var wheelchair = [
   DoantionModel(
     id: '1',
     title: 'Wheelchair Donation',
@@ -258,11 +305,13 @@ const wheelchair = [
     description: 'Donate wheelchairs to enhance mobility and independence for individuals in need. Your contribution can significantly improve their quality of life.',
     projectvalue: 10000,
     paidvlaue: 0,
+     date: DateTime(2023, 9, 1),
+        position: 1,
   ),
 ];
 
 
-const treedonation = [
+var treedonation = [
   DoantionModel(
     id: '1',
     title: 'Tree Donation for a Greener Community',
@@ -270,13 +319,15 @@ const treedonation = [
     description: 'Help us enhance our community’s environment by donating trees. Your contribution will support reforestation efforts, improve air quality, and provide shade and beauty to public spaces.',
     projectvalue: 10000,
     paidvlaue: 0,
+     date: DateTime(2023, 9, 1),
+        position: 1,
   ),
 ];
 
 
 
 
-const daigdonation = [
+var daigdonation = [
   DoantionModel(
     id: '1',
     title: 'Essential Medication Donations for Low-Income Patients',
@@ -284,13 +335,15 @@ const daigdonation = [
     description: 'We are seeking donations of essential medications to support low-income patients who cannot afford their prescriptions.',
     projectvalue: 10000,
     paidvlaue: 0,
+     date: DateTime(2023, 9, 1),
+        position: 1,
   ),
 ];
 
 
 
 
-const mealdonation = [
+var mealdonation = [
   DoantionModel(
     id: '1',
     title: 'Meal Donation Drive for the Hungry',
@@ -298,6 +351,8 @@ const mealdonation = [
     description: 'Join our meal donation drive to help feed the hungry in our community. We are accepting non-perishable food items, fresh produce, and prepared meals. Your generous donations will provide nutritious meals to individuals and families facing food insecurity.',
     projectvalue: 10000,
     paidvlaue: 0,
+     date: DateTime(2023, 9, 1),
+        position: 1,
   ),
 ];
 
@@ -311,6 +366,7 @@ const orphanSupport = [
   //   description: 'As winter approaches, many families in our community lack the necessary warm clothing to stay comfortable and healthy.',
   //   projectvalue: 10000,
   //   paidvlaue: 0,
+  //  date: DateTime(2023, 9, 1),
   // ),
 ];
 

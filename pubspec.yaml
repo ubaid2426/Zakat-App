@@ -46,6 +46,7 @@ dependencies:
   animations: ^2.0.8
   simple_animations: ^5.0.2
   font_awesome_flutter: ^10.6.0
+  image_picker: ^0.8.5+3
   get: ^4.6.6
   intl_phone_field: ^2.1.0
   flutter_verification_code: ^1.1.0

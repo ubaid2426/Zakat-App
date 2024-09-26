@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:zakat_app/Screens/PaymentMethod/payment_method.dart';
+import 'package:zakat_app/components/CounterButton/counter_button.dart';
 import 'package:zakat_app/components/custom_button.dart';
 import 'package:zakat_app/controller/controller.dart';
 import 'package:zakat_app/model/donate_model.dart';
 
-class Data extends StatefulWidget {
+class DataSpecial extends StatefulWidget {
   final String imageUrl;
   final String title;
   final String description;
   final double projectvalue;
   final double paidvlaue;
 
-  const Data({
+  const DataSpecial({
     super.key,
     required this.imageUrl,
     required this.title,
@@ -23,29 +24,39 @@ class Data extends StatefulWidget {
   });
 
   @override
-  State<Data> createState() => _DataState();
+  State<DataSpecial> createState() => _DataSpecialState();
 }
 
-class _DataState extends State<Data> {
-  final TextEditingController _controller = TextEditingController(text: "32");
+class _DataSpecialState extends State<DataSpecial> {
+  final FoodController controller = Get.put(FoodController());
+  final TextEditingController _controller = TextEditingController();
   bool isSelected = false;
-  bool isZakat = false; // State to track Zakat checkbox
+  bool isZakat = false;
   late double projectValue;
   late double paidValue;
+  int donationAmount = 0;
 
-  final FoodController controller = Get.put(FoodController());
+  // Dropdown state
+  Map<String, dynamic>? selectedDonation;
+  final List<Map<String, dynamic>> donationOptions = [
+    {'title': 'Food Donation', 'price': 100},
+    {'title': 'Clothes Donation', 'price': 50},
+    {'title': 'Health Donation', 'price': 150},
+    {'title': 'Education Donation', 'price': 200},
+  ];
 
   @override
   void initState() {
     super.initState();
     projectValue = widget.projectvalue;
     paidValue = widget.paidvlaue;
+    _controller.text = donationAmount.toString();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
+    return MaterialApp(
+      home: Padding(
         padding: const EdgeInsets.fromLTRB(19, 19, 19, 0),
         child: Container(
           decoration: BoxDecoration(
@@ -107,12 +118,16 @@ class _DataState extends State<Data> {
               buildProjectDetails(),
               const SizedBox(height: 40),
               buildProgressIndicator(),
+                    const SizedBox(height: 20),
+               buildDonationDropdown(),
               const SizedBox(height: 20),
               buildDonationSection(),
               const SizedBox(height: 20),
-              buildZakatCheckBox(), // Display Zakat checkbox
+              buildZakatCheckBox(),
               const SizedBox(height: 20),
               buildSecureDonation(),
+        
+              // Include dropdown here
             ],
           ),
         ),
@@ -120,7 +135,6 @@ class _DataState extends State<Data> {
     );
   }
 
-  // Widget for displaying project info
   Widget buildProjectDetails() {
     return Container(
       height: 100,
@@ -134,14 +148,12 @@ class _DataState extends State<Data> {
         children: [
           buildProjectInfo('Rs ${projectValue.toInt()}', 'Project value'),
           buildProjectInfo('${paidValue.toInt()}', 'Paid'),
-          buildProjectInfo(
-              'Rs ${(projectValue - paidValue).toInt()}', 'Remaining'),
+          buildProjectInfo('Rs ${(projectValue - paidValue).toInt()}', 'Remaining'),
         ],
       ),
     );
   }
 
-  // Build the Zakat checkbox
   Widget buildZakatCheckBox() {
     return Row(
       children: [
@@ -153,12 +165,14 @@ class _DataState extends State<Data> {
             });
           },
         ),
-        const Text("This Donation is Zakat"),
+        const Text(
+          "This Donation is Zakat",
+          style: TextStyle(fontSize: 18),
+        ),
       ],
     );
   }
 
-  // Donation input section with buttons
   Widget buildDonationSection() {
     double progress = paidValue / projectValue;
 
@@ -185,17 +199,17 @@ class _DataState extends State<Data> {
             ),
           ),
           const SizedBox(height: 20.0),
-          Material(
-            child: TextField(
-              controller: _controller,
-              decoration: const InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 10.0),
-                border: OutlineInputBorder(),
-              ),
-              keyboardType: TextInputType.number,
-              style: const TextStyle(fontSize: 36.0),
-              textAlign: TextAlign.center,
-            ),
+          GetBuilder<FoodController>(
+            builder: (foodController) {
+              return CounterButton(
+                onIncrementSelected: () => foodController.increaseDonation(),
+                onDecrementSelected: () => foodController.decreaseDonation(),
+                label: Text(
+                  foodController.donationAmount.toString(),
+                  style: Theme.of(context).textTheme.displayLarge,
+                ),
+              );
+            },
           ),
           const SizedBox(height: 30.0),
           Row(
@@ -214,7 +228,6 @@ class _DataState extends State<Data> {
     );
   }
 
-  // Add to cart button
   Widget buildAddToCartButton() {
     return InkWell(
       onTap: () {
@@ -222,18 +235,17 @@ class _DataState extends State<Data> {
           isSelected = !isSelected;
         });
 
-        double donationAmount = double.parse(_controller.text);
+        double donationAmountValue = double.parse(_controller.text);
         DonateModel donation = DonateModel(
           id: 'donation_${controller.cartFood.length + 1}',
           title: widget.title,
           des: widget.description,
           image: widget.imageUrl,
           route: '/donation',
-          price: donationAmount,
-          isZakat: isZakat,  // Pass the isZakat flag
+          price: donationAmountValue,
+          isZakat: isZakat,
         );
 
-        // Add donation to cart
         controller.addToCart(donation);
       },
       splashColor: const Color(0xFF7fc23a),
@@ -266,7 +278,6 @@ class _DataState extends State<Data> {
     );
   }
 
-  // Secure donation section
   Widget buildSecureDonation() {
     return Container(
       height: 70,
@@ -285,7 +296,6 @@ class _DataState extends State<Data> {
     );
   }
 
-  // Progress indicator widget
   Widget buildProgressIndicator() {
     double progress = paidValue / projectValue;
     return Column(
@@ -313,7 +323,6 @@ class _DataState extends State<Data> {
     );
   }
 
-  // Reusable project info widget
   Widget buildProjectInfo(String value, String label) {
     return Expanded(
       child: Container(
@@ -347,6 +356,50 @@ class _DataState extends State<Data> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  // Add the donation dropdown widget here
+  Widget buildDonationDropdown() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Column(
+        children: [
+          const Text(
+            'Select a donation option:',
+            style: TextStyle(fontSize: 18),
+          ),
+          const SizedBox(height: 10),
+          DropdownButton<Map<String, dynamic>>(
+            isExpanded: true,
+            hint: const Text('Choose a donation option'),
+            value: selectedDonation,
+            items: donationOptions.map((Map<String, dynamic> option) {
+              return DropdownMenuItem<Map<String, dynamic>>(
+                value: option,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(option['title']),
+                    Text('Rs ${option['price']}'),
+                  ],
+                ),
+              );
+            }).toList(),
+            onChanged: (Map<String, dynamic>? newValue) {
+              setState(() {
+                selectedDonation = newValue;
+              });
+            },
+          ),
+          const SizedBox(height: 10),
+          if (selectedDonation != null)
+            Text(
+              'Selected Donation: ${selectedDonation!['title']} for Rs ${selectedDonation!['price']}',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+        ],
       ),
     );
   }

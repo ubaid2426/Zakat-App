@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:zakat_app/Screens/PaymentMethod/payment_method.dart';
 // import 'package:get/get_core/src/get_main.dart';
 // import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:zakat_app/Widgets/empty_widget.dart';
@@ -15,19 +16,19 @@ class CartScreen extends StatelessWidget {
 
   PreferredSizeWidget _appBar(BuildContext context) {
     return AppBar(
-             flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFF33A248), // First color (#33A248)
-                  Color(0xFFB2EA50), // Second color (#B2EA50)
-                ],
-                begin: Alignment
-                    .bottomRight, // Start the gradient from bottom-right
-                end: Alignment.topLeft, // End the gradient at top-left
-              ),
-            ),
+      flexibleSpace: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFF33A248), // First color (#33A248)
+              Color(0xFFB2EA50), // Second color (#B2EA50)
+            ],
+            begin:
+                Alignment.bottomRight, // Start the gradient from bottom-right
+            end: Alignment.topLeft, // End the gradient at top-left
           ),
+        ),
+      ),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -48,10 +49,6 @@ class CartScreen extends StatelessWidget {
           )
         ],
       ),
-      // leading: IconButton(
-      //   onPressed: () => Navigator.pop(context),
-      //   icon: const Icon(Icons.arrow_back),
-      // ),
     );
   }
 
@@ -64,13 +61,13 @@ class CartScreen extends StatelessWidget {
         child: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-                colors: [
-                  Color(0xFF33A248), // First color (#33A248)
-                  Color(0xFFB2EA50), // Second color (#B2EA50)
-                ],
-                begin: Alignment.bottomRight,
-                end: Alignment.topLeft,
-              ),
+              colors: [
+                Color(0xFF33A248), // First color (#33A248)
+                Color(0xFFB2EA50), // Second color (#B2EA50)
+              ],
+              begin: Alignment.bottomRight,
+              end: Alignment.topLeft,
+            ),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30),
               topRight: Radius.circular(30),
@@ -166,11 +163,11 @@ class CartScreen extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {
                           // Navigate to checkout page or perform checkout
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => const AccountDetail()),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const PaymentMethod()),
+                          );
                         },
                         child: const Text(
                           "Checkout",
@@ -227,10 +224,8 @@ class CartScreen extends StatelessWidget {
           child: Container(
             width: double.infinity,
             height: 150,
-            // padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              // color: const Color.fromARGB(255, 244, 4, 4),
             ),
             child: Column(
               children: [
@@ -244,7 +239,6 @@ class CartScreen extends StatelessWidget {
                         color: Color.fromARGB(255, 137, 212, 63),
                       ),
                       width: MediaQuery.of(context).size.width - 60,
-                      //  width: double.infinity,
                       height: 40,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20, top: 6),
@@ -252,9 +246,7 @@ class CartScreen extends StatelessWidget {
                           controller.cartFood[index].title,
                           style: const TextStyle(
                             fontSize: 18,
-
                             fontWeight: FontWeight.w400,
-                            // backgroundColor: Color.fromARGB(255, 67, 244, 54),
                           ),
                           textAlign: TextAlign.start,
                         ),
@@ -270,13 +262,11 @@ class CartScreen extends StatelessWidget {
                     const SizedBox(width: 10),
                     Container(
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 245, 188,
-                            2), // Optional, for background color if the image doesn't cover
+                        color: const Color.fromARGB(255, 245, 188, 2),
                         borderRadius: BorderRadius.circular(15),
                         image: DecorationImage(
                           image: AssetImage(controller.cartFood[index].image),
-                          fit: BoxFit
-                              .cover, // To ensure the image covers the entire container
+                          fit: BoxFit.cover,
                         ),
                       ),
                       width: 100,
@@ -295,13 +285,30 @@ class CartScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 5),
                         Text(
-                          // "",
                           "\$${controller.cartFood[index].price}",
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
+                        const SizedBox(height: 5),
+                        // Conditionally show "Zakat" label
+                        if (controller.cartFood[index].isZakat)
+                          Container(
+                            // padding: const EdgeInsets.symmetric(
+                            //     horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: const Text(
+                              "Zakat Donation",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                       ],
                     ),
                     const Spacer(),

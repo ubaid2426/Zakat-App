@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:video_player/video_player.dart';
 import 'package:zakat_app/Screens/All_Category/Screen/clothes.dart';
+import 'package:zakat_app/Screens/All_Category/Screen/masjid_maintenance.dart';
 import 'package:zakat_app/Screens/All_Category/Screen/portable_house.dart';
 // import 'package:zakat_app/Screens/All_Category/Screen/individual_donation.dart';
 import 'package:zakat_app/Screens/All_Category/Screen/request_donation.dart';
@@ -1000,7 +1001,8 @@ class LeftToRight extends StatelessWidget {
 
   const LeftToRight({
     super.key,
-    required this.projects, required this.navigate,
+    required this.projects,
+    required this.navigate,
   });
 
   @override
@@ -1015,7 +1017,8 @@ class LeftToRight extends StatelessWidget {
             paidvlaue: project.paidvlaue,
             title: project.title,
             imageUrl: project.imageUrl,
-            description: project.description, navigate: navigate,
+            description: project.description,
+            navigate: navigate,
           );
         }).toList(),
       ),
@@ -1083,12 +1086,12 @@ class _PerCategoryState extends State<PerCategory> {
                 ),
               ),
               buildProjectDetails(),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               buildProgressIndicator(),
               const SizedBox(height: 10),
-               CustomButton(
+              CustomButton(
                 navigateTo: widget.navigate,
                 title: 'View Category',
                 icon: FontAwesomeIcons.rightFromBracket,
@@ -1193,19 +1196,53 @@ class FinalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+       
+        const Padding(
+          padding: EdgeInsets.only(left: 20),
+          child: Text(
+            "All categories Card",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF7fc23a),
+            ),
+            textAlign: TextAlign.start,
+          ),
+        ),
+        DataPutHome(),
+      ],
+    );
+  }
+
+  Widget DataPutHome() {
     // Filter the not finished projects for each category
     List<DoantionModel> notFinishedClothes = filterNotFinishedProjects(clothes);
-    List<DoantionModel> notFinishedMasjidmaintenance = filterNotFinishedProjects(masjidmaintenance);
-    List<DoantionModel> notFinishedMarriagesupport = filterNotFinishedProjects(marriagesupport);
-    List<DoantionModel> notFinishedFloodrelief = filterNotFinishedProjects(floodrelief);
-    List<DoantionModel> notFinishedWidowfamily = filterNotFinishedProjects(widowfamily);
-    List<DoantionModel> notFinishedMedicalbed = filterNotFinishedProjects(medicalbed );
-    List<DoantionModel> notFinishedWheelchair = filterNotFinishedProjects(wheelchair);
-    List<DoantionModel> notFinishedTreedonation = filterNotFinishedProjects(treedonation);
-    List<DoantionModel> notFinishedDaigdonation = filterNotFinishedProjects(daigdonation);
-    List<DoantionModel> notFinishedmealdonation = filterNotFinishedProjects(mealdonation);
-    List<DoantionModel> notFinishedOrphansupport = filterNotFinishedProjects(orphansupport);
-    List<DoantionModel> notFinishedWaterCooler = filterNotFinishedProjects(waterCooler);
+    List<DoantionModel> notFinishedMasjidmaintenance =
+        filterNotFinishedProjects(masjidmaintenance);
+    List<DoantionModel> notFinishedMarriagesupport =
+        filterNotFinishedProjects(marriagesupport);
+    List<DoantionModel> notFinishedFloodrelief =
+        filterNotFinishedProjects(floodrelief);
+    List<DoantionModel> notFinishedWidowfamily =
+        filterNotFinishedProjects(widowfamily);
+    List<DoantionModel> notFinishedMedicalbed =
+        filterNotFinishedProjects(medicalbed);
+    List<DoantionModel> notFinishedWheelchair =
+        filterNotFinishedProjects(wheelchair);
+    List<DoantionModel> notFinishedTreedonation =
+        filterNotFinishedProjects(treedonation);
+    List<DoantionModel> notFinishedDaigdonation =
+        filterNotFinishedProjects(daigdonation);
+    List<DoantionModel> notFinishedmealdonation =
+        filterNotFinishedProjects(mealdonation);
+    List<DoantionModel> notFinishedOrphansupport =
+        filterNotFinishedProjects(orphansupport);
+    List<DoantionModel> notFinishedWaterCooler =
+        filterNotFinishedProjects(waterCooler);
     List<DoantionModel> notFinishedOther = filterNotFinishedProjects(other);
     List<DoantionModel> notFinishedPortableHouse =
         filterNotFinishedProjects(portablehouse);
@@ -1216,8 +1253,50 @@ class FinalCard extends StatelessWidget {
         height: 650,
         child: Row(
           children: [
-            LeftToRight(projects: notFinishedClothes, navigate: const Clothes(),),
-            LeftToRight(projects: notFinishedPortableHouse, navigate: const PortableHouse(),),
+            LeftToRight(
+              projects: notFinishedClothes,
+              navigate: const Clothes(),
+            ),
+            LeftToRight(
+              projects: notFinishedPortableHouse,
+              navigate: const PortableHouse(),
+            ),
+            LeftToRight(
+              projects: notFinishedMasjidmaintenance,
+              navigate: const MasjidMaintenance(),
+            ),
+            LeftToRight(
+              projects: notFinishedPortableHouse,
+              navigate: const PortableHouse(),
+            ),
+            LeftToRight(
+              projects: notFinishedPortableHouse,
+              navigate: const PortableHouse(),
+            ),
+            LeftToRight(
+              projects: notFinishedPortableHouse,
+              navigate: const PortableHouse(),
+            ),
+            LeftToRight(
+              projects: notFinishedPortableHouse,
+              navigate: const PortableHouse(),
+            ),
+            LeftToRight(
+              projects: notFinishedPortableHouse,
+              navigate: const PortableHouse(),
+            ),
+            LeftToRight(
+              projects: notFinishedPortableHouse,
+              navigate: const PortableHouse(),
+            ),
+            LeftToRight(
+              projects: notFinishedPortableHouse,
+              navigate: const PortableHouse(),
+            ),
+            LeftToRight(
+              projects: notFinishedPortableHouse,
+              navigate: const PortableHouse(),
+            ),
           ],
         ),
         // ),

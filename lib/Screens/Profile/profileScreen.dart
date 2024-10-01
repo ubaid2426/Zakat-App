@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zakat_app/Screens/ContactUs/contact_us.dart';
+import 'package:zakat_app/Screens/PaymentMethod/payment_method.dart';
 import 'package:zakat_app/Screens/Profile/Screens/my_detail.dart';
 import 'package:zakat_app/Screens/Profile/Screens/my_donation.dart';
-import 'package:zakat_app/Screens/Profile/Screens/payment_method.dart';
+import 'package:zakat_app/Screens/Profile/Screens/setting.dart';
+// import 'package:zakat_app/Screens/Profile/Screens/payment_method.dart';
 // import 'package:mainpage/core/App_assest.dart';
 // import 'package:zakat_app/core/AppAssests.dart';
 
@@ -46,6 +48,13 @@ class ProfileScreen extends StatelessWidget {
               menuTitle: "Contact Us",
               fontawesome: FontAwesomeIcons.addressBook,
               navigateTo: ContactUs()),
+          SizedBox(
+            height: 10,
+          ),
+             ManyOption1(
+              menuTitle: "Setting",
+              fontawesome: FontAwesomeIcons.gear,
+              navigateTo: SettingsScreen()),
           SizedBox(
             height: 10,
           ),

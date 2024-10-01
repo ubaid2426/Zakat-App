@@ -75,17 +75,17 @@ class AllCategory extends StatelessWidget {
             icon: const Icon(Icons.arrow_back),
           ),
         ),
-        body: SizedBox(
+        body:const SizedBox(
           height: 800,
-          child: const Category(),
+          child:  Category(),
         ),
       ),
     );
   }
 }
 
-class Show extends StatelessWidget {
-  const Show({
+class Show1 extends StatelessWidget {
+  const Show1({
     super.key,
     required this.category,
     required this.onSelectCategory,
@@ -163,7 +163,7 @@ class Category extends StatelessWidget {
             itemCount: availableCategories.length, // Dynamic item count
             itemBuilder: (context, index) {
               final category = availableCategories[index];
-              return Show(
+              return Show1(
                 category: category,
                 onSelectCategory: () {
                      print("Navigating to: ${category.route}");

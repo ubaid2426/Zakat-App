@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:zakat_app/Screens/Home/home_main.dart';
 import 'package:zakat_app/components/donate.dart';
 import 'package:zakat_app/core/app_dummy.dart';
 import 'package:zakat_app/model/doantion_model.dart';
 
 class Clothes extends StatefulWidget {
+  // String prop =LeftToRight(projects: sortedClothes);
   const Clothes({super.key});
 
   @override
@@ -52,6 +54,10 @@ class _ClothesState extends State<Clothes> {
             },
             itemBuilder: (BuildContext context) => [
               const PopupMenuItem(
+                value: 'finished projects',
+                child: Text('finished projects'),
+              ),
+              const PopupMenuItem(
                 value: 'Not finished projects first',
                 child: Text('Not finished projects first'),
               ),
@@ -81,6 +87,10 @@ class _ClothesState extends State<Clothes> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              // Pass the sorted list to LeftToRight to display it in the home page card
+              if (sortedClothes.isNotEmpty)
+                // LeftToRight(projects: sortedClothes), // This displays the projects horizontally
+
               if (sortedClothes.isNotEmpty)
                 Column(
                   children: sortedClothes.map((donation) {
@@ -116,32 +126,39 @@ class _ClothesState extends State<Clothes> {
   void _sortList(String sortOption) {
     setState(() {
       switch (sortOption) {
-        case 'Not finished projects first':
-          sortedClothes.sort((a, b) =>
-              (b.projectvalue - b.paidvlaue).compareTo(a.projectvalue - a.paidvlaue));
+        case 'finished projects':
+          sortedClothes = clothes.where((project) {
+            return project.paidvlaue >= project.projectvalue;
+          }).toList();
           break;
+
+        case 'Not finished projects first':
+          sortedClothes = clothes.where((project) {
+            return project.paidvlaue < project.projectvalue;
+          }).toList();
+          break;
+
         case 'Oldest Items First':
           sortedClothes.sort((a, b) => a.date.compareTo(b.date));
           break;
+
         case 'Newest Items First':
           sortedClothes.sort((a, b) => b.date.compareTo(a.date));
           break;
+
         case 'Sort by Remaining Value: Low to High':
-          sortedClothes.sort((a, b) => 
-              (a.projectvalue - a.paidvlaue).compareTo(b.projectvalue - b.paidvlaue));
+          sortedClothes.sort((a, b) => (a.projectvalue - a.paidvlaue)
+              .compareTo(b.projectvalue - b.paidvlaue));
           break;
+
         case 'Sort by Remaining Value: High to Low':
-          sortedClothes.sort((a, b) => 
-              (b.projectvalue - b.paidvlaue).compareTo(a.projectvalue - a.paidvlaue));
+          sortedClothes.sort((a, b) => (b.projectvalue - b.paidvlaue)
+              .compareTo(a.projectvalue - a.paidvlaue));
           break;
+
         default:
           break;
       }
     });
   }
 }
-
-
-
-
-

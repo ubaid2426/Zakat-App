@@ -161,7 +161,15 @@ const availableCategories = [
 //   ),
 // ];
 
-var portablehouse = [
+
+
+List<DoantionModel> filterNotFinishedProjects(List<DoantionModel> projects) {
+  return projects.where((project) => project.paidvlaue < project.projectvalue).toList();
+}
+
+
+
+final List<DoantionModel> portablehouse  = [
   DoantionModel(
     id: '1',
     title: 'Portable House Donations for Displaced Families',
@@ -193,7 +201,8 @@ var portablehouse = [
         position: 1,
   ),
 ];
-var  masjidmaintenance = [
+// var  masjidmaintenance = [
+final List<DoantionModel> masjidmaintenance = [
   DoantionModel(
     id: '1',
     title: 'Support Needed for Masjid Maintenance',
@@ -206,7 +215,7 @@ var  masjidmaintenance = [
   ),
 ];
 
-var marriagesupport = [
+final List<DoantionModel> marriagesupport = [
   DoantionModel(
     id: '1',
     title: 'Marriage Support Donations for Low-Income Couples',
@@ -221,7 +230,7 @@ var marriagesupport = [
 ];
 
 
-var floodrelief = [
+final List<DoantionModel> floodrelief = [
   DoantionModel(
     id: '1',
     title: 'Urgent Flood Relief Donations Needed',
@@ -235,7 +244,7 @@ var floodrelief = [
 ];
 
 
-var widowfamily = [
+final List<DoantionModel> widowfamily =[
   DoantionModel(
     id: '1',
     title: 'Support for Widow Families in Need',
@@ -249,7 +258,7 @@ var widowfamily = [
 ];
 
 
-var clothes = [
+final List<DoantionModel> clothes = [
   DoantionModel(
     id: '1',
     title: 'Winter Clothes Needed for Families in Need',
@@ -283,7 +292,7 @@ var clothes = [
 ];
 
 
-var medicalbed = [
+final List<DoantionModel>  medicalbed = [
   DoantionModel(
     id: '1',
     title: 'Donations Needed for Medical Beds',
@@ -297,7 +306,7 @@ var medicalbed = [
 ];
 
 
-var wheelchair = [
+final List<DoantionModel> wheelchair = [
   DoantionModel(
     id: '1',
     title: 'Wheelchair Donation',
@@ -311,7 +320,7 @@ var wheelchair = [
 ];
 
 
-var treedonation = [
+final List<DoantionModel> treedonation = [
   DoantionModel(
     id: '1',
     title: 'Tree Donation for a Greener Community',
@@ -327,7 +336,7 @@ var treedonation = [
 
 
 
-var daigdonation = [
+final List<DoantionModel> daigdonation = [
   DoantionModel(
     id: '1',
     title: 'Essential Medication Donations for Low-Income Patients',
@@ -343,7 +352,7 @@ var daigdonation = [
 
 
 
-var mealdonation = [
+final List<DoantionModel>  mealdonation = [
   DoantionModel(
     id: '1',
     title: 'Meal Donation Drive for the Hungry',
@@ -358,7 +367,7 @@ var mealdonation = [
 
 
 
-const orphanSupport = [
+final List<DoantionModel> orphansupport = [
   // DoantionModel(
   //   id: '1',
   //   title: 'Winter Clothes Needed for Families in Need',
@@ -372,7 +381,7 @@ const orphanSupport = [
 
 
 
-const waterCooler = [
+final List<DoantionModel> waterCooler = [
   // DoantionModel(
   //   id: '1',
   //   title: 'Winter Clothes Needed for Families in Need',
@@ -384,7 +393,7 @@ const waterCooler = [
 ];
 
 
-const masjidConst = [
+final List<DoantionModel> masjidConst = [
   // DoantionModel(
   //   id: '1',
   //   title: 'Winter Clothes Needed for Families in Need',
@@ -396,7 +405,7 @@ const masjidConst = [
 ];
 
 
-const other = [
+final List<DoantionModel> other= [
   // DoantionModel(
   //   id: '1',
   //   title: 'Winter Clothes Needed for Families in Need',

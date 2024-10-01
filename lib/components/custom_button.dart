@@ -37,42 +37,44 @@ class _CustomButtonState extends State<CustomButton> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onHover: (value) {
-        setState(() {
-          isSelected = value; // Update selection based on hover
-        });
-      },
-      onTap: () {
-        setState(() {
-          isSelected = !isSelected; // Toggle selection on tap
-        });
-        _handleTap(); // Handle navigation
-      },
-      splashColor: const Color(0xFF7fc23a),
-      child: Container(
-        width: 190,
-        height: 60,
-        decoration: BoxDecoration(
-          color: isSelected ? Colors.white : const Color(0xFF7fc23a),
-          border: Border.all(color: const Color(0xFF7fc23a)),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
-              widget.title,
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w400,
+    return Material(
+      child: InkWell(
+        onHover: (value) {
+          setState(() {
+            isSelected = value; // Update selection based on hover
+          });
+        },
+        onTap: () {
+          setState(() {
+            isSelected = !isSelected; // Toggle selection on tap
+          });
+          _handleTap(); // Handle navigation
+        },
+        splashColor: const Color(0xFF7fc23a),
+        child: Container(
+          width: 190,
+          height: 60,
+          decoration: BoxDecoration(
+            color: isSelected ? Colors.white : const Color(0xFF7fc23a),
+            border: Border.all(color: const Color(0xFF7fc23a)),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                widget.title,
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w400,
+                  color: isSelected ? Colors.black : Colors.white,
+                ),
+              ),
+              Icon(
+                widget.icon,
                 color: isSelected ? Colors.black : Colors.white,
               ),
-            ),
-            Icon(
-              widget.icon,
-              color: isSelected ? Colors.black : Colors.white,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

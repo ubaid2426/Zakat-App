@@ -4,7 +4,7 @@ class DonateModel {
   final String des;
   final String image;
   final String route;
-   double price;
+   int price;
   final bool isZakat; // Add this flag for Zakat donations
 
   DonateModel({

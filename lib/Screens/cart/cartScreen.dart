@@ -32,18 +32,18 @@ class CartScreen extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
+         const Text(
             "Cart screen",
             // style: Theme.of(context).textTheme.displayMedium,
           ),
           IconButton(
-            icon: Icon(Icons.shopping_cart),
+            icon: const Icon(Icons.shopping_cart),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        Navigation()), // Navigate to the screen
+                        const Navigation()), // Navigate to the screen
               );
             },
           )
@@ -276,9 +276,9 @@ class CartScreen extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Donation Cost",
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 18,
                             color: Color.fromARGB(255, 85, 84, 84),
                           ),

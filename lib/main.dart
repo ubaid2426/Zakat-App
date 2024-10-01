@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:zakat_app/components/navigation.dart';
-// import 'package:zakat_app/components/navigation.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,131 +13,145 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        // backgroundColor: Color.fromARGB(255, 215, 212, 212),
         body: Navigation(),
       ),
     );
   }
 }
 
-// class MyWidget extends StatelessWidget {
-//   const MyWidget({super.key});
+
+// import 'package:flutter/material.dart';
+
+// void main() {
+//   runApp(const MyApp());
+// }
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({Key? key}) : super(key: key);
 
 //   @override
 //   Widget build(BuildContext context) {
-//     return SafeArea(
-//       child: SingleChildScrollView(
-//         child: const Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           children: [
-//             Row(
-//                         mainAxisAlignment: MainAxisAlignment.center,
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//               children: [
-//                 Text1(),
-//                 Text1(),
-//                 Text1(),
-//               ],
-//             ),
-//             Row(
-//                         mainAxisAlignment: MainAxisAlignment.center,
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//               children: [
-//                 Text1(),
-//                 Text1(),
-//                 Text1(),
-//               ],
-//             ),
-//             Row(
-//                         mainAxisAlignment: MainAxisAlignment.center,
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//               children: [
-//                 Text1(),
-//                 Text1(),
-//                 Text1(),
-//               ],
-//             ),
-//             Row(
-//                         mainAxisAlignment: MainAxisAlignment.center,
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//               children: [
-//                 Text1(),
-//                 Text1(),
-//                 Text1(),
-//               ],
-//             ),
-//             Row(
-//                         mainAxisAlignment: MainAxisAlignment.center,
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//               children: [
-//                 Text1(),
-//                 Text1(),
-//                 Text1(),
-//               ],
-//             ),
-//             Row(
-//                         mainAxisAlignment: MainAxisAlignment.center,
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//               children: [
-//                 Text1(),
-//                 Text1(),
-//                 Text1(),
-//               ],
-//             ),
-//           ],
-//         ),
+//     return MaterialApp(
+//       title: 'Donation App',
+//       theme: ThemeData(
+//         primarySwatch: Colors.green,
 //       ),
+//       home: const HomePage(),
 //     );
 //   }
 // }
 
-// class Text1 extends StatelessWidget {
-//   const Text1({super.key});
+// class HomePage extends StatefulWidget {
+//   const HomePage({Key? key}) : super(key: key);
 
 //   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.only(left: 5, right: 5, top: 10),
-//       child: Row(
-//         children: [
-//           Container(
-//             decoration: BoxDecoration(
-//               borderRadius: BorderRadius.circular(15),
-//               color: const Color.fromARGB(255, 253, 251, 251),
-//             ),
-//             height: 200,
-//             width: MediaQuery.of(context).size.width / 3 - 19,
+//   _HomePageState createState() => _HomePageState();
+// }
+
+// class _HomePageState extends State<HomePage> {
+//   void _showLoginDialog() {
+//     showDialog(
+//       context: context,
+//       barrierDismissible: false,
+//       builder: (BuildContext context) {
+//         return AlertDialog(
+//           shape: RoundedRectangleBorder(
+//             borderRadius: BorderRadius.circular(15),
+//           ),
+//           contentPadding: EdgeInsets.zero,
+//           content: Container(
+//             width: double.infinity,
+//             height: 300,
+//             padding: const EdgeInsets.all(20),
 //             child: Column(
+//               mainAxisAlignment: MainAxisAlignment.center,
 //               children: [
-//                 SizedBox(
-//                   height: 4,
-//                 ),
-//                 Text(
-//                   'Masjid Maintenance',
-//                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-//                   textAlign: TextAlign.center,
-//                 ),
-//                 // SizedBox(height: 20,),
-//                 Container(
-//                   decoration: BoxDecoration(
-//                     color: const Color.fromARGB(255, 245, 188,
-//                         2), // Optional, for background color if the image doesn't cover
-//                     borderRadius: BorderRadius.circular(15),
-//                     image: DecorationImage(
-//                       image: AssetImage(
-//                           "Assests/images/AllCategory/medicalbed.png"),
-//                       fit: BoxFit
-//                           .cover, // To ensure the image covers the entire container
-//                     ),
+//                 const Text(
+//                   'Login',
+//                   style: TextStyle(
+//                     fontSize: 24,
+//                     fontWeight: FontWeight.bold,
+//                     color: Colors.green,
 //                   ),
-//                   width: 120,
-//                   height: 150,
+//                 ),
+//                 const SizedBox(height: 10),
+//                 const Text(
+//                   'Please log in to take advantage of the wallet and the advanced notifications',
+//                   textAlign: TextAlign.center,
+//                   style: TextStyle(fontSize: 16),
+//                 ),
+//                 const SizedBox(height: 20),
+//                 const Icon(
+//                   Icons.login,
+//                   size: 100,
+//                   color: Colors.green,
+//                 ),
+//                 const SizedBox(height: 20),
+//                 Row(
+//                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                   children: [
+//                     ElevatedButton(
+//                       onPressed: () {
+//                         // Handle login action
+//                       },
+//                       style: ElevatedButton.styleFrom(
+//                         backgroundColor: Colors.green,
+//                         shape: RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.circular(10),
+//                         ),
+//                       ),
+//                       child: const Text('Login'),
+//                     ),
+//                     ElevatedButton(
+//                       onPressed: () {
+//                         Navigator.of(context).pop();
+//                       },
+//                       style: ElevatedButton.styleFrom(
+//                         backgroundColor: Colors.grey,
+//                         shape: RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.circular(10),
+//                         ),
+//                       ),
+//                       child: const Text('Continue'),
+//                     ),
+//                   ],
 //                 ),
 //               ],
 //             ),
 //           ),
-//         ],
+//         );
+//       },
+//     );
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Donation App'),
+//       ),
+//       body: Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             const Text(
+//               'Welcome to the Donation App',
+//               style: TextStyle(fontSize: 20),
+//             ),
+//             const SizedBox(height: 20),
+//             ElevatedButton(
+//               onPressed: _showLoginDialog, // Show popup on button press
+//               style: ElevatedButton.styleFrom(
+//                 backgroundColor: Colors.green,
+//                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+//               ),
+//               child: const Text(
+//                 'Show Login Popup',
+//                 style: TextStyle(fontSize: 16, color: Colors.white),
+//               ),
+//             ),
+//           ],
+//         ),
 //       ),
 //     );
 //   }

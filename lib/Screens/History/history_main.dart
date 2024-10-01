@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
+// void main() {
+//   runApp(MyApp());
+// }
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: DonationHistory(),
-    );
-  }
-}
+// class History extends StatelessWidget {
+//   const History({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return const MaterialApp(
+//       home: DonationHistory(),
+//     );
+//   }
+// }
 
 class DonationHistory extends StatefulWidget {
   const DonationHistory({super.key});
@@ -28,7 +30,7 @@ class _DonationHistoryState extends State<DonationHistory>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 5, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -41,7 +43,7 @@ class _DonationHistoryState extends State<DonationHistory>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         flexibleSpace: Container(
+        flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
@@ -56,9 +58,7 @@ class _DonationHistoryState extends State<DonationHistory>
         title: const Text('Donation History'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            // Handle back navigation
-          },
+          onPressed: () => Navigator.pop(context),
         ),
         bottom: TabBar(
           controller: _tabController,
@@ -130,7 +130,7 @@ class _DonationHistoryState extends State<DonationHistory>
                 _buildNoDonationsFound(),
                 _buildNoDonationsFound(),
                 _buildNoDonationsFound(),
-                _buildNoDonationsFound(),
+                // _buildNoDonationsFound(),
               ],
             ),
           ),

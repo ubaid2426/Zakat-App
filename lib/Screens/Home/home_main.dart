@@ -2,23 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:video_player/video_player.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/individual_donation.dart';
+import 'package:zakat_app/Screens/All_Category/Screen/clothes.dart';
+import 'package:zakat_app/Screens/All_Category/Screen/portable_house.dart';
+// import 'package:zakat_app/Screens/All_Category/Screen/individual_donation.dart';
 import 'package:zakat_app/Screens/All_Category/Screen/request_donation.dart';
 import 'package:zakat_app/Screens/All_Category/all_category.dart';
 // import 'package:zakat_app/Screens/All_Category/Screen/all_category.dart';
 import 'package:zakat_app/Screens/Calculator/Calculator.dart';
-import 'package:zakat_app/Screens/Home/components/food_donation.dart';
+import 'package:zakat_app/Screens/History/history_main.dart';
+// import 'package:zakat_app/Screens/Home/components/food_donation.dart';
 import 'package:zakat_app/Screens/Islam/islam_main.dart';
 // import 'package:zakat_app/Screens/Need%20Support/need_support.dart';
 // import 'package:zakat_app/Screens/New%20Campaign/new_campaign.dart';
 import 'package:zakat_app/Screens/Notification/Screen/notification.dart';
 import 'package:zakat_app/Widgets/drawers_main.dart';
+import 'package:zakat_app/components/custom_button.dart';
 // import 'package:zakat_app/components/H1Main.dart';
 import 'package:zakat_app/components/help_child.dart';
 import 'package:zakat_app/components/homeScreen_carousel.dart';
 // import 'package:zakat_app/components/navigation.dart';
 import 'package:zakat_app/components/upcoming_project.dart';
 import 'package:zakat_app/controller/fade_animation.dart';
+import 'package:zakat_app/core/app_dummy.dart';
+import 'package:zakat_app/model/doantion_model.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -27,49 +33,93 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
-  //  @override
-  // void initState() {
-  //   super.initState();
-  //   // Show the dialog as soon as the widget is loaded
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     showFoodDialog(context);
-  //   });
-  // }
+bool _hasShownLoginDialog = false;
 
-  void showFoodDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          // content: const Text('Choose your donation option:'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Individual Donation'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => IndividualDonation(),
-                  ),
-                );
-              },
+class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showLoginDialog();
+    });
+  }
+
+  void _showLoginDialog() {
+    if (!_hasShownLoginDialog) {
+      _hasShownLoginDialog = true;
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
             ),
-            TextButton(
-              child: const Text('Request For Donation'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RequestDonation(),
+            contentPadding: EdgeInsets.zero,
+            content: Container(
+              width: double.infinity,
+              height: 320,
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Login',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green,
+                    ),
                   ),
-                );
-              },
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Please log in to take advantage of the wallet and the advanced notifications',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 20),
+                  const Icon(
+                    Icons.login,
+                    size: 100,
+                    color: Colors.green,
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          // Handle login action
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: const Text('Login'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: const Text('Continue'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ],
-        );
-      },
-    );
+          );
+        },
+      );
+    }
   }
 
   // final TextEditingController controller;
@@ -114,38 +164,40 @@ class _HomeState extends State<Home> {
               HomeH1(),
               ReelsSection(),
               CarouselHome(),
-              MainCategory(),
+              // MainCategory(),
+              DisplayCategory(),
               // H1Main(),
-              BoxText(),
+              // BoxText(),
               SizedBox(
                 height: 50,
               ),
-              MarriageSupportH(
-                h3: "Our Numbers",
-                h1: 'Rs.100000+',
-                h2: 'Meal Donations',
-                fontawesome: FontAwesomeIcons.faceDizzy,
-              ),
-              MarriageSupportH(
-                h1: 'Rs.400000+',
-                h2: 'Flood Donations',
-                fontawesome: FontAwesomeIcons.bolt,
-              ),
-              MarriageSupportH(
-                h1: 'Rs.200000+',
-                h2: 'Medical Donations',
-                fontawesome: FontAwesomeIcons.houseChimneyUser,
-              ),
-              MarriageSupportH(
-                h1: 'Rs.300000+',
-                h2: 'Marriage Support',
-                fontawesome: FontAwesomeIcons.solidHeart,
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              FoodDonation(),
-              UpComingRender(),
+              FinalCard(),
+              // MarriageSupportH(
+              //   h3: "Our Numbers",
+              //   h1: 'Rs.100000+',
+              //   h2: 'Meal Donations',
+              //   fontawesome: FontAwesomeIcons.faceDizzy,
+              // ),
+              // MarriageSupportH(
+              //   h1: 'Rs.400000+',
+              //   h2: 'Flood Donations',
+              //   fontawesome: FontAwesomeIcons.bolt,
+              // ),
+              // MarriageSupportH(
+              //   h1: 'Rs.200000+',
+              //   h2: 'Medical Donations',
+              //   fontawesome: FontAwesomeIcons.houseChimneyUser,
+              // ),
+              // MarriageSupportH(
+              //   h1: 'Rs.300000+',
+              //   h2: 'Marriage Support',
+              //   fontawesome: FontAwesomeIcons.solidHeart,
+              // ),
+              // SizedBox(
+              //   height: 50,
+              // ),
+              // FoodDonation(),
+              // UpComingRender(),
               //  MyHomePage(showFoodDialog: showFoodDialog),
               // UpComingProjects(
               //     image: AssetImage("Assests/images/screen1/upcoming1.png")),
@@ -556,41 +608,6 @@ class HomeH2 extends StatelessWidget {
                     ],
                   ),
                 ),
-                // SizedBox(
-                //   width: MediaQuery.of(context).size.width - 50,
-                //   height: 50,
-                //   child: TextField(
-                //     // controller: ,
-                //     decoration: InputDecoration(
-                //       hintText: 'Zakat Profession etc....',
-                //       prefixIcon:
-                //           const Icon(Icons.search), // Search icon provided here
-                //       border: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(25),
-                //         borderSide: const BorderSide(
-                //           color: Colors.white, // Default border color
-                //         ),
-                //       ),
-                //       enabledBorder: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(25),
-                //         borderSide: const BorderSide(
-                //           color: Colors
-                //               .white, // Border color when the field is enabled
-                //         ),
-                //       ),
-                //       focusedBorder: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(25),
-                //         borderSide: const BorderSide(
-                //           color: Colors
-                //               .white, // Border color when the field is focused
-                //           width: 1.0, // Border thickness when focused
-                //         ),
-                //       ),
-                //       contentPadding: const EdgeInsets.symmetric(
-                //           horizontal: 16, vertical: 12),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -631,7 +648,7 @@ class HomeH3 extends StatelessWidget {
               fontawesome: FontAwesomeIcons.bell,
               navigateTo: ZakatCalculator(),
             ),
-           const ButtonNavBar(
+            const ButtonNavBar(
               text: 'Islam',
               fontawesome: FontAwesomeIcons.mosque,
               navigateTo: IslamScreen(),
@@ -641,10 +658,11 @@ class HomeH3 extends StatelessWidget {
               fontawesome: FontAwesomeIcons.handshake,
               navigateTo: RequestDonation(),
             ),
-            // ButtonNavBar(
-            //   text: 'All Category',
-            //   fontawesome: FontAwesomeIcons.table,
-            // ),
+            const ButtonNavBar(
+              text: 'History',
+              fontawesome: FontAwesomeIcons.rotateLeft,
+              navigateTo: DonationHistory(),
+            ),
           ],
         ),
       ),
@@ -707,95 +725,6 @@ class ButtonNavBar extends StatelessWidget {
   }
 }
 
-class MarriageSupportH extends StatelessWidget {
-  final String h1;
-  final String h2;
-  final String? h3;
-  final IconData fontawesome;
-  const MarriageSupportH({
-    super.key,
-    required this.h1,
-    required this.h2,
-    required this.fontawesome,
-    this.h3,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    // ignore: prefer_const_constructors
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      color: const Color(0xFF29C77B),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            FadeAnimation(
-              animationType: 'FadeInRight',
-              delay: 1000,
-              child: Text(
-                h3 ?? '',
-                style: const TextStyle(
-                  color: Color.fromARGB(255, 19, 19, 19),
-                  fontSize: 40,
-                  fontFamily: "Cormorant",
-                  letterSpacing: 2,
-                  fontWeight: FontWeight.w900,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            const SizedBox(height: 10),
-            FadeAnimation(
-              animationType: 'FadeInLeft',
-              delay: 1000,
-              child: Icon(
-                fontawesome,
-                size: 50,
-              ),
-            ),
-            const SizedBox(height: 30),
-            FadeAnimation(
-              animationType: 'FadeInRight',
-              delay: 1000,
-              child: Text(
-                h1,
-                style: const TextStyle(
-                  color: Color.fromARGB(255, 8, 8, 8),
-                  fontSize: 30,
-                  fontFamily: "Cormorant",
-                  letterSpacing: 2,
-                  fontWeight: FontWeight.w900,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            const SizedBox(height: 20),
-            FadeAnimation(
-              animationType: 'FadeInLeft',
-              delay: 1000,
-              child: Text(
-                h2,
-                style: const TextStyle(
-                  color: Color.fromARGB(255, 8, 8, 8),
-                  fontSize: 30,
-                  fontFamily: "Roboto",
-                  letterSpacing: 2,
-                  fontWeight: FontWeight.w600,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// import 'package:flutter/material.dart';
-// import 'package:flutter/material.dart';
-
 class ReelsSection extends StatefulWidget {
   const ReelsSection({Key? key}) : super(key: key);
 
@@ -808,17 +737,17 @@ class _ReelsSectionState extends State<ReelsSection>
   late AnimationController _controller;
 
   final List<String> videoUrls = [
-    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    'https://raw.githubusercontent.com/ubaid2426/Zakat-App/main/Assests/videos/WhatsApp%20Video%202024-09-26%20at%2019.28.59.mp4',
+    'https://raw.githubusercontent.com/ubaid2426/Zakat-App/main/Assests/videos/WhatsApp%20Video%202024-09-26%20at%2019.29.32.mp4',
     'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
     'https://youtube.com/shorts/Mjg5_3eusu4?si=Uw1ZA0lXWfufbWd8',
     'https://www.instagram.com/reel/C2kqKyViKMM/?igsh=MW92NjZrZ2N5NG90ag==', // Add your video URLs
   ];
 
   final List<String> reelTitles = [
-    "Bee 1",
-    "Bee 2",
-    "Bee 3",
+    "Orphan Home",
+    "ISAAR AMDC",
+    "New 3",
     "YouTube Short",
     "Instagram Reel",
   ];
@@ -905,14 +834,19 @@ class _ReelsSectionState extends State<ReelsSection>
                             Color borderColor = getAnimatedBorderColor();
                             return Container(
                               width: 100,
-                              height: 100, // Fixed height for the video thumbnail
+                              height:
+                                  100, // Fixed height for the video thumbnail
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(
-                                  colors: [Color(0xFF33A248), Color(0xFFB2EA50)],
+                                  colors: [
+                                    Color(0xFF33A248),
+                                    Color(0xFFB2EA50)
+                                  ],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 ),
-                                border: Border.all(color: borderColor, width: 3.0),
+                                border:
+                                    Border.all(color: borderColor, width: 3.0),
                                 borderRadius: BorderRadius.circular(100.0),
                                 image: const DecorationImage(
                                   image: AssetImage(
@@ -923,7 +857,8 @@ class _ReelsSectionState extends State<ReelsSection>
                             );
                           },
                         ),
-                        const SizedBox(height: 5), // Spacing between thumbnail and title
+                        const SizedBox(
+                            height: 5), // Spacing between thumbnail and title
                         Text(
                           reelTitles[index], // Display the title of the reel
                           style: const TextStyle(
@@ -944,7 +879,6 @@ class _ReelsSectionState extends State<ReelsSection>
     );
   }
 }
-
 
 class ReelsPage extends StatelessWidget {
   final String videoUrl;
@@ -971,7 +905,7 @@ class ReelsPage extends StatelessWidget {
 class ReelVideoPlayer extends StatefulWidget {
   final String videoUrl;
 
-  const ReelVideoPlayer({Key? key, required this.videoUrl}) : super(key: key);
+  const ReelVideoPlayer({super.key, required this.videoUrl});
 
   @override
   _ReelVideoPlayerState createState() => _ReelVideoPlayerState();
@@ -1054,6 +988,323 @@ class _ReelVideoPlayerState extends State<ReelVideoPlayer> {
                 ),
               )
             : const CircularProgressIndicator(),
+      ),
+    );
+  }
+}
+
+// LeftToRight widget that receives a list of filtered projects
+class LeftToRight extends StatelessWidget {
+  final Widget navigate;
+  final List<DoantionModel> projects;
+
+  const LeftToRight({
+    super.key,
+    required this.projects, required this.navigate,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        // Map the list of projects to PerCategory widgets
+        children: projects.map((project) {
+          return PerCategory(
+            projectvalue: project.projectvalue,
+            paidvlaue: project.paidvlaue,
+            title: project.title,
+            imageUrl: project.imageUrl,
+            description: project.description, navigate: navigate,
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
+// PerCategory widget to display project details
+class PerCategory extends StatefulWidget {
+  final double projectvalue;
+  final double paidvlaue;
+  final String title;
+  final String imageUrl;
+  final String description;
+  final Widget navigate;
+
+  const PerCategory({
+    super.key,
+    required this.projectvalue,
+    required this.paidvlaue,
+    required this.title,
+    required this.imageUrl,
+    required this.description,
+    required this.navigate,
+  });
+
+  @override
+  State<PerCategory> createState() => _PerCategoryState();
+}
+
+class _PerCategoryState extends State<PerCategory> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: Center(
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.7, // Adjust width
+          height: 600,
+          child: Column(
+            children: [
+              Text(
+                widget.title,
+                style: const TextStyle(
+                  fontSize: 22,
+                  decoration: TextDecoration.none,
+                  fontFamily: "Roboto",
+                  color: Color(0xFF7fc23a),
+                  fontWeight: FontWeight.w700,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const Divider(
+                color: Color(0xFF7fc23a),
+                thickness: 4,
+                indent: 50,
+                endIndent: 50,
+              ), // Add dynamic title
+              SizedBox(
+                height: 250,
+                width: double.infinity,
+                child: Image.asset(
+                  widget.imageUrl, // Ensure path is correct
+                  fit: BoxFit.cover,
+                ),
+              ),
+              buildProjectDetails(),
+              SizedBox(
+                height: 10,
+              ),
+              buildProgressIndicator(),
+              const SizedBox(height: 10),
+               CustomButton(
+                navigateTo: widget.navigate,
+                title: 'View Category',
+                icon: FontAwesomeIcons.rightFromBracket,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildProjectDetails() {
+    return Container(
+      height: 100,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: const Color.fromARGB(255, 237, 228, 228),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          buildProjectInfo(
+              'Rs ${widget.projectvalue.toInt()}', 'Project Value'),
+          buildProjectInfo('${widget.paidvlaue.toInt()}', 'Paid'),
+          buildProjectInfo(
+            'Rs ${(widget.projectvalue - widget.paidvlaue).toInt()}',
+            'Remaining',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildProjectInfo(String value, String label) {
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: const Color.fromARGB(255, 237, 228, 228),
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                decoration: TextDecoration.none,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Color.fromARGB(255, 128, 126, 126),
+                fontFamily: "Montserrat",
+                decoration: TextDecoration.none,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildProgressIndicator() {
+    double progress = widget.paidvlaue / widget.projectvalue;
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: LinearProgressIndicator(
+            value: progress,
+            backgroundColor: Colors.grey[300],
+            valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF7fc23a)),
+            minHeight: 10,
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          '${(progress * 100).toInt()}%',
+          style: const TextStyle(
+            fontSize: 16,
+            decoration: TextDecoration.none,
+            fontWeight: FontWeight.w300,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// Example usage in the HomePage
+class FinalCard extends StatelessWidget {
+  const FinalCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Filter the not finished projects for each category
+    List<DoantionModel> notFinishedClothes = filterNotFinishedProjects(clothes);
+    List<DoantionModel> notFinishedMasjidmaintenance = filterNotFinishedProjects(masjidmaintenance);
+    List<DoantionModel> notFinishedMarriagesupport = filterNotFinishedProjects(marriagesupport);
+    List<DoantionModel> notFinishedFloodrelief = filterNotFinishedProjects(floodrelief);
+    List<DoantionModel> notFinishedWidowfamily = filterNotFinishedProjects(widowfamily);
+    List<DoantionModel> notFinishedMedicalbed = filterNotFinishedProjects(medicalbed );
+    List<DoantionModel> notFinishedWheelchair = filterNotFinishedProjects(wheelchair);
+    List<DoantionModel> notFinishedTreedonation = filterNotFinishedProjects(treedonation);
+    List<DoantionModel> notFinishedDaigdonation = filterNotFinishedProjects(daigdonation);
+    List<DoantionModel> notFinishedmealdonation = filterNotFinishedProjects(mealdonation);
+    List<DoantionModel> notFinishedOrphansupport = filterNotFinishedProjects(orphansupport);
+    List<DoantionModel> notFinishedWaterCooler = filterNotFinishedProjects(waterCooler);
+    List<DoantionModel> notFinishedOther = filterNotFinishedProjects(other);
+    List<DoantionModel> notFinishedPortableHouse =
+        filterNotFinishedProjects(portablehouse);
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: SizedBox(
+        height: 650,
+        child: Row(
+          children: [
+            LeftToRight(projects: notFinishedClothes, navigate: const Clothes(),),
+            LeftToRight(projects: notFinishedPortableHouse, navigate: const PortableHouse(),),
+          ],
+        ),
+        // ),
+      ),
+    );
+  }
+}
+
+class DisplayCategory extends StatelessWidget {
+  const DisplayCategory({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Select Category",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF7fc23a)),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: const Text(
+                  "see more",
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    // color: Colors.black,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          // color: Colors.black,
+          height: 1350,
+          child: const Category(),
+        ),
+      ],
+    );
+  }
+}
+
+class Category extends StatelessWidget {
+  const Category({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Center(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: double.infinity,
+          child: GridView.builder(
+            shrinkWrap: true, // Ensures GridView does not expand indefinitely.
+            primary: false,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              childAspectRatio: 2 / 3.4, // Aspect ratio for the grid items
+            ),
+            itemCount: availableCategories.length, // Dynamic item count
+            itemBuilder: (context, index) {
+              final category = availableCategories[index];
+              return Show1(
+                category: category,
+                onSelectCategory: () {
+                  print("Navigating to: ${category.route}");
+                  final selectedCategory = availableCategories
+                      .firstWhere((element) => element.id == category.id);
+                  Navigator.pushNamed(context, selectedCategory.route);
+                  // Navigator.pushNamed(context, category.route);
+                },
+              );
+            },
+          ),
+        ),
       ),
     );
   }

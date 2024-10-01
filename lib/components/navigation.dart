@@ -38,6 +38,88 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+  void _showLoginDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          contentPadding: EdgeInsets.zero,
+          content: Container(
+            width: double.infinity,
+            height: 320,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Donation',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Which type of donation are you perform ?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16),
+                ),
+                const SizedBox(height: 20),
+                // const Icon(
+                //   Icons.login,
+                //   size: 100,
+                //   color: Colors.green,
+                // ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const AllCategory()), // Navigate to the screen
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Text('Group \n Donation'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                          Navigator.pop(context);
+                        Navigator.of(context).pop();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Text('Individual \n Donation'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   var _bottomNavIndex = 0; // Default index
   late AnimationController _fabAnimationController;
   late AnimationController _hideBottomBarAnimationController;
@@ -51,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   final List<Widget> screens = [
     const Home(),
-     Message(),
+    Message(),
     const CartScreen(),
     const ProfileScreen(),
   ];
@@ -99,15 +181,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             FontAwesomeIcons.handHoldingDollar,
             size: 35,
           ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      AllCategory()), // Navigate to the screen
-            );
-            // Action for FAB
-          },
+          onPressed: _showLoginDialog, // Show popup on button press
+          // onPressed: () {
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) =>
+          //             AllCategory()), // Navigate to the screen
+          //   );
+          //   // Action for FAB
+          // },
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

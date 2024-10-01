@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:zakat_app/Screens/PaymentMethod/payment_method.dart';
+import 'package:zakat_app/Screens/cart/cartScreen.dart';
 import 'package:zakat_app/components/custom_button.dart';
-import 'package:zakat_app/controller/controller.dart';
+// import 'package:zakat_app/controller/controller.dart';
 import 'package:zakat_app/model/donate_model.dart';
 
 class Data extends StatefulWidget {
@@ -29,18 +30,7 @@ class Data extends StatefulWidget {
 class _DataState extends State<Data> {
   final TextEditingController _controller = TextEditingController(text: "32");
   bool isSelected = false;
-  bool isZakat = false; // State to track Zakat checkbox
-  late double projectValue;
-  late double paidValue;
-
-  final FoodController controller = Get.put(FoodController());
-
-  @override
-  void initState() {
-    super.initState();
-    projectValue = widget.projectvalue;
-    paidValue = widget.paidvlaue;
-  }
+  bool isZakat = false;
 
   @override
   Widget build(BuildContext context) {
@@ -104,14 +94,14 @@ class _DataState extends State<Data> {
                 ),
               ),
               const SizedBox(height: 20),
-              buildProjectDetails(),
-              const SizedBox(height: 40),
-              buildProgressIndicator(),
+              buildProjectDetails(), // Use updated method for project details
               const SizedBox(height: 20),
-              buildDonationSection(),
-              const SizedBox(height: 20),
-              buildZakatCheckBox(), // Display Zakat checkbox
-              const SizedBox(height: 20),
+              buildProgressIndicator(), // Progress indicator for donation
+              // const SizedBox(height: 20),
+              buildDonationSection(), // Donation input
+              // const SizedBox(height: 20),
+              buildZakatCheckBox(), // Checkbox for Zakat
+              const SizedBox(height: 10),
               buildSecureDonation(),
             ],
           ),
@@ -132,14 +122,56 @@ class _DataState extends State<Data> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          buildProjectInfo('Rs ${projectValue.toInt()}', 'Project value'),
-          buildProjectInfo('${paidValue.toInt()}', 'Paid'),
+          buildProjectInfo('Rs ${widget.projectvalue.toInt()}', 'Project value'),
+          buildProjectInfo('${widget.paidvlaue.toInt()}', 'Paid'),
           buildProjectInfo(
-              'Rs ${(projectValue - paidValue).toInt()}', 'Remaining'),
+              'Rs ${(widget.projectvalue - widget.paidvlaue).toInt()}', 'Remaining'),
         ],
       ),
     );
   }
+
+
+  // Reusable project info widget
+  Widget buildProjectInfo(String value, String label) {
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: const Color.fromARGB(255, 237, 228, 228),
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                decoration: TextDecoration.none,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Color.fromARGB(255, 128, 126, 126),
+                fontFamily: "Montserrat",
+                decoration: TextDecoration.none,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+
 
   // Build the Zakat checkbox
   Widget buildZakatCheckBox() {
@@ -160,7 +192,7 @@ class _DataState extends State<Data> {
 
   // Donation input section with buttons
   Widget buildDonationSection() {
-    double progress = paidValue / projectValue;
+    double progress = widget.paidvlaue / widget.projectvalue;
 
     if (progress >= 1.0) {
       return const Padding(
@@ -222,7 +254,7 @@ class _DataState extends State<Data> {
           isSelected = !isSelected;
         });
 
-        double donationAmount = double.parse(_controller.text);
+        int donationAmount = int.parse(_controller.text);
         DonateModel donation = DonateModel(
           id: 'donation_${controller.cartFood.length + 1}',
           title: widget.title,
@@ -230,7 +262,7 @@ class _DataState extends State<Data> {
           image: widget.imageUrl,
           route: '/donation',
           price: donationAmount,
-          isZakat: isZakat,  // Pass the isZakat flag
+          isZakat: isZakat,
         );
 
         // Add donation to cart
@@ -287,7 +319,7 @@ class _DataState extends State<Data> {
 
   // Progress indicator widget
   Widget buildProgressIndicator() {
-    double progress = paidValue / projectValue;
+    double progress = widget.paidvlaue / widget.projectvalue;
     return Column(
       children: [
         Padding(
@@ -295,7 +327,7 @@ class _DataState extends State<Data> {
           child: LinearProgressIndicator(
             value: progress,
             backgroundColor: Colors.grey[300],
-            valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF29C77B)),
+            valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF7fc23a)),
             minHeight: 10,
           ),
         ),
@@ -305,49 +337,10 @@ class _DataState extends State<Data> {
           style: const TextStyle(
             fontSize: 16,
             decoration: TextDecoration.none,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF29C77B),
+            fontWeight: FontWeight.w300,
           ),
         ),
       ],
-    );
-  }
-
-  // Reusable project info widget
-  Widget buildProjectInfo(String value, String label) {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: const Color.fromARGB(255, 237, 228, 228),
-          ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              value,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                decoration: TextDecoration.none,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Color.fromARGB(255, 128, 126, 126),
-                fontFamily: "Montserrat",
-                decoration: TextDecoration.none,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

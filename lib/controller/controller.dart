@@ -80,20 +80,3 @@ class FoodController extends GetxController {
 
 
 
-
-
-
-  // void increaseItem(Food food) {
-  //   food.quantity++;
-  //   update();
-  //   calculateTotalPrice();
-  // }
-
-  // void decreaseItem(Food food) {
-  //   food.quantity = food.quantity-- < 1 ? 0 : food.quantity--;
-  //   calculateTotalPrice();
-  //   update();
-  //   if (food.quantity < 1) {
-  //     cartFood.removeWhere((element) => element == food);
-  //   }
-  // }

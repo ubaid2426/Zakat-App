@@ -13,6 +13,7 @@ import 'package:zakat_app/Screens/Calculator/Calculator.dart';
 import 'package:zakat_app/Screens/History/history_main.dart';
 // import 'package:zakat_app/Screens/Home/components/food_donation.dart';
 import 'package:zakat_app/Screens/Islam/islam_main.dart';
+import 'package:zakat_app/Screens/Need%20Support/need_support.dart';
 // import 'package:zakat_app/Screens/Need%20Support/need_support.dart';
 // import 'package:zakat_app/Screens/New%20Campaign/new_campaign.dart';
 import 'package:zakat_app/Screens/Notification/Screen/notification.dart';
@@ -657,7 +658,7 @@ class HomeH3 extends StatelessWidget {
             ButtonNavBar(
               text: 'Need Support',
               fontawesome: FontAwesomeIcons.handshake,
-              navigateTo: RequestDonation(),
+              navigateTo: NeedCategory(),
             ),
             const ButtonNavBar(
               text: 'History',
@@ -1052,51 +1053,54 @@ class PerCategory extends StatefulWidget {
 class _PerCategoryState extends State<PerCategory> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(30.0),
-      child: Center(
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.7, // Adjust width
-          height: 600,
-          child: Column(
-            children: [
-              Text(
-                widget.title,
-                style: const TextStyle(
-                  fontSize: 22,
-                  decoration: TextDecoration.none,
-                  fontFamily: "Roboto",
+    return Material(
+        //  color: const Color.fromARGB(255, 209, 206, 206),
+      child: Padding(
+        padding: const EdgeInsets.all(30.0),
+        child: Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.7, // Adjust width
+            height: 600,
+            child: Column(
+              children: [
+                Text(
+                  widget.title,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    decoration: TextDecoration.none,
+                    fontFamily: "Roboto",
+                    color: Color(0xFF7fc23a),
+                    fontWeight: FontWeight.w700,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const Divider(
                   color: Color(0xFF7fc23a),
-                  fontWeight: FontWeight.w700,
+                  thickness: 4,
+                  indent: 50,
+                  endIndent: 50,
+                ), // Add dynamic title
+                SizedBox(
+                  height: 250,
+                  width: double.infinity,
+                  child: Image.asset(
+                    widget.imageUrl, // Ensure path is correct
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                textAlign: TextAlign.center,
-              ),
-              const Divider(
-                color: Color(0xFF7fc23a),
-                thickness: 4,
-                indent: 50,
-                endIndent: 50,
-              ), // Add dynamic title
-              SizedBox(
-                height: 250,
-                width: double.infinity,
-                child: Image.asset(
-                  widget.imageUrl, // Ensure path is correct
-                  fit: BoxFit.cover,
+                buildProjectDetails(),
+                const SizedBox(
+                  height: 10,
                 ),
-              ),
-              buildProjectDetails(),
-              const SizedBox(
-                height: 10,
-              ),
-              buildProgressIndicator(),
-              const SizedBox(height: 10),
-              CustomButton(
-                navigateTo: widget.navigate,
-                title: 'View Category',
-                icon: FontAwesomeIcons.rightFromBracket,
-              ),
-            ],
+                buildProgressIndicator(),
+                const SizedBox(height: 10),
+                CustomButton(
+                  navigateTo: widget.navigate,
+                  title: 'View Category',
+                  icon: FontAwesomeIcons.rightFromBracket,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -1200,7 +1204,6 @@ class FinalCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-       
         const Padding(
           padding: EdgeInsets.only(left: 20),
           child: Text(

@@ -6,6 +6,7 @@ import 'package:zakat_app/Screens/All_Category/Screen/clothes.dart';
 import 'package:zakat_app/Screens/All_Category/Screen/daig_donation.dart';
 import 'package:zakat_app/Screens/All_Category/Screen/food_relief.dart';
 import 'package:zakat_app/Screens/All_Category/Screen/individual_donation.dart';
+// import 'package:zakat_app/Screens/All_Category/Screen/individual_donation.dart';
 import 'package:zakat_app/Screens/All_Category/Screen/marriage_support.dart';
 import 'package:zakat_app/Screens/All_Category/Screen/masjid_const.dart';
 import 'package:zakat_app/Screens/All_Category/Screen/masjid_maintenance.dart';
@@ -14,7 +15,7 @@ import 'package:zakat_app/Screens/All_Category/Screen/medical_bed.dart';
 import 'package:zakat_app/Screens/All_Category/Screen/orphan_support.dart';
 import 'package:zakat_app/Screens/All_Category/Screen/other.dart';
 import 'package:zakat_app/Screens/All_Category/Screen/portable_house.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/request_donation.dart';
+// import 'package:zakat_app/Screens/All_Category/Screen/request_donation.dart';
 import 'package:zakat_app/Screens/All_Category/Screen/small_business.dart';
 import 'package:zakat_app/Screens/All_Category/Screen/tree_donation.dart';
 import 'package:zakat_app/Screens/All_Category/Screen/water_cooler.dart';
@@ -23,8 +24,11 @@ import 'package:zakat_app/Screens/All_Category/Screen/widow_family.dart';
 import 'package:zakat_app/Screens/All_Category/all_category.dart';
 import 'package:zakat_app/Screens/ContactUs/contact_us.dart';
 import 'package:zakat_app/Screens/Gallery/gallery.dart';
+import 'package:zakat_app/Screens/Home/home_main.dart';
 // import 'package:zakat_app/Screens/Login/Screen/login_page.dart';
 import 'package:zakat_app/Screens/Login/Screen/sing_up.dart';
+import 'package:zakat_app/Screens/Need%20Support/need_support.dart';
+// import 'package:zakat_app/Screens/Need%20Support/need_support.dart';
 // import 'package:zakat_app/Screens/Home/home_main.dart';
 // import 'package:zakat_app/Screens/Login/Screen/login.dart';
 // import 'package:zakat_app/Screens/Login/auth/screens/signup.dart';
@@ -61,7 +65,7 @@ class MainDrawer extends StatelessWidget {
       child: Column(
         children: [
           DrawerHeader(
-            padding: const EdgeInsets.all(20),
+            // padding: const EdgeInsets.all(20),
             decoration: const BoxDecoration(
                gradient: LinearGradient(
                 colors: [
@@ -94,7 +98,7 @@ class MainDrawer extends StatelessWidget {
                 const ManyOption(
                   menuTitle: "Home",
                   fontawesome: FontAwesomeIcons.home,
-                  navigateTo: Navigation(),
+                  navigateTo: Home(),
                 ),
                 // VerticalDivider(width: 500, color: Colors.red,),
                 const DonationMenu(
@@ -387,7 +391,7 @@ class DonationMenu extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>  RequestDonation(),
+                      builder: (context) =>  NeedCategory(),
                     ),
                   );
                   break;

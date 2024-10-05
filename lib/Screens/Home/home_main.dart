@@ -13,6 +13,7 @@ import 'package:zakat_app/Screens/Calculator/Calculator.dart';
 import 'package:zakat_app/Screens/History/history_main.dart';
 // import 'package:zakat_app/Screens/Home/components/food_donation.dart';
 import 'package:zakat_app/Screens/Islam/islam_main.dart';
+import 'package:zakat_app/Screens/Login/Screen/login_page.dart';
 import 'package:zakat_app/Screens/Need%20Support/need_support.dart';
 // import 'package:zakat_app/Screens/Need%20Support/need_support.dart';
 // import 'package:zakat_app/Screens/New%20Campaign/new_campaign.dart';
@@ -91,7 +92,12 @@ class _HomeState extends State<Home> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          // Handle login action
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginPage(),
+                            ),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,
@@ -1054,7 +1060,7 @@ class _PerCategoryState extends State<PerCategory> {
   @override
   Widget build(BuildContext context) {
     return Material(
-        //  color: const Color.fromARGB(255, 209, 206, 206),
+      //  color: const Color.fromARGB(255, 209, 206, 206),
       child: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Center(

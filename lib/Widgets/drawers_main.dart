@@ -22,39 +22,16 @@ import 'package:zakat_app/Screens/All_Category/Screen/water_cooler.dart';
 import 'package:zakat_app/Screens/All_Category/Screen/wheel_chair.dart';
 import 'package:zakat_app/Screens/All_Category/Screen/widow_family.dart';
 import 'package:zakat_app/Screens/All_Category/all_category.dart';
+import 'package:zakat_app/Screens/ContactUs/Screens/call_us.dart';
+import 'package:zakat_app/Screens/ContactUs/Screens/work_hour.dart';
 import 'package:zakat_app/Screens/ContactUs/contact_us.dart';
 import 'package:zakat_app/Screens/Gallery/gallery.dart';
 import 'package:zakat_app/Screens/Home/home_main.dart';
-// import 'package:zakat_app/Screens/Login/Screen/login_page.dart';
 import 'package:zakat_app/Screens/Login/Screen/sing_up.dart';
 import 'package:zakat_app/Screens/Need%20Support/need_support.dart';
-// import 'package:zakat_app/Screens/Need%20Support/need_support.dart';
-// import 'package:zakat_app/Screens/Home/home_main.dart';
-// import 'package:zakat_app/Screens/Login/Screen/login.dart';
-// import 'package:zakat_app/Screens/Login/auth/screens/signup.dart';
 import 'package:zakat_app/Screens/Volunteer/volunteer.dart';
 import 'package:zakat_app/Screens/What_We_DO/what_we_do.dart';
 import 'package:zakat_app/components/navigation.dart';
-
-// void main() {
-//   runApp(const MainDrawer());
-// }
-
-// class DrawerMain extends StatelessWidget {
-//   const DrawerMain({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: Scaffold(
-//         appBar: AppBar(
-//             title: const Text("activePageTitle"),
-//             ),
-//         drawer: const MainDrawer(),
-//       ),
-//     );
-//   }
-// }
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key});
@@ -62,12 +39,13 @@ class MainDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: const Color.fromARGB(255, 230, 226, 226),
       child: Column(
         children: [
           DrawerHeader(
             // padding: const EdgeInsets.all(20),
             decoration: const BoxDecoration(
-               gradient: LinearGradient(
+              gradient: LinearGradient(
                 colors: [
                   Color(0xFF33A248), // First color (#33A248)
                   Color(0xFFB2EA50), // Second color (#B2EA50)
@@ -136,7 +114,7 @@ class MainDrawer extends StatelessWidget {
                   fontawesome: FontAwesomeIcons.envelope,
                   navigateTo: AllCategory(),
                 ),
-                 const ManyOption(
+                const ManyOption(
                   menuTitle: "What We Do",
                   fontawesome: FontAwesomeIcons.briefcase,
                   navigateTo: DonationData(),
@@ -151,10 +129,19 @@ class MainDrawer extends StatelessWidget {
                   fontawesome: FontAwesomeIcons.info,
                   navigateTo: AboutUs(),
                 ),
-                const ManyOption(
-                  menuTitle: "Contact",
-                  fontawesome: FontAwesomeIcons.addressBook,
-                  navigateTo: ContactUs(),
+                // const ManyOption(
+                //   menuTitle: "Contact",
+                //   fontawesome: FontAwesomeIcons.addressBook,
+                //   navigateTo: ContactUs(),
+                // ),
+                const DonationMenu(
+                  menuTitle: 'Contact Us',
+                  subOptions: [
+                    "Call US",
+                    'Working Hours',
+                    "Branches",
+                  ],
+                  fontawesome: FontAwesomeIcons.donate,
                 ),
                 const ManyOption(
                   menuTitle: "Login",
@@ -190,7 +177,7 @@ class ManyOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-         selectedColor: const Color(0xFF7fc23a),
+      selectedColor: const Color(0xFF7fc23a),
       leading: Icon(
         fontawesome,
         size: 22,
@@ -215,11 +202,11 @@ class ManyOption extends StatelessWidget {
   }
 }
 
-class DonationMenu extends StatelessWidget {
+class DonationMenu extends StatefulWidget {
   final String menuTitle;
   final List<String> subOptions;
   final IconData fontawesome;
-
+  // bool _isExpanded = false;
   const DonationMenu({
     super.key,
     required this.menuTitle,
@@ -228,22 +215,71 @@ class DonationMenu extends StatelessWidget {
   });
 
   @override
+  State<DonationMenu> createState() => _DonationMenuState();
+}
+
+class _DonationMenuState extends State<DonationMenu> {
+  bool _isExpanded = false;
+  @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-        //  selectedColor: Color(0xFF7fc23a),
-      leading: Icon(
-        fontawesome,
-        size: 22,
-        color: Theme.of(context).colorScheme.onSurface,
+      collapsedShape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(0),
+        side: BorderSide.none,
       ),
-      title: Text(
-        menuTitle,
-        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-              color: Theme.of(context).colorScheme.onSurface,
-              fontSize: 18,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(0),
+        side: BorderSide.none,
+      ),
+      showTrailingIcon: false,
+      initiallyExpanded: _isExpanded,
+      onExpansionChanged: (bool expanded) {
+        setState(() {
+          _isExpanded = expanded;
+        });
+      },
+      //  selectedColor: Color(0xFF7fc23a),
+
+      title: Container(
+        height: 50,
+        width: MediaQuery.of(context).size.width,
+        color: _isExpanded
+            ? const Color(0xFF7fc23a)
+            : const Color.fromARGB(255, 230, 226, 226),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+               
+            Icon(
+              widget.fontawesome,
+              //  size: 22,
+              color: _isExpanded
+                  ? const Color.fromARGB(255, 247, 247, 247)
+                  : Color.fromARGB(255, 12, 12, 12),
             ),
+            SizedBox(width: 20,),
+            Row(
+              // mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  widget.menuTitle,
+                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontSize: 18,
+                      ),
+                ),
+                Icon(
+                  _isExpanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                  color: _isExpanded ? Colors.white : Colors.black,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
-      children: subOptions.map((option) {
+      // Customize the background color based on the expanded state
+
+      children: widget.subOptions.map((option) {
         return Padding(
           padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
           child: ListTile(
@@ -347,6 +383,30 @@ class DonationMenu extends StatelessWidget {
                     ),
                   );
                   break;
+                    case 'Call US':
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CallUs(),
+                    ),
+                  );
+                  break;
+                    case 'Working Hours':
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const WorkingHour(),
+                    ),
+                  );
+                  break;
+                      case 'Branches':
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MealDonation(),
+                    ),
+                  );
+                  break;
                 case 'Orphan Support':
                   Navigator.push(
                     context,
@@ -391,7 +451,7 @@ class DonationMenu extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>  NeedCategory(),
+                      builder: (context) => NeedCategory(),
                     ),
                   );
                   break;

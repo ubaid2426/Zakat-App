@@ -1,5 +1,6 @@
-// setting.dart
+// settings.dart
 import 'package:flutter/material.dart';
+import 'package:zakat_app/Screens/Profile/Screens/Settings/currency_converter.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -21,17 +22,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         title: const Text('Settings'),
         flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFF33A248), // First color (#33A248)
-                  Color(0xFFB2EA50), // Second color (#B2EA50)
-                ],
-                begin: Alignment.topRight,
-                end: Alignment.topLeft,
-              ),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF33A248), // First color (#33A248)
+                Color(0xFFB2EA50), // Second color (#B2EA50)
+              ],
+              begin: Alignment.topRight,
+              end: Alignment.topLeft,
             ),
           ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -60,7 +61,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
             // Notifications Switch
             SwitchListTile(
-                activeColor: Color(0xFF7fc23a),
+              activeColor: Color(0xFF7fc23a),
               title: const Text('Enable Notifications'),
               value: _notificationsEnabled,
               onChanged: (bool value) {
@@ -94,6 +95,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             const SizedBox(height: 30),
 
+            // Currency Converter Button
+            const Text(
+              'Currency Converter',
+              style: TextStyle(fontSize: 16),
+            ),
+            ListTile(
+              leading: const Icon(Icons.monetization_on, color: Color(0xFF7fc23a)),
+              title: const Text('Open Currency Converter'),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                // Navigate to currency converter screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CurrencyConverterScreen()),
+                );
+              },
+            ),
+            const SizedBox(height: 30),
+
             // Save Button
             Center(
               child: ElevatedButton(
@@ -116,3 +136,5 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 }
+
+

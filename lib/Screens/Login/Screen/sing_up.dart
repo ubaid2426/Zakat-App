@@ -29,56 +29,58 @@ class _SignupState extends State<Signup> {
 
     return
         // Scaffold(
-        SingleChildScrollView(
-      child: Stack(
-        children: [
-          // Background and ClipPaths
-          ClipPath(
-            clipper: MyClipper(),
-            child: Container(
-              height: screenHeight * 0.4, // 40% of the screen height
-              width: double.infinity,
-              color: MyColors().maincolor.withOpacity(0.7),
-            ),
-          ),
-          ClipPath(
-            clipper: MyClipper(),
-            child: Container(
-              height: screenHeight * 0.3, // 30% of the screen height
-              width: double.infinity,
-              color: MyColors().maincolor,
-            ),
-          ),
-          Container(
-            height: screenHeight,
-            width: screenWidth,
-            child: Padding(
-              padding: EdgeInsets.only(
-                top: 200, // 7% from the top
-                left: screenWidth * 0.07, // 7% from the left
+        Material(
+          child: SingleChildScrollView(
+                child: Stack(
+          children: [
+            // Background and ClipPaths
+            ClipPath(
+              clipper: MyClipper(),
+              child: Container(
+                height: screenHeight * 0.4, // 40% of the screen height
+                width: double.infinity,
+                color: MyColors().maincolor.withOpacity(0.7),
               ),
-              child: Text(
-                'Welcome to \n ZadqaZakat',
-                style: TextStyle(
-                  fontSize: screenHeight * 0.04, // 4% of the screen height
-                  color: const Color.fromARGB(255, 4, 4, 4),
-                  fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.none,
+            ),
+            ClipPath(
+              clipper: MyClipper(),
+              child: Container(
+                height: screenHeight * 0.3, // 30% of the screen height
+                width: double.infinity,
+                color: MyColors().maincolor,
+              ),
+            ),
+            Container(
+              height: screenHeight,
+              width: screenWidth,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: 200, // 7% from the top
+                  left: screenWidth * 0.07, // 7% from the left
                 ),
-                textAlign: TextAlign.center,
+                child: Text(
+                  'Welcome to \n ZadqaZakat',
+                  style: TextStyle(
+                    fontSize: screenHeight * 0.04, // 4% of the screen height
+                    color: const Color.fromARGB(255, 4, 4, 4),
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.none,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
-          ),
-          // Signup Form positioned on top of the stack
-          Positioned(
-            top: 100,
-            right: 0,
-            child: _buildSignupForm(context),
-          ),
-        ],
-      ),
-      // ),
-    );
+            // Signup Form positioned on top of the stack
+            Positioned(
+              top: 100,
+              right: 0,
+              child: _buildSignupForm(context),
+            ),
+          ],
+                ),
+                // ),
+              ),
+        );
   }
 
   Widget _buildSignupForm(BuildContext context) {

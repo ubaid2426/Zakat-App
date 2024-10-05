@@ -169,37 +169,37 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (context, animation1, animation2) =>
-                              const Signup(),
-                          transitionDuration: Duration.zero,
-                        ),
-                      );
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      decoration: BoxDecoration(
-                        color: primaryColor,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(15)),
-                        border: Border.all(color: primaryColor),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "Sing In Now",
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       PageRouteBuilder(
+                  //         pageBuilder: (context, animation1, animation2) =>
+                  //             const Signup(),
+                  //         transitionDuration: Duration.zero,
+                  //       ),
+                  //     );
+                  //   },
+                  //   child: Container(
+                  //     padding: const EdgeInsets.symmetric(vertical: 15),
+                  //     decoration: BoxDecoration(
+                  //       color: primaryColor,
+                  //       borderRadius:
+                  //           const BorderRadius.all(Radius.circular(15)),
+                  //       border: Border.all(color: primaryColor),
+                  //     ),
+                  //     child: const Center(
+                  //       child: Text(
+                  //         "Sing In Now",
+                  //         style: TextStyle(
+                  //           fontSize: 15,
+                  //           color: Colors.white,
+                  //           fontWeight: FontWeight.bold,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

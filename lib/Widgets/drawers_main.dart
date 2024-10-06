@@ -1,37 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zakat_app/Screens/AboutUs/about_us.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/all_category.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/clothes.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/daig_donation.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/food_relief.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/individual_donation.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/individual_donation.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/marriage_support.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/masjid_const.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/masjid_maintenance.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/meal_donation.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/medical_bed.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/orphan_support.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/other.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/portable_house.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/request_donation.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/small_business.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/tree_donation.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/water_cooler.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/wheel_chair.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/widow_family.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/clothes.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/daig_donation.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/food_relief.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/marriage_support.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/masjid_const.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/masjid_maintenance.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/meal_donation.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/medical_bed.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/orphan_support.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/other.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/portable_house.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/small_business.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/tree_donation.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/water_cooler.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/wheel_chair.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/widow_family.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/all_category.dart';
 import 'package:zakat_app/Screens/All_Category/all_category.dart';
+import 'package:zakat_app/Screens/ContactUs/Screens/Branches.dart';
 import 'package:zakat_app/Screens/ContactUs/Screens/call_us.dart';
 import 'package:zakat_app/Screens/ContactUs/Screens/work_hour.dart';
-import 'package:zakat_app/Screens/ContactUs/contact_us.dart';
+// import 'package:zakat_app/Screens/ContactUs/contact_us.dart';
 import 'package:zakat_app/Screens/Gallery/gallery.dart';
 import 'package:zakat_app/Screens/Home/home_main.dart';
 import 'package:zakat_app/Screens/Login/Screen/sing_up.dart';
 import 'package:zakat_app/Screens/Need%20Support/need_support.dart';
 import 'package:zakat_app/Screens/Volunteer/volunteer.dart';
 import 'package:zakat_app/Screens/What_We_DO/what_we_do.dart';
-import 'package:zakat_app/components/navigation.dart';
+// import 'package:zakat_app/components/navigation.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key});
@@ -403,7 +401,7 @@ class _DonationMenuState extends State<DonationMenu> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const MealDonation(),
+                      builder: (context) => const Branches(),
                     ),
                   );
                   break;
@@ -443,7 +441,7 @@ class _DonationMenuState extends State<DonationMenu> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => IndividualDonation(),
+                      builder: (context) =>const AllCategoryIndividual(),
                     ),
                   );
                   break;
@@ -451,7 +449,7 @@ class _DonationMenuState extends State<DonationMenu> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => NeedCategory(),
+                      builder: (context) =>const NeedCategory(),
                     ),
                   );
                   break;

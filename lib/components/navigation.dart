@@ -1,6 +1,8 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:zakat_app/Screens/All_Category/Group/all_category.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/all_category.dart';
 import 'package:zakat_app/Screens/All_Category/all_category.dart';
 import 'package:zakat_app/Screens/Home/home_main.dart';
 // import 'package:zakat_app/Screens/Login/Screen/login_page.dart';
@@ -86,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  const AllCategory()), // Navigate to the screen
+                                  const AllCategoryGroup()), // Navigate to the screen
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -99,8 +101,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                          Navigator.pop(context);
-                        Navigator.of(context).pop();
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const AllCategoryIndividual()), // Navigate to the screen
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey,

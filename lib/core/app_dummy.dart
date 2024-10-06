@@ -1,24 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/clothes.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/daig_donation.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/food_relief.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/marriage_support.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/masjid_const.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/masjid_maintenance.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/meal_donation.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/medical_bed.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/orphan_support.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/portable_house.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/water_cooler.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/wheel_chair.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/widow_family.dart';
-// import 'package:zakat_app/Screens/All_Category/all_category.dart';
 import 'package:zakat_app/model/all_category.dart';
-// import 'package:zakat_app/core/app_icons.dart';
 import 'package:zakat_app/model/buttom-nevigation-item.dart';
 import 'package:zakat_app/model/doantion_model.dart';
-// import 'package:zakat_app/model/donate_model.dart';
 
 List<BottomNavigationItem> bottomNavigationItems = [
   BottomNavigationItem(

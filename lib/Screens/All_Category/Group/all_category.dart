@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/clothes.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/daig_donation.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/food_relief.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/marriage_support.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/masjid_const.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/masjid_maintenance.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/meal_donation.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/medical_bed.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/orphan_support.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/other.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/portable_house.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/small_business.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/tree_donation.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/water_cooler.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/wheel_chair.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/widow_family.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/clothes.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/daig_donation.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/food_relief.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/marriage_support.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/masjid_const.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/masjid_maintenance.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/meal_donation.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/medical_bed.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/orphan_support.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/other.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/portable_house.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/small_business.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/tree_donation.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/water_cooler.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/wheel_chair.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/widow_family.dart';
 import 'package:zakat_app/core/app_dummy.dart';
 import 'package:zakat_app/model/all_category.dart';
 
-class AllCategory extends StatelessWidget {
-  const AllCategory({super.key});
+class AllCategoryGroup extends StatelessWidget {
+  const AllCategoryGroup({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -75,9 +75,9 @@ class AllCategory extends StatelessWidget {
             icon: const Icon(Icons.arrow_back),
           ),
         ),
-        body:const SizedBox(
+        body: const SizedBox(
           height: 800,
-          child:  Category(),
+          child: Category(),
         ),
       ),
     );
@@ -166,7 +166,7 @@ class Category extends StatelessWidget {
               return Show1(
                 category: category,
                 onSelectCategory: () {
-                     print("Navigating to: ${category.route}");
+                  print("Navigating to: ${category.route}");
                   final selectedCategory = availableCategories
                       .firstWhere((element) => element.id == category.id);
                   Navigator.pushNamed(context, selectedCategory.route);

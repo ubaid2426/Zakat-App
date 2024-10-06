@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zakat_app/components/navigation.dart';
+// import 'package:zakat_app/components/navigation.dart';
 
 void main() {
   runApp(const AboutUs());

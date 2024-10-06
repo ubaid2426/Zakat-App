@@ -2,11 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:video_player/video_player.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/clothes.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/masjid_maintenance.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/portable_house.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/clothes.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/daig_donation.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/food_relief.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/marriage_support.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/masjid_maintenance.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/meal_donation.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/medical_bed.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/orphan_support.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/other.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/portable_house.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/tree_donation.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/water_cooler.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/wheel_chair.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/widow_family.dart';
+// import 'package:zakat_app/Screens/All_Category/Screen/clothes.dart';
+// import 'package:zakat_app/Screens/All_Category/Screen/masjid_maintenance.dart';
+// import 'package:zakat_app/Screens/All_Category/Screen/portable_house.dart';
 // import 'package:zakat_app/Screens/All_Category/Screen/individual_donation.dart';
-import 'package:zakat_app/Screens/All_Category/Screen/request_donation.dart';
+// import 'package:zakat_app/Screens/All_Category/Screen/request_donation.dart';
 import 'package:zakat_app/Screens/All_Category/all_category.dart';
 // import 'package:zakat_app/Screens/All_Category/Screen/all_category.dart';
 import 'package:zakat_app/Screens/Calculator/Calculator.dart';
@@ -25,7 +39,7 @@ import 'package:zakat_app/components/help_child.dart';
 import 'package:zakat_app/components/homeScreen_carousel.dart';
 // import 'package:zakat_app/components/navigation.dart';
 import 'package:zakat_app/components/upcoming_project.dart';
-import 'package:zakat_app/controller/fade_animation.dart';
+// import 'package:zakat_app/controller/fade_animation.dart';
 import 'package:zakat_app/core/app_dummy.dart';
 import 'package:zakat_app/model/doantion_model.dart';
 
@@ -1065,18 +1079,18 @@ class _PerCategoryState extends State<PerCategory> {
         padding: const EdgeInsets.all(30.0),
         child: Center(
           child: Container(
-             decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: const Offset(0, 3),
-              ),
-            ],
-          ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
             width: MediaQuery.of(context).size.width * 0.7, // Adjust width
             height: 600,
             child: Column(
@@ -1287,36 +1301,52 @@ class FinalCard extends StatelessWidget {
               navigate: const MasjidMaintenance(),
             ),
             LeftToRight(
+              projects: notFinishedMarriagesupport,
+              navigate: const MarriageSupport(),
+            ),
+            LeftToRight(
+              projects: notFinishedFloodrelief,
+              navigate: const FloodRelief(),
+            ),
+            LeftToRight(
+              projects: notFinishedWidowfamily,
+              navigate: const WidowFamily(),
+            ),
+            LeftToRight(
+              projects: notFinishedMedicalbed,
+              navigate: const MedicalBed(),
+            ),
+            LeftToRight(
+              projects: notFinishedWheelchair,
+              navigate: const WheelChair(),
+            ),
+            LeftToRight(
+              projects: notFinishedTreedonation,
+              navigate: const TreeDonation(),
+            ),
+            LeftToRight(
+              projects: notFinishedDaigdonation,
+              navigate: const DaigDonation(),
+            ),
+            LeftToRight(
+              projects: notFinishedmealdonation,
+              navigate: const MealDonation(),
+            ),
+              LeftToRight(
+              projects: notFinishedOrphansupport,
+              navigate: const OrphanSupport(),
+            ),
+              LeftToRight(
+              projects: notFinishedWaterCooler,
+              navigate: const WaterCooler(),
+            ),
+              LeftToRight(
               projects: notFinishedPortableHouse,
               navigate: const PortableHouse(),
             ),
-            LeftToRight(
-              projects: notFinishedPortableHouse,
-              navigate: const PortableHouse(),
-            ),
-            LeftToRight(
-              projects: notFinishedPortableHouse,
-              navigate: const PortableHouse(),
-            ),
-            LeftToRight(
-              projects: notFinishedPortableHouse,
-              navigate: const PortableHouse(),
-            ),
-            LeftToRight(
-              projects: notFinishedPortableHouse,
-              navigate: const PortableHouse(),
-            ),
-            LeftToRight(
-              projects: notFinishedPortableHouse,
-              navigate: const PortableHouse(),
-            ),
-            LeftToRight(
-              projects: notFinishedPortableHouse,
-              navigate: const PortableHouse(),
-            ),
-            LeftToRight(
-              projects: notFinishedPortableHouse,
-              navigate: const PortableHouse(),
+               LeftToRight(
+              projects: notFinishedOther,
+              navigate: const Other(),
             ),
           ],
         ),

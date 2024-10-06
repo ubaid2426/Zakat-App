@@ -88,7 +88,12 @@ class _BranchScreenState extends State<BranchScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
+        //      leading: IconButton(
+        //   onPressed: () => Navigator.pop(context),
+        //   icon: const Icon(Icons.arrow_back),
+        // ),
         title: const Text("Kuwait Branches"),
         backgroundColor: Colors.green,
         bottom: TabBar(
@@ -96,8 +101,8 @@ class _BranchScreenState extends State<BranchScreen>
           indicatorColor: Colors.white,
           tabs: const [
             Tab(text: "The Headquarter (Hawally)"),
-            Tab(text: "Al-Rawdah"),
-            Tab(text: "Khaitan"),
+            Tab(text: "Kawait"),
+            Tab(text: "Pakistan"),
           ],
         ),
       ),
@@ -112,10 +117,10 @@ class _BranchScreenState extends State<BranchScreen>
           buildBranchDetails(
             "Al-Rawdah Address, Kuwait",
             "00965 1234 5678",
-            "Al-Rawdah Location",
+            " Location",
           ),
           buildBranchDetails(
-            "Khaitan Address, Kuwait",
+            "Lahore Address, Pakistan",
             "00965 8765 4321",
             "Khaitan Location",
           ),

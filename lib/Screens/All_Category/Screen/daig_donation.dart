@@ -14,12 +14,12 @@ class DaigDonation extends StatefulWidget {
 
 class _DaigDonationState extends State<DaigDonation> {
   String selectedSort = 'Not finished projects first';
-  late List<DoantionModel> sortedClothes;
+  late List<DoantionModel> sortedDaig;
 
   @override
   void initState() {
     super.initState();
-    sortedClothes = List.from(clothes);
+    sortedDaig = List.from(clothes);
     _sortList(selectedSort);
   }
 
@@ -88,12 +88,12 @@ class _DaigDonationState extends State<DaigDonation> {
           child: Column(
             children: [
               // Pass the sorted list to LeftToRight to display it in the home page card
-              if (sortedClothes.isNotEmpty)
+              if (sortedDaig.isNotEmpty)
                 // LeftToRight(projects: sortedClothes), // This displays the projects horizontally
 
-              if (sortedClothes.isNotEmpty)
+              if (sortedDaig.isNotEmpty)
                 Column(
-                  children: sortedClothes.map((donation) {
+                  children: sortedDaig.map((donation) {
                     return Data(
                       imageUrl: donation.imageUrl,
                       title: donation.title,
@@ -127,32 +127,32 @@ class _DaigDonationState extends State<DaigDonation> {
     setState(() {
       switch (sortOption) {
         case 'finished projects':
-          sortedClothes = clothes.where((project) {
+          sortedDaig = clothes.where((project) {
             return project.paidvlaue >= project.projectvalue;
           }).toList();
           break;
 
         case 'Not finished projects first':
-          sortedClothes = clothes.where((project) {
+          sortedDaig = clothes.where((project) {
             return project.paidvlaue < project.projectvalue;
           }).toList();
           break;
 
         case 'Oldest Items First':
-          sortedClothes.sort((a, b) => a.date.compareTo(b.date));
+         sortedDaig.sort((a, b) => a.date.compareTo(b.date));
           break;
 
         case 'Newest Items First':
-          sortedClothes.sort((a, b) => b.date.compareTo(a.date));
+          sortedDaig.sort((a, b) => b.date.compareTo(a.date));
           break;
 
         case 'Sort by Remaining Value: Low to High':
-          sortedClothes.sort((a, b) => (a.projectvalue - a.paidvlaue)
+          sortedDaig.sort((a, b) => (a.projectvalue - a.paidvlaue)
               .compareTo(b.projectvalue - b.paidvlaue));
           break;
 
         case 'Sort by Remaining Value: High to Low':
-          sortedClothes.sort((a, b) => (b.projectvalue - b.paidvlaue)
+         sortedDaig.sort((a, b) => (b.projectvalue - b.paidvlaue)
               .compareTo(a.projectvalue - a.paidvlaue));
           break;
 

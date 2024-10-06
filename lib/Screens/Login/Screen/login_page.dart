@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zakat_app/Screens/Home/home_main.dart';
 // import 'package:get/get.dart';
 import 'package:zakat_app/Screens/Login/Screen/sing_up.dart';
 // import 'package:zakat_app/Screens/Login/Screen/sing_up.dart';
@@ -8,6 +9,8 @@ import 'package:zakat_app/Screens/Login/auth/widgets/password_field.dart';
 import 'package:zakat_app/Screens/Login/components/clipper.dart';
 import 'package:zakat_app/Screens/Login/components/colors.dart';
 import 'package:zakat_app/Screens/Login/components/const.dart';
+import 'package:zakat_app/components/homeScreen_carousel.dart';
+import 'package:zakat_app/components/navigation.dart';
 // import 'package:zakat_app/Screens/Login/components/const.dart';
 
 class LoginPage extends StatefulWidget {
@@ -29,11 +32,25 @@ class _LoginPageState extends State<LoginPage> {
     double _height = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      // appBar: AppBar(
+      //   title: Text(
+      //     "Login",
+      //     style: TextStyle(fontSize: 25),
+      //   ),
+      // ),
       body: SizedBox(
         width: _width,
         height: _height,
         child: Stack(
           children: [
+            SizedBox(height: 400, width: 200,),
+
+            // AppBar(
+            //  IconButton(
+            //     onPressed: () => Navigator.pop(context),
+            //     icon: const Icon(Icons.arrow_back, color: Color.fromARGB(255, 255, 7, 7),),
+            //   ),
+            // ),
             ClipPath(
               clipper: MyClipper(),
               child: Container(
@@ -169,37 +186,35 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     Navigator.push(
-                  //       context,
-                  //       PageRouteBuilder(
-                  //         pageBuilder: (context, animation1, animation2) =>
-                  //             const Signup(),
-                  //         transitionDuration: Duration.zero,
-                  //       ),
-                  //     );
-                  //   },
-                  //   child: Container(
-                  //     padding: const EdgeInsets.symmetric(vertical: 15),
-                  //     decoration: BoxDecoration(
-                  //       color: primaryColor,
-                  //       borderRadius:
-                  //           const BorderRadius.all(Radius.circular(15)),
-                  //       border: Border.all(color: primaryColor),
-                  //     ),
-                  //     child: const Center(
-                  //       child: Text(
-                  //         "Sing In Now",
-                  //         style: TextStyle(
-                  //           fontSize: 15,
-                  //           color: Colors.white,
-                  //           fontWeight: FontWeight.bold,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Navigation(),
+                    ),
+                  );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(15)),
+                        border: Border.all(color: primaryColor),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          "Home Page",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

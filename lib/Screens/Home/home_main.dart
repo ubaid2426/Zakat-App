@@ -1065,6 +1065,18 @@ class _PerCategoryState extends State<PerCategory> {
         padding: const EdgeInsets.all(30.0),
         child: Center(
           child: Container(
+             decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
             width: MediaQuery.of(context).size.width * 0.7, // Adjust width
             height: 600,
             child: Column(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zakat_app/Screens/Home/home_main.dart';
+// import 'package:zakat_app/Screens/Home/home_main.dart';
 // import 'package:get/get.dart';
 import 'package:zakat_app/Screens/Login/Screen/sing_up.dart';
 // import 'package:zakat_app/Screens/Login/Screen/sing_up.dart';
@@ -9,7 +9,7 @@ import 'package:zakat_app/Screens/Login/auth/widgets/password_field.dart';
 import 'package:zakat_app/Screens/Login/components/clipper.dart';
 import 'package:zakat_app/Screens/Login/components/colors.dart';
 import 'package:zakat_app/Screens/Login/components/const.dart';
-import 'package:zakat_app/components/homeScreen_carousel.dart';
+// import 'package:zakat_app/components/homeScreen_carousel.dart';
 import 'package:zakat_app/components/navigation.dart';
 // import 'package:zakat_app/Screens/Login/components/const.dart';
 

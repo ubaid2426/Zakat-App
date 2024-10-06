@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zakat_app/Screens/All_Category/Group/all_category.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/all_category.dart';
-import 'package:zakat_app/Screens/All_Category/all_category.dart';
+// import 'package:zakat_app/Screens/All_Category/all_category.dart';
 import 'package:zakat_app/Screens/Home/home_main.dart';
 // import 'package:zakat_app/Screens/Login/Screen/login_page.dart';
 import 'package:zakat_app/Screens/Message/message.dart';

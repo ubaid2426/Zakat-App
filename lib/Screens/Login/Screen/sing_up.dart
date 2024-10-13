@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-// import 'package:get/get.dart';
 import 'package:zakat_app/Screens/Login/Screen/login_page.dart';
-// import 'package:zakat_app/Screens/Login/auth/screens/login.dart';
 import 'package:zakat_app/Screens/Login/components/colors.dart';
 import 'package:zakat_app/Screens/Login/components/clipper.dart';
 
@@ -19,7 +17,6 @@ class _SignupState extends State<Signup> {
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-  TextEditingController address = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

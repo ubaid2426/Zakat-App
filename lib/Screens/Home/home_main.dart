@@ -16,12 +16,13 @@ import 'package:zakat_app/Screens/All_Category/Group/Screen/tree_donation.dart';
 import 'package:zakat_app/Screens/All_Category/Group/Screen/water_cooler.dart';
 import 'package:zakat_app/Screens/All_Category/Group/Screen/wheel_chair.dart';
 import 'package:zakat_app/Screens/All_Category/Group/Screen/widow_family.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/all_category.dart';
 // import 'package:zakat_app/Screens/All_Category/Screen/clothes.dart';
 // import 'package:zakat_app/Screens/All_Category/Screen/masjid_maintenance.dart';
 // import 'package:zakat_app/Screens/All_Category/Screen/portable_house.dart';
 // import 'package:zakat_app/Screens/All_Category/Screen/individual_donation.dart';
 // import 'package:zakat_app/Screens/All_Category/Screen/request_donation.dart';
-import 'package:zakat_app/Screens/All_Category/all_category.dart';
+// import 'package:zakat_app/Screens/All_Category/all_category.dart';
 // import 'package:zakat_app/Screens/All_Category/Screen/all_category.dart';
 import 'package:zakat_app/Screens/Calculator/Calculator.dart';
 import 'package:zakat_app/Screens/History/history_main.dart';
@@ -368,10 +369,10 @@ class UpComingProjects extends StatelessWidget {
         // home: Scaffold(
         home: SafeArea(
           child: InkWell(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const AllCategory()));
-            },
+            // onTap: () {
+            //   Navigator.push(context,
+            //       MaterialPageRoute(builder: (context) => const AllCategory()));
+            // },
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: SizedBox(

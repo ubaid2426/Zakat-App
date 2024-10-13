@@ -18,7 +18,7 @@ import 'package:zakat_app/Screens/All_Category/Group/Screen/water_cooler.dart';
 import 'package:zakat_app/Screens/All_Category/Group/Screen/wheel_chair.dart';
 import 'package:zakat_app/Screens/All_Category/Group/Screen/widow_family.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/all_category.dart';
-import 'package:zakat_app/Screens/All_Category/all_category.dart';
+// import 'package:zakat_app/Screens/All_Category/all_category.dart';
 import 'package:zakat_app/Screens/ContactUs/Screens/Branches.dart';
 import 'package:zakat_app/Screens/ContactUs/Screens/call_us.dart';
 import 'package:zakat_app/Screens/ContactUs/Screens/work_hour.dart';
@@ -107,11 +107,11 @@ class MainDrawer extends StatelessWidget {
                   ],
                   fontawesome: FontAwesomeIcons.donate,
                 ),
-                const ManyOption(
-                  menuTitle: "All Inquiries",
-                  fontawesome: FontAwesomeIcons.envelope,
-                  navigateTo: AllCategory(),
-                ),
+                // const ManyOption(
+                //   menuTitle: "All Inquiries",
+                //   fontawesome: FontAwesomeIcons.envelope,
+                //   navigateTo: AllCategory(),
+                // ),
                 const ManyOption(
                   menuTitle: "What We Do",
                   fontawesome: FontAwesomeIcons.briefcase,

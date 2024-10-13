@@ -6,14 +6,12 @@ class WorkingHour extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: Text('Working Hours'),
+        title: const Text('Working Hours'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -25,7 +23,7 @@ class WorkingHour extends StatelessWidget {
         itemBuilder: (context, index) {
           final workingHours = workingHoursData[index];
           return Card(
-            margin: EdgeInsets.symmetric(vertical: 10),
+            margin: const EdgeInsets.symmetric(vertical: 10),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -36,22 +34,22 @@ class WorkingHour extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    workingHours['title']!,
-                    style: TextStyle(
+                    workingHours.title,
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Colors.green,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
-                    workingHours['days']!,
-                    style: TextStyle(fontSize: 14),
+                    workingHours.days,
+                    style: const TextStyle(fontSize: 14),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Text(
-                    workingHours['friday']!,
-                    style: TextStyle(fontSize: 14),
+                    workingHours.friday,
+                    style: const TextStyle(fontSize: 14),
                   ),
                 ],
               ),
@@ -63,4 +61,4 @@ class WorkingHour extends StatelessWidget {
   }
 }
 
-void main() => runApp(MaterialApp(home: WorkingHour()));
+void main() => runApp(const MaterialApp(home: WorkingHour()));

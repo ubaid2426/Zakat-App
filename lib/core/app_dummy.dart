@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zakat_app/model/all_category.dart';
 import 'package:zakat_app/model/buttom-nevigation-item.dart';
 import 'package:zakat_app/model/doantion_model.dart';
+import 'package:zakat_app/model/working_model.dart';
 
 List<BottomNavigationItem> bottomNavigationItems = [
   BottomNavigationItem(
@@ -189,13 +190,12 @@ final List<DoantionModel> portablehouse  = [
 final List<DoantionModel> masjidmaintenance = [
   DoantionModel(
     id: '1',
-    title: 'Support Needed for Masjid Maintenance',
     imageUrl: 'Assests/images/DetailCategory/masjidod.png',
     description: 'Our local masjid is in need of maintenance and repairs to ensure a safe and welcoming environment for all worshippers.',
     projectvalue: 10000,
     paidvlaue: 0,
      date: DateTime(2023, 9, 1),
-        position: 1,
+        position: 1, title: 'masjid Maintenance',
   ),
 ];
 
@@ -251,10 +251,20 @@ final List<DoantionModel> clothes = [
     projectvalue: 10000,
     paidvlaue: 0,
      date: DateTime(2024, 9, 1),
+        position: 4,
+  ),
+    DoantionModel(
+    id: '2',
+    title: 'Winter Clothes Needed for Families in Need',
+    imageUrl: 'Assests/images/DetailCategory/flood.png',
+    description: 'As winter approaches, many families in our community lack the necessary warm clothing to stay comfortable and healthy.',
+    projectvalue: 10000,
+    paidvlaue: 0,
+     date: DateTime(2024, 9, 1),
         position: 3,
   ),
    DoantionModel(
-    id: '2',
+    id: '3',
     title: 'Summer Clothes Needed for Families in Need',
     imageUrl: 'Assests/images/AllCategory/wheelchair.png',
     description: 'As Summer approaches, many families in our community lack the necessary warm clothing to stay comfortable and healthy.',
@@ -264,7 +274,7 @@ final List<DoantionModel> clothes = [
         position: 2,
   ),
    DoantionModel(
-    id: '3',
+    id: '4',
     title: 'Checking Clothes Needed for Families in Need',
     imageUrl: 'Assests/images/AllCategory/medicalbed.png',
     description: 'As Checking approaches, many families in our community lack the necessary warm clothing to stay comfortable and healthy.',
@@ -404,26 +414,25 @@ final List<DoantionModel> other= [
 
 
 
-
-    final List<Map<String, String>> workingHoursData = [
-      {
-        'title': 'Head Office (Hawalli), And our branches in Al-Rawdah and Khaitan Al-Jahra and Al-Fahaheel',
-        'days': 'Saturday to Thursday: \n 8:00 am to 8:00 pm',
-        'friday': 'Friday: Holiday',
-      },
-      {
-        'title': 'Sha’aban Working Hours',
-        'days': 'Saturday to Thursday: \n 8:00 am to 9:00 pm',
-        'friday': 'Friday: 1:00 pm to 9:00 pm',
-      },
-      {
-        'title': 'Ramadan Working Hours',
-        'days': 'Saturday to Thursday: \n 10:00 am to 5:30 pm and 9:00 pm to 12:00 am',
-        'friday': 'Friday: 1:00 pm to 5:30 pm and 9:00 pm to 12:00 am',
-      },
-      {
-        'title': 'Hajj & Adahi Working Hours',
-        'days': 'Saturday to Thursday: \n 8:00 am to 9:30 pm',
-        'friday': 'Friday: 1:00 pm to 9:30 pm',
-      },
-    ];
+    final List<WorkingHoursModel> workingHoursData = [
+  const WorkingHoursModel(
+    title: 'Head Office (Hawalli), And our branches in Al-Rawdah and Khaitan Al-Jahra and Al-Fahaheel',
+    days: 'Saturday to Thursday: \n 8:00 am to 8:00 pm',
+    friday: 'Friday: Holiday',
+  ),
+  const WorkingHoursModel(
+    title: 'Sha’aban Working Hours',
+    days: 'Saturday to Thursday: \n 8:00 am to 9:00 pm',
+    friday: 'Friday: 1:00 pm to 9:00 pm',
+  ),
+  const WorkingHoursModel(
+    title: 'Ramadan Working Hours',
+    days: 'Saturday to Thursday: \n 10:00 am to 5:30 pm and 9:00 pm to 12:00 am',
+    friday: 'Friday: 1:00 pm to 5:30 pm and 9:00 pm to 12:00 am',
+  ),
+  const WorkingHoursModel(
+    title: 'Hajj & Adahi Working Hours',
+    days: 'Saturday to Thursday: \n 8:00 am to 9:30 pm',
+    friday: 'Friday: 1:00 pm to 9:30 pm',
+  ),
+];

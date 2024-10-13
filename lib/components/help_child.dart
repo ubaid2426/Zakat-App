@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:zakat_app/Screens/All_Category/all_category.dart';
+// import 'package:zakat_app/Screens/All_Category/all_category.dart';
 // import 'package:zakat_app/Screens/All_Category/Screen/all_category.dart';
 import 'package:zakat_app/components/Help.dart';
 // import 'package:zakat_app/components/upcoming_project.dart';
@@ -17,7 +17,7 @@ class HelpChild extends StatelessWidget {
         home: SafeArea(
           child: InkWell(
             onTap: () {
-             Navigator.push(context, MaterialPageRoute(builder: (context) => AllCategory()));
+            //  Navigator.push(context, MaterialPageRoute(builder: (context) => AllCategory()));
             },
             child: Padding(
               padding: const EdgeInsets.all(20),

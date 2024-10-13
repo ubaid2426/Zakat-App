@@ -205,7 +205,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       child: const Center(
                         child: Text(
-                          "Home Page",
+                          "Go To Home Page",
                           style: TextStyle(
                             fontSize: 15,
                             color: Colors.white,

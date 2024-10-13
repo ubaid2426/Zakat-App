@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zakat_app/Screens/All_Category/all_category.dart';
+// import 'package:zakat_app/Screens/All_Category/all_category.dart';
 // import 'package:zakat_app/Screens/All_Category/Screen/all_category.dart';
 import 'package:zakat_app/controller/fade_animation.dart';
 
@@ -146,7 +146,7 @@ class H1Main extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         // Navigate to the donation page
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => AllCategory()));
+                        // Navigator.push(context, MaterialPageRoute(builder: (context) => AllCategory()));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF29C77B), // Button color

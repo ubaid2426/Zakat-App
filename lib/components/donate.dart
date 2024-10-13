@@ -13,7 +13,7 @@ class Data extends StatefulWidget {
   final String description;
   final double projectvalue;
   final double paidvlaue;
-
+  // final VoidCallback onComplete;
   const Data({
     super.key,
     required this.imageUrl,
@@ -21,6 +21,7 @@ class Data extends StatefulWidget {
     required this.description,
     required this.projectvalue,
     required this.paidvlaue,
+    // required this.onComplete,
   });
 
   @override
@@ -122,15 +123,16 @@ class _DataState extends State<Data> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          buildProjectInfo('Rs ${widget.projectvalue.toInt()}', 'Project value'),
+          buildProjectInfo(
+              'Rs ${widget.projectvalue.toInt()}', 'Project value'),
           buildProjectInfo('${widget.paidvlaue.toInt()}', 'Paid'),
           buildProjectInfo(
-              'Rs ${(widget.projectvalue - widget.paidvlaue).toInt()}', 'Remaining'),
+              'Rs ${(widget.projectvalue - widget.paidvlaue).toInt()}',
+              'Remaining'),
         ],
       ),
     );
   }
-
 
   // Reusable project info widget
   Widget buildProjectInfo(String value, String label) {
@@ -169,9 +171,6 @@ class _DataState extends State<Data> {
       ),
     );
   }
-
-
-
 
   // Build the Zakat checkbox
   Widget buildZakatCheckBox() {

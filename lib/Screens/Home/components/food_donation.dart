@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:zakat_app/Screens/All_Category/all_category.dart';
+import 'package:zakat_app/Screens/All_Category/Group/all_category.dart';
+// import 'package:zakat_app/Screens/All_Category/all_category.dart';
 // import 'package:zakat_app/Screens/All_Category/Screen/all_category.dart';
 
 class FoodDonation extends StatelessWidget {
@@ -35,7 +36,7 @@ class FoodDonation extends StatelessWidget {
               ),
               SizedBox(height: 50,),
               ElevatedButton(
-                onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => AllCategory()));},
+                onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => AllCategoryGroup()));},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF29C77B), // Button color
                   padding: const EdgeInsets.symmetric(

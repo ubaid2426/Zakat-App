@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+// import 'package:zakat_app/Screens/Home/home_main.dart';
 import 'package:zakat_app/components/donate.dart';
 import 'package:zakat_app/core/app_dummy.dart';
 import 'package:zakat_app/model/doantion_model.dart';
 
 class Clothes extends StatefulWidget {
+  // String prop =LeftToRight(projects: sortedClothes);
   const Clothes({super.key});
 
   @override
@@ -13,14 +15,12 @@ class Clothes extends StatefulWidget {
 class _ClothesState extends State<Clothes> {
   String selectedSort = 'Not finished projects first';
   late List<DoantionModel> sortedClothes;
-  int currentQueueIndex = 0; // Track which project to display
 
   @override
   void initState() {
     super.initState();
     sortedClothes = List.from(clothes);
     _sortList(selectedSort);
-    _autoShowNextProject(); // Automatically track and show the next project
   }
 
   @override
@@ -55,7 +55,7 @@ class _ClothesState extends State<Clothes> {
             itemBuilder: (BuildContext context) => [
               const PopupMenuItem(
                 value: 'finished projects',
-                child: Text('Finished projects'),
+                child: Text('finished projects'),
               ),
               const PopupMenuItem(
                 value: 'Not finished projects first',
@@ -87,14 +87,21 @@ class _ClothesState extends State<Clothes> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Display the first project in the queue
+              // Pass the sorted list to LeftToRight to display it in the home page card
               if (sortedClothes.isNotEmpty)
-                Data(
-                  imageUrl: sortedClothes[currentQueueIndex].imageUrl,
-                  title: sortedClothes[currentQueueIndex].title,
-                  description: sortedClothes[currentQueueIndex].description,
-                  projectvalue: sortedClothes[currentQueueIndex].projectvalue,
-                  paidvlaue: sortedClothes[currentQueueIndex].paidvlaue,
+                // LeftToRight(projects: sortedClothes), // This displays the projects horizontally
+
+              if (sortedClothes.isNotEmpty)
+                Column(
+                  children: sortedClothes.map((donation) {
+                    return Data(
+                      imageUrl: donation.imageUrl,
+                      title: donation.title,
+                      description: donation.description,
+                      projectvalue: donation.projectvalue,
+                      paidvlaue: donation.paidvlaue,
+                    );
+                  }).toList(),
                 )
               else
                 const Padding(
@@ -114,23 +121,6 @@ class _ClothesState extends State<Clothes> {
         ),
       ),
     );
-  }
-
-  // Automatically show the next project when the current one is complete
-  void _autoShowNextProject() {
-    if (currentQueueIndex < sortedClothes.length - 1) {
-      // Periodically check if the current project is complete
-      Future.delayed(const Duration(seconds: 2), () {
-        setState(() {
-          // If the current project is complete (paidvlaue >= projectvalue)
-          if (sortedClothes[currentQueueIndex].paidvlaue >=
-              sortedClothes[currentQueueIndex].projectvalue) {
-            currentQueueIndex++; // Move to the next project automatically
-          }
-        });
-        _autoShowNextProject(); // Continue checking for the next project
-      });
-    }
   }
 
   void _sortList(String sortOption) {
@@ -172,66 +162,3 @@ class _ClothesState extends State<Clothes> {
     });
   }
 }
-
-// // Assume the Data widget includes progress tracking
-// class Data extends StatelessWidget {
-//   final String imageUrl;
-//   final String title;
-//   final String description;
-//   final double projectvalue;
-//   final double paidvlaue;
-
-//   const Data({
-//     required this.imageUrl,
-//     required this.title,
-//     required this.description,
-//     required this.projectvalue,
-//     required this.paidvlaue,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // Check if the project is complete
-//     bool isComplete = paidvlaue >= projectvalue;
-
-//     return Card(
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Image.network(imageUrl),
-//           Padding(
-//             padding: const EdgeInsets.all(8.0),
-//             child: Text(
-//               title,
-//               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//             ),
-//           ),
-//           Padding(
-//             padding: const EdgeInsets.all(8.0),
-//             child: Text(description),
-//           ),
-//           Padding(
-//             padding: const EdgeInsets.all(8.0),
-//             child: LinearProgressIndicator(
-//               value: paidvlaue / projectvalue,
-//               backgroundColor: Colors.grey[200],
-//               color: Colors.green,
-//             ),
-//           ),
-//           Padding(
-//             padding: const EdgeInsets.all(8.0),
-//             child: Text(
-//               "Progress: ${paidvlaue.toStringAsFixed(2)} / ${projectvalue.toStringAsFixed(2)}",
-//               style: const TextStyle(fontSize: 16),
-//             ),
-//           ),
-//           if (isComplete)
-//             Padding(
-//               padding: const EdgeInsets.all(8.0),
-//               child: const Text('Project Complete!'),
-//             ),
-//         ],
-//       ),
-//     );
-//   }
-// }

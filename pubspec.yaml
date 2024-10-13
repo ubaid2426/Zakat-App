@@ -59,6 +59,8 @@ dependencies:
   auto_size_text: ^3.0.0
   circular_reveal_animation: ^2.0.1
   dropdown_button2: ^2.0.0
+  http: ^1.2.2
+  shared_preferences: ^2.0.6
   currency_converter: ^2.0.0
 dev_dependencies:
   flutter_test:

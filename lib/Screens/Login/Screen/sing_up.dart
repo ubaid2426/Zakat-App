@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:http/http.dart' as http;
+// import 'package:zakat_app/Screens/Login/Screen/activation_screen.dart';
 import 'package:zakat_app/Screens/Login/Screen/login_page.dart';
 import 'package:zakat_app/Screens/Login/components/colors.dart';
 import 'package:zakat_app/Screens/Login/components/clipper.dart';
@@ -17,18 +20,95 @@ class _SignupState extends State<Signup> {
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  TextEditingController conpassword = TextEditingController();
+
+  bool isLoading = false;
+  String message = '';
+Future<void> _registerUser(String name, String email, String password) async {
+  var url = Uri.parse('http://127.0.0.1:8000/api/auth/users/'); // Replace with your IP
+
+  // Construct the payload
+  Map<String, String> payload = {
+    'email': email,
+    'name': name,
+    'password': password,
+    're_password': password, // Ensure this matches the API requirements
+  };
+
+  try {
+    setState(() {
+      isLoading = true; // Show loader
+    });
+
+    var response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(payload),
+    );
+
+    setState(() {
+      isLoading = false; // Hide loader
+    });
+
+    if (response.statusCode == 201) {
+      // Registration successful
+      setState(() {
+        message = "User registered successfully! Check your email to activate your account.";
+      });
+
+      // Show an AlertDialog
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Success"),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                );
+              },
+              child: Text("OK"),
+            ),
+          ],
+        ),
+      );
+    } else {
+      // Handle errors
+      var responseBody = jsonDecode(response.body);
+      setState(() {
+        message = responseBody['email']?.join(', ') ??
+            responseBody['name']?.join(', ') ??
+            responseBody['password']?.join(', ') ??
+            "Registration failed!";
+      });
+      print("Response Body: ${response.body}"); // Debug response
+    }
+  } catch (e) {
+    setState(() {
+      isLoading = false;
+      message = "Error occurred: $e";
+    });
+    print("Error: $e"); // Debug error
+  }
+}
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
-    // Get screen height and width for responsive design
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return
-        // Scaffold(
-        Material(
-          child: SingleChildScrollView(
-                child: Stack(
+    return Material(
+      child: SingleChildScrollView(
+        child: Stack(
           children: [
             // Background and ClipPaths
             ClipPath(
@@ -74,14 +154,12 @@ class _SignupState extends State<Signup> {
               child: _buildSignupForm(context),
             ),
           ],
-                ),
-                // ),
-              ),
-        );
+        ),
+      ),
+    );
   }
 
   Widget _buildSignupForm(BuildContext context) {
-    // Get screen height and width for responsive design
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
@@ -119,11 +197,26 @@ class _SignupState extends State<Signup> {
                 _buildTextField("Full Name", name),
                 _buildTextField("Email", email),
                 _buildTextField("Password", password, isPassword: true),
-                // _buildTextField("Address", address),
+                _buildTextField("Confirm Password", conpassword, isPassword: true),
                 SizedBox(height: screenHeight * 0.04), // 4% vertical space
+
+                // Signup Button
                 InkWell(
                   onTap: () {
-                    // Handle signup logic here
+                    if (signup.currentState!.validate()) {
+                      if (password.text == conpassword.text) {
+                        // Register user
+                        _registerUser(
+                          name.text,
+                          email.text,
+                          password.text,
+                        );
+                      } else {
+                        setState(() {
+                          message = "Passwords do not match!";
+                        });
+                      }
+                    }
                   },
                   child: Container(
                     height: screenHeight * 0.07, // 7% of the screen height
@@ -132,20 +225,39 @@ class _SignupState extends State<Signup> {
                       borderRadius: BorderRadius.circular(30),
                       color: MyColors().maincolor,
                     ),
-                    child: const Center(
-                      child: Text(
-                        'SIGN UP',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          decoration: TextDecoration.none,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
+                    child: isLoading
+                        ? const Center(child: CircularProgressIndicator(color: Colors.white))
+                        : const Center(
+                            child: Text(
+                              'SIGN UP',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                decoration: TextDecoration.none,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
                   ),
                 ),
                 SizedBox(height: screenHeight * 0.03), // 3% vertical space
+
+                // Error or Success Message
+                message.isNotEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          message,
+                          style: TextStyle(
+                            color: message == "User registered successfully!"
+                                ? Colors.green
+                                : Colors.red,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                    : const SizedBox(),
+
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Column(
@@ -155,32 +267,28 @@ class _SignupState extends State<Signup> {
                       Text(
                         "Already have an account?",
                         style: TextStyle(
-                          fontSize:
-                              screenHeight * 0.02, // 2% of the screen height
+                          fontSize: screenHeight * 0.02, // 2% of screen height
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                           decoration: TextDecoration.none,
                         ),
                       ),
-                      SizedBox(
-                          height: screenHeight * 0.02), // 2% vertical space
+                      SizedBox(height: screenHeight * 0.02), // 2% vertical space
                       InkWell(
                         onTap: () {
+                          // Navigate to login
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    LoginPage()), // Navigate to the screen
+                                builder: (context) => const LoginPage()),
                           );
                         },
                         child: Text(
                           "Click here",
                           style: TextStyle(
-                            fontSize:
-                                screenHeight * 0.02, // 2% of screen height
+                            fontSize: screenHeight * 0.02, // 2% of screen height
                             color: MyColors().maincolor,
                             decoration: TextDecoration.none,
-                            // decoration: TextDecoration.underline,
                           ),
                         ),
                       ),
@@ -191,10 +299,10 @@ class _SignupState extends State<Signup> {
             ),
           ),
         ),
-      )
-          .animate()
-          .fade()
-          .slideY(begin: 1, duration: const Duration(milliseconds: 600)),
+      ).animate().fade().slideY(
+            begin: 1,
+            duration: const Duration(milliseconds: 600),
+          ),
     );
   }
 

@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:zakat_app/Screens/Login/Screen/reset_pass.dart';
 import 'package:zakat_app/Screens/Login/Screen/sing_up.dart';
 import 'package:zakat_app/Screens/Login/auth/widgets/email_field.dart';
 import 'package:zakat_app/Screens/Login/auth/widgets/password_field.dart';
@@ -27,66 +26,79 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool isLoading = false;
-  String errorMessage = '';
 
-Future<void> login(String email, String password) async {
-  // Ensure widget is still mounted before calling setState
-  if (!mounted) return;
-
-  setState(() {
-    isLoading = true;
-  });
-
-  var url = Uri.parse('http://127.0.0.1:8000/api/auth/jwt/create/');
-  Map<String, String> body = {
-    'email': email,
-    'password': password,
-  };
-
-  try {
-    var response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(body),
-    );
-
+  Future<void> login(String email, String password) async {
     // Ensure widget is still mounted before calling setState
     if (!mounted) return;
 
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
-      String accessToken = data['access'];
+    setState(() {
+      isLoading = true;
+    });
 
-      // Save token securely
-      await storage.write(key: 'access_token', value: accessToken);
+    var url = Uri.parse('http://127.0.0.1:8000/api/auth/jwt/create/');
+    Map<String, String> body = {
+      'email': email,
+      'password': password,
+    };
 
-      // Navigate to home page on success
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const Navigation()),
+    try {
+      var response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(body),
+      );
+
+      // Ensure widget is still mounted before calling setState
+      if (!mounted) return;
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        String accessToken = data['access'];
+
+        // Save token securely
+        await storage.write(key: 'access_token', value: accessToken);
+
+        // Show success message using ScaffoldMessenger
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('You are successfully logged in!'),
+            backgroundColor: Colors.green,
+          ),
+        );
+
+        // Navigate to home page on success
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const Navigation()),
+          );
+        }
+      } else {
+        // Show error message using ScaffoldMessenger
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Login failed. Please check your credentials.'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
-    } else {
-      setState(() {
-        errorMessage = 'Login failed. Please check your credentials.';
-      });
-    }
-  } catch (e) {
-    if (mounted) {
-      setState(() {
-        errorMessage = 'Error: $e';
-      });
-    }
-  } finally {
-    if (mounted) {
-      setState(() {
-        isLoading = false;
-      });
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -155,7 +167,8 @@ Future<void> login(String email, String password) async {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       EmailField(email: emailController),
-                                      PasswordField(password: passwordController),
+                                      PasswordField(
+                                          password: passwordController),
                                       const SizedBox(height: 20),
                                       Align(
                                         alignment: Alignment.centerRight,
@@ -181,12 +194,11 @@ Future<void> login(String email, String password) async {
                                       const SizedBox(height: 20),
                                       InkWell(
                                         onTap: () {
-                                          if (loginKey.currentState!.validate()) {
+                                          if (loginKey.currentState!
+                                              .validate()) {
                                             login(emailController.text,
                                                 passwordController.text);
                                           }
-                                          Navigator.pushReplacementNamed(
-                                              context, '/');
                                         },
                                         child: Container(
                                           height: 55,
@@ -209,14 +221,6 @@ Future<void> login(String email, String password) async {
                                         ),
                                       ),
                                       const SizedBox(height: 20),
-                                      if (errorMessage.isNotEmpty)
-                                        Text(
-                                          errorMessage,
-                                          style: const TextStyle(
-                                            color: Colors.red,
-                                          ),
-                                        ),
-                                      const SizedBox(height: 20),
                                       GestureDetector(
                                         onTap: () {
                                           Navigator.push(
@@ -231,7 +235,8 @@ Future<void> login(String email, String password) async {
                                           style: TextStyle(
                                             fontSize: 16,
                                             color: MyColors().maincolor,
-                                            decoration: TextDecoration.underline,
+                                            decoration:
+                                                TextDecoration.underline,
                                           ),
                                         ),
                                       ),
@@ -252,6 +257,7 @@ Future<void> login(String email, String password) async {
   }
 }
 
+
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
 
@@ -264,10 +270,39 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   bool isLoading = false;
   String message = '';
 
-  Future<void> sendResetPasswordEmail(String email) async {
+  Future<void> sendResetPasswordEmail(String email, BuildContext context) async {
     setState(() {
       isLoading = true;
     });
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        isLoading = false;
+        message = 'Password reset email has been sent.';
+      });
+     showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Email Sent'),
+            content: const Text(
+                'A password reset link has been sent to your email. Please check your inbox.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).pop(); // Go back to login screen
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    });
+  // }
+
+
+
 
     var url = Uri.parse('http://127.0.0.1:8000/api/auth/users/reset_password/');
     Map<String, String> body = {
@@ -282,6 +317,21 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       );
 
       if (response.statusCode == 204) {
+        // Here you would typically receive the token and UUID in the response
+        // For example: {"uid": "some-uuid", "token": "some-token"}
+
+        var responseBody = json.decode(response.body);
+
+        String uid =
+            responseBody['uid']; // Replace with actual field if different
+        print(uid);
+        String token =
+            responseBody['token']; // Replace with actual field if different
+        print(token);
+        // Save token and UUID in Flutter Secure Storage
+        await storage.write(key: 'reset_uid', value: uid);
+        await storage.write(key: 'reset_token', value: token);
+
         setState(() {
           message = 'Password reset email sent!';
         });
@@ -322,11 +372,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 ? const CircularProgressIndicator()
                 : ElevatedButton(
                     onPressed: () {
-                      sendResetPasswordEmail(emailController.text);
-                        Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ResetPasswordScreen(key: null,)),
-          );
+                      sendResetPasswordEmail(emailController.text, context);
                     },
                     child: const Text('Send Reset Email'),
                   ),

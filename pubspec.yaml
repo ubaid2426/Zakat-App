@@ -46,7 +46,7 @@ dependencies:
   animations: ^2.0.8
   simple_animations: ^5.0.2
   font_awesome_flutter: ^10.6.0
-  image_picker: ^0.8.5+3
+  image_picker: ^1.1.2
   get: ^4.6.6
   intl_phone_field: ^2.1.0
   flutter_verification_code: ^1.1.0
@@ -63,7 +63,8 @@ dependencies:
   shared_preferences: ^2.0.6
   currency_converter: ^2.0.0
   flutter_secure_storage: ^9.2.2
-  uni_links3: ^0.5.3
+  geolocator: ^13.0.1
+  # uni_links3: ^0.5.3
   logger: ^2.4.0
 dev_dependencies:
   flutter_test:

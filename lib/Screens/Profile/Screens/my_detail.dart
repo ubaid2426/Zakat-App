@@ -8,6 +8,9 @@ import 'package:zakat_app/Screens/Profile/Screens/Settings/MyDetailScreens/chang
 import 'package:zakat_app/Screens/Profile/Screens/Settings/MyDetailScreens/delete_acc.dart';
 import 'package:zakat_app/components/custom_button.dart'; // For token storage
 
+// FlutterSecureStorage instance for token management
+const storage = FlutterSecureStorage();
+
 class MyDetail extends StatefulWidget {
   const MyDetail({super.key});
 
@@ -16,10 +19,9 @@ class MyDetail extends StatefulWidget {
 }
 
 class _MyDetailState extends State<MyDetail> {
-  final FlutterSecureStorage storage =
-      const FlutterSecureStorage(); // For securely storing the access token
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController userIdController = TextEditingController(); // User ID field
   bool isLoading = true;
   bool isUpdating = false;
   String errorMessage = '';
@@ -30,28 +32,27 @@ class _MyDetailState extends State<MyDetail> {
     _checkAccessToken();
   }
 
+  // Check for access token, if not available, redirect to login
   Future<void> _checkAccessToken() async {
     setState(() {
       isLoading = true;
     });
 
     String? token = await storage.read(key: 'access_token');
-    print("Retrieved token: $token"); // Add this for debugging
+    print("Retrieved token: $token");
 
     if (token == null) {
-      // No access token found, redirect to login page
       setState(() {
         errorMessage = 'Please log in to access your details.';
         isLoading = false;
       });
-      _redirectToLogin(); // Navigate to login
+      _redirectToLogin();
     } else {
-      // Proceed to fetch user details
       _fetchUserDetails(token);
     }
   }
 
-// Method to navigate to Login Page
+  // Navigate to Login Page if user is not authenticated
   void _redirectToLogin() {
     Navigator.pushReplacement(
       context,
@@ -59,60 +60,54 @@ class _MyDetailState extends State<MyDetail> {
     );
   }
 
-// Refresh token method
-// Future<void> _refreshToken() async {
-//   setState(() {
-//     isLoading = true;
-//   });
+  // Refresh Token Method
+  Future<void> _refreshToken() async {
+    setState(() {
+      isLoading = true;
+    });
 
-//   String? refreshToken = await storage.read(key: 'refresh_token');
-//   print("Refreshing with token: $refreshToken");
+    String? refreshToken = await storage.read(key: 'refresh_token');
+    print("Refreshing with token: $refreshToken");
 
-//   if (refreshToken == null) {
-//     print("No refresh token found, redirecting to login");
-//     _redirectToLogin(); // Navigate to login if no refresh token
-//   } else {
-//     var url = Uri.parse('http://127.0.0.1:8000/api/auth/jwt/refresh/');
-//     var response = await http.post(
-//       url,
-//       headers: {'Content-Type': 'application/json'},
-//       body: jsonEncode({'refresh': refreshToken}),
-//     );
+    if (refreshToken == null) {
+      print("No refresh token found, redirecting to login");
+      _redirectToLogin(); // No refresh token found, force re-login
+    } else {
+      var url = Uri.parse('http://127.0.0.1:8000/api/auth/jwt/refresh/');
+      var response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'refresh': refreshToken}),
+      );
 
-//     print("Token refresh response code: ${response.statusCode}");
-//     print("Token refresh response body: ${response.body}");
+      print("Token refresh response code: ${response.statusCode}");
+      print("Token refresh response body: ${response.body}");
 
-//     if (response.statusCode == 200) {
-//       var data = jsonDecode(response.body);
-//       String newAccessToken = data['access'];
-//       print("New access token: $newAccessToken");
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        String newAccessToken = data['access'];
+        print("New access token: $newAccessToken");
 
-//       // Save the new access token
-//       await storage.write(key: 'access_token', value: newAccessToken);
+        await storage.write(key: 'access_token', value: newAccessToken);
+        _fetchUserDetails(newAccessToken); // Retry fetching user details
+      } else {
+        print("Refresh token invalid, redirecting to login");
+        _redirectToLogin(); // If token refresh fails, redirect to login
+      }
+    }
 
-//       // Fetch user details with the new access token
-//       _fetchUserDetails(newAccessToken);
-//     } else {
-//       print("Refresh token invalid, redirecting to login");
-//       _redirectToLogin(); // Refresh token is invalid, force re-login
-//     }
-//   }
+    setState(() {
+      isLoading = false;
+    });
+  }
 
-//   setState(() {
-//     isLoading = false;
-//   });
-// }
-
+  // Fetch User Details from API
   Future<void> _fetchUserDetails(String token) async {
     setState(() {
-      isLoading = true; // Show loader while fetching details
+      isLoading = true;
     });
 
     try {
-      // http.Response response;
-      // response =
-      // await http.get(Uri.parse('http://127.0.0.1:8000/api/auth/users/me/'));
-
       var url = Uri.parse('http://127.0.0.1:8000/api/auth/users/me/');
       var response = await http.get(
         url,
@@ -130,48 +125,42 @@ class _MyDetailState extends State<MyDetail> {
         setState(() {
           nameController.text = data['name'] ?? 'N/A';
           emailController.text = data['email'] ?? 'N/A';
-          isLoading = false; // Hide loader once data is fetched
+          userIdController.text = data['id'].toString(); // Fetch and display user ID
+          isLoading = false;
+        });
+      } else if (response.statusCode == 401) {
+        print("Access token is invalid or expired, refreshing token...");
+        await _refreshToken(); // Attempt to refresh token
+      } else {
+        setState(() {
+          errorMessage = 'Failed to load details: ${response.statusCode}';
+          isLoading = false;
         });
       }
-      // else if (response.statusCode == 401) {
-      //   print("Access token is invalid or expired, trying to refresh token...");
-      //   // await _refreshToken();
-      // } else {
-      //   setState(() {
-      //     errorMessage = 'Failed to load details: ${response.statusCode}';
-      //     isLoading = false;
-      //   });
-      // }
     } catch (e) {
-      print("Error occurred while fetching user details: $e");
+      print("Error fetching user details: $e");
       setState(() {
         errorMessage = 'Error occurred: $e';
-        isLoading = false; // Hide loader on error
+        isLoading = false;
       });
     }
   }
 
+  // Update User Details
   Future<void> _updateUserDetails(String token) async {
     setState(() {
       isUpdating = true;
     });
 
     try {
-      // API URL for updating user details
       var url = Uri.parse('http://127.0.0.1:8000/api/auth/users/me/');
+      Map<String, String> body = {'name': nameController.text};
 
-      // Data to be updated
-      Map<String, String> body = {
-        'name': nameController.text,
-        // Add any other fields if required
-      };
-
-      // HTTP PATCH request to update user details
       var response = await http.patch(
         url,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'JWT $token', // Attach the access token
+          'Authorization': 'JWT $token',
         },
         body: json.encode(body),
       );
@@ -195,6 +184,30 @@ class _MyDetailState extends State<MyDetail> {
     }
   }
 
+  // Show Error Message in Alert Dialog
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                setState(() {
+                  errorMessage = ''; // Clear the error message after showing
+                });
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Show error message in an alert dialog
@@ -215,6 +228,20 @@ class _MyDetailState extends State<MyDetail> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
+                    'User ID:',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  const SizedBox(height: 8),
+                  TextFormField(
+                    controller: userIdController,
+                    readOnly: true, // User ID is non-editable
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'User ID',
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  const Text(
                     'Name:',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
@@ -234,7 +261,7 @@ class _MyDetailState extends State<MyDetail> {
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: emailController,
-                    readOnly: true, // Email is not editable
+                    readOnly: true, // Email is non-editable
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Email',
@@ -263,34 +290,10 @@ class _MyDetailState extends State<MyDetail> {
                     title: "Delete Account",
                     icon: FontAwesomeIcons.trash,
                     navigateTo: DeleteAccountScreen(),
-                  )
+                  ),
                 ],
               ),
             ),
-    );
-  }
-
-// Function to display the error message in an alert dialog
-  void _showErrorDialog(BuildContext context, String message) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Error'),
-          content: Text(message),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop(); // Dismiss the dialog
-                setState(() {
-                  errorMessage = ''; // Clear the error message after showing it
-                });
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }

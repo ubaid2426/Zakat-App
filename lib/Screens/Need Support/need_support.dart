@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/all_category.dart';
-import 'package:zakat_app/Screens/Need%20Support/components/needsupport_card.dart';
-import 'package:zakat_app/core/app_dummy.dart';
+// import 'package:zakat_app/Screens/Need%20Support/components/needsupport_card.dart';
+// import 'package:zakat_app/core/app_dummy.dart';
 import 'package:zakat_app/model/all_category.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;

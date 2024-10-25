@@ -5,7 +5,7 @@ import 'package:zakat_app/Screens/All_Category/Individual/Screen/clothes.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/Screen/daig_donation.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/Screen/donate_quran.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/Screen/food_relief.dart';
-import 'package:zakat_app/Screens/All_Category/Individual/Screen/gaza.dart';
+// import 'package:zakat_app/Screens/All_Category/Individual/Screen/gaza.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/Screen/marriage_support.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/Screen/masjid_const.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/Screen/masjid_maintenance.dart';

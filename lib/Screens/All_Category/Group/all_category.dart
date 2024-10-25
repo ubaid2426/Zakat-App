@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:zakat_app/Screens/All_Category/Group/Screen/clothes.dart';
 import 'package:zakat_app/Screens/All_Category/Group/Screen/daig_donation.dart';
 import 'package:zakat_app/Screens/All_Category/Group/Screen/food_relief.dart';
@@ -15,7 +17,6 @@ import 'package:zakat_app/Screens/All_Category/Group/Screen/tree_donation.dart';
 import 'package:zakat_app/Screens/All_Category/Group/Screen/water_cooler.dart';
 import 'package:zakat_app/Screens/All_Category/Group/Screen/wheel_chair.dart';
 import 'package:zakat_app/Screens/All_Category/Group/Screen/widow_family.dart';
-import 'package:zakat_app/core/app_dummy.dart';
 import 'package:zakat_app/model/all_category.dart';
 
 class AllCategoryGroup extends StatelessWidget {
@@ -23,40 +24,38 @@ class AllCategoryGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double height = (screenWidth < 400) ? 800 : 1300;
+
     return MaterialApp(
       routes: {
-        '/PortableHouse': (context) => const PortableHouse(),
+        // '/PortableHouse': (context) => const PortableHouse(),
         '/MasjidMaintenance': (context) => const MasjidMaintenance(),
-        '/MarriageSupport': (context) => const MarriageSupport(),
-        '/FloodRelief': (context) => const FloodRelief(),
+        // '/MarriageSupport': (context) => const MarriageSupport(),
+        // '/FloodRelief': (context) => const FloodRelief(),
         '/WidowFamily': (context) => const WidowFamily(),
         '/SmallBusinessSetup': (context) => const SmallBusiness(),
         '/Clothes': (context) => const Clothes(),
         '/MedicalBed': (context) => const MedicalBed(),
         '/WheelChair': (context) => const WheelChair(),
         '/TreeDonation': (context) => const TreeDonation(),
-        '/DaigDonation': (context) => const DaigDonation(),
+        // '/DaigDonation': (context) => const DaigDonation(),
         '/MealDonation': (context) => const MealDonation(),
         '/OrphanSupport': (context) => const OrphanSupport(),
         '/WaterCooler': (context) => const WaterCooler(),
         '/MasjidConst': (context) => const MasjidConst(),
         '/Other': (context) => const Other(),
-        // Add more routes as needed
       },
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 195, 190, 190),
+        backgroundColor: const Color(0xFFC3BEBE),
         appBar: AppBar(
           flexibleSpace: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [
-                  Color(0xFF33A248), // First color (#33A248)
-                  Color(0xFFB2EA50), // Second color (#B2EA50)
-                ],
-                begin: Alignment
-                    .bottomRight, // Start the gradient from bottom-right
-                end: Alignment.topLeft, // End the gradient at top-left
+                colors: [Color(0xFF33A248), Color(0xFFB2EA50)],
+                begin: Alignment.bottomRight,
+                end: Alignment.topLeft,
               ),
             ),
           ),
@@ -75,17 +74,88 @@ class AllCategoryGroup extends StatelessWidget {
             icon: const Icon(Icons.arrow_back),
           ),
         ),
-        body: const SizedBox(
-          height: 800,
-          child: Category(),
+        body: SizedBox(
+          height: height,
+          width: screenWidth,
+          child: const CategoryGrid(),
         ),
       ),
     );
   }
 }
 
-class Show1 extends StatelessWidget {
-  const Show1({
+class CategoryGrid extends StatefulWidget {
+  const CategoryGrid({super.key});
+
+  @override
+  _CategoryGridState createState() => _CategoryGridState();
+}
+
+class _CategoryGridState extends State<CategoryGrid> {
+  late Future<List<AllCategoryModel>> categories;
+
+  @override
+  void initState() {
+    super.initState();
+    categories = fetchCategories();
+  }
+
+  // Fetch categories from API
+  Future<List<AllCategoryModel>> fetchCategories() async {
+    final response = await http.get(Uri.parse('http://127.0.0.1:8000/data/categories/'));
+    if (response.statusCode == 200) {
+      List<dynamic> data = json.decode(response.body);
+      return data.map((json) => AllCategoryModel.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load categories');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    int crossAxisCount = (screenWidth < 600) ? 3 : (screenWidth < 900) ? 4 : 5;
+    double childAspectRatio = (screenWidth < 400) ? 2 / 3.5 : 3 / 4;
+
+    return FutureBuilder<List<AllCategoryModel>>(
+      future: categories,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return const Center(child: Text('Failed to load categories'));
+        }
+
+        final categoryList = snapshot.data!;
+
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              childAspectRatio: childAspectRatio,
+            ),
+            itemCount: categoryList.length,
+            itemBuilder: (context, index) {
+              final category = categoryList[index];
+              return CategoryTile(
+                category: category,
+                onSelectCategory: () {
+                  Navigator.pushNamed(context, category.route);
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+}
+
+class CategoryTile extends StatelessWidget {
+  const CategoryTile({
     super.key,
     required this.category,
     required this.onSelectCategory,
@@ -99,82 +169,32 @@ class Show1 extends StatelessWidget {
     return InkWell(
       onTap: onSelectCategory,
       child: Container(
-        height: 100,
-        //  padding: const EdgeInsets.only(left: 10, right: 10, top: 0),
-        width: MediaQuery.of(context).size.width / 3 - 19,
+        padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: const Color.fromARGB(255, 253, 251, 251),
+          color: const Color(0xFFFDFBFB),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 10,
+            Text(
+              category.title,
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
-            SizedBox(
-              // width: 0,
-              height: 50,
-              child: Text(
-                category.title,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            // SizedBox(height: 20,),
+            const SizedBox(height: 10),
             Container(
-              width: 150,
-              height: 145,
+              width: double.infinity,
+              height: 100,
               decoration: BoxDecoration(
-                // color: const Color.fromARGB(255, 245, 188,
-                //     2), // Optional, for background color if the image doesn't cover
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
-                  image: AssetImage(category.image),
+                  image: NetworkImage("http://127.0.0.1:8000/data${category.image}"),
                   fit: BoxFit.contain,
                 ),
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class Category extends StatelessWidget {
-  const Category({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Center(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: double.infinity,
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 2 / 3.4, // Aspect ratio for the grid items
-            ),
-            itemCount: availableCategories.length, // Dynamic item count
-            itemBuilder: (context, index) {
-              final category = availableCategories[index];
-              return Show1(
-                category: category,
-                onSelectCategory: () {
-                  print("Navigating to: ${category.route}");
-                  final selectedCategory = availableCategories
-                      .firstWhere((element) => element.id == category.id);
-                  Navigator.pushNamed(context, selectedCategory.route);
-                  // Navigator.pushNamed(context, category.route);
-                },
-              );
-            },
-          ),
         ),
       ),
     );

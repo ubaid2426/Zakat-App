@@ -11,8 +11,8 @@ class DataSpecial extends StatefulWidget {
   final String imageUrl;
   final String title;
   final String description;
-  final double projectvalue;
-  final double paidvlaue;
+  final double? projectvalue;
+  final double? paidvlaue;
 
   const DataSpecial({
     super.key,
@@ -33,8 +33,8 @@ class _DataSpecialState extends State<DataSpecial> {
   final TextEditingController _controller = TextEditingController();
   bool isSelected = false;
   bool isZakat = false;
-  late double projectValue;
-  late double paidValue;
+  late double? projectValue;
+  late double? paidValue;
   int quantity = 1;
   int totalDonationAmount = 0;
 
@@ -119,13 +119,17 @@ void updateTotalAmount() {
                 ),
               ),
               const SizedBox(height: 20),
-              SizedBox(
+              Container(
                 height: 200,
                 width: MediaQuery.of(context).size.width,
-                child: Image.asset(
-                  widget.imageUrl,
-                  fit: BoxFit.cover,
+                  decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                image: DecorationImage(
+                  image: NetworkImage("http://127.0.0.1:8000/data${widget.imageUrl}"),
+
+                  fit: BoxFit.contain,
                 ),
+              ),
               ),
               const SizedBox(height: 20),
               buildProjectDetails(),
@@ -355,7 +359,7 @@ void updateTotalAmount() {
   }
 
   Widget buildProgressIndicator() {
-    double progress = paidValue / projectValue;
+    double progress = paidValue! / projectValue!;
     return Column(
       children: [
         Padding(
@@ -392,9 +396,9 @@ void updateTotalAmount() {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          buildProjectInfo(' ${projectValue.toInt()}', 'How much'),
-          buildProjectInfo('${paidValue.toInt()}', 'Added'),
-          buildProjectInfo(' ${(projectValue - paidValue).toInt()}', 'Left'),
+          buildProjectInfo(' ${projectValue!.toInt()}', 'How much'),
+          buildProjectInfo('${paidValue!.toInt()}', 'Added'),
+          buildProjectInfo(' ${(projectValue! - paidValue!).toInt()}', 'Left'),
         ],
       ),
     );

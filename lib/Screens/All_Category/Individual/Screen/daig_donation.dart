@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-// import 'package:zakat_app/Screens/Home/home_main.dart';
-import 'package:zakat_app/components/donate.dart';
-import 'package:zakat_app/core/app_dummy.dart';
+import 'package:zakat_app/Screens/donation_service.dart';
+// import 'package:zakat_app/components/donate.dart';
+import 'package:zakat_app/components/donate_special.dart';
 import 'package:zakat_app/model/doantion_model.dart';
+// import 'package:zakat_app/services/donation_service.dart'; // Import the service
 
 class DaigDonation extends StatefulWidget {
-  // String prop =LeftToRight(projects: sortedClothes);
   const DaigDonation({super.key});
 
   @override
@@ -14,13 +14,45 @@ class DaigDonation extends StatefulWidget {
 
 class _DaigDonationState extends State<DaigDonation> {
   String selectedSort = 'Not finished projects first';
-  late List<DoantionModel> sortedDaig;
+  List<DonationModel> sortedClothes = [];
 
   @override
   void initState() {
     super.initState();
-    sortedDaig = List.from(clothes);
-    _sortList(selectedSort);
+    _fetchSortedClothes();
+  }
+
+  Future<void> _fetchSortedClothes() async {
+    String filterValue = 'unfinished'; // Default filter, change as needed
+    switch (selectedSort) {
+      case 'finished projects':
+        filterValue = 'finished';
+        break;
+      case 'Not finished projects first':
+        filterValue = 'unfinished';
+        break;
+    }
+    String sortvalue = 'newest';
+     switch (selectedSort) {
+      case 'Oldest Items First':
+        sortvalue = 'oldest'; // Keep the same filter for sorting
+        break;
+      case 'Newest Items First':
+        sortvalue = 'newest'; // Keep the same filter for sorting
+        break;
+      case 'Sort by Remaining Value: Low to High':
+        sortvalue = 'remaining_low_to_high'; // Keep the same filter for sorting
+        break;
+      case 'Sort by Remaining Value: High to Low':
+        sortvalue = 'remaining_high_to_low'; // Keep the same filter for sorting
+        break;
+    }
+    final donations = await DonationService().fetchDonations(
+        sort: sortvalue, filter: filterValue, category: "daigdonation");
+
+    setState(() {
+      sortedClothes = donations;
+    });
   }
 
   @override
@@ -43,23 +75,23 @@ class _DaigDonationState extends State<DaigDonation> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back),
         ),
-        title: const Text("Daig Donation"),
+        title: const Text("Clothes Donation"),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {
               setState(() {
                 selectedSort = value;
-                _sortList(selectedSort);
+                _fetchSortedClothes();
               });
             },
             itemBuilder: (BuildContext context) => [
               const PopupMenuItem(
                 value: 'finished projects',
-                child: Text('finished projects'),
+                child: Text('Finished Projects'),
               ),
               const PopupMenuItem(
                 value: 'Not finished projects first',
-                child: Text('Not finished projects first'),
+                child: Text('Not Finished Projects First'),
               ),
               const PopupMenuItem(
                 value: 'Oldest Items First',
@@ -87,19 +119,15 @@ class _DaigDonationState extends State<DaigDonation> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Pass the sorted list to LeftToRight to display it in the home page card
-              if (sortedDaig.isNotEmpty)
-                // LeftToRight(projects: sortedClothes), // This displays the projects horizontally
-
-              if (sortedDaig.isNotEmpty)
+              if (sortedClothes.isNotEmpty)
                 Column(
-                  children: sortedDaig.map((donation) {
-                    return Data(
+                  children: sortedClothes.map((donation) {
+                    return DataSpecial(
                       imageUrl: donation.imageUrl,
                       title: donation.title,
                       description: donation.description,
-                      projectvalue: donation.projectvalue,
-                      paidvlaue: donation.paidvlaue,
+                      projectvalue: donation.projectValue,
+                      paidvlaue: donation.paidValue,
                     );
                   }).toList(),
                 )
@@ -121,44 +149,5 @@ class _DaigDonationState extends State<DaigDonation> {
         ),
       ),
     );
-  }
-
-  void _sortList(String sortOption) {
-    setState(() {
-      switch (sortOption) {
-        case 'finished projects':
-          sortedDaig = clothes.where((project) {
-            return project.paidvlaue >= project.projectvalue;
-          }).toList();
-          break;
-
-        case 'Not finished projects first':
-          sortedDaig = clothes.where((project) {
-            return project.paidvlaue < project.projectvalue;
-          }).toList();
-          break;
-
-        case 'Oldest Items First':
-         sortedDaig.sort((a, b) => a.date.compareTo(b.date));
-          break;
-
-        case 'Newest Items First':
-          sortedDaig.sort((a, b) => b.date.compareTo(a.date));
-          break;
-
-        case 'Sort by Remaining Value: Low to High':
-          sortedDaig.sort((a, b) => (a.projectvalue - a.paidvlaue)
-              .compareTo(b.projectvalue - b.paidvlaue));
-          break;
-
-        case 'Sort by Remaining Value: High to Low':
-         sortedDaig.sort((a, b) => (b.projectvalue - b.paidvlaue)
-              .compareTo(a.projectvalue - a.paidvlaue));
-          break;
-
-        default:
-          break;
-      }
-    });
   }
 }

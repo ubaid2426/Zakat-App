@@ -24,82 +24,79 @@ class _SignupState extends State<Signup> {
 
   bool isLoading = false;
   String message = '';
-Future<void> _registerUser(String name, String email, String password) async {
-  var url = Uri.parse('http://127.0.0.1:8000/api/auth/users/'); // Replace with your IP
+  Future<void> _registerUser(String name, String email, String password) async {
+    var url = Uri.parse(
+        'http://127.0.0.1:8000/api/auth/users/'); // Replace with your IP
 
-  // Construct the payload
-  Map<String, String> payload = {
-    'email': email,
-    'name': name,
-    'password': password,
-    're_password': password, // Ensure this matches the API requirements
-  };
+    // Construct the payload
+    Map<String, String> payload = {
+      'email': email,
+      'name': name,
+      'password': password,
+      're_password': password, // Ensure this matches the API requirements
+    };
 
-  try {
-    setState(() {
-      isLoading = true; // Show loader
-    });
-
-    var response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(payload),
-    );
-
-    setState(() {
-      isLoading = false; // Hide loader
-    });
-
-    if (response.statusCode == 201) {
-      // Registration successful
+    try {
       setState(() {
-        message = "User registered successfully! Check your email to activate your account.";
+        isLoading = true; // Show loader
       });
 
-      // Show an AlertDialog
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text("Success"),
-          content: Text(message),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
-                );
-              },
-              child: Text("OK"),
-            ),
-          ],
-        ),
+      var response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(payload),
       );
-    } else {
-      // Handle errors
-      var responseBody = jsonDecode(response.body);
+
       setState(() {
-        message = responseBody['email']?.join(', ') ??
-            responseBody['name']?.join(', ') ??
-            responseBody['password']?.join(', ') ??
-            "Registration failed!";
+        isLoading = false; // Hide loader
       });
-      print("Response Body: ${response.body}"); // Debug response
+
+      if (response.statusCode == 201) {
+        // Registration successful
+        setState(() {
+          message =
+              "User registered successfully! Check your email to activate your account.";
+        });
+
+        // Show an AlertDialog
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("Success"),
+            content: Text(message),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                  );
+                },
+                child: Text("OK"),
+              ),
+            ],
+          ),
+        );
+      } else {
+        // Handle errors
+        var responseBody = jsonDecode(response.body);
+        setState(() {
+          message = responseBody['email']?.join(', ') ??
+              responseBody['name']?.join(', ') ??
+              responseBody['password']?.join(', ') ??
+              "Registration failed!";
+        });
+        print("Response Body: ${response.body}"); // Debug response
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+        message = "Error occurred: $e";
+      });
+      print("Error: $e"); // Debug error
     }
-  } catch (e) {
-    setState(() {
-      isLoading = false;
-      message = "Error occurred: $e";
-    });
-    print("Error: $e"); // Debug error
   }
-}
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -153,6 +150,7 @@ Future<void> _registerUser(String name, String email, String password) async {
               right: 0,
               child: _buildSignupForm(context),
             ),
+
           ],
         ),
       ),
@@ -176,6 +174,7 @@ Future<void> _registerUser(String name, String email, String password) async {
             color: Colors.white,
           ),
           height: screenHeight, // Full screen height
+          // height: double.infinity,
           width: screenWidth, // Full screen width
           child: Padding(
             padding: EdgeInsets.symmetric(
@@ -197,9 +196,10 @@ Future<void> _registerUser(String name, String email, String password) async {
                 _buildTextField("Full Name", name),
                 _buildTextField("Email", email),
                 _buildTextField("Password", password, isPassword: true),
-                _buildTextField("Confirm Password", conpassword, isPassword: true),
+                _buildTextField("Confirm Password", conpassword,
+                    isPassword: true),
                 SizedBox(height: screenHeight * 0.04), // 4% vertical space
-
+      
                 // Signup Button
                 InkWell(
                   onTap: () {
@@ -226,7 +226,9 @@ Future<void> _registerUser(String name, String email, String password) async {
                       color: MyColors().maincolor,
                     ),
                     child: isLoading
-                        ? const Center(child: CircularProgressIndicator(color: Colors.white))
+                        ? const Center(
+                            child:
+                                CircularProgressIndicator(color: Colors.white))
                         : const Center(
                             child: Text(
                               'SIGN UP',
@@ -241,7 +243,7 @@ Future<void> _registerUser(String name, String email, String password) async {
                   ),
                 ),
                 SizedBox(height: screenHeight * 0.03), // 3% vertical space
-
+      
                 // Error or Success Message
                 message.isNotEmpty
                     ? Padding(
@@ -257,7 +259,7 @@ Future<void> _registerUser(String name, String email, String password) async {
                         ),
                       )
                     : const SizedBox(),
-
+      
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Column(
@@ -273,7 +275,8 @@ Future<void> _registerUser(String name, String email, String password) async {
                           decoration: TextDecoration.none,
                         ),
                       ),
-                      SizedBox(height: screenHeight * 0.02), // 2% vertical space
+                      SizedBox(
+                          height: screenHeight * 0.02), // 2% vertical space
                       InkWell(
                         onTap: () {
                           // Navigate to login
@@ -286,7 +289,8 @@ Future<void> _registerUser(String name, String email, String password) async {
                         child: Text(
                           "Click here",
                           style: TextStyle(
-                            fontSize: screenHeight * 0.02, // 2% of screen height
+                            fontSize:
+                                screenHeight * 0.02, // 2% of screen height
                             color: MyColors().maincolor,
                             decoration: TextDecoration.none,
                           ),
@@ -295,6 +299,9 @@ Future<void> _registerUser(String name, String email, String password) async {
                     ],
                   ),
                 ),
+                   SizedBox(
+                          height: screenHeight * 0.02),
+              
               ],
             ),
           ),

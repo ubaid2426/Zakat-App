@@ -32,7 +32,7 @@ class CartScreen extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-         const Text(
+          const Text(
             "Cart screen",
             // style: Theme.of(context).textTheme.displayMedium,
           ),
@@ -245,7 +245,7 @@ class CartScreen extends StatelessWidget {
                         child: Text(
                           controller.cartFood[index].title,
                           style: const TextStyle(
-                            fontSize: 18,
+                            fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),
                           textAlign: TextAlign.start,
@@ -265,7 +265,8 @@ class CartScreen extends StatelessWidget {
                         color: const Color.fromARGB(255, 245, 188, 2),
                         borderRadius: BorderRadius.circular(15),
                         image: DecorationImage(
-                          image: AssetImage(controller.cartFood[index].image),
+                          image: NetworkImage(
+                              "http://127.0.0.1:8000/data${controller.cartFood[index].image}"),
                           fit: BoxFit.cover,
                         ),
                       ),

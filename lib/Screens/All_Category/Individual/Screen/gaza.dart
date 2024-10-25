@@ -4,14 +4,14 @@ import 'package:zakat_app/components/donate.dart';
 import 'package:zakat_app/model/doantion_model.dart';
 // import 'package:zakat_app/services/donation_service.dart'; // Import the service
 
-class Clothes extends StatefulWidget {
-  const Clothes({super.key});
+class Gaza extends StatefulWidget {
+  const Gaza({super.key});
 
   @override
-  _ClothesState createState() => _ClothesState();
+  _GazaState createState() => _GazaState();
 }
 
-class _ClothesState extends State<Clothes> {
+class _GazaState extends State<Gaza> {
   String selectedSort = 'Not finished projects first';
   List<DonationModel> sortedClothes = [];
 

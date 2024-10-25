@@ -244,6 +244,38 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                               ),
+                              SizedBox(
+                                height: 170,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            Navigation()), // Navigate to the screen
+                                  );
+                                },
+                                child: Container(
+                                  height: 55,
+                                  width:
+                                      MediaQuery.of(context).size.width - 100,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: MyColors().maincolor,
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      'Go TO Home Page',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ],
@@ -257,7 +289,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
 
@@ -270,7 +301,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   bool isLoading = false;
   String message = '';
 
-  Future<void> sendResetPasswordEmail(String email, BuildContext context) async {
+  Future<void> sendResetPasswordEmail(
+      String email, BuildContext context) async {
     setState(() {
       isLoading = true;
     });
@@ -279,7 +311,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         isLoading = false;
         message = 'Password reset email has been sent.';
       });
-     showDialog(
+      showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -299,10 +331,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         },
       );
     });
-  // }
-
-
-
+    // }
 
     var url = Uri.parse('http://127.0.0.1:8000/api/auth/users/reset_password/');
     Map<String, String> body = {

@@ -14,3 +14,4 @@ class BottomNavigationItem {
     this.isSelected = false,
   });
 }
+

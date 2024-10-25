@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:video_player/video_player.dart';
+// import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:zakat_app/Screens/All_Category/Group/Screen/clothes.dart';
 import 'package:zakat_app/Screens/All_Category/Group/Screen/daig_donation.dart';
 import 'package:zakat_app/Screens/All_Category/Group/Screen/food_relief.dart';
@@ -42,6 +45,7 @@ import 'package:zakat_app/components/homeScreen_carousel.dart';
 import 'package:zakat_app/components/upcoming_project.dart';
 // import 'package:zakat_app/controller/fade_animation.dart';
 import 'package:zakat_app/core/app_dummy.dart';
+import 'package:zakat_app/model/all_category.dart';
 import 'package:zakat_app/model/doantion_model.dart';
 
 class Home extends StatefulWidget {
@@ -76,7 +80,7 @@ class _HomeState extends State<Home> {
             contentPadding: EdgeInsets.zero,
             content: Container(
               width: double.infinity,
-              height: 320,
+              height: 340,
               padding: const EdgeInsets.all(20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -93,7 +97,7 @@ class _HomeState extends State<Home> {
                   const Text(
                     'Please log in to take advantage of the wallet and the advanced notifications',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 14),
                   ),
                   const SizedBox(height: 20),
                   const Icon(
@@ -194,7 +198,7 @@ class _HomeState extends State<Home> {
               SizedBox(
                 height: 50,
               ),
-              FinalCard(),
+              // FinalCard(),
               // MarriageSupportH(
               //   h3: "Our Numbers",
               //   h1: 'Rs.100000+',
@@ -650,7 +654,7 @@ class HomeH3 extends StatelessWidget {
       child: Container(
         height: 100,
         // color: Colors.red,
-        width: MediaQuery.of(context).size.width - 60,
+        width: MediaQuery.of(context).size.width - 50,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: const BorderRadius.all(Radius.circular(20)),
@@ -1017,36 +1021,36 @@ class _ReelVideoPlayerState extends State<ReelVideoPlayer> {
 }
 
 // LeftToRight widget that receives a list of filtered projects
-class LeftToRight extends StatelessWidget {
-  final Widget navigate;
-  final List<DoantionModel> projects;
+// class LeftToRight extends StatelessWidget {
+//   final Widget navigate;
+//   final List<DoantionModel> projects;
 
-  const LeftToRight({
-    super.key,
-    required this.projects,
-    required this.navigate,
-  });
+//   const LeftToRight({
+//     super.key,
+//     required this.projects,
+//     required this.navigate,
+//   });
 
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        // Map the list of projects to PerCategory widgets
-        children: projects.map((project) {
-          return PerCategory(
-            projectvalue: project.projectvalue,
-            paidvlaue: project.paidvlaue,
-            title: project.title,
-            imageUrl: project.imageUrl,
-            description: project.description,
-            navigate: navigate,
-          );
-        }).toList(),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return SingleChildScrollView(
+//       scrollDirection: Axis.horizontal,
+//       child: Row(
+//         // Map the list of projects to PerCategory widgets
+//         children: projects.map((project) {
+//           return PerCategory(
+//             projectvalue: project.projectvalue,
+//             paidvlaue: project.paidvlaue,
+//             title: project.title,
+//             imageUrl: project.imageUrl,
+//             description: project.description,
+//             navigate: navigate,
+//           );
+//         }).toList(),
+//       ),
+//     );
+//   }
+// }
 
 // PerCategory widget to display project details
 class PerCategory extends StatefulWidget {
@@ -1228,140 +1232,142 @@ class _PerCategoryState extends State<PerCategory> {
 }
 
 // Example usage in the HomePage
-class FinalCard extends StatelessWidget {
-  const FinalCard({super.key});
+// class FinalCard extends StatelessWidget {
+//   const FinalCard({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.only(left: 20),
-          child: Text(
-            "All categories Card",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF7fc23a),
-            ),
-            textAlign: TextAlign.start,
-          ),
-        ),
-        DataPutHome(),
-      ],
-    );
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       mainAxisAlignment: MainAxisAlignment.start,
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         const Padding(
+//           padding: EdgeInsets.only(left: 20),
+//           child: Text(
+//             "All categories Card",
+//             style: TextStyle(
+//               fontSize: 20,
+//               fontWeight: FontWeight.bold,
+//               color: Color(0xFF7fc23a),
+//             ),
+//             textAlign: TextAlign.start,
+//           ),
+//         ),
+//         DataPutHome(),
+//       ],
+//     );
+//   }
 
-  Widget DataPutHome() {
-    // Filter the not finished projects for each category
-    List<DoantionModel> notFinishedClothes = filterNotFinishedProjects(clothes);
-    List<DoantionModel> notFinishedMasjidmaintenance =
-        filterNotFinishedProjects(masjidmaintenance);
-    List<DoantionModel> notFinishedMarriagesupport =
-        filterNotFinishedProjects(marriagesupport);
-    List<DoantionModel> notFinishedFloodrelief =
-        filterNotFinishedProjects(floodrelief);
-    List<DoantionModel> notFinishedWidowfamily =
-        filterNotFinishedProjects(widowfamily);
-    List<DoantionModel> notFinishedMedicalbed =
-        filterNotFinishedProjects(medicalbed);
-    List<DoantionModel> notFinishedWheelchair =
-        filterNotFinishedProjects(wheelchair);
-    List<DoantionModel> notFinishedTreedonation =
-        filterNotFinishedProjects(treedonation);
-    List<DoantionModel> notFinishedDaigdonation =
-        filterNotFinishedProjects(daigdonation);
-    List<DoantionModel> notFinishedmealdonation =
-        filterNotFinishedProjects(mealdonation);
-    List<DoantionModel> notFinishedOrphansupport =
-        filterNotFinishedProjects(orphansupport);
-    List<DoantionModel> notFinishedWaterCooler =
-        filterNotFinishedProjects(waterCooler);
-    List<DoantionModel> notFinishedOther = filterNotFinishedProjects(other);
-    List<DoantionModel> notFinishedPortableHouse =
-        filterNotFinishedProjects(portablehouse);
+//   Widget DataPutHome() {
+//     // Filter the not finished projects for each category
+//     List<DoantionModel> notFinishedClothes = filterNotFinishedProjects(clothes);
+//     List<DoantionModel> notFinishedMasjidmaintenance =
+//         filterNotFinishedProjects(masjidmaintenance);
+//     List<DoantionModel> notFinishedMarriagesupport =
+//         filterNotFinishedProjects(marriagesupport);
+//     List<DoantionModel> notFinishedFloodrelief =
+//         filterNotFinishedProjects(floodrelief);
+//     List<DoantionModel> notFinishedWidowfamily =
+//         filterNotFinishedProjects(widowfamily);
+//     List<DoantionModel> notFinishedMedicalbed =
+//         filterNotFinishedProjects(medicalbed);
+//     List<DoantionModel> notFinishedWheelchair =
+//         filterNotFinishedProjects(wheelchair);
+//     List<DoantionModel> notFinishedTreedonation =
+//         filterNotFinishedProjects(treedonation);
+//     List<DoantionModel> notFinishedDaigdonation =
+//         filterNotFinishedProjects(daigdonation);
+//     List<DoantionModel> notFinishedmealdonation =
+//         filterNotFinishedProjects(mealdonation);
+//     List<DoantionModel> notFinishedOrphansupport =
+//         filterNotFinishedProjects(orphansupport);
+//     List<DoantionModel> notFinishedWaterCooler =
+//         filterNotFinishedProjects(waterCooler);
+//     List<DoantionModel> notFinishedOther = filterNotFinishedProjects(other);
+//     List<DoantionModel> notFinishedPortableHouse =
+//         filterNotFinishedProjects(portablehouse);
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: SizedBox(
-        height: 650,
-        child: Row(
-          children: [
-            LeftToRight(
-              projects: notFinishedClothes,
-              navigate: const Clothes(),
-            ),
-            LeftToRight(
-              projects: notFinishedPortableHouse,
-              navigate: const PortableHouse(),
-            ),
-            LeftToRight(
-              projects: notFinishedMasjidmaintenance,
-              navigate: const MasjidMaintenance(),
-            ),
-            LeftToRight(
-              projects: notFinishedMarriagesupport,
-              navigate: const MarriageSupport(),
-            ),
-            LeftToRight(
-              projects: notFinishedFloodrelief,
-              navigate: const FloodRelief(),
-            ),
-            LeftToRight(
-              projects: notFinishedWidowfamily,
-              navigate: const WidowFamily(),
-            ),
-            LeftToRight(
-              projects: notFinishedMedicalbed,
-              navigate: const MedicalBed(),
-            ),
-            LeftToRight(
-              projects: notFinishedWheelchair,
-              navigate: const WheelChair(),
-            ),
-            LeftToRight(
-              projects: notFinishedTreedonation,
-              navigate: const TreeDonation(),
-            ),
-            LeftToRight(
-              projects: notFinishedDaigdonation,
-              navigate: const DaigDonation(),
-            ),
-            LeftToRight(
-              projects: notFinishedmealdonation,
-              navigate: const MealDonation(),
-            ),
-              LeftToRight(
-              projects: notFinishedOrphansupport,
-              navigate: const OrphanSupport(),
-            ),
-              LeftToRight(
-              projects: notFinishedWaterCooler,
-              navigate: const WaterCooler(),
-            ),
-              LeftToRight(
-              projects: notFinishedPortableHouse,
-              navigate: const PortableHouse(),
-            ),
-               LeftToRight(
-              projects: notFinishedOther,
-              navigate: const Other(),
-            ),
-          ],
-        ),
-        // ),
-      ),
-    );
-  }
-}
+//     return SingleChildScrollView(
+//       scrollDirection: Axis.horizontal,
+//       child: SizedBox(
+//         height: 650,
+//         child: Row(
+//           children: [
+//             LeftToRight(
+//               projects: notFinishedClothes,
+//               navigate: const Clothes(),
+//             ),
+//             LeftToRight(
+//               projects: notFinishedPortableHouse,
+//               navigate: const PortableHouse(),
+//             ),
+//             LeftToRight(
+//               projects: notFinishedMasjidmaintenance,
+//               navigate: const MasjidMaintenance(),
+//             ),
+//             LeftToRight(
+//               projects: notFinishedMarriagesupport,
+//               navigate: const MarriageSupport(),
+//             ),
+//             LeftToRight(
+//               projects: notFinishedFloodrelief,
+//               navigate: const FloodRelief(),
+//             ),
+//             LeftToRight(
+//               projects: notFinishedWidowfamily,
+//               navigate: const WidowFamily(),
+//             ),
+//             LeftToRight(
+//               projects: notFinishedMedicalbed,
+//               navigate: const MedicalBed(),
+//             ),
+//             LeftToRight(
+//               projects: notFinishedWheelchair,
+//               navigate: const WheelChair(),
+//             ),
+//             LeftToRight(
+//               projects: notFinishedTreedonation,
+//               navigate: const TreeDonation(),
+//             ),
+//             LeftToRight(
+//               projects: notFinishedDaigdonation,
+//               navigate: const DaigDonation(),
+//             ),
+//             LeftToRight(
+//               projects: notFinishedmealdonation,
+//               navigate: const MealDonation(),
+//             ),
+//             LeftToRight(
+//               projects: notFinishedOrphansupport,
+//               navigate: const OrphanSupport(),
+//             ),
+//             LeftToRight(
+//               projects: notFinishedWaterCooler,
+//               navigate: const WaterCooler(),
+//             ),
+//             LeftToRight(
+//               projects: notFinishedPortableHouse,
+//               navigate: const PortableHouse(),
+//             ),
+//             LeftToRight(
+//               projects: notFinishedOther,
+//               navigate: const Other(),
+//             ),
+//           ],
+//         ),
+//         // ),
+//       ),
+//     );
+//   }
+// }
 
 class DisplayCategory extends StatelessWidget {
   const DisplayCategory({super.key});
 
   @override
   Widget build(BuildContext context) {
+     double screenWidth = MediaQuery.of(context).size.width;
+     double height = (screenWidth < 400) ? 1300 : 1150;
     return Column(
       children: [
         Padding(
@@ -1379,7 +1385,7 @@ class DisplayCategory extends StatelessWidget {
               TextButton(
                 onPressed: () {},
                 child: const Text(
-                  "see more",
+                  "see more -->",
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -1392,7 +1398,7 @@ class DisplayCategory extends StatelessWidget {
         ),
         Container(
           // color: Colors.black,
-          height: 1350,
+          height: height,
           child: const Category(),
         ),
       ],
@@ -1400,43 +1406,72 @@ class DisplayCategory extends StatelessWidget {
   }
 }
 
-class Category extends StatelessWidget {
+class Category extends StatefulWidget {
   const Category({super.key});
 
   @override
+  _CategoryState createState() => _CategoryState();
+}
+
+class _CategoryState extends State<Category> {
+  late Future<List<AllCategoryModel>> categories;
+
+  @override
+  void initState() {
+    super.initState();
+    categories = fetchCategories();
+  }
+
+  // Fetch categories from API
+  Future<List<AllCategoryModel>> fetchCategories() async {
+    final response = await http.get(Uri.parse('http://127.0.0.1:8000/data/categories/'));
+    if (response.statusCode == 200) {
+      List<dynamic> data = json.decode(response.body);
+      return data.map((json) => AllCategoryModel.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load categories');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Center(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: double.infinity,
+    double screenWidth = MediaQuery.of(context).size.width;
+    int crossAxisCount = (screenWidth < 600) ? 3 : (screenWidth < 900) ? 4 : 5;
+    double childAspectRatio = (screenWidth < 400) ? 2 / 3.5 : 3 / 4;
+
+    return FutureBuilder<List<AllCategoryModel>>(
+      future: categories,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return const Center(child: Text('Failed to load categories'));
+        }
+
+        final categoryList = snapshot.data!;
+
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
           child: GridView.builder(
-            shrinkWrap: true, // Ensures GridView does not expand indefinitely.
-            primary: false,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
-              childAspectRatio: 2 / 3.4, // Aspect ratio for the grid items
+              childAspectRatio: childAspectRatio,
             ),
-            itemCount: availableCategories.length, // Dynamic item count
+            itemCount: categoryList.length,
             itemBuilder: (context, index) {
-              final category = availableCategories[index];
-              return Show1(
+              final category = categoryList[index];
+              return CategoryTile(
                 category: category,
                 onSelectCategory: () {
-                  print("Navigating to: ${category.route}");
-                  final selectedCategory = availableCategories
-                      .firstWhere((element) => element.id == category.id);
-                  Navigator.pushNamed(context, selectedCategory.route);
-                  // Navigator.pushNamed(context, category.route);
+                  Navigator.pushNamed(context, category.route);
                 },
               );
             },
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

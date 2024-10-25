@@ -289,7 +289,7 @@ class _DonationMenuState extends State<DonationMenu> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const PortableHouse(),
+                      builder: (context) => const MasjidMaintenance(),
                     ),
                   );
                   break;
@@ -305,7 +305,7 @@ class _DonationMenuState extends State<DonationMenu> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const MarriageSupport(),
+                      builder: (context) => const MasjidMaintenance(),
                     ),
                   );
                   break;
@@ -313,7 +313,7 @@ class _DonationMenuState extends State<DonationMenu> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const FloodRelief(),
+                      builder: (context) => const MasjidMaintenance(),
                     ),
                   );
                   break;
@@ -369,7 +369,7 @@ class _DonationMenuState extends State<DonationMenu> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const DaigDonation(),
+                      builder: (context) => const MasjidMaintenance(),
                     ),
                   );
                   break;

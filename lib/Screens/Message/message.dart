@@ -1,50 +1,95 @@
 import 'dart:convert';
-// import 'dart:io' as io;
 import 'package:flutter/material.dart';
-
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart'; // For image and video picking
 import 'dart:io'; // To handle file inputs
 import 'package:http/http.dart' as http; // To handle backend API
 import 'package:geolocator/geolocator.dart';
 import 'package:zakat_app/Screens/Login/Screen/login_page.dart';
-import 'package:zakat_app/Screens/Message/user_services.dart'; // For location picking (optional)
+import 'package:zakat_app/Screens/Message/user_services.dart';
 
 class Message extends StatefulWidget {
+  const Message({super.key});
+
   @override
   _MessageState createState() => _MessageState();
 }
 
 class _MessageState extends State<Message> {
-  final List<Message1> messages = [];
+  List<Message1> messages = [];
   final TextEditingController _controller = TextEditingController();
   final ImagePicker _picker = ImagePicker(); // Image picker instance
-  String? donorName; // To store donor's name
-  int? donorId; // To store donor's ID
-    bool isLoading = true;
+  String? donorName;
+  int? donorId;
+  bool isLoading = true;
+
   // Format the time to display in 'hh:mm a' format
   String formatTime(DateTime time) {
     return DateFormat('hh:mm a').format(time);
   }
 
-
-  @override
-  void initState() {
-    super.initState();
-    _loadDonorDetails(); // Load donor details when the widget is initialized
-  }
-
-  // Function to send a message
+  // Function to load donor details
   Future<void> _loadDonorDetails() async {
-    var userDetails = await UserService.fetchUserDetails(); // Fetch details from the service
+    var userDetails = await UserService.fetchUserDetails();
     if (userDetails != null) {
       setState(() {
-        donorName = userDetails['name']; // Set donor's name
-        donorId = userDetails['id'];     // Set donor's ID
+        donorName = userDetails['name'];
+        donorId = userDetails['id'];
         isLoading = false;
       });
+      fetchMessages(); // Fetch previous messages
     } else {
       print("Error fetching donor details.");
+    }
+  }
+
+  // Fetch previous messages from the backend
+  Future<void> fetchMessages() async {
+    String? token = await storage.read(key: 'access_token');
+
+    if (token == null) {
+      print("Token not found.");
+      return;
+    }
+
+    var response = await http.get(
+      Uri.parse('http://127.0.0.1:8000/chat/message/retrieve/'),
+      headers: {'Authorization': 'JWT $token'},
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> messageData = jsonDecode(response.body);
+
+      setState(() {
+        messages = messageData.map((data) {
+          String text = data['text'] is String ? data['text'] : '';
+          String sender = data['sender'] is String ? data['sender'] : 'Unknown';
+          print(sender);
+          int senderId = data['sender'] is int ? data['sender'] : -1;
+          print(senderId);
+          bool seen = data['seen'] is bool ? data['seen'] : false;
+          // Parse the timestamp correctly
+          DateTime messageTime;
+          try {
+            messageTime = DateTime.parse(data['timestamp']);
+          } catch (e) {
+            messageTime = DateTime.now(); // Use current time if parsing fails
+          }
+          return Message1(
+            text: text,
+            sender: sender,
+            senderId: senderId,
+            seen: seen,
+            time: messageTime,
+            type: data['type'] ??
+                'text', // Check message type (text, image, video, etc.)
+            mediaUrl: data['media_url'], // Handle media URL if exists
+          );
+        }).toList();
+        // print(senderId);
+      });
+    } else {
+      print("Failed to fetch messages: ${response.statusCode}");
     }
   }
 
@@ -52,10 +97,8 @@ class _MessageState extends State<Message> {
   Future<void> sendMessage(String text) async {
     if (text.isEmpty || donorName == null || donorId == null) return;
 
-    // Retrieve token from secure storage
     String? token = await storage.read(key: 'access_token');
 
-    // Ensure the token is available
     if (token == null) {
       print("Token not found, unable to send message.");
       return;
@@ -69,9 +112,9 @@ class _MessageState extends State<Message> {
       },
       body: jsonEncode({
         'text': text,
-        'sender': donorName,         // Use donor's name
-        'sender_id': donorId,        // Use donor's ID
-        // 'receiver_id': widget.receiverId, // Include receiver ID if available
+        'sender': donorName,
+        'sender_id': donorId,
+        'type': 'text', // Sending as a text message
       }),
     );
 
@@ -79,9 +122,11 @@ class _MessageState extends State<Message> {
       setState(() {
         messages.add(Message1(
           text: text,
-          sender: donorName ?? 'Donor',  // Display donor's name
+          sender: donorName ?? 'Donor',
+          senderId: donorId ?? -1,
           seen: false,
           time: DateTime.now(),
+          type: 'text',
         ));
       });
       _controller.clear();
@@ -90,77 +135,54 @@ class _MessageState extends State<Message> {
     }
   }
 
-  // Pick an image from the gallery
+  // Pick and send an image
   Future<void> pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       File imageFile = File(pickedFile.path);
-      // Send image to backend
       uploadMedia(imageFile, 'image');
     }
   }
 
-  // Pick a video from the gallery
+  // Pick and send a video
   Future<void> pickVideo() async {
     final pickedFile = await _picker.pickVideo(source: ImageSource.gallery);
     if (pickedFile != null) {
       File videoFile = File(pickedFile.path);
-      // Send video to backend
       uploadMedia(videoFile, 'video');
     }
   }
 
-  // Simulate picking the location
-  Future<void> pickLocation() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    String location = '${position.latitude}, ${position.longitude}';
-    // Send location to backend
-    sendMessage('Location: $location');
-  }
-
-  // Simulate picking audio (this can be extended using a plugin for audio)
-  void pickAudio() {
-    sendMessage('Audio message sent');
-  }
-
-  // Function to upload media (image or video) with token-based authentication
+  // Send media to the backend (image/video)
   Future<void> uploadMedia(File file, String type) async {
-    if (donorName == null || donorId == null) {
-      print("Donor details not available.");
-      return;
-    }
-
-    // Retrieve token from secure storage
     String? token = await storage.read(key: 'access_token');
-    print('Retrieved Token: $token');
 
-    // Ensure the token is available
     if (token == null) {
-      print("Token not found, unable to upload media.");
+      print("Token not found.");
       return;
     }
 
     var request = http.MultipartRequest(
-      'POST', Uri.parse('http://127.0.0.1:8000/chat/message/'),
+      'POST',
+      Uri.parse('http://127.0.0.1:8000/chat/message/'),
     );
     request.headers['Authorization'] = 'JWT $token';
     request.files.add(await http.MultipartFile.fromPath(type, file.path));
-    request.fields['sender'] = donorName!;  // Use donor's name
-    request.fields['sender_id'] = donorId.toString();  // Use donor's ID
-    // request.fields['receiver_id'] = widget.receiverId; // Include receiver ID
-    request.fields['type'] = type;  // Either 'image' or 'video'
+    request.fields['sender'] = donorName!;
+    request.fields['sender_id'] = donorId.toString();
+    request.fields['type'] = type; // Indicate whether it's 'image' or 'video'
 
     var response = await request.send();
 
     if (response.statusCode == 201) {
-      print('$type uploaded successfully!');
       setState(() {
         messages.add(Message1(
           text: '$type uploaded',
-          sender: donorName!,  // Display donor's name
+          sender: donorName!,
+          senderId: donorId ?? -1,
           seen: false,
           time: DateTime.now(),
+          type: type, // Store the type (image/video)
         ));
       });
     } else {
@@ -168,11 +190,25 @@ class _MessageState extends State<Message> {
     }
   }
 
+  // Pick and send location
+  Future<void> pickLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    String location = '${position.latitude}, ${position.longitude}';
+    sendMessage('Location: $location');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDonorDetails(); // Load donor details and fetch previous messages
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat Screen'),
+        title: const Text('Chat Screen'),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -190,101 +226,102 @@ class _MessageState extends State<Message> {
               itemCount: messages.length,
               itemBuilder: (context, index) {
                 final message = messages[index];
+
+                // Determine if the message is from the donor (align right) or admin (align left)
+                bool isDonorMessage = message.senderId == donorId;
+
+                // Different message layout for image, video, and text
+                Widget messageContent;
+                if (message.type == 'image') {
+                  messageContent = Image.network(
+                    message.mediaUrl ?? '',
+                    fit: BoxFit.cover,
+                  );
+                } else if (message.type == 'video') {
+                  messageContent =
+                      const Icon(Icons.videocam); // Placeholder for video
+                } else {
+                  messageContent = Text(message.text);
+                }
+
                 return ListTile(
-                  leading: message.sender == 'Admin'
-                      ? CircleAvatar(child: Icon(Icons.admin_panel_settings))
-                      : CircleAvatar(child: Icon(Icons.person)),
+                  contentPadding: isDonorMessage
+                      ? const EdgeInsets.only(
+                          left: 50, right: 10) // Donor's messages (align right)
+                      : const EdgeInsets.only(
+                          left: 10, right: 50), // Admin's messages (align left)
+
+                  leading:
+                      !isDonorMessage // Admin's messages should have leading avatar
+                          ? const CircleAvatar(
+                              child: Icon(Icons.admin_panel_settings))
+                          : null, // Donor's messages shouldn't have leading avatar
+
+                  trailing:
+                      isDonorMessage // Donor's messages should have trailing avatar
+                          ? const CircleAvatar(child: Icon(Icons.person))
+                          : null, // Admin's messages shouldn't have trailing avatar
+
                   title: Align(
-                    alignment: message.sender == 'Donor'
-                        ? Alignment.centerLeft
-                        : Alignment.centerRight,
+                    alignment: isDonorMessage
+                        ? Alignment.centerRight
+                        : Alignment
+                            .centerLeft, // Align donor/admin messages accordingly
                     child: Container(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: message.sender == 'Donor'
-                            ? Colors.grey[200]
-                            : Colors.green[100],
+                        color: isDonorMessage
+                            ? Colors.green[
+                                100] // Donor's messages in greenish color
+                            : Colors
+                                .grey[200], // Admin's messages in greyish color
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          messageContent, // Show message content based on type (text, image, video)
+                          const SizedBox(height: 5),
                           Text(
-                            message.text,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                formatTime(message.time),
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              Icon(
-                                message.seen
-                                    ? Icons.done_all
-                                    : Icons.done_all_outlined,
-                                color: message.seen ? Colors.blue : Colors.grey,
-                                size: 18,
-                              ),
-                            ],
+                            formatTime(message.time), // Display message time
+                            style: const TextStyle(
+                                fontSize: 12, color: Colors.grey),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  onTap: () {
-                    setState(() {
-                      messages[index].seen = true;
-                    });
-                  },
                 );
               },
             ),
           ),
-          // Input Section for new messages and media
           Padding(
-            padding: const EdgeInsets.fromLTRB(8, 8, 8, 50),
+            padding: const EdgeInsets.only(bottom: 50, top: 10, left: 10, right:10),
             child: Row(
               children: [
-                // Media Icons
                 IconButton(
-                  icon: Icon(Icons.photo),
+                  icon: const Icon(Icons.image),
                   onPressed: pickImage,
                 ),
                 IconButton(
-                  icon: Icon(Icons.videocam),
+                  icon: const Icon(Icons.videocam),
                   onPressed: pickVideo,
                 ),
                 IconButton(
-                  icon: Icon(Icons.location_on),
+                  icon: const Icon(Icons.location_on),
                   onPressed: pickLocation,
                 ),
-                IconButton(
-                  icon: Icon(Icons.audiotrack),
-                  onPressed: pickAudio,
-                ),
-                // Message Input
                 Expanded(
                   child: TextField(
                     controller: _controller,
-                    decoration: InputDecoration(
-                      hintText: 'Type a message...',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
+                    decoration: const InputDecoration(
+                      hintText: 'Enter your message...',
                     ),
                   ),
                 ),
-                // Send Button
                 IconButton(
-                  icon: Icon(Icons.send),
-                  onPressed: () {
-                    sendMessage(_controller.text);
-                  },
+                  icon: const Icon(Icons.send),
+                  onPressed: () => sendMessage(_controller.text),
                 ),
               ],
             ),
@@ -295,24 +332,22 @@ class _MessageState extends State<Message> {
   }
 }
 
-// Message Model
 class Message1 {
   final String text;
   final String sender;
-  bool seen;
+  final int senderId;
+  final bool seen;
   final DateTime time;
+  final String type; // Type of message: text, image, video
+  final String? mediaUrl; // For image or video URLs
 
   Message1({
     required this.text,
     required this.sender,
+    required this.senderId,
     required this.seen,
     required this.time,
+    required this.type,
+    this.mediaUrl,
   });
-}
-
-void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: Message(),
-  ));
 }

@@ -21,7 +21,7 @@ class CustomButton extends StatefulWidget {
 }
 
 class _CustomButtonState extends State<CustomButton> {
-  bool isSelected = false;
+  bool isPressed = false; // Track if the button is currently pressed
   final FoodController controller = Get.put(FoodController());
 
   void _handleTap() {
@@ -39,23 +39,28 @@ class _CustomButtonState extends State<CustomButton> {
   Widget build(BuildContext context) {
     return Material(
       child: InkWell(
-        onHover: (value) {
+        onTapDown: (_) {
           setState(() {
-            isSelected = value; // Update selection based on hover
+            isPressed = true; // Set isPressed to true when the button is pressed
           });
         },
-        onTap: () {
+        onTapUp: (_) {
           setState(() {
-            isSelected = !isSelected; // Toggle selection on tap
+            isPressed = false; // Set isPressed to false when the button is released
           });
           _handleTap(); // Handle navigation
+        },
+        onTapCancel: () {
+          setState(() {
+            isPressed = false; // Reset if the tap is canceled
+          });
         },
         splashColor: const Color(0xFF7fc23a),
         child: Container(
           width: 190,
           height: 60,
           decoration: BoxDecoration(
-            color: isSelected ? Colors.white : const Color(0xFF7fc23a),
+            color: isPressed ? const Color(0xFF7fc23a) : Colors.white, // Change color based on isPressed
             border: Border.all(color: const Color(0xFF7fc23a)),
           ),
           child: Row(
@@ -66,12 +71,12 @@ class _CustomButtonState extends State<CustomButton> {
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w400,
-                  color: isSelected ? Colors.black : Colors.white,
+                  color: isPressed ? Colors.white : const Color(0xFF7fc23a), // Change text color
                 ),
               ),
               Icon(
                 widget.icon,
-                color: isSelected ? Colors.black : Colors.white,
+                color: isPressed ? Colors.white : const Color(0xFF7fc23a), // Change icon color
               ),
             ],
           ),

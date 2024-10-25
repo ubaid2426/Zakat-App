@@ -11,8 +11,8 @@ class Data extends StatefulWidget {
   final String imageUrl;
   final String title;
   final String description;
-  final double projectvalue;
-  final double paidvlaue;
+  final double? projectvalue;
+  final double? paidvlaue;
   // final VoidCallback onComplete;
   const Data({
     super.key,
@@ -35,6 +35,7 @@ class _DataState extends State<Data> {
 
   @override
   Widget build(BuildContext context) {
+    // print(widget.imageUrl);
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(19, 19, 19, 0),
@@ -53,6 +54,7 @@ class _DataState extends State<Data> {
           ),
           child: Column(
             children: [
+              
               const SizedBox(height: 30),
               Text(
                 widget.title,
@@ -86,13 +88,22 @@ class _DataState extends State<Data> {
                 ),
               ),
               const SizedBox(height: 20),
-              SizedBox(
+              Container(
                 height: 250,
                 width: MediaQuery.of(context).size.width,
-                child: Image.asset(
-                  widget.imageUrl,
-                  fit: BoxFit.cover,
+                decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                image: DecorationImage(
+                  image: NetworkImage("http://127.0.0.1:8000/data${widget.imageUrl}"),
+
+                  fit: BoxFit.contain,
                 ),
+              ),
+                  
+                //  Image.asset(
+                //   widget.imageUrl,
+                //   fit: BoxFit.cover,
+                // ),
               ),
               const SizedBox(height: 20),
               buildProjectDetails(), // Use updated method for project details
@@ -124,10 +135,10 @@ class _DataState extends State<Data> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           buildProjectInfo(
-              'Rs ${widget.projectvalue.toInt()}', 'Project value'),
-          buildProjectInfo('${widget.paidvlaue.toInt()}', 'Paid'),
+              'Rs ${widget.projectvalue?.toInt()}', 'Project value'),
+          buildProjectInfo('${widget.paidvlaue?.toInt()}', 'Paid'),
           buildProjectInfo(
-              'Rs ${(widget.projectvalue - widget.paidvlaue).toInt()}',
+              'Rs ${(widget.projectvalue! - widget.paidvlaue!).toInt()}',
               'Remaining'),
         ],
       ),
@@ -191,7 +202,7 @@ class _DataState extends State<Data> {
 
   // Donation input section with buttons
   Widget buildDonationSection() {
-    double progress = widget.paidvlaue / widget.projectvalue;
+    double progress = widget.paidvlaue! / widget.projectvalue!;
 
     if (progress >= 1.0) {
       return const Padding(
@@ -318,7 +329,7 @@ class _DataState extends State<Data> {
 
   // Progress indicator widget
   Widget buildProgressIndicator() {
-    double progress = widget.paidvlaue / widget.projectvalue;
+    double progress = widget.paidvlaue! / widget.projectvalue!;
     return Column(
       children: [
         Padding(

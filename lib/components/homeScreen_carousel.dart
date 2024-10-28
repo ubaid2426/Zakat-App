@@ -14,7 +14,7 @@ class HomePageCarousel extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData().copyWith(
-        useMaterial3: true,
+        
       ),
       home: HomePage(imageList: imageList, carouselHeight: carouselHeight),
     );

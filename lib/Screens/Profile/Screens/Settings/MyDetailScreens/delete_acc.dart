@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart'; // For token storage
 
 class DeleteAccountScreen extends StatefulWidget {
-  const DeleteAccountScreen({Key? key}) : super(key: key);
+  const DeleteAccountScreen({super.key});
 
   @override
   _DeleteAccountScreenState createState() => _DeleteAccountScreenState();

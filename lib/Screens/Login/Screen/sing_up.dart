@@ -62,7 +62,7 @@ class _SignupState extends State<Signup> {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text("Success"),
+            title: const Text("Success"),
             content: Text(message),
             actions: [
               TextButton(
@@ -73,7 +73,7 @@ class _SignupState extends State<Signup> {
                     MaterialPageRoute(builder: (context) => const LoginPage()),
                   );
                 },
-                child: Text("OK"),
+                child: const Text("OK"),
               ),
             ],
           ),
@@ -124,7 +124,7 @@ class _SignupState extends State<Signup> {
                 color: MyColors().maincolor,
               ),
             ),
-            Container(
+            SizedBox(
               height: screenHeight,
               width: screenWidth,
               child: Padding(

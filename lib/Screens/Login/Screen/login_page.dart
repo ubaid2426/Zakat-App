@@ -102,23 +102,23 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    double _width = MediaQuery.of(context).size.width;
-    double _height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: SingleChildScrollView(
         child: isLoading
             ? const Center(child: CircularProgressIndicator())
             : SizedBox(
-                width: _width,
-                height: _height,
+                width: width,
+                height: height,
                 child: Stack(
                   children: [
                     ClipPath(
                       clipper: MyClipper(),
                       child: Container(
                         height: 300,
-                        width: _width,
+                        width: width,
                         color: primaryColor.withOpacity(0.3),
                       ),
                     ),
@@ -162,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                                 key: loginKey,
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: _width * 0.05),
+                                      horizontal: width * 0.05),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
@@ -244,7 +244,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 170,
                               ),
                               InkWell(
@@ -253,7 +253,7 @@ class _LoginPageState extends State<LoginPage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            Navigation()), // Navigate to the screen
+                                            const Navigation()), // Navigate to the screen
                                   );
                                 },
                                 child: Container(
@@ -290,7 +290,7 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 class ForgotPasswordPage extends StatefulWidget {
-  const ForgotPasswordPage({Key? key}) : super(key: key);
+  const ForgotPasswordPage({super.key});
 
   @override
   _ForgotPasswordPageState createState() => _ForgotPasswordPageState();

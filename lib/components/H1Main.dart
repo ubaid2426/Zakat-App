@@ -41,7 +41,7 @@ class H1Main extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: Container(
+              child: SizedBox(
                 // color: const Color.fromARGB(181, 178, 33, 33),
                 width: MediaQuery.of(context).size.width,
                 height: 200,
@@ -149,7 +149,7 @@ class H1Main extends StatelessWidget {
                         // Navigator.push(context, MaterialPageRoute(builder: (context) => AllCategory()));
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF29C77B), // Button color
+                        backgroundColor: const Color(0xFF29C77B), // Button color
                         padding: const EdgeInsets.symmetric(
                           horizontal: 40,
                           vertical: 15,

@@ -55,7 +55,7 @@ class CartScreen extends StatelessWidget {
   Widget _bottomAppBar(BuildContext context) {
     return BottomAppBar(
       height: MediaQuery.of(context).size.height * 0.30,
-      child: Container(
+      child: SizedBox(
         height: 500,
         width: MediaQuery.of(context).size.width,
         child: Container(
@@ -155,7 +155,7 @@ class CartScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 30),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.60,
                     height: 60,
                     child: Padding(

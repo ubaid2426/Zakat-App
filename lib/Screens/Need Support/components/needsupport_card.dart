@@ -5,9 +5,9 @@ class NeedSupport extends StatefulWidget {
   final String selectedCategory;
 
   const NeedSupport({
-    Key? key,
+    super.key,
     required this.selectedCategory,  // Receive selected category here
-  }) : super(key: key);
+  });
 
   @override
   _NeedSupportState createState() => _NeedSupportState();

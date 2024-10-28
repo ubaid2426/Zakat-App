@@ -6,7 +6,7 @@ void main() {
 }
 
 class AboutUs extends StatelessWidget {
-  const AboutUs({Key? key}) : super(key: key);
+  const AboutUs({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class AboutUs extends StatelessWidget {
 }
 
 class OrganizationInfoScreen extends StatelessWidget {
-  const OrganizationInfoScreen({Key? key}) : super(key: key);
+  const OrganizationInfoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class OrganizationInfoScreen extends StatelessWidget {
               ),
             ),
           ),
-        title: Row(
+        title: const Row(
           children: [
           //    IconButton(
           //   icon: Icon(Icons.shopping_cart),
@@ -53,7 +53,7 @@ class OrganizationInfoScreen extends StatelessWidget {
           //     );
           //   },
           // ),
-            const Text('Organization Information'),
+            Text('Organization Information'),
           ],
         ),
         //    leading: IconButton(
@@ -189,7 +189,7 @@ class OrganizationInfoScreen extends StatelessWidget {
 class SectionTitle extends StatelessWidget {
   final String title;
 
-  const SectionTitle(this.title, {Key? key}) : super(key: key);
+  const SectionTitle(this.title, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -206,7 +206,7 @@ class SectionTitle extends StatelessWidget {
 class SectionText extends StatelessWidget {
   final String text;
 
-  const SectionText(this.text, {Key? key}) : super(key: key);
+  const SectionText(this.text, {super.key});
 
   @override
   Widget build(BuildContext context) {

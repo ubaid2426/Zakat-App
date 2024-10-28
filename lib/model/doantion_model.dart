@@ -8,16 +8,19 @@ class DonationModel {
   final double? paidValue;
   final double remainingValue;
   final DateTime date;
+  final String? category;
   final String imageUrl;
 
-  DonationModel({
+  DonationModel( {
     required this.id,
+    required this.category,
     required this.title,
     required this.description,
     required this.projectValue,
     required this.paidValue,
     required this.remainingValue,
     required this.date,
+
     required this.imageUrl,
   });
 
@@ -34,6 +37,7 @@ class DonationModel {
           0.0, // Default to 0.0 if null or empty
       projectValue: _toDouble(json['project_value']),
       paidValue: _toDouble(json['paid_value']),
+      category: json['category'],
       date: _toDateTime(json['date']),
     );
   }

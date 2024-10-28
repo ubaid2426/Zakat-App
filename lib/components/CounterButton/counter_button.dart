@@ -6,11 +6,11 @@ class CounterButton extends StatelessWidget {
   final Widget label;
 
   const CounterButton({
-    Key? key,
+    super.key,
     required this.onIncrementSelected,
     required this.onDecrementSelected,
     required this.label,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

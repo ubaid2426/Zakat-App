@@ -59,7 +59,7 @@ class _DataState extends State<Data> {
               Text(
                 widget.title,
                 style: const TextStyle(
-                  fontSize: 32,
+                  fontSize: 26,
                   decoration: TextDecoration.none,
                   fontFamily: "Roboto",
                   color: Color(0xFF7fc23a),
@@ -78,7 +78,7 @@ class _DataState extends State<Data> {
                 child: Text(
                   widget.description,
                   style: const TextStyle(
-                    fontSize: 20,
+                    fontSize: 16,
                     color: Color.fromARGB(255, 88, 88, 88),
                     fontFamily: "Montserrat",
                     fontWeight: FontWeight.w600,
@@ -87,16 +87,16 @@ class _DataState extends State<Data> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Container(
-                height: 250,
+                height: 200,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
                   image: NetworkImage("http://127.0.0.1:8000/data${widget.imageUrl}"),
 
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
                 ),
               ),
                   
@@ -105,9 +105,9 @@ class _DataState extends State<Data> {
                 //   fit: BoxFit.cover,
                 // ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               buildProjectDetails(), // Use updated method for project details
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               buildProgressIndicator(), // Progress indicator for donation
               // const SizedBox(height: 20),
               buildDonationSection(), // Donation input
@@ -125,7 +125,7 @@ class _DataState extends State<Data> {
   // Widget for displaying project info
   Widget buildProjectDetails() {
     return Container(
-      height: 100,
+      height: 70,
       decoration: BoxDecoration(
         border: Border.all(
           color: const Color.fromARGB(255, 237, 228, 228),
@@ -169,7 +169,7 @@ class _DataState extends State<Data> {
             Text(
               label,
               style: const TextStyle(
-                fontSize: 16,
+                fontSize: 12,
                 fontWeight: FontWeight.w600,
                 color: Color.fromARGB(255, 128, 126, 126),
                 fontFamily: "Montserrat",
@@ -215,18 +215,18 @@ class _DataState extends State<Data> {
     }
 
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.only(right: 20, left:20, top:10, bottom:10),
       child: Column(
         children: [
           const Text(
             "Enter Donation Amount (\$)",
             style: TextStyle(
-              fontSize: 18.0,
+              fontSize: 12.0,
               decoration: TextDecoration.none,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 20.0),
+          const SizedBox(height: 10.0),
           Material(
             child: TextField(
               controller: _controller,
@@ -235,11 +235,11 @@ class _DataState extends State<Data> {
                 border: OutlineInputBorder(),
               ),
               keyboardType: TextInputType.number,
-              style: const TextStyle(fontSize: 36.0),
+              style: const TextStyle(fontSize: 20.0),
               textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(height: 30.0),
+          const SizedBox(height: 10.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -311,7 +311,7 @@ class _DataState extends State<Data> {
   // Secure donation section
   Widget buildSecureDonation() {
     return Container(
-      height: 70,
+      height: 50,
       color: const Color(0xFFF1F1F1),
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -253,9 +253,9 @@ class _DonationMenuState extends State<DonationMenu> {
               //  size: 22,
               color: _isExpanded
                   ? const Color.fromARGB(255, 247, 247, 247)
-                  : Color.fromARGB(255, 12, 12, 12),
+                  : const Color.fromARGB(255, 12, 12, 12),
             ),
-            SizedBox(width: 20,),
+            const SizedBox(width: 20,),
             Row(
               // mainAxisAlignment: MainAxisAlignment.end,
               children: [

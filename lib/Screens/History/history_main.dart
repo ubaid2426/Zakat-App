@@ -65,12 +65,12 @@ class _DonationHistoryState extends State<DonationHistory>
           labelColor: Colors.yellow,
           unselectedLabelColor: Colors.white,
           indicatorColor: Colors.yellow,
-          tabs: [
+          tabs: const [
             // const Tab(text: 'ONE-OFF'),
-            const Tab(text: 'MONTHLY'),
-            const Tab(text: 'WEEKLY'),
-            const Tab(text: 'DAILY'),
-            const Tab(text: 'OFFLINE'),
+            Tab(text: 'MONTHLY'),
+            Tab(text: 'WEEKLY'),
+            Tab(text: 'DAILY'),
+            Tab(text: 'OFFLINE'),
           ],
         ),
         actions: [

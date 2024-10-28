@@ -60,6 +60,6 @@ class HelpText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("Help Children rise out of the poverty");
+    return const Text("Help Children rise out of the poverty");
   }
 }

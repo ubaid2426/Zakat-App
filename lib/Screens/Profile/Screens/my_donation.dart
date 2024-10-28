@@ -6,6 +6,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -101,7 +103,7 @@ class _MyDonationState extends State<MyDonation> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => DonationHistory()), // Navigate to the screen
+                    builder: (context) => const DonationHistory()), // Navigate to the screen
               );
             },
             style: ElevatedButton.styleFrom(

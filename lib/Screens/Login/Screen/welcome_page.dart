@@ -10,7 +10,7 @@ import 'package:zakat_app/Screens/Login/components/const.dart';
 // import '../const.dart';
 
 class WelcomePage extends StatefulWidget {
-  const WelcomePage({Key? key}) : super(key: key);
+  const WelcomePage({super.key});
 
   @override
   _WelcomePageState createState() => _WelcomePageState();
@@ -40,19 +40,19 @@ class _WelcomePageState extends State<WelcomePage>
 
   @override
   Widget build(BuildContext context) {
-    double _width = MediaQuery.of(context).size.width;
-    double _height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SizedBox(
-        width: _width,
-        height: _height,
+        width: width,
+        height: height,
         child: Stack(
           children: [
             ClipPath(
               clipper: MyClipper(),
               child: Container(
                 height: 300,
-                width: _width,
+                width: width,
                 color: primaryColor.withOpacity(0.3),
               ),
             ),
@@ -65,22 +65,22 @@ class _WelcomePageState extends State<WelcomePage>
               ),
             ),
             Positioned(
-              width: _width,
+              width: width,
               top: 120,
-              child: Column(
+              child: const Column(
                 children: [
                   // RoutAnimation(
                   //   _routAnimationController,
                   //   0.0,
-                    const Text("Welcome!",
+                    Text("Welcome!",
                         style: TextStyle(
                             fontSize: 35, fontWeight: FontWeight.bold)),
                   // ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
                   // RoutAnimation(
                   //   _routAnimationController,
                   //   0.6,
-                    const Text("Sign in or create a new account",
+                    Text("Sign in or create a new account",
                         style: TextStyle(fontSize: 15, color: Colors.black26)),
                   // ),
                 ],
@@ -96,7 +96,7 @@ class _WelcomePageState extends State<WelcomePage>
                       offset: Offset(0, balloonAnime.value), child: child);
                 },
                 child: SizedBox(
-                  height: _width * 90 / 100,
+                  height: width * 90 / 100,
                   child: Image.asset('assets/images/balloons.png'),
                 ),
               ),
@@ -108,7 +108,7 @@ class _WelcomePageState extends State<WelcomePage>
               //   _routAnimationController,
               //   0.3,
                child: SizedBox(
-                  width: _width,
+                  width: width,
                   child: Image.asset(
                     'assets/images/cluods.png',
                     fit: BoxFit.contain,
@@ -135,7 +135,7 @@ class _WelcomePageState extends State<WelcomePage>
                         );
                       },
                       child: Container(
-                        width: _width,
+                        width: width,
                         padding: const EdgeInsets.symmetric(vertical: 15),
                         margin: const EdgeInsets.symmetric(horizontal: 20),
                         decoration: BoxDecoration(
@@ -159,7 +159,7 @@ class _WelcomePageState extends State<WelcomePage>
                   //   _routAnimationController,
                   //   1.2,
                     Container(
-                      width: _width,
+                      width: width,
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       margin: const EdgeInsets.symmetric(horizontal: 20),
                       decoration: BoxDecoration(

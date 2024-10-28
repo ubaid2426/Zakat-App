@@ -90,7 +90,7 @@ void updateTotalAmount() {
               Text(
                 widget.title,
                 style: const TextStyle(
-                  fontSize: 32,
+                  fontSize: 26,
                   decoration: TextDecoration.none,
                   fontFamily: "Roboto",
                   color: Color(0xFF7fc23a),
@@ -109,7 +109,7 @@ void updateTotalAmount() {
                 child: Text(
                   widget.description,
                   style: const TextStyle(
-                    fontSize: 20,
+                    fontSize: 16,
                     color: Color.fromARGB(255, 88, 88, 88),
                     fontFamily: "Montserrat",
                     fontWeight: FontWeight.w600,

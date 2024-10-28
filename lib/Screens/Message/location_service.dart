@@ -53,11 +53,13 @@ void main() {
 class GetcurrentLocation extends StatelessWidget {
   final LocationService locationService = LocationService();
 
+  GetcurrentLocation({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text('Location Example')),
+        appBar: AppBar(title: const Text('Location Example')),
         body: Center(
           child: ElevatedButton(
             onPressed: () async {
@@ -66,7 +68,7 @@ class GetcurrentLocation extends StatelessWidget {
                 print('Location: ${position.latitude}, ${position.longitude}');
               }
             },
-            child: Text('Get Location'),
+            child: const Text('Get Location'),
           ),
         ),
       ),

@@ -3,6 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zakat_app/components/custom_button.dart';
 
 class ZakatCalculator extends StatefulWidget {
+  const ZakatCalculator({super.key});
+
   @override
   _ZakatCalculatorState createState() => _ZakatCalculatorState();
 }

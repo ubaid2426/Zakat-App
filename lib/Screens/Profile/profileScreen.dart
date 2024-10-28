@@ -153,16 +153,16 @@ class Profiler extends StatelessWidget {
                   const SizedBox(
                     height: 60,
                   ),
-                  Text(
+                  const Text(
                     "Profile",
                     style: TextStyle(
-                        color: const Color.fromARGB(255, 0, 0, 0),
+                        color: Color.fromARGB(255, 0, 0, 0),
                         fontSize: 25,
                         fontWeight: FontWeight.w600),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 20),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: 300,
                     child: Column(

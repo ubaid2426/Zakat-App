@@ -27,7 +27,7 @@ class AllCategoryIndividual extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double height = (screenWidth < 400) ? 800 : 1300;
+    double height = (screenWidth < 400) ? 800 : 1100;
 
     return MaterialApp(
       // initialRoute: '/PortableHouse': (context) => const PortableHouse(),
@@ -107,7 +107,8 @@ class _CategoryGridState extends State<CategoryGrid> {
 
   // Fetch categories from API
   Future<List<AllCategoryModel>> fetchCategories() async {
-    final response = await http.get(Uri.parse('http://127.0.0.1:8000/data/categories/'));
+    final response =
+        await http.get(Uri.parse('http://127.0.0.1:8000/data/categories/'));
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
       return data.map((json) => AllCategoryModel.fromJson(json)).toList();
@@ -119,7 +120,11 @@ class _CategoryGridState extends State<CategoryGrid> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    int crossAxisCount = (screenWidth < 600) ? 3 : (screenWidth < 900) ? 4 : 5;
+    int crossAxisCount = (screenWidth < 600)
+        ? 3
+        : (screenWidth < 900)
+            ? 4
+            : 5;
     double childAspectRatio = (screenWidth < 400) ? 2 / 3.5 : 3 / 4;
 
     return FutureBuilder<List<AllCategoryModel>>(
@@ -136,6 +141,8 @@ class _CategoryGridState extends State<CategoryGrid> {
         return Padding(
           padding: const EdgeInsets.all(16.0),
           child: GridView.builder(
+            shrinkWrap: true, // Ensures GridView does not expand indefinitely.
+            primary: false,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: crossAxisCount,
               crossAxisSpacing: 10,
@@ -194,7 +201,8 @@ class CategoryTile extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
-                  image: NetworkImage("http://127.0.0.1:8000/data${category.image}"),
+                  image: NetworkImage(
+                      "http://127.0.0.1:8000/data${category.image}"),
                   fit: BoxFit.contain,
                 ),
               ),

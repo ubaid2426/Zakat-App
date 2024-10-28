@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 
 class IndividualDonation extends StatefulWidget {
+  const IndividualDonation({super.key});
+
   @override
   _IndividualDonationState createState() => _IndividualDonationState();
 }
@@ -57,7 +59,7 @@ class _IndividualDonationState extends State<IndividualDonation> {
     return Scaffold(
       // backgroundColor:  Color(0xFF29C77B),
       appBar: AppBar(
-            backgroundColor: Color(0xFF29C77B),
+            backgroundColor: const Color(0xFF29C77B),
         title: const Text('Request For Donations' ,),
       ),
       body: SingleChildScrollView(
@@ -77,7 +79,7 @@ class _IndividualDonationState extends State<IndividualDonation> {
                           fontSize: 16, color: Color.fromARGB(255, 18, 18, 18)),
                     ),
                     const SizedBox(height: 20),
-                    Text(
+                    const Text(
                       "Fill The Form",
                       style: TextStyle(
                         color: Colors.black,
@@ -169,7 +171,7 @@ class _IndividualDonationState extends State<IndividualDonation> {
                             border: Border.all(
                               color: Colors.black26,
                             ),
-                            color: Color(0xFF29C77B),
+                            color: const Color(0xFF29C77B),
                           ),
                           elevation: 2,
                         ),
@@ -186,13 +188,13 @@ class _IndividualDonationState extends State<IndividualDonation> {
                           width: 200,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(14),
-                            color: Color(0xFF29C77B),
+                            color: const Color(0xFF29C77B),
                           ),
                           offset: const Offset(-20, 0),
                           scrollbarTheme: ScrollbarThemeData(
                             radius: const Radius.circular(40),
-                            thickness: MaterialStateProperty.all(6),
-                            thumbVisibility: MaterialStateProperty.all(true),
+                            thickness: WidgetStateProperty.all(6),
+                            thumbVisibility: WidgetStateProperty.all(true),
                           ),
                         ),
                         menuItemStyleData: const MenuItemStyleData(

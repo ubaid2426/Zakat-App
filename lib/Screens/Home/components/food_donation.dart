@@ -34,11 +34,11 @@ class FoodDonation extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              SizedBox(height: 50,),
+              const SizedBox(height: 50,),
               ElevatedButton(
-                onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => AllCategoryGroup()));},
+                onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => const AllCategoryGroup()));},
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF29C77B), // Button color
+                  backgroundColor: const Color(0xFF29C77B), // Button color
                   padding: const EdgeInsets.symmetric(
                     horizontal: 40,
                     vertical: 15,

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 
 class Volunteer extends StatefulWidget {
+  const Volunteer({super.key});
+
   @override
   _VolunteerState createState() => _VolunteerState();
 }
@@ -254,7 +256,7 @@ class _VolunteerState extends State<Volunteer> {
                           horizontal: 40,
                           vertical: 15,
                         ),
-                        backgroundColor: Color(0xFF7fc23a),
+                        backgroundColor: const Color(0xFF7fc23a),
                       ),
                       child: const Text(
                         'SUBMIT',

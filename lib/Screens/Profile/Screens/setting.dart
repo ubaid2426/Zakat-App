@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:zakat_app/Screens/Profile/Screens/Settings/currency_converter.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+  const SettingsScreen({super.key});
 
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
@@ -49,7 +49,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SwitchListTile(
               title: const Text('Dark Mode'),
               value: _darkMode,
-              activeColor: Color(0xFF7fc23a),
+              activeColor: const Color(0xFF7fc23a),
               onChanged: (bool value) {
                 setState(() {
                   _darkMode = value;
@@ -61,7 +61,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
             // Notifications Switch
             SwitchListTile(
-              activeColor: Color(0xFF7fc23a),
+              activeColor: const Color(0xFF7fc23a),
               title: const Text('Enable Notifications'),
               value: _notificationsEnabled,
               onChanged: (bool value) {
@@ -108,7 +108,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 // Navigate to currency converter screen
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CurrencyConverterScreen()),
+                  MaterialPageRoute(builder: (context) => const CurrencyConverterScreen()),
                 );
               },
             ),
@@ -120,11 +120,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onPressed: () {
                   // Logic to save settings
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Settings saved!')),
+                    const SnackBar(content: Text('Settings saved!')),
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF7fc23a),
+                  backgroundColor: const Color(0xFF7fc23a),
                   padding: const EdgeInsets.symmetric(horizontal: 50),
                 ),
                 child: const Text('Save Settings'),

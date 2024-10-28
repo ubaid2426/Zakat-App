@@ -6,7 +6,7 @@ class ActivationScreen extends StatefulWidget {
   final String uid;
   final String token;
 
-  ActivationScreen({required this.uid, required this.token});
+  const ActivationScreen({super.key, required this.uid, required this.token});
 
   @override
   State<ActivationScreen> createState() => _ActivationScreenState();
@@ -55,7 +55,7 @@ class _ActivationScreenState extends State<ActivationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Activate Account')),
+      appBar: AppBar(title: const Text('Activate Account')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -65,9 +65,9 @@ class _ActivationScreenState extends State<ActivationScreen> {
                 // Call the activation API
                 _activateAccount(widget.uid, widget.token);
               },
-              child: Text('Activate Account'),
+              child: const Text('Activate Account'),
             ),
-            SizedBox(height: 20), // Add some spacing
+            const SizedBox(height: 20), // Add some spacing
             Text(
               message,
               style: TextStyle(

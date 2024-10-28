@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zakat_app/components/homeScreen_carousel.dart';
 
 class IslamScreen extends StatelessWidget {
-  const IslamScreen({Key? key}) : super(key: key);
+  const IslamScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +51,12 @@ class IslamScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              Hadith(),
+              const Hadith(),
               const SizedBox(height: 10),
 
               // Description
-              Padding(
-                padding: const EdgeInsets.all(16.0),
+              const Padding(
+                padding: EdgeInsets.all(16.0),
                 child: Text(
                   "Charity (Sadaqah and Zakat) is a fundamental aspect of Islam. "
                   "It is a means of purifying wealth, helping those in need, and fostering community spirit. "
@@ -78,7 +78,7 @@ class IslamScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              QuranVerse(),
+              const QuranVerse(),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
                 child: Text(
@@ -103,11 +103,11 @@ class IslamScreen extends StatelessWidget {
                   // Navigate to the donation screen or any other relevant action
                   // Navigator.push(context, MaterialPageRoute(builder: (context) => DonationScreen()));
                 },
-                child: const Text("Make a Donation"),
                 style: ElevatedButton.styleFrom(
                   // primary: const Color(0xFF33A248), // Button color
                   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 ),
+                child: const Text("Make a Donation"),
               ),
               const SizedBox(height: 20),
             ],
@@ -129,7 +129,7 @@ class QuranVerse extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: 300,
         // color: Colors.red,
@@ -156,7 +156,7 @@ class Hadith extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: 300,
         // color: Colors.red,

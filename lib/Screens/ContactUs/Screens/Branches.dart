@@ -61,11 +61,11 @@ class _BranchScreenState extends State<BranchScreen>
             ],
           ),
           const SizedBox(height: 20),
-          Row(
+          const Row(
             children: [
-              const Icon(Icons.map, color: Colors.green),
-              const SizedBox(width: 8),
-              const Text(
+              Icon(Icons.map, color: Colors.green),
+              SizedBox(width: 8),
+              Text(
                 "Location on map",
                 style: TextStyle(color: Colors.green, fontSize: 16),
               ),

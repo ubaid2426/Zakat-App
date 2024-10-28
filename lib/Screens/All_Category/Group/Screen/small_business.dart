@@ -41,7 +41,7 @@ class SmallBusiness extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
         ),
       ),
-      body:  SingleChildScrollView(
+      body:  const SingleChildScrollView(
         child: DataSpecial(
             imageUrl: "Assests/images/AllCategory/clothes.png",
             title: "Check",

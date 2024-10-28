@@ -23,7 +23,7 @@ class Navigation extends StatelessWidget {
         // MaterialApp(
         // debugShowCheckedModeBanner: false,
         // title: 'Flutter Demo',
-        MyHomePage();
+        const MyHomePage();
     // );
   }
 }
@@ -140,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   final List<Widget> screens = [
     const Home(),
-    Message(),
+    const Message(),
     const CartScreen(),
     const ProfileScreen(),
   ];
@@ -182,13 +182,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         width: 80,
         height: 80,
         child: FloatingActionButton(
-          backgroundColor: Color(0xFF7fc23a),
+          backgroundColor: const Color(0xFF7fc23a),
           shape: const CircleBorder(),
+          onPressed: _showLoginDialog,
           child: const Icon(
             FontAwesomeIcons.handHoldingDollar,
             size: 35,
-          ),
-          onPressed: _showLoginDialog, // Show popup on button press
+          ), // Show popup on button press
           // onPressed: () {
           //   Navigator.push(
           //     context,

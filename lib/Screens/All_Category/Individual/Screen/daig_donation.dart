@@ -75,7 +75,7 @@ class _DaigDonationState extends State<DaigDonation> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back),
         ),
-        title: const Text("Clothes Donation"),
+        title: const Text("Daig Donation"),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {

@@ -166,7 +166,7 @@ class CartScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const PaymentMethod()),
+                                builder: (context) =>  PaymentMethod(placeholderText: controller.totalPrice.value)),
                           );
                         },
                         child: const Text(

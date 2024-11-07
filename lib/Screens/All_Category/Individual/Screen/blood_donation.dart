@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:zakat_app/Screens/donation_service.dart';
-import 'package:zakat_app/components/donate.dart';
+// import 'package:zakat_app/components/donate.dart';
+import 'package:zakat_app/components/donate_special.dart';
 import 'package:zakat_app/model/doantion_model.dart';
 // import 'package:zakat_app/services/donation_service.dart'; // Import the service
 
-class PortableHouse extends StatefulWidget {
-  const PortableHouse({super.key});
+class Blood extends StatefulWidget {
+  const Blood({super.key});
 
   @override
-  _PortableHouseState createState() => _PortableHouseState();
+  _BloodState createState() => _BloodState();
 }
 
-class _PortableHouseState extends State<PortableHouse> {
+class _BloodState extends State<Blood> {
   String selectedSort = 'Not finished projects first';
   List<DonationModel> sortedClothes = [];
 
@@ -47,7 +48,7 @@ class _PortableHouseState extends State<PortableHouse> {
         break;
     }
     final donations = await DonationService().fetchDonations(
-        sort: sortvalue, filter: filterValue, category: "portablehouse");
+        sort: sortvalue, filter: filterValue, category: "blood");
 
     setState(() {
       sortedClothes = donations;
@@ -74,7 +75,7 @@ class _PortableHouseState extends State<PortableHouse> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back),
         ),
-        title: const Text("Portable House"),
+        title: const Text("Blood Donation"),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {
@@ -121,7 +122,7 @@ class _PortableHouseState extends State<PortableHouse> {
               if (sortedClothes.isNotEmpty)
                 Column(
                   children: sortedClothes.map((donation) {
-                    return Data(
+                    return DataSpecial(
                       imageUrl: donation.imageUrl,
                       title: donation.title,
                       description: donation.description,

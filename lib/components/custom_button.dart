@@ -8,7 +8,7 @@ class CustomButton extends StatefulWidget {
   final Widget? navigateTo;
   final Function? onNavigate; // Function to call if not navigating to a Widget
 
-  const CustomButton({
+  const CustomButton( {
     super.key,
     required this.title,
     required this.icon,

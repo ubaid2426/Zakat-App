@@ -75,7 +75,7 @@ class _MealDonationState extends State<MealDonation> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back),
         ),
-        title: const Text("Clothes Donation"),
+        title: const Text("Meal Donation"),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {

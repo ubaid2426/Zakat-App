@@ -1,11 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+// import 'package:zakat_app/Screens/Profile/Screens/my_detail.dart';
 import 'package:zakat_app/components/custom_button.dart';
+import 'package:http/http.dart' as http;
 
 class PaymentMethod extends StatefulWidget {
-  const PaymentMethod({super.key});
+  final double? placeholderText;
+  const PaymentMethod({super.key, required this.placeholderText});
 
   @override
   _PaymentMethodState createState() => _PaymentMethodState();
@@ -14,15 +18,52 @@ class PaymentMethod extends StatefulWidget {
 class _PaymentMethodState extends State<PaymentMethod> {
   File? _image; // To store the selected image
   String paymentStatus = 'Pending'; // Initial payment status
+  final storage = FlutterSecureStorage();
+
+  Future<void> recordDonation(
+      String donationId, String donorName, double amount, File? image) async {
+    final uri = Uri.parse('http://127.0.0.1:8000/data/donor-history/');
+
+    // Retrieve donor details from secure storage
+    String? donationId = await storage.read(key: 'donationId');
+    String? donorName = await storage.read(key: 'donorName');
+
+    // Ensure both donorName and donationId are not null
+    if (donationId == null || donorName == null) {
+      print('Error: Donor name or donation ID is missing.');
+      return;
+    }
+
+    // Set up multipart request
+    var request = http.MultipartRequest('POST', uri);
+    request.fields['donation_id'] = donationId;
+    request.fields['donor_name'] = donorName;
+    request.fields['amount'] = amount.toString();
+
+    if (image != null) {
+      request.files.add(await http.MultipartFile.fromPath('image', image.path));
+    }
+
+    try {
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        print('Donation recorded successfully.');
+      } else {
+        print('Failed to record donation.');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 
   // Function to pick an image
   Future<void> _pickImage() async {
-    final picker = ImagePicker();
+    final ImagePicker picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      // setState(() {
-      //   _image = File(pickedFile.path);
-      // });
+      setState(() {
+        _image = File(pickedFile.path);
+      });
     }
   }
 
@@ -81,6 +122,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 accountHolder: 'Zuha Rashid',
                 icon: FontAwesomeIcons.paypal,
               ),
+              ValueReader(widget.placeholderText.toString()),
               const SizedBox(height: 30),
               buildImagePickerSection(),
               const SizedBox(height: 20),
@@ -88,9 +130,15 @@ class _PaymentMethodState extends State<PaymentMethod> {
               const SizedBox(height: 20),
               Center(
                 child: CustomButton(
-                    title: "Verify Payment",
-                    icon: FontAwesomeIcons.moneyCheck,
-                    onNavigate: _verifyPayment),
+                  title: "Verify Payment",
+                  icon: FontAwesomeIcons.moneyCheck,
+                  onNavigate:  recordDonation(
+        'donationId',       // Replace with actual donationId or retrieve it from storage
+        'donorName',         // Replace with actual donorName or retrieve it from storage
+        widget.placeholderText ?? 0.0,
+        _image,
+      );
+                ),
               ),
             ],
           ),
@@ -169,6 +217,26 @@ class _PaymentMethodState extends State<PaymentMethod> {
               onNavigate: _pickImage),
         ),
       ],
+    );
+  }
+
+//  @override
+  // ignore: non_constant_identifier_names
+  Widget ValueReader(String placeholderText) {
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(8.0),
+        border: Border.all(color: Colors.grey[400]!),
+      ),
+      child: Text(
+        placeholderText,
+        style: TextStyle(
+          color: Colors.grey[600],
+          fontSize: 16.0,
+        ),
+      ),
     );
   }
 

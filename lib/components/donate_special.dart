@@ -37,7 +37,7 @@ class _DataSpecialState extends State<DataSpecial> {
   late double? paidValue;
   int quantity = 1;
   int totalDonationAmount = 0;
-
+  double donationAmount =  32.0;
   // Dropdown state
   Map<String, dynamic>? selectedDonation;
   final List<Map<String, dynamic>> donationOptions = [
@@ -199,16 +199,23 @@ void updateTotalAmount() {
               decoration: const InputDecoration(
                 labelText: "Total Donation Amount (Rs)",
                 border: OutlineInputBorder(),
+                
               ),
+              onChanged: (value) {
+                setState(() {
+                  // Update donationAmount as user types
+                  donationAmount = double.tryParse(value) ?? 32.0;
+                });
+              },
             ),
             const SizedBox(height: 10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const CustomButton(
+                CustomButton(
                   title: "Donate",
                   icon: FontAwesomeIcons.circleDollarToSlot,
-                  navigateTo: PaymentMethod(),
+                  navigateTo: PaymentMethod(placeholderText: double.tryParse(_controller.text) ?? 32.0,),
                 ),
                 buildAddToCartButton(),
               ],
@@ -275,6 +282,8 @@ void updateTotalAmount() {
   Widget buildDonationDropdown() {
     return Material(
          color: Colors.white,
+        
+        //  background-color:Colors.green,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
@@ -284,28 +293,33 @@ void updateTotalAmount() {
               style: TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 10),
-            DropdownButton<Map<String, dynamic>>(
-              isExpanded: true,
-              hint: const Text('Choose a donation option'),
-              value: selectedDonation,
-              items: donationOptions.map((Map<String, dynamic> option) {
-                return DropdownMenuItem<Map<String, dynamic>>(
-                  value: option,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(option['title']),
-                      Text('Rs ${option['price']}'),
-                    ],
-                  ),
-                );
-              }).toList(),
-              onChanged: (Map<String, dynamic>? newValue) {
-                setState(() {
-                  selectedDonation = newValue;
-                  updateTotalAmount(); // Recalculate total donation amount
-                });
-              },
+            Container(
+              color: const Color(0xFF7fc23a),
+              padding: EdgeInsets.symmetric(horizontal: 12), // Optional padding
+              child: DropdownButton<Map<String, dynamic>>(
+                // dropdownColor: Colors.red,
+                isExpanded: true,
+                hint: const Text('Choose a donation option', style: TextStyle(fontSize: 18,), ),
+                value: selectedDonation,
+                items: donationOptions.map((Map<String, dynamic> option) {
+                  return DropdownMenuItem<Map<String, dynamic>>(
+                    value: option,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(option['title']),
+                        Text('Rs ${option['price']}'),
+                      ],
+                    ),
+                  );
+                }).toList(),
+                onChanged: (Map<String, dynamic>? newValue) {
+                  setState(() {
+                    selectedDonation = newValue;
+                    updateTotalAmount(); // Recalculate total donation amount
+                  });
+                },
+              ),
             ),
             // const SizedBox(height: 10),
             // if (selectedDonation != null)
@@ -318,27 +332,6 @@ void updateTotalAmount() {
       ),
     );
   }
-
-  // Widget buildZakatCheckBox() {
-  //   return Row(
-  //     children: [
-  //       Material(
-  //         child: Checkbox(
-  //           value: isZakat,
-  //           onChanged: (bool? value) {
-  //             setState(() {
-  //               isZakat = value ?? false;
-  //             });
-  //           },
-  //         ),
-  //       ),
-  //       const Text(
-  //         "This Donation is Zakat",
-  //         style: TextStyle(fontSize: 18),
-  //       ),
-  //     ],
-  //   );
-  // }
 
   Widget buildSecureDonation() {
     return Container(
@@ -367,7 +360,7 @@ void updateTotalAmount() {
           child: LinearProgressIndicator(
             value: progress,
             backgroundColor: Colors.grey[300],
-            valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF29C77B)),
+            valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF7fc23a)),
             minHeight: 10,
           ),
         ),
@@ -378,7 +371,7 @@ void updateTotalAmount() {
             fontSize: 16,
             decoration: TextDecoration.none,
             fontWeight: FontWeight.bold,
-            color: Color(0xFF29C77B),
+            color: Color(0xFF7fc23a),
           ),
         ),
       ],

@@ -74,7 +74,7 @@ class _WheelChairState extends State<WheelChair> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back),
         ),
-        title: const Text("Clothes Donation"),
+        title: const Text("Wheel Chair Donation"),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {

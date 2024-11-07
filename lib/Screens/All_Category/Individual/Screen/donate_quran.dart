@@ -74,7 +74,7 @@ class _DonateQuranState extends State<DonateQuran> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back),
         ),
-        title: const Text("Clothes Donation"),
+        title: const Text("Donate Quran"),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {

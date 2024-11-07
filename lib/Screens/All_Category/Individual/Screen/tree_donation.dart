@@ -75,7 +75,7 @@ class _TreeDonationState extends State<TreeDonation> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back),
         ),
-        title: const Text("Clothes Donation"),
+        title: const Text("Tree Donation"),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {

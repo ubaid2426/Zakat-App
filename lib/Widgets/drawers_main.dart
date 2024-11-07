@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zakat_app/Screens/AboutUs/about_us.dart';
-import 'package:zakat_app/Screens/All_Category/Group/Screen/clothes.dart';
-// import 'package:zakat_app/Screens/All_Category/Group/Screen/daig_donation.dart';
-// import 'package:zakat_app/Screens/All_Category/Group/Screen/food_relief.dart';
-// import 'package:zakat_app/Screens/All_Category/Group/Screen/marriage_support.dart';
-import 'package:zakat_app/Screens/All_Category/Group/Screen/masjid_const.dart';
-import 'package:zakat_app/Screens/All_Category/Group/Screen/masjid_maintenance.dart';
-import 'package:zakat_app/Screens/All_Category/Group/Screen/meal_donation.dart';
-import 'package:zakat_app/Screens/All_Category/Group/Screen/medical_bed.dart';
-import 'package:zakat_app/Screens/All_Category/Group/Screen/orphan_support.dart';
-import 'package:zakat_app/Screens/All_Category/Group/Screen/other.dart';
-// import 'package:zakat_app/Screens/All_Category/Group/Screen/portable_house.dart';
-import 'package:zakat_app/Screens/All_Category/Group/Screen/small_business.dart';
-import 'package:zakat_app/Screens/All_Category/Group/Screen/tree_donation.dart';
-import 'package:zakat_app/Screens/All_Category/Group/Screen/water_cooler.dart';
-import 'package:zakat_app/Screens/All_Category/Group/Screen/wheel_chair.dart';
-import 'package:zakat_app/Screens/All_Category/Group/Screen/widow_family.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/blood_donation.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/clothes.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/donate_quran.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/food_relief.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/marriage_support.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/masjid_const.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/masjid_maintenance.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/meal_donation.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/medical_bed.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/orphan_support.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/other.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/portable_house.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/small_business.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/tree_donation.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/water_cooler.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/wheel_chair.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/widow_family.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/all_category.dart';
 // import 'package:zakat_app/Screens/All_Category/all_category.dart';
 import 'package:zakat_app/Screens/ContactUs/Screens/Branches.dart';
@@ -70,14 +71,14 @@ class MainDrawer extends StatelessWidget {
           ),
           Expanded(
             child: ListView(
-              children: [
-                const ManyOption(
+              children:const [
+                 ManyOption(
                   menuTitle: "Home",
                   fontawesome: FontAwesomeIcons.home,
                   navigateTo: Home(),
                 ),
                 // VerticalDivider(width: 500, color: Colors.red,),
-                const DonationMenu(
+                 DonationMenu(
                   menuTitle: 'Donate By Category',
                   subOptions: [
                     "Portable House",
@@ -92,14 +93,16 @@ class MainDrawer extends StatelessWidget {
                     'Tree Donation',
                     'Daig Donation',
                     'Meal Donation',
+                    'Blood Donation',
                     'Orphan Support',
                     'Water Cooler',
                     'Masjid Construction',
+                    'Donate Quran',
                     "Other"
                   ],
                   fontawesome: FontAwesomeIcons.layerGroup,
                 ),
-                const DonationMenu(
+                 DonationMenu(
                   menuTitle: 'Donation',
                   subOptions: [
                     "Individual Donation",
@@ -112,17 +115,17 @@ class MainDrawer extends StatelessWidget {
                 //   fontawesome: FontAwesomeIcons.envelope,
                 //   navigateTo: AllCategory(),
                 // ),
-                const ManyOption(
+                 ManyOption(
                   menuTitle: "What We Do",
                   fontawesome: FontAwesomeIcons.briefcase,
                   navigateTo: DonationData(),
                 ),
-                ManyOption(
+                 ManyOption(
                   menuTitle: "Become A Volunteer",
                   fontawesome: FontAwesomeIcons.handsHelping,
                   navigateTo: Volunteer(),
                 ),
-                const ManyOption(
+                 ManyOption(
                   menuTitle: "About Us",
                   fontawesome: FontAwesomeIcons.info,
                   navigateTo: AboutUs(),
@@ -132,7 +135,7 @@ class MainDrawer extends StatelessWidget {
                 //   fontawesome: FontAwesomeIcons.addressBook,
                 //   navigateTo: ContactUs(),
                 // ),
-                const DonationMenu(
+                 DonationMenu(
                   menuTitle: 'Contact Us',
                   subOptions: [
                     "Call US",
@@ -141,12 +144,12 @@ class MainDrawer extends StatelessWidget {
                   ],
                   fontawesome: FontAwesomeIcons.donate,
                 ),
-                const ManyOption(
+                 ManyOption(
                   menuTitle: "Login",
                   fontawesome: FontAwesomeIcons.rightToBracket,
                   navigateTo: Signup(),
                 ),
-                const ManyOption(
+                 ManyOption(
                   menuTitle: "Gallery",
                   fontawesome: Icons.picture_in_picture_sharp,
                   navigateTo: Gallery(),
@@ -289,7 +292,23 @@ class _DonationMenuState extends State<DonationMenu> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const MasjidMaintenance(),
+                      builder: (context) => const PortableHouse(),
+                    ),
+                  );
+                  break;
+                  case "Donate Quran":
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const DonateQuran(),
+                    ),
+                  );
+                  break;
+                  case "Blood Donation":
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Blood(),
                     ),
                   );
                   break;
@@ -305,7 +324,7 @@ class _DonationMenuState extends State<DonationMenu> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const MasjidMaintenance(),
+                      builder: (context) => const MarriageSupport(),
                     ),
                   );
                   break;
@@ -313,7 +332,7 @@ class _DonationMenuState extends State<DonationMenu> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const MasjidMaintenance(),
+                      builder: (context) => const FloodRelief(),
                     ),
                   );
                   break;

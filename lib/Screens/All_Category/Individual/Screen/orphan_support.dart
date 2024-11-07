@@ -74,7 +74,7 @@ class _OrphanSupportState extends State<OrphanSupport> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back),
         ),
-        title: const Text("Clothes Donation"),
+        title: const Text("Orphan Support"),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {

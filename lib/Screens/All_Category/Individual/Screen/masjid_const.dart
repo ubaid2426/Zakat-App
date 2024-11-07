@@ -74,7 +74,7 @@ class _MasjidConstState extends State<MasjidConst> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back),
         ),
-        title: const Text("Clothes Donation"),
+        title: const Text("Masjid Construction"),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {

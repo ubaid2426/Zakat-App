@@ -74,7 +74,7 @@ class _WaterCoolerState extends State<WaterCooler> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back),
         ),
-        title: const Text("Clothes Donation"),
+        title: const Text("Water Cooler Donation"),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {

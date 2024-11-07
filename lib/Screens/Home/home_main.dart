@@ -5,7 +5,7 @@ import 'package:video_player/video_player.dart';
 // import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-// import 'package:zakat_app/Screens/All_Category/Group/Screen/donate_quran.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/blood_donation.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/Screen/clothes.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/Screen/daig_donation.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/Screen/donate_quran.dart';
@@ -23,36 +23,12 @@ import 'package:zakat_app/Screens/All_Category/Individual/Screen/tree_donation.d
 import 'package:zakat_app/Screens/All_Category/Individual/Screen/water_cooler.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/Screen/wheel_chair.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/Screen/widow_family.dart';
-// import 'package:zakat_app/Screens/All_Category/Group/Screen/clothes.dart';
-// import 'package:zakat_app/Screens/All_Category/Group/Screen/daig_donation.dart';
-// import 'package:zakat_app/Screens/All_Category/Group/Screen/food_relief.dart';
-// import 'package:zakat_app/Screens/All_Category/Group/Screen/marriage_support.dart';
-// import 'package:zakat_app/Screens/All_Category/Group/Screen/masjid_maintenance.dart';
-// import 'package:zakat_app/Screens/All_Category/Group/Screen/meal_donation.dart';
-// import 'package:zakat_app/Screens/All_Category/Group/Screen/medical_bed.dart';
-// import 'package:zakat_app/Screens/All_Category/Group/Screen/orphan_support.dart';
-// import 'package:zakat_app/Screens/All_Category/Group/Screen/other.dart';
-// import 'package:zakat_app/Screens/All_Category/Group/Screen/portable_house.dart';
-// import 'package:zakat_app/Screens/All_Category/Group/Screen/tree_donation.dart';
-// import 'package:zakat_app/Screens/All_Category/Group/Screen/water_cooler.dart';
-// import 'package:zakat_app/Screens/All_Category/Group/Screen/wheel_chair.dart';
-// import 'package:zakat_app/Screens/All_Category/Group/Screen/widow_family.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/all_category.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/clothes.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/masjid_maintenance.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/portable_house.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/individual_donation.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/request_donation.dart';
-// import 'package:zakat_app/Screens/All_Category/all_category.dart';
-// import 'package:zakat_app/Screens/All_Category/Screen/all_category.dart';
 import 'package:zakat_app/Screens/Calculator/Calculator.dart';
 import 'package:zakat_app/Screens/History/history_main.dart';
-// import 'package:zakat_app/Screens/Home/components/food_donation.dart';
 import 'package:zakat_app/Screens/Islam/islam_main.dart';
 import 'package:zakat_app/Screens/Login/Screen/login_page.dart';
 import 'package:zakat_app/Screens/Need%20Support/need_support.dart';
-// import 'package:zakat_app/Screens/Need%20Support/need_support.dart';
-// import 'package:zakat_app/Screens/New%20Campaign/new_campaign.dart';
 import 'package:zakat_app/Screens/Notification/Screen/notification.dart';
 import 'package:zakat_app/Screens/donation_service.dart';
 import 'package:zakat_app/Widgets/drawers_main.dart';
@@ -244,7 +220,7 @@ class _HomeState extends State<Home> {
               //   height: 50,
               // ),
               // FoodDonation(),
-              // UpComingRender(),
+              UpComingRender(),
               //  MyHomePage(showFoodDialog: showFoodDialog),
               // UpComingProjects(
               //     image: AssetImage("Assests/images/screen1/upcoming1.png")),
@@ -257,49 +233,49 @@ class _HomeState extends State<Home> {
   }
 }
 
-class MainCategory extends StatelessWidget {
-  const MainCategory({super.key});
+// class MainCategory extends StatelessWidget {
+//   const MainCategory({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                "All categories",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF7fc23a)),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  "see more",
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    // color: Colors.black,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          width: double.infinity,
-          height: 600,
-          // color: Colors.pink,
-          child: Category(),
-        ),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children: [
+//         Padding(
+//           padding: const EdgeInsets.all(15.0),
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               const Text(
+//                 "All categories",
+//                 style: TextStyle(
+//                     fontSize: 20,
+//                     fontWeight: FontWeight.bold,
+//                     color: Color(0xFF7fc23a)),
+//               ),
+//               TextButton(
+//                 onPressed: () {},
+//                 child: const Text(
+//                   "see more",
+//                   style: TextStyle(
+//                     fontSize: 15,
+//                     fontWeight: FontWeight.bold,
+//                     // color: Colors.black,
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//         const SizedBox(
+//           width: double.infinity,
+//           height: 600,
+//           // color: Colors.pink,
+//           child: Category(),
+//         ),
+//       ],
+//     );
+//   }
+// }
 
 class UpComingRender extends StatelessWidget {
   const UpComingRender({super.key});
@@ -852,7 +828,7 @@ class _ReelsSectionState extends State<ReelsSection>
           ),
         ),
         SizedBox(
-          height: 150, // Increased height to accommodate titles
+          height: 100, // Increased height to accommodate titles
           width: double.infinity,
           child: Padding(
             padding: const EdgeInsets.all(0.0),
@@ -872,7 +848,7 @@ class _ReelsSectionState extends State<ReelsSection>
                     );
                   },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: Column(
                       children: [
                         AnimatedBuilder(
@@ -880,9 +856,9 @@ class _ReelsSectionState extends State<ReelsSection>
                           builder: (context, child) {
                             Color borderColor = getAnimatedBorderColor();
                             return Container(
-                              width: 100,
+                              width: 70,
                               height:
-                                  100, // Fixed height for the video thumbnail
+                                  70, // Fixed height for the video thumbnail
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(
                                   colors: [
@@ -1319,6 +1295,12 @@ class _FinalCardState extends State<FinalCard> {
                           .toList(),
                       navigate: const PortableHouse(),
                     ),
+                     LeftToRight(
+                      projects: projects
+                          .where((p) => p.category == "blood")
+                          .toList(),
+                      navigate: const Blood(),
+                    ),
                     LeftToRight(
                       projects: projects
                           .where((p) => p.category == "donatequran")
@@ -1459,21 +1441,21 @@ class DisplayCategory extends StatelessWidget {
         SizedBox(
           // color: Colors.black,
           height: height,
-          child: const Category(),
+          child: const CategoryGrid(),
         ),
       ],
     );
   }
 }
 
-class Category extends StatefulWidget {
-  const Category({super.key});
+class CategoryGrid extends StatefulWidget {
+  const CategoryGrid({super.key});
 
   @override
-  _CategoryState createState() => _CategoryState();
+  _CategoryGridState createState() => _CategoryGridState();
 }
 
-class _CategoryState extends State<Category> {
+class _CategoryGridState extends State<CategoryGrid> {
   late Future<List<AllCategoryModel>> categories;
 
   @override
@@ -1491,6 +1473,53 @@ class _CategoryState extends State<Category> {
       return data.map((json) => AllCategoryModel.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load categories');
+    }
+  }
+
+  // Route mapping function
+  Widget getRouteWidget(String route) {
+    switch (route) {
+      case '/MasjidMaintenance':
+        return const MasjidMaintenance();
+      case '/Clothes':
+        return const Clothes();
+      case '/PortableHouse':
+        return const PortableHouse();
+      case '/MarriageSupport':
+        return const MarriageSupport();
+      case '/FloodRelief':
+        return const FloodRelief();
+      case '/OrphanSupport':
+        return const OrphanSupport();
+      case '/Other':
+        return const Other();
+      case '/TreeDonation':
+        return const TreeDonation();
+      case '/WaterCooler':
+        return const WaterCooler();
+      case '/SmallBusinessSetup':
+        return const SmallBusiness();
+      case '/MealDonation':
+        return const MealDonation();
+      case '/DaigDonation':
+        return const DaigDonation();
+      case '/WidowFamily':
+        return const WidowFamily();
+      case '/MedicalBed':
+        return const MedicalBed();
+      case '/WheelChair':
+        return const WheelChair();
+      case '/MasjidConst':
+        return const MasjidConst();
+      case '/DonateQuran':
+        return const DonateQuran();  
+      case '/Blood':
+        return const Blood();              
+      default:
+        print('Unknown route tapped: $route');
+        return const Center(
+          child: Text('Page not found'),
+        ); // or replace with a custom error widget
     }
   }
 
@@ -1518,7 +1547,7 @@ class _CategoryState extends State<Category> {
         return Padding(
           padding: const EdgeInsets.all(16.0),
           child: GridView.builder(
-            shrinkWrap: true, // Ensures GridView does not expand indefinitely.
+            shrinkWrap: true,
             primary: false,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: crossAxisCount,
@@ -1532,7 +1561,13 @@ class _CategoryState extends State<Category> {
               return CategoryTile(
                 category: category,
                 onSelectCategory: () {
-                  Navigator.pushNamed(context, category.route);
+                  print("Navigating to: ${category.route}");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => getRouteWidget(category.route),
+                    ),
+                  );
                 },
               );
             },

@@ -74,7 +74,7 @@ class _FloodReliefState extends State<FloodRelief> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back),
         ),
-        title: const Text("Clothes Donation"),
+        title: const Text("Flood Relief Donation"),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {

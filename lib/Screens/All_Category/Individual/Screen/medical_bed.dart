@@ -74,7 +74,7 @@ class _MedicalBedState extends State<MedicalBed> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back),
         ),
-        title: const Text("Clothes Donation"),
+        title: const Text("Medical Bed"),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {

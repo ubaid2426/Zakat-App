@@ -30,12 +30,14 @@ class Data extends StatefulWidget {
 
 class _DataState extends State<Data> {
   final TextEditingController _controller = TextEditingController(text: "32");
+  double donationAmount =  32.0;
+  // print(TextEditingController);
   bool isSelected = false;
   bool isZakat = false;
 
   @override
   Widget build(BuildContext context) {
-    // print(widget.imageUrl);
+    //  print(_controller);
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(19, 19, 19, 0),
@@ -54,7 +56,6 @@ class _DataState extends State<Data> {
           ),
           child: Column(
             children: [
-              
               const SizedBox(height: 30),
               Text(
                 widget.title,
@@ -92,14 +93,14 @@ class _DataState extends State<Data> {
                 height: 200,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                image: DecorationImage(
-                  image: NetworkImage("http://127.0.0.1:8000/data${widget.imageUrl}"),
-
-                  fit: BoxFit.cover,
+                  borderRadius: BorderRadius.circular(15),
+                  image: DecorationImage(
+                    image: NetworkImage(
+                        "http://127.0.0.1:8000/data${widget.imageUrl}"),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-                  
+
                 //  Image.asset(
                 //   widget.imageUrl,
                 //   fit: BoxFit.cover,
@@ -203,7 +204,7 @@ class _DataState extends State<Data> {
   // Donation input section with buttons
   Widget buildDonationSection() {
     double progress = widget.paidvlaue! / widget.projectvalue!;
-
+    double donationAmount = double.tryParse(_controller.text) ?? 30.0;
     if (progress >= 1.0) {
       return const Padding(
         padding: EdgeInsets.all(20.0),
@@ -215,7 +216,7 @@ class _DataState extends State<Data> {
     }
 
     return Padding(
-      padding: const EdgeInsets.only(right: 20, left:20, top:10, bottom:10),
+      padding: const EdgeInsets.only(right: 20, left: 20, top: 10, bottom: 10),
       child: Column(
         children: [
           const Text(
@@ -237,16 +238,26 @@ class _DataState extends State<Data> {
               keyboardType: TextInputType.number,
               style: const TextStyle(fontSize: 20.0),
               textAlign: TextAlign.center,
+              onChanged: (value) {
+                setState(() {
+                  // Update donationAmount as user types
+                  donationAmount = double.tryParse(value) ?? 32.0;
+                });
+              },
             ),
           ),
           const SizedBox(height: 10.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const CustomButton(
+              CustomButton(
                 title: "Donate",
                 icon: FontAwesomeIcons.circleDollarToSlot,
-                navigateTo: PaymentMethod(),
+                //  double donationAmount = double.tryParse(_controller.text) ?? 32.0,
+                navigateTo: PaymentMethod(
+                  placeholderText: donationAmount,
+                  // placeholderText: donationamount.tryParse(_controller.text),
+                ),
               ),
               buildAddToCartButton(),
             ],

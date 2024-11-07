@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/blood_donation.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/Screen/clothes.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/Screen/daig_donation.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/Screen/donate_quran.dart';
@@ -33,7 +34,7 @@ class AllCategoryIndividual extends StatelessWidget {
       // initialRoute: '/PortableHouse': (context) => const PortableHouse(),
       routes: {
         '/PortableHouse': (context) => const PortableHouse(),
-        // '/Gaza': (context) => const Gaza(),
+        '/Blood': (context) => const Blood(),
         '/DonateQuran': (context) => const DonateQuran(),
         '/MasjidMaintenance': (context) => const MasjidMaintenance(),
         '/MarriageSupport': (context) => const MarriageSupport(),
@@ -107,8 +108,7 @@ class _CategoryGridState extends State<CategoryGrid> {
 
   // Fetch categories from API
   Future<List<AllCategoryModel>> fetchCategories() async {
-    final response =
-        await http.get(Uri.parse('http://127.0.0.1:8000/data/categories/'));
+    final response = await http.get(Uri.parse('http://127.0.0.1:8000/data/categories/'));
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
       return data.map((json) => AllCategoryModel.fromJson(json)).toList();
@@ -155,6 +155,7 @@ class _CategoryGridState extends State<CategoryGrid> {
               return CategoryTile(
                 category: category,
                 onSelectCategory: () {
+                  print("Navigating to: ${category.route}");
                   Navigator.pushNamed(context, category.route);
                 },
               );
@@ -165,6 +166,7 @@ class _CategoryGridState extends State<CategoryGrid> {
     );
   }
 }
+
 
 class CategoryTile extends StatelessWidget {
   const CategoryTile({

@@ -54,7 +54,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -69,7 +69,7 @@ class ProfileScreen extends StatelessWidget {
             const ManyOption1(
                 menuTitle: "Payment Method",
                 fontawesome: FontAwesomeIcons.creditCard,
-                navigateTo: PaymentMethod()),
+                navigateTo: PaymentMethod(placeholderText: null,)),
             const SizedBox(
               height: 10,
             ),

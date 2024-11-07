@@ -132,7 +132,7 @@ class _SmallBusinessState extends State<SmallBusiness> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back),
         ),
-        title: const Text("Clothes Donation"),
+        title: const Text("Business Suport"),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {

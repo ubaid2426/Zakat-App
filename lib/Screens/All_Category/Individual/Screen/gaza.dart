@@ -74,7 +74,7 @@ class _GazaState extends State<Gaza> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back),
         ),
-        title: const Text("Clothes Donation"),
+        title: const Text("Gaza Donation"),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {

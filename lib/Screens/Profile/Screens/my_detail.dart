@@ -128,6 +128,12 @@ class _MyDetailState extends State<MyDetail> {
           userIdController.text = data['id'].toString(); // Fetch and display user ID
           isLoading = false;
         });
+  
+
+        // Save name and id in FlutterSecureStorage
+      await storage.write(key: 'user_name', value: data['name']);
+      await storage.write(key: 'user_id', value: data['id'].toString());
+
       } else if (response.statusCode == 401) {
         print("Access token is invalid or expired, refreshing token...");
         await _refreshToken(); // Attempt to refresh token

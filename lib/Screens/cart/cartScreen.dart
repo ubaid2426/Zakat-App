@@ -9,6 +9,7 @@ import 'package:zakat_app/components/navigation.dart';
 import 'package:zakat_app/controller/controller.dart';
 
 final FoodController controller = Get.put(FoodController());
+String allTitles = controller.cartFood.map((item) => item.title).join(', ');
 
 // final FoodController foodController = Get.find<FoodController>();
 class CartScreen extends StatelessWidget {
@@ -166,7 +167,7 @@ class CartScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>  PaymentMethod(placeholderText: controller.totalPrice.value)),
+                                builder: (context) =>  PaymentMethod(placeholderText: controller.totalPrice.value, donationtitle: allTitles,)),
                           );
                         },
                         child: const Text(

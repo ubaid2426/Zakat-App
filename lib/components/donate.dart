@@ -255,7 +255,7 @@ class _DataState extends State<Data> {
                 icon: FontAwesomeIcons.circleDollarToSlot,
                 //  double donationAmount = double.tryParse(_controller.text) ?? 32.0,
                 navigateTo: PaymentMethod(
-                  placeholderText: donationAmount,
+                  placeholderText: donationAmount, donationtitle: widget.title,
                   // placeholderText: donationamount.tryParse(_controller.text),
                 ),
               ),

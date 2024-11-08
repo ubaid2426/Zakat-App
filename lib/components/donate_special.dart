@@ -28,7 +28,6 @@ class DataSpecial extends StatefulWidget {
 }
 
 class _DataSpecialState extends State<DataSpecial> {
-
   final FoodController controller = Get.put(FoodController());
   final TextEditingController _controller = TextEditingController();
   bool isSelected = false;
@@ -37,7 +36,7 @@ class _DataSpecialState extends State<DataSpecial> {
   late double? paidValue;
   int quantity = 1;
   int totalDonationAmount = 0;
-  double donationAmount =  32.0;
+  double donationAmount = 32.0;
   // Dropdown state
   Map<String, dynamic>? selectedDonation;
   final List<Map<String, dynamic>> donationOptions = [
@@ -55,97 +54,96 @@ class _DataSpecialState extends State<DataSpecial> {
     _controller.text = totalDonationAmount.toString();
   }
 
-void updateTotalAmount() {
-  if (selectedDonation != null) {
-    setState(() {
-      totalDonationAmount = (selectedDonation!['price'] as int) * quantity;
-      _controller.text = totalDonationAmount.toString();
-    });
+  void updateTotalAmount() {
+    if (selectedDonation != null) {
+      setState(() {
+        totalDonationAmount = (selectedDonation!['price'] as int) * quantity;
+        _controller.text = totalDonationAmount.toString();
+      });
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
     return
-    // Scaffold(
-      Padding(
-        padding: const EdgeInsets.fromLTRB(19, 19, 19, 0),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: const Offset(0, 3),
+        // Scaffold(
+        Padding(
+      padding: const EdgeInsets.fromLTRB(19, 19, 19, 0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            const SizedBox(height: 30),
+            Text(
+              widget.title,
+              style: const TextStyle(
+                fontSize: 26,
+                decoration: TextDecoration.none,
+                fontFamily: "Roboto",
+                color: Color(0xFF7fc23a),
+                fontWeight: FontWeight.w700,
               ),
-            ],
-          ),
-          child: Column(
-            children: [
-              const SizedBox(height: 30),
-              Text(
-                widget.title,
+              textAlign: TextAlign.center,
+            ),
+            const Divider(
+              color: Color(0xFF7fc23a),
+              thickness: 4,
+              indent: 50,
+              endIndent: 50,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                widget.description,
                 style: const TextStyle(
-                  fontSize: 26,
+                  fontSize: 16,
+                  color: Color.fromARGB(255, 88, 88, 88),
+                  fontFamily: "Montserrat",
+                  fontWeight: FontWeight.w600,
                   decoration: TextDecoration.none,
-                  fontFamily: "Roboto",
-                  color: Color(0xFF7fc23a),
-                  fontWeight: FontWeight.w700,
                 ),
                 textAlign: TextAlign.center,
               ),
-              const Divider(
-                color: Color(0xFF7fc23a),
-                thickness: 4,
-                indent: 50,
-                endIndent: 50,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  widget.description,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Color.fromARGB(255, 88, 88, 88),
-                    fontFamily: "Montserrat",
-                    fontWeight: FontWeight.w600,
-                    decoration: TextDecoration.none,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Container(
-                height: 200,
-                width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
+            ),
+            const SizedBox(height: 20),
+            Container(
+              height: 200,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
-                  image: NetworkImage("http://127.0.0.1:8000/data${widget.imageUrl}"),
-
+                  image: NetworkImage(
+                      "http://127.0.0.1:8000/data${widget.imageUrl}"),
                   fit: BoxFit.contain,
                 ),
               ),
-              ),
-              const SizedBox(height: 20),
-              buildProjectDetails(),
-              const SizedBox(height: 20),
-              buildProgressIndicator(),
-              const SizedBox(height: 20),
-              buildDonationDropdown(),
-              // const SizedBox(height: 20),
-              buildDonationSection(),
-              // const SizedBox(height: 20),
-              // buildZakatCheckBox(),
-              // const SizedBox(height: 20),
-              buildSecureDonation(),
-            ],
-          ),
+            ),
+            const SizedBox(height: 20),
+            buildProjectDetails(),
+            const SizedBox(height: 20),
+            buildProgressIndicator(),
+            const SizedBox(height: 20),
+            buildDonationDropdown(),
+            // const SizedBox(height: 20),
+            buildDonationSection(),
+            // const SizedBox(height: 20),
+            // buildZakatCheckBox(),
+            // const SizedBox(height: 20),
+            buildSecureDonation(),
+          ],
         ),
+      ),
       // ),
     );
   }
@@ -199,7 +197,6 @@ void updateTotalAmount() {
               decoration: const InputDecoration(
                 labelText: "Total Donation Amount (Rs)",
                 border: OutlineInputBorder(),
-                
               ),
               onChanged: (value) {
                 setState(() {
@@ -215,7 +212,10 @@ void updateTotalAmount() {
                 CustomButton(
                   title: "Donate",
                   icon: FontAwesomeIcons.circleDollarToSlot,
-                  navigateTo: PaymentMethod(placeholderText: double.tryParse(_controller.text) ?? 32.0,),
+                  navigateTo: PaymentMethod(
+                    placeholderText: double.tryParse(_controller.text) ?? 32.0,
+                    donationtitle: widget.title,
+                  ),
                 ),
                 buildAddToCartButton(),
               ],
@@ -281,9 +281,9 @@ void updateTotalAmount() {
 
   Widget buildDonationDropdown() {
     return Material(
-         color: Colors.white,
-        
-        //  background-color:Colors.green,
+      color: Colors.white,
+
+      //  background-color:Colors.green,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
@@ -299,7 +299,12 @@ void updateTotalAmount() {
               child: DropdownButton<Map<String, dynamic>>(
                 // dropdownColor: Colors.red,
                 isExpanded: true,
-                hint: const Text('Choose a donation option', style: TextStyle(fontSize: 18,), ),
+                hint: const Text(
+                  'Choose a donation option',
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
                 value: selectedDonation,
                 items: donationOptions.map((Map<String, dynamic> option) {
                   return DropdownMenuItem<Map<String, dynamic>>(
@@ -323,10 +328,10 @@ void updateTotalAmount() {
             ),
             // const SizedBox(height: 10),
             // if (selectedDonation != null)
-              // Text(
-              //   'Selected Donation: ${selectedDonation!['title']} for Rs ${selectedDonation!['price']}',
-              //   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              // ),
+            // Text(
+            //   'Selected Donation: ${selectedDonation!['title']} for Rs ${selectedDonation!['price']}',
+            //   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            // ),
           ],
         ),
       ),

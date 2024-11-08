@@ -1,82 +1,155 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-// import 'package:zakat_app/Screens/Profile/Screens/my_detail.dart';
+import 'package:zakat_app/Screens/PaymentMethod/check_image.dart';
 import 'package:zakat_app/components/custom_button.dart';
 import 'package:http/http.dart' as http;
+import 'package:zakat_app/model/payment_detail.dart';
+import 'package:image/image.dart' as img;
+// FlutterSecureStorage instance for token management
+const storage = FlutterSecureStorage();
 
 class PaymentMethod extends StatefulWidget {
   final double? placeholderText;
-  const PaymentMethod({super.key, required this.placeholderText});
+  final String? donationtitle;
+  const PaymentMethod(
+      {super.key, required this.placeholderText, required this.donationtitle});
 
   @override
   _PaymentMethodState createState() => _PaymentMethodState();
 }
 
 class _PaymentMethodState extends State<PaymentMethod> {
-  File? _image; // To store the selected image
-  String paymentStatus = 'Pending'; // Initial payment status
-  final storage = FlutterSecureStorage();
+  File? imageFile;
+  String paymentStatus = 'Pending';
 
-  Future<void> recordDonation(
-      String donationId, String donorName, double amount, File? image) async {
-    final uri = Uri.parse('http://127.0.0.1:8000/data/donor-history/');
+  Future<PaymentDetail?> recordDonation() async {
+    PaymentDetail? paymentDetail;
+    String? token = await storage.read(key: 'access_token');
+    String? donorName = await storage.read(key: 'user_name');
+    String? donorId = await storage.read(key: 'user_id');
 
-    // Retrieve donor details from secure storage
-    String? donationId = await storage.read(key: 'donationId');
-    String? donorName = await storage.read(key: 'donorName');
-
-    // Ensure both donorName and donationId are not null
-    if (donationId == null || donorName == null) {
-      print('Error: Donor name or donation ID is missing.');
-      return;
+    if (token == null || donorName == null || donorId == null) {
+      print('Error: Missing token or user details.');
+      return null;
     }
 
-    // Set up multipart request
-    var request = http.MultipartRequest('POST', uri);
-    request.fields['donation_id'] = donationId;
-    request.fields['donor_name'] = donorName;
-    request.fields['amount'] = amount.toString();
+    final url = Uri.parse('http://127.0.0.1:8000/data/donor-history/');
+    final headers = {
+      'Authorization': 'JWT $token',
+      'Content-Type': 'application/json',
+    };
 
-    if (image != null) {
-      request.files.add(await http.MultipartFile.fromPath('image', image.path));
+    Map<String, dynamic> body = {
+      'donor_name': donorName,
+      'donor_id': donorId,
+      'amount': widget.placeholderText ?? 0.0,
+      'donation_title': widget.donationtitle,
+    };
+
+    if (imageFile != null) {
+      // Convert image to base64 to send it as a string
+      body['payment_image'] = base64Encode(await imageFile!.readAsBytes());
     }
+
+    // Debugging output to verify the body and headers
+    print("Headers: $headers");
+    print("Body: ${json.encode(body)}");
 
     try {
-      var response = await request.send();
+      final response = await http.post(
+        url,
+        headers: headers,
+        body: json.encode(body),
+      );
+
       if (response.statusCode == 200) {
         print('Donation recorded successfully.');
+        paymentDetail = PaymentDetail.fromJson(json.decode(response.body));
       } else {
-        print('Failed to record donation.');
+        print('Failed to record donation. Status code: ${response.statusCode}');
+        print(response.body);
       }
     } catch (e) {
       print('Error: $e');
     }
+
+    return paymentDetail;
   }
 
-  // Function to pick an image
-  Future<void> _pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _image = File(pickedFile.path);
-      });
+Future<void> _pickImage() async {
+  final picker = ImagePicker();
+  final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+  if (pickedFile != null) {
+   imageFile = File(pickedFile.path);
+    print('Image picked: ${pickedFile.path}');
+    checkImageSize(imageFile!);
+  } else {
+    print('No image selected.');
+  }
+}
+
+void checkImageSize(File imageFile) {
+  try {
+    print("Checking image size...");
+
+    // Get the file size in bytes
+    int fileSizeInBytes = imageFile.lengthSync();
+
+    // Convert to kilobytes (KB)
+    double fileSizeInKB = fileSizeInBytes / 1024;
+
+    // Convert to megabytes (MB)
+    double fileSizeInMB = fileSizeInKB / 1024;
+
+    // Print the size in KB and MB
+    print('Image Size: ${fileSizeInKB.toStringAsFixed(2)} KB');
+    print('Image Size: ${fileSizeInMB.toStringAsFixed(2)} MB');
+
+    // Set a size limit (e.g., 2 MB)
+    if (fileSizeInMB > 2) {
+      print('The image is too large! Resizing image...');
+      resizeImage(imageFile);  // Resize image if it's too large
+    } else {
+      print('Image is within the acceptable size.');
     }
+  } catch (e) {
+    print('Error checking image size: $e');
   }
+}
 
-  // Function to verify payment (simulating admin verification)
+Future<void> resizeImage(File imageFile) async {
+  try {
+    // Read the image file
+    img.Image? image = img.decodeImage(imageFile.readAsBytesSync());
+
+    if (image != null) {
+      // Resize the image (example: resize to 800x800 or any dimensions you prefer)
+      img.Image resized = img.copyResize(image, width: 400, height: 400);
+
+      // Save the resized image
+      File resizedFile = File(imageFile.path)..writeAsBytesSync(img.encodeJpg(resized));
+
+      print('Resized image saved to: ${resizedFile.path}');
+      // Now, you can upload the resized image or use it as needed
+    } else {
+      print('Error decoding image.');
+    }
+  } catch (e) {
+    print('Error resizing image: $e');
+  }
+}
+
   void _verifyPayment() {
     setState(() {
-      paymentStatus = 'Completed'; // Simulate verification
+      paymentStatus = 'Completed';
     });
-    // Here, in a real app, you would notify the admin to verify the payment
-    // Once verified by the admin, the status would change
   }
 
-  // Build Payment Method Screen
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,12 +205,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 child: CustomButton(
                   title: "Verify Payment",
                   icon: FontAwesomeIcons.moneyCheck,
-                  onNavigate:  recordDonation(
-        'donationId',       // Replace with actual donationId or retrieve it from storage
-        'donorName',         // Replace with actual donorName or retrieve it from storage
-        widget.placeholderText ?? 0.0,
-        _image,
-      );
+                  onNavigate: () => recordDonation(),
                 ),
               ),
             ],
@@ -147,7 +215,6 @@ class _PaymentMethodState extends State<PaymentMethod> {
     );
   }
 
-  // Widget to display each payment method
   Widget buildPaymentMethodCard({
     required String title,
     required String accountNumber,
@@ -197,7 +264,6 @@ class _PaymentMethodState extends State<PaymentMethod> {
     );
   }
 
-  // Image picker section
   Widget buildImagePickerSection() {
     return Column(
       children: [
@@ -206,22 +272,21 @@ class _PaymentMethodState extends State<PaymentMethod> {
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
-        _image == null
+        imageFile == null
             ? const Text('No image selected.')
-            : Image.file(_image!, height: 150, width: 150, fit: BoxFit.cover),
+            : Image.file(imageFile!, height: 300, width: 300, fit: BoxFit.cover),
         const SizedBox(height: 10),
         Center(
           child: CustomButton(
-              title: "Choose Image",
-              icon: Icons.camera_alt,
-              onNavigate: _pickImage),
+            title: "Choose Image",
+            icon: Icons.camera_alt,
+            onNavigate: _pickImage,
+          ),
         ),
       ],
     );
   }
 
-//  @override
-  // ignore: non_constant_identifier_names
   Widget ValueReader(String placeholderText) {
     return Container(
       padding: const EdgeInsets.all(16.0),
@@ -240,7 +305,6 @@ class _PaymentMethodState extends State<PaymentMethod> {
     );
   }
 
-  // Payment status section
   Widget buildPaymentStatus() {
     return Column(
       children: [

@@ -34,6 +34,7 @@ class _DataState extends State<Data> {
   // print(TextEditingController);
   bool isSelected = false;
   bool isZakat = false;
+  bool isSadah = false;
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +116,8 @@ class _DataState extends State<Data> {
               // const SizedBox(height: 20),
               buildZakatCheckBox(), // Checkbox for Zakat
               const SizedBox(height: 10),
+              buildSadahCheckBox(),
+               const SizedBox(height: 10),
               buildSecureDonation(),
             ],
           ),
@@ -201,6 +204,21 @@ class _DataState extends State<Data> {
     );
   }
 
+  Widget buildSadahCheckBox() {
+    return Row(
+      children: [
+        Checkbox(
+          value: isSadah,
+          onChanged: (bool? value) {
+            setState(() {
+              isSadah = value ?? false;
+            });
+          },
+        ),
+        const Text("This Donation is Saqah"),
+      ],
+    );
+  }
   // Donation input section with buttons
   Widget buildDonationSection() {
     double progress = widget.paidvlaue! / widget.projectvalue!;
@@ -255,7 +273,7 @@ class _DataState extends State<Data> {
                 icon: FontAwesomeIcons.circleDollarToSlot,
                 //  double donationAmount = double.tryParse(_controller.text) ?? 32.0,
                 navigateTo: PaymentMethod(
-                  placeholderText: donationAmount, donationtitle: widget.title,
+                  placeholderText: donationAmount, donationtitle: widget.title, iszakat: isZakat, issadqah: isSadah, 
                   // placeholderText: donationamount.tryParse(_controller.text),
                 ),
               ),
@@ -284,6 +302,7 @@ class _DataState extends State<Data> {
           route: '/donation',
           price: donationAmount,
           isZakat: isZakat,
+          isSadqah: isSadah,
         );
 
         // Add donation to cart

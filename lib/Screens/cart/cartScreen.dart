@@ -167,7 +167,7 @@ class CartScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>  PaymentMethod(placeholderText: controller.totalPrice.value, donationtitle: allTitles,)),
+                                builder: (context) =>  PaymentMethod(placeholderText: controller.totalPrice.value, donationtitle: allTitles, iszakat: null, issadqah: null,)),
                           );
                         },
                         child: const Text(
@@ -305,6 +305,22 @@ class CartScreen extends StatelessWidget {
                             ),
                             child: const Text(
                               "Zakat Donation",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          if (controller.cartFood[index].isSadqah)
+                          Container(
+                            // padding: const EdgeInsets.symmetric(
+                            //     horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: const Text(
+                              "Sadqah Donation",
                               style: TextStyle(
                                 color: Color.fromARGB(255, 0, 0, 0),
                                 fontWeight: FontWeight.bold,

@@ -69,7 +69,7 @@ class ProfileScreen extends StatelessWidget {
             const ManyOption1(
                 menuTitle: "Payment Method",
                 fontawesome: FontAwesomeIcons.creditCard,
-                navigateTo: PaymentMethod(placeholderText: null, donationtitle: '',)),
+                navigateTo: PaymentMethod(placeholderText: null, donationtitle: '', iszakat: null, issadqah: null,)),
             const SizedBox(
               height: 10,
             ),

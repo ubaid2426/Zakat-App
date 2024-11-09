@@ -1,20 +1,4 @@
 import 'package:flutter/material.dart';
-
-// void main() {
-//   runApp(MyApp());
-// }
-
-// class History extends StatelessWidget {
-//   const History({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       home: DonationHistory(),
-//     );
-//   }
-// }
-
 class DonationHistory extends StatefulWidget {
   const DonationHistory({super.key});
 

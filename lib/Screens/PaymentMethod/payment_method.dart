@@ -4,19 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:zakat_app/Screens/PaymentMethod/check_image.dart';
-import 'package:zakat_app/components/custom_button.dart';
 import 'package:http/http.dart' as http;
+import 'package:zakat_app/Screens/PaymentMethod/value_reader.dart';
+import 'package:zakat_app/components/custom_button.dart';
 import 'package:zakat_app/model/payment_detail.dart';
 import 'package:image/image.dart' as img;
-// FlutterSecureStorage instance for token management
+
 const storage = FlutterSecureStorage();
 
 class PaymentMethod extends StatefulWidget {
   final double? placeholderText;
   final String? donationtitle;
+  final bool? iszakat;
+  final bool? issadqah;
   const PaymentMethod(
-      {super.key, required this.placeholderText, required this.donationtitle});
+      {super.key, required this.placeholderText, required this.donationtitle, required this.iszakat, required this.issadqah});
 
   @override
   _PaymentMethodState createState() => _PaymentMethodState();
@@ -24,7 +26,31 @@ class PaymentMethod extends StatefulWidget {
 
 class _PaymentMethodState extends State<PaymentMethod> {
   File? imageFile;
-  String paymentStatus = 'Pending';
+  late Future<String> paymentStatus;
+  bool showSpinner = false;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    paymentStatus = Future.value('Pending');
+    fetchPaymentStatus();
+  }
+
+  Future<String> fetchPaymentStatus() async {
+    String? donorId = await storage.read(key: 'user_id');
+    final url =
+        Uri.parse('http://127.0.0.1:8000/data/donor-history/$donorId/status/');
+
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      return data['payment_status'];
+    } else {
+      throw Exception('Failed to load payment status');
+    }
+  }
 
   Future<PaymentDetail?> recordDonation() async {
     PaymentDetail? paymentDetail;
@@ -33,121 +59,95 @@ class _PaymentMethodState extends State<PaymentMethod> {
     String? donorId = await storage.read(key: 'user_id');
 
     if (token == null || donorName == null || donorId == null) {
-      print('Error: Missing token or user details.');
+      showMessage('Error: Missing token or user details.');
       return null;
     }
 
-    final url = Uri.parse('http://127.0.0.1:8000/data/donor-history/');
-    final headers = {
-      'Authorization': 'JWT $token',
-      'Content-Type': 'application/json',
-    };
-
-    Map<String, dynamic> body = {
-      'donor_name': donorName,
-      'donor_id': donorId,
-      'amount': widget.placeholderText ?? 0.0,
-      'donation_title': widget.donationtitle,
-    };
+    final uri = Uri.parse('http://127.0.0.1:8000/data/donor-history/');
+    final request = http.MultipartRequest('POST', uri)
+      ..headers['Authorization'] = 'JWT $token'
+      ..fields['donor_name'] = donorName
+      ..fields['donor_id'] = donorId
+      ..fields['is_zakat'] = widget.iszakat.toString()
+      ..fields['is_sadqah'] = widget.issadqah.toString()
+      ..fields['amount'] = (widget.placeholderText ?? 0.0).toString()
+      ..fields['donation_title'] = widget.donationtitle ?? '';
 
     if (imageFile != null) {
-      // Convert image to base64 to send it as a string
-      body['payment_image'] = base64Encode(await imageFile!.readAsBytes());
+      request.files.add(await http.MultipartFile.fromPath(
+        'payment_image',
+        imageFile!.path,
+      ));
     }
 
-    // Debugging output to verify the body and headers
-    print("Headers: $headers");
-    print("Body: ${json.encode(body)}");
-
     try {
-      final response = await http.post(
-        url,
-        headers: headers,
-        body: json.encode(body),
-      );
+      setState(() => showSpinner = true);
+      final response = await request.send();
 
       if (response.statusCode == 200) {
-        print('Donation recorded successfully.');
-        paymentDetail = PaymentDetail.fromJson(json.decode(response.body));
+        showMessage('ScreenShot is Loaded successfully');
+        final responseBody = await response.stream.bytesToString();
+        paymentDetail = PaymentDetail.fromJson(json.decode(responseBody));
       } else {
-        print('Failed to record donation. Status code: ${response.statusCode}');
-        print(response.body);
+        showMessage(
+            'Failed to record donation. Status code: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error: $e');
+      showMessage('Error: $e');
+    } finally {
+      setState(() => showSpinner = false);
     }
 
     return paymentDetail;
   }
 
-Future<void> _pickImage() async {
-  final picker = ImagePicker();
-  final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile =
+        await picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
 
-  if (pickedFile != null) {
-   imageFile = File(pickedFile.path);
-    print('Image picked: ${pickedFile.path}');
-    checkImageSize(imageFile!);
-  } else {
-    print('No image selected.');
+    if (pickedFile != null) {
+      setState(() => imageFile = File(pickedFile.path));
+      checkImageSize(imageFile!);
+    } else {
+      showMessage('No image selected.');
+    }
   }
-}
 
-void checkImageSize(File imageFile) {
-  try {
-    print("Checking image size...");
+  void checkImageSize(File imageFile) async {
+    final fileSizeInMB = imageFile.lengthSync() / (1024 * 1024);
 
-    // Get the file size in bytes
-    int fileSizeInBytes = imageFile.lengthSync();
-
-    // Convert to kilobytes (KB)
-    double fileSizeInKB = fileSizeInBytes / 1024;
-
-    // Convert to megabytes (MB)
-    double fileSizeInMB = fileSizeInKB / 1024;
-
-    // Print the size in KB and MB
-    print('Image Size: ${fileSizeInKB.toStringAsFixed(2)} KB');
-    print('Image Size: ${fileSizeInMB.toStringAsFixed(2)} MB');
-
-    // Set a size limit (e.g., 2 MB)
     if (fileSizeInMB > 2) {
-      print('The image is too large! Resizing image...');
-      resizeImage(imageFile);  // Resize image if it's too large
+      await resizeImage(imageFile);
     } else {
-      print('Image is within the acceptable size.');
+      uploadImage();
     }
-  } catch (e) {
-    print('Error checking image size: $e');
   }
-}
 
-Future<void> resizeImage(File imageFile) async {
-  try {
-    // Read the image file
-    img.Image? image = img.decodeImage(imageFile.readAsBytesSync());
-
-    if (image != null) {
-      // Resize the image (example: resize to 800x800 or any dimensions you prefer)
-      img.Image resized = img.copyResize(image, width: 400, height: 400);
-
-      // Save the resized image
-      File resizedFile = File(imageFile.path)..writeAsBytesSync(img.encodeJpg(resized));
-
-      print('Resized image saved to: ${resizedFile.path}');
-      // Now, you can upload the resized image or use it as needed
-    } else {
-      print('Error decoding image.');
+  Future<void> resizeImage(File imageFile) async {
+    try {
+      final image = img.decodeImage(imageFile.readAsBytesSync());
+      if (image != null) {
+        final resized = img.copyResize(image, width: 400, height: 400);
+        final resizedFile = File(imageFile.path)
+          ..writeAsBytesSync(img.encodeJpg(resized));
+        setState(() => this.imageFile = resizedFile);
+        uploadImage();
+      }
+    } catch (e) {
+      showMessage('Error resizing image: $e');
     }
-  } catch (e) {
-    print('Error resizing image: $e');
   }
-}
 
-  void _verifyPayment() {
-    setState(() {
-      paymentStatus = 'Completed';
-    });
+  Future<void> uploadImage() async {
+    if (imageFile == null) return;
+    await recordDonation();
+  }
+
+  void showMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 
   @override
@@ -205,7 +205,7 @@ Future<void> resizeImage(File imageFile) async {
                 child: CustomButton(
                   title: "Verify Payment",
                   icon: FontAwesomeIcons.moneyCheck,
-                  onNavigate: () => recordDonation(),
+                  onNavigate: recordDonation,
                 ),
               ),
             ],
@@ -238,23 +238,15 @@ Future<void> resizeImage(File imageFile) async {
                   Text(
                     title,
                     style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    'Account Number: $accountNumber',
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  Text(
-                    'Bank Name: $bankName',
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  Text(
-                    'Account Holder: $accountHolder',
-                    style: const TextStyle(fontSize: 16),
-                  ),
+                  Text('Account Number: $accountNumber',
+                      style: const TextStyle(fontSize: 16)),
+                  Text('Bank Name: $bankName',
+                      style: const TextStyle(fontSize: 16)),
+                  Text('Account Holder: $accountHolder',
+                      style: const TextStyle(fontSize: 16)),
                 ],
               ),
             ),
@@ -274,12 +266,13 @@ Future<void> resizeImage(File imageFile) async {
         const SizedBox(height: 10),
         imageFile == null
             ? const Text('No image selected.')
-            : Image.file(imageFile!, height: 300, width: 300, fit: BoxFit.cover),
+            : Image.file(imageFile!,
+                height: 300, width: 300, fit: BoxFit.cover),
         const SizedBox(height: 10),
         Center(
           child: CustomButton(
             title: "Choose Image",
-            icon: Icons.camera_alt,
+            icon: FontAwesomeIcons.image,
             onNavigate: _pickImage,
           ),
         ),
@@ -287,56 +280,40 @@ Future<void> resizeImage(File imageFile) async {
     );
   }
 
-  Widget ValueReader(String placeholderText) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(8.0),
-        border: Border.all(color: Colors.grey[400]!),
-      ),
-      child: Text(
-        placeholderText,
-        style: TextStyle(
-          color: Colors.grey[600],
-          fontSize: 16.0,
-        ),
-      ),
-    );
-  }
-
   Widget buildPaymentStatus() {
-    return Column(
-      children: [
-        const Text(
-          'Payment Status:',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          paymentStatus,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: paymentStatus == 'Completed'
-                ? Colors.green
-                : Colors.orangeAccent,
-          ),
-        ),
-        const SizedBox(height: 10),
-        if (paymentStatus == 'Pending')
-          const Text(
-            'Your payment is pending verification. Please wait for the admin to verify.',
-            style: TextStyle(fontSize: 14, color: Colors.grey),
-            textAlign: TextAlign.center,
-          )
-        else if (paymentStatus == 'Completed')
-          const Text(
-            'Your payment has been verified! Thank you for your contribution.',
-            style: TextStyle(fontSize: 14, color: Colors.green),
-            textAlign: TextAlign.center,
-          ),
-      ],
+    return FutureBuilder<String>(
+      future: paymentStatus,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (snapshot.hasData) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Payment Status:',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              Center(
+                child: Text(
+                  snapshot.data!,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: snapshot.data == 'Completed'
+                        ? Colors.green
+                        : Colors.red,
+                  ),
+                ),
+              ),
+            ],
+          );
+        } else {
+          return const Text('No data available.');
+        }
+      },
     );
   }
 }

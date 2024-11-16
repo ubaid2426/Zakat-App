@@ -7,6 +7,7 @@ class DeleteAccountScreen extends StatefulWidget {
   const DeleteAccountScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _DeleteAccountScreenState createState() => _DeleteAccountScreenState();
 }
 

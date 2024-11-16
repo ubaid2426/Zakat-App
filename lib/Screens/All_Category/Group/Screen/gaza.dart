@@ -4,14 +4,14 @@ import 'package:zakat_app/components/donate.dart';
 import 'package:zakat_app/model/doantion_model.dart';
 // import 'package:zakat_app/services/donation_service.dart'; // Import the service
 
-class PortableHouse extends StatefulWidget {
-  const PortableHouse({super.key});
+class Gaza extends StatefulWidget {
+  const Gaza({super.key});
 
   @override
-  _PortableHouseState createState() => _PortableHouseState();
+  _GazaState createState() => _GazaState();
 }
 
-class _PortableHouseState extends State<PortableHouse> {
+class _GazaState extends State<Gaza> {
   String selectedSort = 'Not finished projects first';
   List<DonationModel> sortedClothes = [];
 
@@ -47,7 +47,7 @@ class _PortableHouseState extends State<PortableHouse> {
         break;
     }
     final donations = await DonationService().fetchDonations(
-        sort: sortvalue, filter: filterValue, category: "portablehouse");
+        sort: sortvalue, filter: filterValue, category: "clothes");
 
     setState(() {
       sortedClothes = donations;
@@ -74,7 +74,7 @@ class _PortableHouseState extends State<PortableHouse> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back),
         ),
-        title: const Text("Portable House"),
+        title: const Text("Gaza Donation"),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {

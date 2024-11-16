@@ -645,8 +645,7 @@ class HomeH3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+    return Center(
       child: Container(
         height: 100,
         // color: Colors.red,
@@ -665,12 +664,13 @@ class HomeH3 extends StatelessWidget {
         ),
         child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ButtonNavBar(
-              text: 'Zakat\nCalculator',
-              fontawesome: FontAwesomeIcons.bell,
-              navigateTo: ZakatCalculator(),
-            ),
+            // ButtonNavBar(
+            //   text: 'Zakat\nCalculator',
+            //   fontawesome: FontAwesomeIcons.bell,
+            //   navigateTo: ZakatCalculator(),
+            // ),
             ButtonNavBar(
               text: 'Islam',
               fontawesome: FontAwesomeIcons.mosque,
@@ -679,10 +679,15 @@ class HomeH3 extends StatelessWidget {
             ButtonNavBar(
               text: 'Need Support',
               fontawesome: FontAwesomeIcons.handshake,
-              navigateTo: NeedCategory(),
+              navigateTo: NeedCategoryGrid(),
             ),
-            ButtonNavBar(
-              text: 'History',
+            // ButtonNavBar(
+            //   text: 'History',
+            //   fontawesome: FontAwesomeIcons.rotateLeft,
+            //   navigateTo: DonationHistory(),
+            // ),
+             ButtonNavBar(
+              text: 'Urgent Donation',
               fontawesome: FontAwesomeIcons.rotateLeft,
               navigateTo: DonationHistory(),
             ),
@@ -704,45 +709,49 @@ class ButtonNavBar extends StatelessWidget {
   final Widget navigateTo; // The screen to navigate to
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => navigateTo), // Navigate to the screen
-        );
-      },
-      child: Column(
-        children: [
-          Container(
-            height: 40,
-            width: 40,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: const BorderRadius.all(Radius.circular(100)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 1,
-                  blurRadius: 5,
-                  offset: const Offset(0, -3),
-                ),
-              ],
+    return Center(
+      child: TextButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => navigateTo), // Navigate to the screen
+          );
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: const BorderRadius.all(Radius.circular(100)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    // color: const Color.fromARGB(255, 240, 4, 4).withOpacity(0.3),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: const Offset(0, -3),
+                  ),
+                ],
+              ),
+              child: Icon(fontawesome),
             ),
-            child: Icon(fontawesome),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(
-            text,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 12,
+            const SizedBox(
+              height: 10,
             ),
-            textAlign: TextAlign.center,
-          ),
-        ],
+            Text(
+              text,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 12,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -1295,10 +1304,9 @@ class _FinalCardState extends State<FinalCard> {
                           .toList(),
                       navigate: const PortableHouse(),
                     ),
-                     LeftToRight(
-                      projects: projects
-                          .where((p) => p.category == "blood")
-                          .toList(),
+                    LeftToRight(
+                      projects:
+                          projects.where((p) => p.category == "blood").toList(),
                       navigate: const Blood(),
                     ),
                     LeftToRight(
@@ -1512,9 +1520,9 @@ class _CategoryGridState extends State<CategoryGrid> {
       case '/MasjidConst':
         return const MasjidConst();
       case '/DonateQuran':
-        return const DonateQuran();  
+        return const DonateQuran();
       case '/Blood':
-        return const Blood();              
+        return const Blood();
       default:
         print('Unknown route tapped: $route');
         return const Center(

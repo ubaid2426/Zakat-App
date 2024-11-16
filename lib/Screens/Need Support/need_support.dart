@@ -1,10 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:zakat_app/Screens/All_Category/Individual/all_category.dart';
+// import 'package:zakat_app/Screens/All_Category/Individual/all_category.dart';
+import 'package:zakat_app/Screens/Need%20Support/components/needsupport_card.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/clothes.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/donate_quran.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/masjid_const.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/masjid_maintenance.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/meal_donation.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/medical_bed.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/orphan_support.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/other.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/small_business.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/tree_donation.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/water_cooler.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/wheel_chair.dart';
+import 'package:zakat_app/Screens/All_Category/Group/Screen/widow_family.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/blood_donation.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/daig_donation.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/food_relief.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/marriage_support.dart';
+import 'package:zakat_app/Screens/All_Category/Individual/Screen/portable_house.dart';
+// import 'package:zakat_app/Screens/All_Category/Individual/all_category.dart';
 // import 'package:zakat_app/Screens/Need%20Support/components/needsupport_card.dart';
 // import 'package:zakat_app/core/app_dummy.dart';
 import 'package:zakat_app/model/all_category.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+
 class Show2 extends StatelessWidget {
   const Show2({
     super.key,
@@ -20,31 +41,33 @@ class Show2 extends StatelessWidget {
     return InkWell(
       onTap: onSelectCategory,
       child: Container(
-        height: 100,
-        width: MediaQuery.of(context).size.width / 3 - 19,
+        padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: const Color.fromARGB(255, 253, 251, 251),
+          color: const Color(0xFFFDFBFB),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 10),
-            SizedBox(
-              height: 50,
-              child: Text(
-                category.title,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
+            Text(
+              category.title,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                decoration: TextDecoration.none,
+                color: Colors.black,
               ),
+              textAlign: TextAlign.center,
             ),
+            const SizedBox(height: 10),
             Container(
-              width: 150,
-              height: 145,
+              width: double.infinity,
+              height: 100,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
-                  image: AssetImage(category.image),
+                  image: NetworkImage(
+                      "http://127.0.0.1:8000/data${category.image}"),
                   fit: BoxFit.contain,
                 ),
               ),
@@ -100,16 +123,82 @@ class Show2 extends StatelessWidget {
 //   }
 // }
 
-
-
-class NeedCategory extends StatefulWidget {
+class NeedCategory extends StatelessWidget {
   const NeedCategory({super.key});
 
   @override
-  _NeedCategoryState createState() => _NeedCategoryState();
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double height = (screenWidth < 400) ? 800 : 1100;
+
+    return MaterialApp(
+      // initialRoute: '/PortableHouse': (context) => const PortableHouse(),
+      routes: {
+        '/PortableHouse': (context) => const PortableHouse(),
+        '/Blood': (context) => const Blood(),
+        '/DonateQuran': (context) => const DonateQuran(),
+        '/MasjidMaintenance': (context) => const MasjidMaintenance(),
+        '/MarriageSupport': (context) => const MarriageSupport(),
+        '/FloodRelief': (context) => const FloodRelief(),
+        '/WidowFamily': (context) => const WidowFamily(),
+        '/SmallBusinessSetup': (context) => const SmallBusiness(),
+        '/Clothes': (context) => const Clothes(),
+        '/MedicalBed': (context) => const MedicalBed(),
+        '/WheelChair': (context) => const WheelChair(),
+        '/TreeDonation': (context) => const TreeDonation(),
+        '/DaigDonation': (context) => const DaigDonation(),
+        '/MealDonation': (context) => const MealDonation(),
+        '/OrphanSupport': (context) => const OrphanSupport(),
+        '/WaterCooler': (context) => const WaterCooler(),
+        '/MasjidConst': (context) => const MasjidConst(),
+        '/Other': (context) => const Other(),
+      },
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: const Color(0xFFC3BEBE),
+        appBar: AppBar(
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFF33A248), Color(0xFFB2EA50)],
+                begin: Alignment.bottomRight,
+                end: Alignment.topLeft,
+              ),
+            ),
+          ),
+          title: const Text(
+            "Need Support",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 30,
+              fontWeight: FontWeight.w700,
+              fontFamily: "Roboto",
+            ),
+            textAlign: TextAlign.center,
+          ),
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back),
+          ),
+        ),
+        body: SizedBox(
+          height: height,
+          width: screenWidth,
+          child: const NeedCategoryGrid(),
+        ),
+      ),
+    );
+  }
 }
 
-class _NeedCategoryState extends State<NeedCategory> {
+class NeedCategoryGrid extends StatefulWidget {
+  const NeedCategoryGrid({super.key});
+
+  @override
+  _NeedCategoryGridState createState() => _NeedCategoryGridState();
+}
+
+class _NeedCategoryGridState extends State<NeedCategoryGrid> {
   late Future<List<AllCategoryModel>> categories;
 
   @override
@@ -120,7 +209,8 @@ class _NeedCategoryState extends State<NeedCategory> {
 
   // Fetch categories from API
   Future<List<AllCategoryModel>> fetchCategories() async {
-    final response = await http.get(Uri.parse('http://127.0.0.1:8000/data/categories/'));
+    final response =
+        await http.get(Uri.parse('http://127.0.0.1:8000/data/categories/'));
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
       return data.map((json) => AllCategoryModel.fromJson(json)).toList();
@@ -132,10 +222,17 @@ class _NeedCategoryState extends State<NeedCategory> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    int crossAxisCount = (screenWidth < 600) ? 3 : (screenWidth < 900) ? 4 : 5;
+    int crossAxisCount = (screenWidth < 600)
+        ? 3
+        : (screenWidth < 900)
+            ? 4
+            : 5;
     double childAspectRatio = (screenWidth < 400) ? 2 / 3.5 : 3 / 4;
 
-    return FutureBuilder<List<AllCategoryModel>>(
+    return
+        // Mate(
+
+        FutureBuilder<List<AllCategoryModel>>(
       future: categories,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -158,16 +255,25 @@ class _NeedCategoryState extends State<NeedCategory> {
             itemCount: categoryList.length,
             itemBuilder: (context, index) {
               final category = categoryList[index];
-              return CategoryTile(
+              return Show2(
                 category: category,
                 onSelectCategory: () {
-                  Navigator.pushNamed(context, category.route);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NeedSupport(
+                        selectedCategory:
+                            category.title, // Pass category title here
+                      ),
+                    ),
+                  );
                 },
               );
             },
           ),
         );
       },
+      // ),
     );
   }
 }

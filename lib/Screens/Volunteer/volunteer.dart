@@ -5,6 +5,7 @@ class Volunteer extends StatefulWidget {
   const Volunteer({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _VolunteerState createState() => _VolunteerState();
 }
 
@@ -278,7 +279,7 @@ class _VolunteerState extends State<Volunteer> {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: Volunteer(),
   ));
 }

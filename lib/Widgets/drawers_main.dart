@@ -71,14 +71,15 @@ class MainDrawer extends StatelessWidget {
           ),
           Expanded(
             child: ListView(
-              children:const [
-                 ManyOption(
+              children: const [
+                ManyOption(
                   menuTitle: "Home",
+                  // ignore: deprecated_member_use
                   fontawesome: FontAwesomeIcons.home,
                   navigateTo: Home(),
                 ),
                 // VerticalDivider(width: 500, color: Colors.red,),
-                 DonationMenu(
+                DonationMenu(
                   menuTitle: 'Donate By Category',
                   subOptions: [
                     "Portable House",
@@ -102,12 +103,13 @@ class MainDrawer extends StatelessWidget {
                   ],
                   fontawesome: FontAwesomeIcons.layerGroup,
                 ),
-                 DonationMenu(
+                DonationMenu(
                   menuTitle: 'Donation',
                   subOptions: [
                     "Individual Donation",
                     'Request For Donation',
                   ],
+                  // ignore: deprecated_member_use
                   fontawesome: FontAwesomeIcons.donate,
                 ),
                 // const ManyOption(
@@ -115,17 +117,18 @@ class MainDrawer extends StatelessWidget {
                 //   fontawesome: FontAwesomeIcons.envelope,
                 //   navigateTo: AllCategory(),
                 // ),
-                 ManyOption(
+                ManyOption(
                   menuTitle: "What We Do",
                   fontawesome: FontAwesomeIcons.briefcase,
                   navigateTo: DonationData(),
                 ),
-                 ManyOption(
+                ManyOption(
                   menuTitle: "Become A Volunteer",
+                  // ignore: deprecated_member_use
                   fontawesome: FontAwesomeIcons.handsHelping,
                   navigateTo: Volunteer(),
                 ),
-                 ManyOption(
+                ManyOption(
                   menuTitle: "About Us",
                   fontawesome: FontAwesomeIcons.info,
                   navigateTo: AboutUs(),
@@ -135,21 +138,22 @@ class MainDrawer extends StatelessWidget {
                 //   fontawesome: FontAwesomeIcons.addressBook,
                 //   navigateTo: ContactUs(),
                 // ),
-                 DonationMenu(
+                DonationMenu(
                   menuTitle: 'Contact Us',
                   subOptions: [
                     "Call US",
                     'Working Hours',
                     "Branches",
                   ],
+                  // ignore: deprecated_member_use
                   fontawesome: FontAwesomeIcons.donate,
                 ),
-                 ManyOption(
+                ManyOption(
                   menuTitle: "Login",
                   fontawesome: FontAwesomeIcons.rightToBracket,
                   navigateTo: Signup(),
                 ),
-                 ManyOption(
+                ManyOption(
                   menuTitle: "Gallery",
                   fontawesome: Icons.picture_in_picture_sharp,
                   navigateTo: Gallery(),
@@ -250,7 +254,6 @@ class _DonationMenuState extends State<DonationMenu> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-               
             Icon(
               widget.fontawesome,
               //  size: 22,
@@ -258,7 +261,9 @@ class _DonationMenuState extends State<DonationMenu> {
                   ? const Color.fromARGB(255, 247, 247, 247)
                   : const Color.fromARGB(255, 12, 12, 12),
             ),
-            const SizedBox(width: 20,),
+            const SizedBox(
+              width: 20,
+            ),
             Row(
               // mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -296,7 +301,7 @@ class _DonationMenuState extends State<DonationMenu> {
                     ),
                   );
                   break;
-                  case "Donate Quran":
+                case "Donate Quran":
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -304,7 +309,7 @@ class _DonationMenuState extends State<DonationMenu> {
                     ),
                   );
                   break;
-                  case "Blood Donation":
+                case "Blood Donation":
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -400,7 +405,7 @@ class _DonationMenuState extends State<DonationMenu> {
                     ),
                   );
                   break;
-                    case 'Call US':
+                case 'Call US':
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -408,7 +413,7 @@ class _DonationMenuState extends State<DonationMenu> {
                     ),
                   );
                   break;
-                    case 'Working Hours':
+                case 'Working Hours':
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -416,7 +421,7 @@ class _DonationMenuState extends State<DonationMenu> {
                     ),
                   );
                   break;
-                      case 'Branches':
+                case 'Branches':
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -460,7 +465,7 @@ class _DonationMenuState extends State<DonationMenu> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>const AllCategoryIndividual(),
+                      builder: (context) => const AllCategoryIndividual(),
                     ),
                   );
                   break;
@@ -468,13 +473,13 @@ class _DonationMenuState extends State<DonationMenu> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>const NeedCategory(),
+                      builder: (context) => const NeedCategory(),
                     ),
                   );
                   break;
                 // Add other cases for remaining options...
                 default:
-                  print('$option tapped');
+                  // print('$option tapped');
               }
             },
           ),

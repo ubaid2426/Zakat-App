@@ -22,7 +22,33 @@ class _ClothesState extends State<Clothes> {
   }
 
   Future<void> _fetchSortedClothes() async {
-    final donations = await DonationService().fetchDonations(sort: selectedSort, filter: 'unfinished');
+    String filterValue = 'unfinished'; // Default filter, change as needed
+    switch (selectedSort) {
+      case 'finished projects':
+        filterValue = 'finished';
+        break;
+      case 'Not finished projects first':
+        filterValue = 'unfinished';
+        break;
+    }
+    String sortvalue = 'newest';
+     switch (selectedSort) {
+      case 'Oldest Items First':
+        sortvalue = 'oldest'; // Keep the same filter for sorting
+        break;
+      case 'Newest Items First':
+        sortvalue = 'newest'; // Keep the same filter for sorting
+        break;
+      case 'Sort by Remaining Value: Low to High':
+        sortvalue = 'remaining_low_to_high'; // Keep the same filter for sorting
+        break;
+      case 'Sort by Remaining Value: High to Low':
+        sortvalue = 'remaining_high_to_low'; // Keep the same filter for sorting
+        break;
+    }
+    final donations = await DonationService().fetchDonations(
+        sort: sortvalue, filter: filterValue, category: "clothes");
+
     setState(() {
       sortedClothes = donations;
     });
@@ -95,15 +121,12 @@ class _ClothesState extends State<Clothes> {
               if (sortedClothes.isNotEmpty)
                 Column(
                   children: sortedClothes.map((donation) {
-                    print(donation.paidValue);
-                    print(donation.projectValue);
                     return Data(
                       imageUrl: donation.imageUrl,
                       title: donation.title,
                       description: donation.description,
                       projectvalue: donation.projectValue,
                       paidvlaue: donation.paidValue,
-                       
                     );
                   }).toList(),
                 )

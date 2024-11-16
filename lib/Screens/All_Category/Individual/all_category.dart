@@ -193,7 +193,7 @@ class CategoryTile extends StatelessWidget {
           children: [
             Text(
               category.title,
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color:Color(0xFF7fc23a)),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),

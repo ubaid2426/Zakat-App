@@ -7,6 +7,7 @@ class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ChangePasswordScreenState createState() => _ChangePasswordScreenState();
 }
 
@@ -34,7 +35,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
       // Get token from secure storage
       String? token = await storage.read(key: 'access_token');
-      print("$token");
+      // print("$token");
       // Prepare request
       var url = Uri.parse('http://127.0.0.1:8000/api/auth/users/set_password/');
       var headers = {

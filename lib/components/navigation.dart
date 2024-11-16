@@ -3,15 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zakat_app/Screens/All_Category/Group/all_category.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/all_category.dart';
-// import 'package:zakat_app/Screens/All_Category/all_category.dart';
 import 'package:zakat_app/Screens/Home/home_main.dart';
-// import 'package:zakat_app/Screens/Login/Screen/login_page.dart';
 import 'package:zakat_app/Screens/Message/message.dart';
-// import 'package:zakat_app/Screens/PopUp/pop_up.dart';
 import 'package:zakat_app/Screens/Profile/profileScreen.dart';
 import 'package:zakat_app/Screens/cart/cartScreen.dart';
 
-// void main() => runApp(Navigation());
 
 class Navigation extends StatelessWidget {
   // final Function(BuildContext) showFoodDialog;
@@ -93,6 +89,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
+                        padding:const EdgeInsets.symmetric(vertical: 5, horizontal:20),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -111,6 +108,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey,
+                        padding:const EdgeInsets.symmetric(vertical: 5, horizontal:20),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),

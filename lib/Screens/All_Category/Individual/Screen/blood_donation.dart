@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zakat_app/Screens/donation_service.dart';
-// import 'package:zakat_app/components/donate.dart';
 import 'package:zakat_app/components/donate_special.dart';
 import 'package:zakat_app/model/doantion_model.dart';
-// import 'package:zakat_app/services/donation_service.dart'; // Import the service
 
 class Blood extends StatefulWidget {
   const Blood({super.key});

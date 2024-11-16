@@ -10,11 +10,18 @@ import 'package:zakat_app/controller/controller.dart';
 
 final FoodController controller = Get.put(FoodController());
 String allTitles = controller.cartFood.map((item) => item.title).join(', ');
+// bool iszakat = controller.cartFood.map((item) => item.isZakat).join(', ');
+// bool issadqah = controller.cartFood.map((item) => item.isSadqah).join(', ');
 
 // final FoodController foodController = Get.find<FoodController>();
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
 
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
   PreferredSizeWidget _appBar(BuildContext context) {
     return AppBar(
       flexibleSpace: Container(
@@ -196,12 +203,19 @@ class CartScreen extends StatelessWidget {
       itemCount: controller.cartFood.length,
       itemBuilder: (_, index) {
         return Dismissible(
+          key: Key(controller.cartFood[index].title),
           onDismissed: (direction) {
-            if (direction == DismissDirection.startToEnd) {
+            setState(() {
+                if (direction == DismissDirection.startToEnd) {
               controller.removeCartItemAtSpecificIndex(index);
             }
+              });
+               ScaffoldMessenger.of(context).showSnackBar(
+               const SnackBar(content: Text("controller.removeCartItemAtSpecificIndex(index) dismissed")),
+              );
+            
           },
-          key: Key(controller.cartFood[index].title),
+          // key: Key(controller.cartFood[index].title),
           background: Row(
             children: [
               Container(
@@ -294,24 +308,28 @@ class CartScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 5),
-                        // Conditionally show "Zakat" label
+                      
+                          Row(
+                            children: [
+                                // Conditionally show "Zakat" label
                         if (controller.cartFood[index].isZakat)
-                          Container(
-                            // padding: const EdgeInsets.symmetric(
-                            //     horizontal: 10, vertical: 5),
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: const Text(
-                              "Zakat Donation",
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 0, 0, 0),
-                                fontWeight: FontWeight.bold,
+                              Container(
+                                // padding: const EdgeInsets.symmetric(
+                                //     horizontal: 10, vertical: 5),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: const Text(
+                                  "Zakat Donation",
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          if (controller.cartFood[index].isSadqah)
+                              const SizedBox(width: 5),
+                                 if (controller.cartFood[index].isSadqah)
                           Container(
                             // padding: const EdgeInsets.symmetric(
                             //     horizontal: 10, vertical: 5),
@@ -327,6 +345,9 @@ class CartScreen extends StatelessWidget {
                               ),
                             ),
                           ),
+                            ],
+                          ),
+                       
                       ],
                     ),
                     const Spacer(),

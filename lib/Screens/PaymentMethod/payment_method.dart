@@ -5,8 +5,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:zakat_app/Screens/All_Category/Individual/all_category.dart';
 import 'package:zakat_app/Screens/PaymentMethod/value_reader.dart';
 import 'package:zakat_app/components/custom_button.dart';
+import 'package:zakat_app/components/navigation.dart';
 import 'package:zakat_app/model/payment_detail.dart';
 import 'package:image/image.dart' as img;
 
@@ -18,7 +20,11 @@ class PaymentMethod extends StatefulWidget {
   final bool? iszakat;
   final bool? issadqah;
   const PaymentMethod(
-      {super.key, required this.placeholderText, required this.donationtitle, required this.iszakat, required this.issadqah});
+      {super.key,
+      required this.placeholderText,
+      required this.donationtitle,
+      required this.iszakat,
+      required this.issadqah});
 
   @override
   _PaymentMethodState createState() => _PaymentMethodState();
@@ -50,6 +56,16 @@ class _PaymentMethodState extends State<PaymentMethod> {
     } else {
       throw Exception('Failed to load payment status');
     }
+  }
+
+  void navigateAfterDelay() {
+    // Delay for 3 seconds before navigating
+    Future.delayed(const Duration(seconds: 5), () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const AllCategoryIndividual()),
+      );
+    });
   }
 
   Future<PaymentDetail?> recordDonation() async {
@@ -97,7 +113,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
     } finally {
       setState(() => showSpinner = false);
     }
-
+    navigateAfterDelay();
     return paymentDetail;
   }
 
@@ -141,7 +157,6 @@ class _PaymentMethodState extends State<PaymentMethod> {
 
   Future<void> uploadImage() async {
     if (imageFile == null) return;
-    await recordDonation();
   }
 
   void showMessage(String message) {

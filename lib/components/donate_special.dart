@@ -295,7 +295,7 @@ class _DataSpecialState extends State<DataSpecial> {
             const SizedBox(height: 10),
             Container(
               color: const Color(0xFF7fc23a),
-              padding: EdgeInsets.symmetric(horizontal: 12), // Optional padding
+              padding: const EdgeInsets.symmetric(horizontal: 12), // Optional padding
               child: DropdownButton<Map<String, dynamic>>(
                 // dropdownColor: Colors.red,
                 isExpanded: true,

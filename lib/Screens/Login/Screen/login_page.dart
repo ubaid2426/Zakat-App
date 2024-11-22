@@ -353,10 +353,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
         String uid =
             responseBody['uid']; // Replace with actual field if different
-        print(uid);
+        // print(uid);
         String token =
             responseBody['token']; // Replace with actual field if different
-        print(token);
+        // print(token);
         // Save token and UUID in Flutter Secure Storage
         await storage.write(key: 'reset_uid', value: uid);
         await storage.write(key: 'reset_token', value: token);

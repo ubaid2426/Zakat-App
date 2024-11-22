@@ -47,9 +47,11 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
         var response = await http.delete(url, headers: headers, body: body);
         if (response.statusCode == 204) {
           // Account deleted successfully
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Account deleted successfully!')),
           );
+          // ignore: use_build_context_synchronously
           Navigator.pop(context); // Optionally pop back to previous screen
         } else {
           setState(() {

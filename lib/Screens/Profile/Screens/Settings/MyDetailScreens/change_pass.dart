@@ -53,9 +53,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         var response = await http.post(url, headers: headers, body: body);
         if (response.statusCode == 204) {
           // Password changed successfully
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Password changed successfully!')),
           );
+          // ignore: use_build_context_synchronously
           Navigator.pop(context); // Optionally pop back to previous screen
         } else {
           setState(() {

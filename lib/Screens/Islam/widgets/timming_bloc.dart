@@ -1,8 +1,8 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:prayers_times/prayers_times.dart';
 
-// 1. Define the possible states
+// Define States
 abstract class TimingState extends Equatable {
   @override
   List<Object?> get props => [];
@@ -28,33 +28,50 @@ class TimingError extends TimingState {
   List<Object?> get props => [message];
 }
 
-// 2. Define the events (optional for more granular control)
+// Define Events
 abstract class TimingEvent {}
 
 class LoadTimingEvent extends TimingEvent {}
 
-// 3. Create the TimingBloc to handle the logic
+// Bloc Implementation
 class TimingBloc extends Bloc<TimingEvent, TimingState> {
   final Coordinates coordinates;
   final PrayerCalculationParameters params;
 
-  TimingBloc(this.coordinates, this.params) : super(TimingInitial());
+  TimingBloc(this.coordinates, this.params) : super(TimingInitial()) {
+    on<LoadTimingEvent>(_onLoadTimingEvent);
+  }
 
-  Stream<TimingState> mapEventToState(TimingEvent event) async* {
-    if (event is LoadTimingEvent) {
-      try {
-        // Fetch prayer times for today
-        PrayerTimes prayerTimes = PrayerTimes(
-          coordinates: coordinates,
-          calculationParameters: params,
-          precision: true,
-          locationName: 'Asia/Karachi',
-        );
-
-        yield TimingLoaded(prayerTimes);
-      } catch (e) {
-        yield TimingError(e.toString());
-      }
+  Future<void> _onLoadTimingEvent(
+      LoadTimingEvent event, Emitter<TimingState> emit) async {
+    try {
+      // Initialize PrayerTimes for the current date
+      final now = DateTime.now();
+      final prayerTimes = PrayerTimes(
+        coordinates: coordinates,
+        calculationParameters: params,
+        dateTime: now,
+        precision: true,
+        locationName: 'Asia/Karachi',
+      );
+  // print('\n***** Prayer Times');
+  // print('Fajr Start Time:\t${prayerTimes.fajrStartTime!}');
+  // print('Fajr End Time:\t${prayerTimes.fajrEndTime!}');
+  // print('Sunrise Time:\t${prayerTimes.sunrise!}');
+  // print('Dhuhr Start Time:\t${prayerTimes.dhuhrStartTime!}');
+  // print('Dhuhr End Time:\t${prayerTimes.dhuhrEndTime!}');
+  // print('Asr Start Time:\t${prayerTimes.asrStartTime!}');
+  // print('Asr End Time:\t${prayerTimes.asrEndTime!}');
+  // print('Maghrib Start Time:\t${prayerTimes.maghribStartTime!}');
+  // print('Maghrib End Time:\t${prayerTimes.maghribEndTime!}');
+  // print('Isha Start Time:\t${prayerTimes.ishaStartTime!}');
+  // print('Isha End Time:\t${prayerTimes.ishaEndTime!}');
+  // // print('Next Day Fajr Time:\t${prayerTimes1.fajrStartTime!}');
+  // print('Tahajjud End Time:\t${prayerTimes.tahajjudEndTime!}');
+  // print('Sehri End Time:\t${prayerTimes.sehri!}');
+      emit(TimingLoaded(prayerTimes));
+    } catch (e) {
+      emit(TimingError('Failed to load prayer times: $e'));
     }
   }
 }

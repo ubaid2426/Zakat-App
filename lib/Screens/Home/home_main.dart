@@ -1,10 +1,16 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:path_provider/path_provider.dart';
+// import 'package:get_thumbnail_video/video_thumbnail.dart';
 import 'package:video_player/video_player.dart';
 // import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/Screen/blood_donation.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/Screen/clothes.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/Screen/daig_donation.dart';
@@ -24,7 +30,6 @@ import 'package:zakat_app/Screens/All_Category/Individual/Screen/water_cooler.da
 import 'package:zakat_app/Screens/All_Category/Individual/Screen/wheel_chair.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/Screen/widow_family.dart';
 import 'package:zakat_app/Screens/All_Category/Individual/all_category.dart';
-import 'package:zakat_app/Screens/Calculator/Calculator.dart';
 import 'package:zakat_app/Screens/History/history_main.dart';
 import 'package:zakat_app/Screens/Islam/islam_main.dart';
 import 'package:zakat_app/Screens/Login/Screen/login_page.dart';
@@ -686,7 +691,7 @@ class HomeH3 extends StatelessWidget {
             //   fontawesome: FontAwesomeIcons.rotateLeft,
             //   navigateTo: DonationHistory(),
             // ),
-             ButtonNavBar(
+            ButtonNavBar(
               text: 'Urgent Donation',
               fontawesome: FontAwesomeIcons.rotateLeft,
               navigateTo: DonationHistory(),
@@ -757,8 +762,23 @@ class ButtonNavBar extends StatelessWidget {
   }
 }
 
+// import 'dart:convert';
+// import 'dart:io';
+// import 'package:flutter/material.dart';
+// import 'package:http/http.dart' as http;
+// import 'package:video_player/video_player.dart';
+// import 'package:video_thumbnail/video_thumbnail.dart';
+// import 'dart:convert';
+// import 'dart:io';
+// import 'package:flutter/material.dart';
+// import 'package:video_player/video_player.dart';
+// import 'package:video_thumbnail/video_thumbnail.dart';
+// import 'package:dio/dio.dart';
+// import 'package:path_provider/path_provider.dart';
+
+/// Reels Section: Displays a list of videos with thumbnails.
 class ReelsSection extends StatefulWidget {
-  const ReelsSection({super.key});
+  const ReelsSection({Key? key}) : super(key: key);
 
   @override
   _ReelsSectionState createState() => _ReelsSectionState();
@@ -767,22 +787,9 @@ class ReelsSection extends StatefulWidget {
 class _ReelsSectionState extends State<ReelsSection>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-
-  final List<String> videoUrls = [
-    'https://raw.githubusercontent.com/ubaid2426/Zakat-App/main/Assests/videos/WhatsApp%20Video%202024-09-26%20at%2019.28.59.mp4',
-    'https://raw.githubusercontent.com/ubaid2426/Zakat-App/main/Assests/videos/WhatsApp%20Video%202024-09-26%20at%2019.29.32.mp4',
-    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-    'https://youtube.com/shorts/Mjg5_3eusu4?si=Uw1ZA0lXWfufbWd8',
-    'https://www.instagram.com/reel/C2kqKyViKMM/?igsh=MW92NjZrZ2N5NG90ag==', // Add your video URLs
-  ];
-
-  final List<String> reelTitles = [
-    "Orphan Home",
-    "ISAAR AMDC",
-    "New 3",
-    "YouTube Short",
-    "Instagram Reel",
-  ];
+  List<Map<String, dynamic>> videoData = [];
+  List<String?> thumbnails = [];
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -791,6 +798,79 @@ class _ReelsSectionState extends State<ReelsSection>
       vsync: this,
       duration: const Duration(seconds: 1),
     )..repeat();
+    fetchVideos();
+  }
+
+  /// Fetch videos from the API
+  Future<void> fetchVideos() async {
+    const String apiUrl =
+        'http://127.0.0.1:8000/data/videos/'; // Replace with your API endpoint
+    try {
+      final response = await Dio().get(apiUrl);
+      if (response.statusCode == 200) {
+        final List<dynamic> data = response.data;
+        setState(() {
+          videoData = data
+              .map((item) => {
+                    'url': item['video'], // Video URL from API
+                    'title': item['title'], // Title from API
+                  })
+              .toList();
+        });
+        await _generateThumbnails();
+      } else {
+        throw Exception('Failed to load videos');
+      }
+    } catch (e) {
+      print("Error fetching videos: $e");
+      setState(() => isLoading = false);
+    }
+  }
+
+  /// Generate thumbnails for videos
+  Future<void> _generateThumbnails() async {
+    List<String?> tempThumbnails = [];
+    for (var video in videoData) {
+      try {
+        final String videoUrl = video['url'];
+        print("http://127.0.0.1:8000${videoUrl}");
+        final thumbnail = await generateThumbnailFromNetwork(
+            "http://127.0.0.1:8000${videoUrl}");
+        tempThumbnails.add(thumbnail);
+      } catch (e) {
+        print("Error generating thumbnail for ${video['url']}: $e");
+        tempThumbnails.add(null);
+      }
+    }
+    setState(() {
+      thumbnails = tempThumbnails;
+      isLoading = false;
+    });
+  }
+
+  /// Download video and generate a thumbnail
+  Future<String?> generateThumbnailFromNetwork(String videoUrl) async {
+    try {
+      // Download the video file to a temporary location
+      final tempDir = await getTemporaryDirectory();
+      final filePath = '${tempDir.path}/${videoUrl.split('/').last}';
+      await Dio().download(videoUrl, filePath);
+
+      // Generate thumbnail
+      final thumbnailPath = await VideoThumbnail.thumbnailFile(
+        video: filePath,
+        imageFormat: ImageFormat.JPEG,
+        maxHeight: 128,
+        quality: 75,
+      );
+
+      // Clean up the downloaded video file
+      File(filePath).delete();
+      return thumbnailPath;
+    } catch (e) {
+      print("Error downloading or generating thumbnail: $e");
+      return null;
+    }
   }
 
   @override
@@ -809,135 +889,137 @@ class _ReelsSectionState extends State<ReelsSection>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return isLoading
+        ? const Center(child: CircularProgressIndicator())
+        : Column(
             children: [
-              const Text(
-                "Reels Section",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF7fc23a)),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  "See More",
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                  ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Reels Section",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF7fc23a)),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text(
+                        "See More",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 100, // Increased height to accommodate titles
-          width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.all(0.0),
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: List.generate(
-                videoUrls.length,
-                (index) => GestureDetector(
-                  onTap: () {
-                    // Navigate to the full-screen reel page with the selected video URL
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            ReelsPage(videoUrl: videoUrls[index]),
+              ),
+              SizedBox(
+                height: 120,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: videoData.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ReelsPage(videoUrl: videoData[index]['url']),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: Column(
+                          children: [
+                            AnimatedBuilder(
+                              animation: _controller,
+                              builder: (context, child) {
+                                return Container(
+                                  width: 70,
+                                  height: 70,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: getAnimatedBorderColor(),
+                                        width: 3.0),
+                                    borderRadius: BorderRadius.circular(100.0),
+                                    image: thumbnails.length > index &&
+                                            thumbnails[index] != null
+                                        ? DecorationImage(
+                                            image: FileImage(
+                                                File(thumbnails[index]!)),
+                                            fit: BoxFit.cover,
+                                          )
+                                        : null,
+                                  ),
+                                );
+                              },
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              videoData[index]['title'],
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: Column(
-                      children: [
-                        AnimatedBuilder(
-                          animation: _controller,
-                          builder: (context, child) {
-                            Color borderColor = getAnimatedBorderColor();
-                            return Container(
-                              width: 70,
-                              height:
-                                  70, // Fixed height for the video thumbnail
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: [
-                                    Color(0xFF33A248),
-                                    Color(0xFFB2EA50)
-                                  ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                                border:
-                                    Border.all(color: borderColor, width: 3.0),
-                                borderRadius: BorderRadius.circular(100.0),
-                                image: const DecorationImage(
-                                  image: AssetImage(
-                                      'Assests/images/AllCategory/medicalbed.png'), // Update the image path
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                        const SizedBox(
-                            height: 5), // Spacing between thumbnail and title
-                        Text(
-                          reelTitles[index], // Display the title of the reel
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                 ),
               ),
-            ),
-          ),
-        ),
-      ],
-    );
+            ],
+          );
   }
 }
 
+/// Reels Page: Plays the selected video
 class ReelsPage extends StatelessWidget {
   final String videoUrl;
 
-  const ReelsPage({super.key, required this.videoUrl});
+  const ReelsPage({Key? key, required this.videoUrl}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(title: const Text('Reel Video')),
-      body: Center(
-        child: PageView.builder(
-          scrollDirection: Axis.vertical,
-          // itemCount: videoUrls.length,
-          itemBuilder: (context, index) {
-            return ReelVideoPlayer(videoUrl: videoUrl);
-          },
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF33A248), Color(0xFFB2EA50)],
+              begin: Alignment.bottomRight,
+              end: Alignment.topLeft,
+            ),
+          ),
         ),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back),
+        ),
+      ),
+      backgroundColor: Colors.white,
+      body: Center(
+        child: ReelVideoPlayer(videoUrl: videoUrl),
       ),
     );
   }
 }
 
+/// Reel Video Player
 class ReelVideoPlayer extends StatefulWidget {
   final String videoUrl;
 
-  const ReelVideoPlayer({super.key, required this.videoUrl});
+  const ReelVideoPlayer({Key? key, required this.videoUrl}) : super(key: key);
 
   @override
   _ReelVideoPlayerState createState() => _ReelVideoPlayerState();
@@ -945,17 +1027,21 @@ class ReelVideoPlayer extends StatefulWidget {
 
 class _ReelVideoPlayerState extends State<ReelVideoPlayer> {
   late VideoPlayerController _controller;
-  bool _isPlaying = false;
+  bool _isPlaying = true;
 
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.videoUrl)
-      ..initialize().then((_) {
+    final videoUrl = "http://127.0.0.1:8000${widget.videoUrl}";
+    // Use VideoPlayerController.network instead of networkUrl
+    _controller = VideoPlayerController.networkUrl(
+      Uri.parse("http://127.0.0.1:8000${widget.videoUrl}"),
+    )..initialize().then((_) {
         setState(() {
           _controller.play();
-          _isPlaying = true;
         });
+      }).catchError((error) {
+        print("Error initializing video: $error");
       });
   }
 
@@ -978,49 +1064,28 @@ class _ReelVideoPlayerState extends State<ReelVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color(0xFF33A248), // First color (#33A248)
-                Color(0xFFB2EA50), // Second color (#B2EA50)
-              ],
-              begin:
-                  Alignment.bottomRight, // Start the gradient from bottom-right
-              end: Alignment.topLeft, // End the gradient at top-left
-            ),
-          ),
-        ),
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back),
-        ),
-      ),
-      backgroundColor: Colors.black,
-      body: Center(
-        child: _controller.value.isInitialized
-            ? GestureDetector(
-                onTap: _togglePlayPause, // Toggle play/pause on tap
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    AspectRatio(
-                      aspectRatio: _controller.value.aspectRatio,
-                      child: VideoPlayer(_controller),
+    print("http://127.0.0.1:8000${widget.videoUrl}");
+    return Center(
+      child: _controller.value.isInitialized
+          ? GestureDetector(
+              onTap: _togglePlayPause,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    child: VideoPlayer(_controller),
+                  ),
+                  if (!_isPlaying)
+                    const Icon(
+                      Icons.play_arrow,
+                      color: Colors.white,
+                      size: 80.0,
                     ),
-                    if (!_isPlaying)
-                      const Icon(
-                        Icons.play_arrow,
-                        color: Colors.white,
-                        size: 80.0,
-                      ),
-                  ],
-                ),
-              )
-            : const CircularProgressIndicator(),
-      ),
+                ],
+              ),
+            )
+          : const CircularProgressIndicator(),
     );
   }
 }

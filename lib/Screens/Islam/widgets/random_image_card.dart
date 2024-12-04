@@ -16,13 +16,13 @@ class RandomImageCard extends StatelessWidget {
       margin: kPagePadding,
       decoration: BoxDecoration(
         borderRadius: kCardBorderRadius,
-        color: Theme.of(context).colorScheme.background,
+        color: Theme.of(context).colorScheme.surface,
       ),
       child: AspectRatio(
         aspectRatio: 1,
         child: Stack(
           children: [
-            Container(
+            SizedBox(
               height: double.infinity,
               width: double.infinity,
               child: ClipRRect(
@@ -44,7 +44,7 @@ class RandomImageCard extends StatelessWidget {
                     kDarkPlaceholder.withOpacity(0.2),
                     Colors.transparent,
                   ],
-                  stops: [0.1, 0.2],
+                  stops: const [0.1, 0.2],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),

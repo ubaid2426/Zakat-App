@@ -128,7 +128,7 @@ class _ZakatCalculatorState extends State<ZakatCalculator> {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
     home: ZakatCalculator(),
   ));

@@ -6,7 +6,7 @@ import 'package:zakat_app/Screens/Login/components/colors.dart';
 // import '../../core/util/constants.dart';
 
 class ComingSoonDialog extends StatelessWidget {
-  const ComingSoonDialog();
+  const ComingSoonDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class ComingSoonDialog extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           borderRadius: kCardBorderRadius,
-          color: Theme.of(context).colorScheme.background,
+          color: Theme.of(context).colorScheme.surface,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,

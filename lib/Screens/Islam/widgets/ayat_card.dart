@@ -16,7 +16,7 @@ class AyatCard extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
           ),
-          Divider(
+          const Divider(
             height: 25, // Replace with your desired height
           ),
           Column(
@@ -28,7 +28,7 @@ class AyatCard extends StatelessWidget {
                     ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 32, // Replace with your desired height
               ),
               Text(
@@ -36,7 +36,7 @@ class AyatCard extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 64, // Replace with your desired height
               ),
               Text(

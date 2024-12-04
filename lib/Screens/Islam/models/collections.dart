@@ -12,7 +12,7 @@ List<Collection> collections = [
   Collection(
     'assets/images/collection_icon/svg/quran.svg',
     'Quran',
-    'Coming Soon',
+    'QuranMain',
     // RouteGenerator.quran,
   ),
   Collection(
@@ -30,25 +30,25 @@ List<Collection> collections = [
     'assets/images/collection_icon/svg/tasbih.svg',
     'Tasbih',
     // RouteGenerator.tasbih,
-    'Coming Soon',
+    'LocationApp',
   ),
   Collection(
     'assets/images/collection_icon/svg/allah.svg',
     '99 Names of Allah',
     // RouteGenerator.allahName,
-    'Coming Soon',
+    'NameAllahScreen',
   ),
   Collection(
     'assets/images/collection_icon/svg/prayer_time.svg',
     'Prayer Times',
     // RouteGenerator.prayerTimingPage,
-    'Coming Soon',
+    'PrayerTimingScreen',
   ),
   Collection(
     'assets/images/collection_icon/svg/kiblat.svg',
     'Qabah Direction',
     // RouteGenerator.qibla,
-    'Coming Soon',
+    'QiblaScreen',
   ),
   Collection(
     'assets/images/collection_icon/svg/other.svg',

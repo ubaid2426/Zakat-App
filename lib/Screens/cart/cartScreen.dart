@@ -2,18 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:zakat_app/Screens/PaymentMethod/payment_method.dart';
-// import 'package:get/get_core/src/get_main.dart';
-// import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:zakat_app/Widgets/empty_widget.dart';
 import 'package:zakat_app/components/navigation.dart';
 import 'package:zakat_app/controller/controller.dart';
 
 final FoodController controller = Get.put(FoodController());
-String allTitles = controller.cartFood.map((item) => item.title).join(', ');
-// bool iszakat = controller.cartFood.map((item) => item.isZakat).join(', ');
-// bool issadqah = controller.cartFood.map((item) => item.isSadqah).join(', ');
+// const double amount=0;
 
-// final FoodController foodController = Get.find<FoodController>();
+/// Helper function to fetch cart details as a list of maps
+List<Map<String, dynamic>> getCartDetails() {
+  return controller.cartFood.map((item) {
+    return {
+      'title': item.title,
+      'amount': item.price,
+      'image': item.image,
+      'isZakat': item.isZakat,
+      'isSadqah': item.isSadqah,
+    };
+  }).toList();
+}
+
+// / Helper function to fetch cart details as a list of maps
+// List<Map<double, int>> getCartDetailsAmount() {
+//   return controller.cartFood.map((item) {
+//     return {
+//       amount: item.price,
+//     };
+//   }).toList();
+// }
+
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
 
@@ -22,366 +39,498 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  PreferredSizeWidget _appBar(BuildContext context) {
+  /// AppBar for the cart screen
+  PreferredSizeWidget _buildAppBar() {
     return AppBar(
       flexibleSpace: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFF33A248), // First color (#33A248)
-              Color(0xFFB2EA50), // Second color (#B2EA50)
+              Color(0xFF33A248),
+              Color(0xFFB2EA50),
             ],
-            begin:
-                Alignment.bottomRight, // Start the gradient from bottom-right
-            end: Alignment.topLeft, // End the gradient at top-left
+            begin: Alignment.bottomRight,
+            end: Alignment.topLeft,
           ),
         ),
       ),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text(
-            "Cart screen",
-            // style: Theme.of(context).textTheme.displayMedium,
-          ),
+          const Text("Cart Screen"),
           IconButton(
             icon: const Icon(Icons.shopping_cart),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        const Navigation()), // Navigate to the screen
+                MaterialPageRoute(builder: (context) => const Navigation()),
               );
             },
-          )
+          ),
         ],
       ),
     );
   }
 
-  Widget _bottomAppBar(BuildContext context) {
+  /// Bottom navigation bar showing cart subtotal and total
+  Widget _buildBottomAppBar() {
     return BottomAppBar(
       height: MediaQuery.of(context).size.height * 0.30,
-      child: SizedBox(
-        height: 500,
-        width: MediaQuery.of(context).size.width,
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color(0xFF33A248), // First color (#33A248)
-                Color(0xFFB2EA50), // Second color (#B2EA50)
-              ],
-              begin: Alignment.bottomRight,
-              end: Alignment.topLeft,
-            ),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
-            ),
+      child: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF33A248), Color(0xFFB2EA50)],
+            begin: Alignment.bottomRight,
+            end: Alignment.topLeft,
           ),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "Subtotal",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        Obx(() {
-                          return Text(
-                            "\$${controller.subtotalPrice.value}",
-                            style: const TextStyle(
-                              color: Colors.black,
-                            ),
-                          );
-                        }),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Taxes",
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
-                        Text(
-                          "\$0.0", // Assuming no taxes for donations
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 0),
-                    child: Divider(
-                      thickness: 4.0,
-                      height: 30.0,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "Total",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        Obx(() {
-                          return Text("\$${controller.totalPrice.value}",
-                              style: const TextStyle(
-                                fontSize: 19,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ));
-                        }),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.60,
-                    height: 60,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Navigate to checkout page or perform checkout
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>  PaymentMethod(placeholderText: controller.totalPrice.value, donationtitle: allTitles, iszakat: null, issadqah: null,)),
-                          );
-                        },
-                        child: const Text(
-                          "Checkout",
-                          style: TextStyle(
-                            fontSize: 24,
-                            color: Colors.black,
-                          ),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
+          child: Column(
+            children: [
+              _buildRow('Subtotal', "\$${controller.subtotalPrice.value}"),
+              const SizedBox(height: 15),
+              _buildRow('Taxes', "\$0.0"), // Assuming no taxes for donations
+              const Divider(thickness: 4.0, height: 30.0, color: Colors.black),
+              _buildRow(
+                'Total',
+                "\$${controller.totalPrice.value}",
+                isBold: true,
+              ),
+              const SizedBox(height: 30),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.60,
+                height: 60,
+                child: ElevatedButton(
+                  onPressed: () {
+                    List<Map<String, dynamic>> cartDetails = getCartDetails();
+                    // List<Map<double?, int?>> cartDetailsAmount =
+                    //     getCartDetailsAmount();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PaymentMethod(
+                          // placeholderText: controller.totalPrice.value,
+                          placeholderText: cartDetails
+                              .map((e) => e["amount"])
+                              .join(', ' ),
+                          // donationtitle: null,
+                          donationtitle:
+                              cartDetails.map((e) => e['title']).join(', '),
+                          iszakat: cartDetails.map((e) => e['isZakat']).join(', '),
+                          issadqah: cartDetails.map((e) => e['isSadqah']).join(', '),
                         ),
                       ),
-                    ),
-                  )
-                ],
+                    );
+                  },
+                  child: const Text(
+                    "Checkout",
+                    style: TextStyle(fontSize: 24, color: Colors.black),
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget cartListView(BuildContext context) {
+  /// Builds a row with a label and value for the bottom navigation
+  Widget _buildRow(String label, String value, {bool isBold = false}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: isBold ? FontWeight.w700 : FontWeight.normal,
+          ),
+        ),
+        Text(
+          value,
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Builds the list view for cart items
+  Widget _buildCartListView() {
     return ListView.separated(
       padding: const EdgeInsets.all(30),
       shrinkWrap: true,
       itemCount: controller.cartFood.length,
       itemBuilder: (_, index) {
+        final item = controller.cartFood[index];
         return Dismissible(
-          key: Key(controller.cartFood[index].title),
-          onDismissed: (direction) {
-            setState(() {
-                if (direction == DismissDirection.startToEnd) {
-              controller.removeCartItemAtSpecificIndex(index);
-            }
-              });
-               ScaffoldMessenger.of(context).showSnackBar(
-               const SnackBar(content: Text("controller.removeCartItemAtSpecificIndex(index) dismissed")),
-              );
-            
+          key: Key(item.title),
+          onDismissed: (_) {
+            controller.removeCartItemAtSpecificIndex(index);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Item removed from cart")),
+            );
           },
-          // key: Key(controller.cartFood[index].title),
-          background: Row(
-            children: [
-              Container(
-                width: 100,
-                height: 100,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 15,
-                  vertical: 25,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 245, 2, 2),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: const FaIcon(
-                  FontAwesomeIcons.trash,
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
-          child: Container(
-            width: double.infinity,
-            height: 150,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15)),
-                        color: Color.fromARGB(255, 137, 212, 63),
-                      ),
-                      width: MediaQuery.of(context).size.width - 60,
-                      height: 40,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20, top: 6),
-                        child: Text(
-                          controller.cartFood[index].title,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(width: 10),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 245, 188, 2),
-                        borderRadius: BorderRadius.circular(15),
-                        image: DecorationImage(
-                          image: NetworkImage(
-                              "http://127.0.0.1:8000/data${controller.cartFood[index].image}"),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      width: 100,
-                      height: 100,
-                    ),
-                    const SizedBox(width: 20),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "Donation Cost",
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Color.fromARGB(255, 85, 84, 84),
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          "\$${controller.cartFood[index].price}",
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                      
-                          Row(
-                            children: [
-                                // Conditionally show "Zakat" label
-                        if (controller.cartFood[index].isZakat)
-                              Container(
-                                // padding: const EdgeInsets.symmetric(
-                                //     horizontal: 10, vertical: 5),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: const Text(
-                                  "Zakat Donation",
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 5),
-                                 if (controller.cartFood[index].isSadqah)
-                          Container(
-                            // padding: const EdgeInsets.symmetric(
-                            //     horizontal: 10, vertical: 5),
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: const Text(
-                              "Sadqah Donation",
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 0, 0, 0),
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                            ],
-                          ),
-                       
-                      ],
-                    ),
-                    const Spacer(),
-                  ],
-                ),
-              ],
+          background: Container(
+            alignment: Alignment.centerLeft,
+            color: Colors.red,
+            child: const Padding(
+              padding: EdgeInsets.only(left: 20),
+              child: FaIcon(FontAwesomeIcons.trash, color: Colors.white),
             ),
           ),
+          child: _buildCartItem(item),
         );
       },
-      separatorBuilder: (_, __) => const Padding(padding: EdgeInsets.all(10)),
+      separatorBuilder: (_, __) => const SizedBox(height: 10),
+    );
+  }
+
+  /// Builds a single cart item widget
+  Widget _buildCartItem(dynamic item) {
+    return Container(
+      height: 165,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Column(
+        children: [
+          _buildCartHeader(item.title),
+          _buildCartDetails(item),
+        ],
+      ),
+    );
+  }
+
+  /// Builds the cart item header
+  Widget _buildCartHeader(String title) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF89D43F),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+      ),
+      height: 40,
+      width: double.infinity,
+      alignment: Alignment.centerLeft,
+      padding: const EdgeInsets.only(left: 20),
+      child: Text(title, style: const TextStyle(fontSize: 14)),
+    );
+  }
+
+  /// Builds the details for a cart item
+  Widget _buildCartDetails(dynamic item) {
+    return Row(
+      children: [
+        Container(
+          width: 100,
+          height: 100,
+          margin: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            image: DecorationImage(
+              image: NetworkImage("http://127.0.0.1:8000/data${item.image}"),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text("Donation Cost", style: TextStyle(fontSize: 18)),
+            Text("\$${item.price}",
+                style:
+                    const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 5),
+            Row(
+              children: [
+                if (item.isZakat) _buildDonationType("Zakat Donation"),
+                if (item.isSadqah) _buildDonationType("Sadqah Donation"),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  /// Builds the donation type label
+  Widget _buildDonationType(String label) {
+    return Container(
+      margin: const EdgeInsets.only(right: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+      decoration: BoxDecoration(
+        color: Colors.grey,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Text(label, style: const TextStyle(fontSize: 12)),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
+      appBar: _buildAppBar(),
       bottomNavigationBar: controller.cartFood.isNotEmpty
-          ? _bottomAppBar(context)
+          ? _buildBottomAppBar()
           : const SizedBox(),
-      appBar: _appBar(context),
       body: EmptyWidget(
         title: "Empty cart",
         condition: controller.cartFood.isNotEmpty,
-        child: SingleChildScrollView(
-          child: SizedBox(
-            height: height * 0.5,
-            child: GetBuilder(
-              builder: (FoodController controller) => cartListView(context),
-            ),
+        child: SizedBox(
+          height: height * 0.5,
+          child: GetBuilder(
+            builder: (FoodController controller) => _buildCartListView(),
           ),
         ),
       ),
     );
   }
 }
+// import 'dart:ffi';
+
+// import 'package:flutter/material.dart';
+// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:get/get.dart';
+// import 'package:zakat_app/Screens/PaymentMethod/payment_method.dart';
+// import 'package:zakat_app/Widgets/empty_widget.dart';
+// import 'package:zakat_app/components/navigation.dart';
+// import 'package:zakat_app/controller/controller.dart';
+
+// final FoodController controller = Get.put(FoodController());
+
+// /// Helper function to fetch cart details as a list of maps
+// List<Map<String, dynamic>> getCartDetails() {
+//   return controller.cartFood.map((item) {
+//     return {
+//       'title': item.title,
+//       // 'amount': item.price,
+//       'image': item.image,
+//       'isZakat': item.isZakat,
+//       'isSadqah': item.isSadqah,
+//     };
+//   }).toList();
+// }
+
+// List<Map<String, int>> getCartDetailsAmount() {
+//   return controller.cartFood.map((item) {
+//     return {
+//       'amount': item.price,
+//     };
+//   }).toList();
+// }
+
+// class CartScreen extends StatefulWidget {
+//   const CartScreen({super.key});
+
+//   @override
+//   State<CartScreen> createState() => _CartScreenState();
+// }
+
+// class _CartScreenState extends State<CartScreen> {
+//   /// Builds the app bar with gradient background
+//   PreferredSizeWidget _buildAppBar(BuildContext context) {
+//     return AppBar(
+//       flexibleSpace: Container(
+//         decoration: const BoxDecoration(
+//           gradient: LinearGradient(
+//             colors: [Color(0xFF33A248), Color(0xFFB2EA50)],
+//             begin: Alignment.bottomRight,
+//             end: Alignment.topLeft,
+//           ),
+//         ),
+//       ),
+//       title: Row(
+//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//         children: [
+//           const Text("Cart Screen"),
+//           IconButton(
+//             icon: const Icon(Icons.shopping_cart),
+//             onPressed: () {
+//               Navigator.push(
+//                 context,
+//                 MaterialPageRoute(builder: (context) => const Navigation()),
+//               );
+//             },
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+
+//   /// Builds a reusable row widget for labels and values
+//   Widget buildRowWithText(String label, String value,
+//       {bool isBold = false, double fontSize = 16}) {
+//     return Row(
+//       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//       children: [
+//         Text(
+//           label,
+//           style: TextStyle(
+//             color: Colors.black,
+//             fontWeight: isBold ? FontWeight.w700 : FontWeight.w400,
+//             fontSize: fontSize,
+//           ),
+//         ),
+//         Text(
+//           value,
+//           style: TextStyle(
+//             color: Colors.black,
+//             fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+//             fontSize: fontSize,
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+
+//   /// Builds a reusable donation label widget
+//   Widget buildDonationLabel(String label) {
+//     return Container(
+//       decoration: BoxDecoration(
+//         // color: Colors.grey,
+//         color: const Color.fromARGB(255, 249, 2, 2),
+//         borderRadius: BorderRadius.circular(5),
+//       ),
+//       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+//       child: Text(
+//         label,
+//         style: const TextStyle(
+//           color: Colors.black,
+//           fontWeight: FontWeight.bold,
+//         ),
+//       ),
+//     );
+//   }
+
+//   /// Builds the bottom checkout section
+//   Widget _buildBottomAppBar(BuildContext context) {
+//     return BottomAppBar(
+//       height: MediaQuery.of(context).size.height * 0.30,
+//       child: Container(
+//         decoration: const BoxDecoration(
+//           gradient: LinearGradient(
+//             colors: [Color(0xFF33A248), Color(0xFFB2EA50)],
+//             begin: Alignment.bottomRight,
+//             end: Alignment.topLeft,
+//           ),
+//           borderRadius: BorderRadius.only(
+//             topLeft: Radius.circular(30),
+//             topRight: Radius.circular(30),
+//           ),
+//         ),
+//         child: Padding(
+//           padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
+//           child: Column(
+//             children: [
+//               Obx(() => buildRowWithText(
+//                   "Subtotal", "\$${controller.subtotalPrice.value}")),
+//               const SizedBox(height: 15),
+//               buildRowWithText("Taxes", "\$0.0"),
+//               const Divider(thickness: 4, height: 30, color: Colors.black),
+//               Obx(() => buildRowWithText(
+//                   "Total", "\$${controller.totalPrice.value}",
+//                   isBold: true, fontSize: 19)),
+//               const SizedBox(height: 30),
+//               ElevatedButton(
+//                 onPressed: () {
+//                   List<Map<String, dynamic>> cartDetails = getCartDetails();
+//                   Navigator.push(
+//                     context,
+//                     MaterialPageRoute(
+//                       builder: (context) => PaymentMethod(
+//                         placeholderText: controller.totalPrice.value,
+//                         donationtitle:
+//                             cartDetails.map((e) => e['title']).join(', '),
+//                         iszakat: cartDetails.any((e) => e['isZakat']),
+//                         issadqah: cartDetails.any((e) => e['isSadqah']),
+//                       ),
+//                     ),
+//                   );
+//                 },
+//                 child: const Text(
+//                   "Checkout",
+//                   style: TextStyle(fontSize: 24, color: Colors.black),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+
+//   /// Builds the cart list view
+//   Widget _buildCartListView() {
+//     return ListView.separated(
+//       padding: const EdgeInsets.all(30),
+//       shrinkWrap: true,
+//       itemCount: controller.cartFood.length,
+//       itemBuilder: (_, index) {
+//         final item = controller.cartFood[index];
+//         return Dismissible(
+//           key: Key(item.title),
+//           onDismissed: (_) {
+//             controller.removeCartItemAtSpecificIndex(index);
+//             ScaffoldMessenger.of(context).showSnackBar(
+//               const SnackBar(content: Text("Item dismissed")),
+//             );
+//           },
+//           background: Container(
+//             alignment: Alignment.centerLeft,
+//             padding: const EdgeInsets.symmetric(horizontal: 15),
+//             color: Colors.red,
+//             child: const Icon(FontAwesomeIcons.trash, color: Colors.black),
+//           ),
+//           child: Card(
+//             shape: RoundedRectangleBorder(
+//               borderRadius: BorderRadius.circular(15),
+//             ),
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 ListTile(
+//                   title: Text(item.title),
+//                   subtitle: Text("\$${item.price}"),
+//                   trailing: Wrap(
+//                     spacing: 5,
+//                     children: [
+//                       if (item.isZakat) buildDonationLabel("Zakat Donation"),
+//                       if (item.isSadqah) buildDonationLabel("Sadqah Donation"),
+//                     ],
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         );
+//       },
+//       separatorBuilder: (_, __) => const SizedBox(height: 10),
+//     );
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: _buildAppBar(context),
+//       body: EmptyWidget(
+//         title: "Empty cart",
+//         condition: controller.cartFood.isNotEmpty,
+//         child: _buildCartListView(),
+//       ),
+//       bottomNavigationBar: controller.cartFood.isNotEmpty
+//           ? _buildBottomAppBar(context)
+//           : const SizedBox(),
+//     );
+//   }
+// }

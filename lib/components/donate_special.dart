@@ -213,7 +213,8 @@ class _DataSpecialState extends State<DataSpecial> {
                   title: "Donate",
                   icon: FontAwesomeIcons.circleDollarToSlot,
                   navigateTo: PaymentMethod(
-                    placeholderText: double.tryParse(_controller.text) ?? 32.0,
+                    // placeholderText: double.tryParse(_controller.text) ?? 32.0,
+                    placeholderText: (_controller.text),
                     donationtitle: widget.title, iszakat: null, issadqah: null,
                   ),
                 ),

@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:zakat_app/Screens/Islam/Screens/Quran/quran_main.dart';
+import 'package:zakat_app/Screens/Islam/Screens/Quran/widgets/name_allah.dart';
 import 'package:zakat_app/Screens/Islam/models/collections.dart';
+import 'package:zakat_app/Screens/Islam/widgets/Qibla/qibla_main';
+import 'package:zakat_app/Screens/Islam/widgets/Qibla/screen/qiblah_screen.dart';
+import 'package:zakat_app/Screens/Islam/widgets/check.dart';
+// import 'package:zakat_app/Screens/Islam/widgets/Qiblah%20Direction/qibla_main.dart';
+// import 'package:zakat_app/Screens/Islam/widgets/check.dart';
 import 'package:zakat_app/Screens/Islam/widgets/comming_soon_dialog.dart';
+import 'package:zakat_app/Screens/Islam/widgets/prayer_timing_screen.dart';
 
 // import '../../utils/coming_soon_dialog.dart';
 // import '../model/collection.dart';
@@ -19,13 +27,55 @@ class CollectionButton extends StatelessWidget {
         if (collection.routeName == 'Coming Soon') {
           showDialog(
             context: context,
-            builder: (context) => ComingSoonDialog(),
+            builder: (context) => const ComingSoonDialog(),
           );
           return;
         }
-        // if (collection.routeName != '') {
-        //   // Navigator.of(context).pushNamed(collection.routeName);
-        // }
+if (collection.routeName != '') {
+  // Check the value of collection.routeName
+  if (collection.routeName == 'QuranMain') {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const QuranMain(), // Navigate to QuranMain screen
+      ),
+    );
+  } else if (collection.routeName == 'NameAllahScreen') {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => NameAllahScreen(), // Navigate to NameAllahScreen
+      ),
+    );
+  }
+   else if (collection.routeName == 'LocationApp') {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LocationApp(),
+      ),
+    );
+  }
+  // else if (collection.routeName == 'QiblaScreen') {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) =>  QiblahScreen() ,
+  //     ),
+  //   );
+  // }
+  else if (collection.routeName == 'PrayerTimingScreen') {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>const PrayerTimingScreen(), // Navigate to NameAllahScreen
+      ),
+    );
+  } else {
+    // If the routeName is something else, you can print or handle it
+    print('Unknown route: ${collection.routeName}');
+  }
+}
       },
       child: Column(
         children: [

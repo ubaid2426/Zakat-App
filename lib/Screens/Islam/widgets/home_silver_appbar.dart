@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
 import 'package:zakat_app/Screens/Islam/widgets/appbar_expanded.dart';
 // import 'appbar_expanded.dart'; // Ensure AppBarExpanded is defined properly
 
@@ -45,7 +45,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           builder: (context) {
             try {
               //  return Container(color: Colors.red,);
-              return Expanded(child: AppBarExpanded()); // Replace with your actual expanded content widget
+              return const Expanded(child: AppBarExpanded()); // Replace with your actual expanded content widget
             } catch (e, stackTrace) {
               debugPrint("Error in AppBarExpanded: $e\n$stackTrace");
               return Container(color: Colors.red); // Fallback in case of error

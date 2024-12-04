@@ -1,0 +1,56 @@
+
+
+// import 'package:flutter/material.dart';
+// import 'package:permission_handler/permission_handler.dart';
+// import 'package:zakat_app/Screens/Islam/widgets/Qibla/screen/splash_screen.dart';
+// import 'package:zakat_app/Screens/Islam/widgets/Qibla/screen/theme_provider.dart';
+
+// // void main() {
+// //   runApp(const MyApp());
+// // }
+
+// class QiblaMain extends StatefulWidget {
+//   const QiblaMain ({super.key});
+
+//   @override
+//   State<QiblaMain> createState() => _QiblaMainState();
+// }
+
+// class _MyAppState extends State<MyApp> {
+//   bool hasPermission = false;
+
+//   Future getPermission() async {
+//     if (await Permission.location.serviceStatus.isEnabled) {
+//       var status = await Permission.location.status;
+//       if (status.isGranted) {
+//         hasPermission = true;
+//       } else {
+//         Permission.location.request().then((value) {
+//           setState(() {
+//             hasPermission = (value == PermissionStatus.granted);
+//           });
+//         });
+//       }
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       themeMode: ThemeMode.system,
+//       theme: MyThemes.lightTheme,
+//       darkTheme: MyThemes.darkTheme,
+//       home: FutureBuilder(
+//         builder: (context, snapshot) {
+//           if (hasPermission) {
+//             return const QiblaScreen();
+//           } else {
+//             return Scaffold(backgroundColor: Colors.blueGrey.shade800);
+//           }
+//         },
+//         // future: getPermission(),
+//       ),
+//     );
+//   }
+// }

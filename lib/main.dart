@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:zakat_app/Screens/Islam/islam_main.dart';
+// import 'package:zakat_app/Screens/Islam/islam_main.dart';
+import 'package:zakat_app/components/navigation.dart';
 // import 'package:zakat_app/components/navigation.dart';
 
 void main() {
@@ -8,7 +9,7 @@ void main() {
   runApp(
 
     ScreenUtilInit(
-      designSize: Size(330, 812), // Use ScreenUtil's designSize
+      designSize: const Size(330, 812), // Use ScreenUtil's designSize
       minTextAdapt: true,
       builder: (context, child) {
         return const MaterialApp(
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: IslamScreen(),
+        body: Navigation(),
       ),
     );
   }

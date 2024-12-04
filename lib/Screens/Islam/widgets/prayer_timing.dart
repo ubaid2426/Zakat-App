@@ -1,101 +1,175 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prayers_times/prayers_times.dart';
 import 'package:zakat_app/Screens/Islam/widgets/timming_bloc.dart';
-class PrayerTimingWidget extends StatelessWidget {
+
+class PrayerTimingWidget extends StatefulWidget {
   const PrayerTimingWidget({super.key});
+
+  @override
+  State<PrayerTimingWidget> createState() => _PrayerTimingWidgetState();
+}
+
+class _PrayerTimingWidgetState extends State<PrayerTimingWidget> {
+  Timer? _timer;
+  String _remainingTime = '';
+  DateTime? _nextPrayerTime;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _startTimer() {
+    // Refresh the UI every second
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (_nextPrayerTime != null) {
+        final now = DateTime.now();
+        setState(() {
+          _remainingTime = getRemainingTime(now, _nextPrayerTime!);
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     // Define geographical coordinates for the location
-    Coordinates coordinates = Coordinates(21.1959, 72.7933); // Example for Karachi
+    Coordinates coordinates =
+        Coordinates(31.5204, 74.3587); // Example for Karachi
 
     // Specify calculation parameters
     PrayerCalculationParameters params = PrayerCalculationMethod.karachi();
     params.madhab = PrayerMadhab.hanafi;
 
     return BlocProvider(
-      create: (_) => TimingBloc(coordinates, params),
-      child: BlocListener<TimingBloc, TimingState>(
-        listener: (context, state) {
+      create: (_) => TimingBloc(coordinates, params)..add(LoadTimingEvent()),
+      child: BlocBuilder<TimingBloc, TimingState>(
+        builder: (context, state) {
           if (state is TimingInitial) {
-            // Dispatch LoadTimingEvent here after bloc is initialized
-            BlocProvider.of<TimingBloc>(context).add(LoadTimingEvent());
-          }
-        },
-        child: GestureDetector(
-          onTap: () {
-            // Navigate to prayer timing page (ensure this route is defined)
-            // Navigator.of(context).pushNamed('/prayerTimingPage');
-          },
-          child: SingleChildScrollView( // Make content scrollable
-            child: Column(
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is TimingLoaded) {
+            // Extract prayer times from the state
+            final prayerTimes = state.prayerTimes;
+            final now = DateTime.now();
+
+            // Determine the next prayer
+            final nextPrayer = getNextPrayer(prayerTimes, now);
+
+            if (nextPrayer != null) {
+              _nextPrayerTime = nextPrayer['time'];
+              _remainingTime = getRemainingTime(now, _nextPrayerTime!);
+            }
+
+            return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   getTodayDate(),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
+                const SizedBox(height: 8),
                 Text(
                   'Next Prayer Timing:',
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
-                // BlocBuilder to handle the timer
-                BlocBuilder<TimingBloc, TimingState>(
-                  builder: (context, state) {
-                    if (state is TimingInitial) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (state is TimingLoaded) {
-                      // Extract prayer times from the state
-                      final prayerTimes = state.prayerTimes;
-
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Show the prayer times
-                          Text(
-                            'Fajr Start Time: ${prayerTimes.fajrStartTime ?? 'N/A'}',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          Text(
-                            'Sunrise Time: ${prayerTimes.sunrise ?? 'N/A'}',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          Text(
-                            'Dhuhr Start Time: ${prayerTimes.dhuhrStartTime ?? 'N/A'}',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          Text(
-                            'Asr Start Time: ${prayerTimes.asrStartTime ?? 'N/A'}',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          Text(
-                            'Maghrib Start Time: ${prayerTimes.maghribStartTime ?? 'N/A'}',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          Text(
-                            'Isha Start Time: ${prayerTimes.ishaStartTime ?? 'N/A'}',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ],
-                      );
-                    } else if (state is TimingError) {
-                      return Center(child: Text('Error: ${state.message}'));
-                    } else {
-                      return const Center(child: Text('Unknown state'));
-                    }
-                  },
-                ),
+                const SizedBox(height: 8),
+                if (nextPrayer != null)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${nextPrayer['name']}: ${formatTime(_nextPrayerTime!)}',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(color: Colors.green),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Time Remaining: $_remainingTime',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ],
+                  ),
               ],
-            ),
-          ),
-        ),
+            );
+          } else if (state is TimingError) {
+            return Center(child: Text('Error: ${state.message}'));
+          } else {
+            return const Center(child: Text('Unknown state'));
+          }
+        },
       ),
     );
   }
 
+  // Helper to calculate the next prayer time and remaining time
+  Map<String, dynamic>? getNextPrayer(PrayerTimes prayerTimes, DateTime now) {
+
+    final prayerSchedule = {
+      'Fajr': prayerTimes.fajrStartTime,
+      'Sunrise': prayerTimes.sunrise,
+      'Dhuhr': prayerTimes.dhuhrStartTime,
+      'Asr': prayerTimes.asrStartTime,
+      'Maghrib': prayerTimes.maghribStartTime,
+      'Isha': prayerTimes.ishaStartTime,
+    };
+
+    // Filter prayer times that are after the current time
+    final upcomingPrayers = prayerSchedule.entries
+        .where((entry) => entry.value != null && entry.value!.isAfter(now))
+        .toList();
+
+    // If no upcoming prayers today, show the first prayer of the next day
+    if (upcomingPrayers.isEmpty) {
+      final tomorrowFajr =
+          prayerTimes.fajrStartTime?.add(const Duration(days: 1));
+      return {
+        'name': 'Fajr',
+        'time': tomorrowFajr,
+      };
+    }
+
+    // Sort by time
+    upcomingPrayers.sort((a, b) => a.value!.compareTo(b.value!));
+
+    // Get the next prayer
+    final nextPrayer = upcomingPrayers.first;
+    return {
+      'name': nextPrayer.key,
+      'time': nextPrayer.value,
+    };
+  }
+
+  // Helper to format time
+  String formatTime(DateTime time) {
+    int hour = time.hour;
+    String period = hour >= 12 ? 'PM' : 'AM';
+    hour = hour % 12;
+    hour = hour == 0 ? 12 : hour; // Convert 0 to 12 for 12-hour format
+    String minute = time.minute.toString().padLeft(2, '0');
+    return '$hour:$minute $period';
+  }
+
+  // Helper to get remaining time in hours, minutes, and seconds
+  String getRemainingTime(DateTime now, DateTime prayerTime) {
+    final duration = prayerTime.difference(now);
+    final hours = duration.inHours;
+    final minutes = duration.inMinutes % 60;
+    final seconds = duration.inSeconds % 60;
+    return '${hours}h ${minutes}m ${seconds}s';
+  }
+
+  // Helper to get today's date in DD/MM/YYYY format
   String getTodayDate() {
     final now = DateTime.now();
     return '${now.day}/${now.month}/${now.year}';

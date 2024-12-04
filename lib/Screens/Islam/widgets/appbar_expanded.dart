@@ -13,7 +13,7 @@ class AppBarExpanded extends StatelessWidget {
     // Get the current theme's brightness directly from the context
     final brightness = Theme.of(context).brightness;
 
-    return Container(
+    return SizedBox(
       width: screenWidth,
       height: screenHeight * 0.4,
       child: Stack(

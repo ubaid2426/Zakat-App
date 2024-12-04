@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:zakat_app/Screens/Islam/widgets/comming_soon_dialog.dart';
 import 'package:zakat_app/Screens/Islam/widgets/prayer_timing.dart';
-import 'package:zakat_app/Screens/Login/components/colors.dart';
+// import 'package:zakat_app/Screens/Login/components/colors.dart';
 
 class KiblatCard extends StatelessWidget {
   const KiblatCard({super.key});
@@ -64,7 +64,16 @@ class KiblatCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Current Location'),
+                    const Text(
+                      'Current Location',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w300,
+                        decoration: TextDecoration.none,
+                        fontFamily: "Roboto",
+                        color: Color(0xFF7fc23a),
+                      ),
+                    ),
                     TextButton(
                       onPressed: () {
                         showDialog(
@@ -81,7 +90,7 @@ class KiblatCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  PrayerTimingWidget(),
+                  const PrayerTimingWidget(),
                   GestureDetector(
                     key: GlobalKey(),
                     onTap: () {

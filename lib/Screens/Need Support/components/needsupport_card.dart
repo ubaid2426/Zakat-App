@@ -211,7 +211,7 @@ class _NeedSupportState extends State<NeedSupport> {
                     });
                   },
                   controlAffinity: ListTileControlAffinity.leading,
-                  activeColor: Color(0xFF7fc23a),
+                  activeColor: const Color(0xFF7fc23a),
                 ),
                 CheckboxListTile(
                   title: const Text('Sadqah'),
@@ -222,7 +222,7 @@ class _NeedSupportState extends State<NeedSupport> {
                     });
                   },
                   controlAffinity: ListTileControlAffinity.leading,
-                  activeColor: Color(0xFF7fc23a),
+                  activeColor: const Color(0xFF7fc23a),
                 ),
 
                 const SizedBox(height: 20),
@@ -278,7 +278,7 @@ class _NeedSupportState extends State<NeedSupport> {
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
-        prefixIcon: Icon(icon, color: Color(0xFF7fc23a)),
+        prefixIcon: Icon(icon, color: const Color(0xFF7fc23a)),
         filled: true,
         fillColor: Colors.grey[100],
         border: OutlineInputBorder(

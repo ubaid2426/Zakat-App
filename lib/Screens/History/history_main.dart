@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:zakat_app/Screens/History/donation_history_card.dart';
+import 'package:zakat_app/Screens/PaymentMethod/payment_method.dart';
 import 'package:zakat_app/model/get_donation_model.dart';
-
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class DonationHistory extends StatefulWidget {
   const DonationHistory({super.key});
 
@@ -35,8 +36,10 @@ class _DonationHistoryState extends State<DonationHistory>
   }
 
   Future<List<GetDonation>> fetchDonationHistory() async {
+        String? donorName = await storage.read(key: 'user_name');
+        String? donorId = await storage.read(key: 'user_id');
     final response = await http.get(
-        Uri.parse("http://127.0.0.1:8000/data/donation-history/36/ubaid/"));
+        Uri.parse("http://127.0.0.1:8000/data/donation-history/$donorId/$donorName/"));
 
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);

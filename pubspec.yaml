@@ -1,0 +1,119 @@
+name: sadqahzakat
+description: "A new Flutter project."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.4
+dependencies:
+  flutter:
+    sdk: flutter
+  # General dependencies
+  flutter_svg: ^1.0.3
+  vector_graphics: ^1.1.11+1
+  sizer: ^2.0.15
+  widget_mask: ^1.0.0+0
+  carousel_slider: ^5.0.0
+  badges: ^3.1.2
+  flutter_animate_on_scroll: ^0.1.1
+  video_player: ^2.9.1
+  animations: ^2.0.8
+  simple_animations: ^5.0.2
+  font_awesome_flutter: ^10.6.0
+  image_picker: ^1.1.2
+  flutter_bloc: ^8.1.6
+  fc_native_video_thumbnail: ^0.16.1
+  hydrated_bloc: ^9.1.5
+  get: ^4.6.6
+  intl_phone_field: ^2.1.0
+  flutter_verification_code: ^1.1.0
+  flutter_animate: ^4.1.1+1
+  flutter_screenutil: ^5.9.3
+  prayers_times: ^0.0.6
+  persistent_bottom_nav_bar: ^6.2.1
+  animated_icon: ^0.0.9
+  animated_bottom_navigation_bar: ^1.0.1
+  equatable: ^2.0.7
+  flutter_expandable_text: ^1.0.0
+  intl: ^0.18.1
+  image: ^4.3.0
+  modal_progress_hud_nsn: ^0.5.1
+  auto_size_text: ^3.0.0
+  dropdown_button2: ^2.0.0
+  http: ^1.2.2
+  hijri_calendar: ^1.0.7+7
+  currency_converter: ^2.0.0
+  flutter_secure_storage: ^9.2.2
+  geolocator: ^13.0.1
+  geocoding: ^3.0.0
+  dartz: ^0.10.1
+  dio: ^5.7.0
+  logger: ^2.4.0
+  qibla_direction: ^1.0.1
+  tutorial_coach_mark: ^1.2.12
+  shared_preferences: ^2.1.0
+
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+flutter:
+  uses-material-design: true
+  assets:
+    - Assests/images/screen1/
+    - Assests/
+    - Assests/images/AllCategory/
+    - Assests/images/LoginScreen/
+    - Assests/images/DetailCategory/
+    - Assests/images/Aboutus/
+    - Assests/images/HadithCard/
+    - Assests/svg/
+    - assets/images/core/json/
+    - assets/images/core/svg/
+    - assets/images/error/lottie_json/
+    - assets/images/navigation_icon/svg/
+    - assets/images/home_icon/svg/
+    - assets/images/home_icon/lottie_json/
+    - assets/images/collection_icon/svg/
+    - assets/images/qiblat_icon/svg/
+    - assets/images/praying_time/svg/
+    - assets/images/setting_icon/svg/
+    - assets/images/error/lottie_json/
+    - assets/images/permission/lottie_json/
+    - assets/images/tasbih_icon/svg/
+    - assets/images/dua_icon/svg/
+    - assets/images/quran_icon/svg/
+    - assets/images/image_of_the_day/
+    - assets/sound/
+
+  fonts:
+    - family: Cormorant
+      fonts:
+        - asset: Assests/Fonts/Cormorant/Cormorant-VariableFont_wght.ttf
+    - family: Montserrat
+      fonts:
+        - asset: Assests/Fonts/Montserrat/Montserrat-VariableFont_wght.ttf
+    - family: Roboto
+      fonts:
+        - asset: Assests/Fonts/Roboto/Roboto-Regular.ttf
+    - family: Roboto1
+      fonts:
+        - asset: Assests/Fonts/Roboto/Roboto-Italic.ttf  
+    - family: Uthman
+      fonts:
+        - asset: assets/fonts/Uthman-Taha-Naskh-Regular.otf
+        - asset: assets/fonts/Uthman-Taha-Naskh-Bold.otf
+          weight: 700
+    - family: Jameel
+      fonts:
+        - asset: assets/fonts/jameel.ttf
+    - family: Noto
+      fonts:
+        - asset: Assests/Fonts/Noto_Naskh_Arabic/static/NotoNaskhArabic-Regular.ttf

@@ -1,0 +1,36 @@
+
+import 'package:flutter/material.dart';
+import 'package:sadqahzakat/Screens/Login/components/colors.dart';
+// import 'package:zakat_app/Screens/Login/components/colors.dart';
+
+class EmailField extends StatelessWidget {
+  final TextEditingController email;
+  const EmailField({super.key, required this.email});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: email,
+      validator: (value) {
+        if (value!.length < 13) {
+          return "invalid gmail";
+        } else {
+          return null;
+        }
+      },
+      decoration: InputDecoration(
+        suffixIcon: Icon(
+          Icons.email,
+          color: MyColors().maincolor,
+        ),
+        label: Text(
+          'Gmail',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: MyColors().maincolor,
+          ),
+        ),
+      ),
+    );
+  }
+}

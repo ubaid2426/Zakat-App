@@ -8,7 +8,7 @@ class UserService {
   static Future<Map<String, dynamic>?> fetchUserDetails() async {
     String? token = await storage.read(key: 'access_token');
     if (token != null) {
-      var url = Uri.parse('http://127.0.0.1:8000/api/auth/users/me/');
+      var url = Uri.parse('https://sadqahzakaat.com/api/auth/users/me/');
       var response = await http.get(
         url,
         headers: {

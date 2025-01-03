@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sadqahzakat/Screens/AboutUs/about_us.dart';
-import 'package:sadqahzakat/Screens/All_Category/Group/Screen/blood_donation.dart';
+// import 'package:sadqahzakat/Screens/All_Category/Group/Screen/blood_donation/blood_donation.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/clothes.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/food_relief.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/marriage_support.dart';
@@ -13,19 +13,20 @@ import 'package:sadqahzakat/Screens/All_Category/Group/Screen/orphan_support.dar
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/other.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/portable_house.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/small_business.dart';
-import 'package:sadqahzakat/Screens/All_Category/Group/Screen/tree_donation.dart';
+// import 'package:sadqahzakat/Screens/All_Category/Group/Screen/tree_donation.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/water_cooler.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/wheel_chair.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/widow_family.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/all_category.dart';
-import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/donate_quran.dart';
+// import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/donate_quran.dart';
 import 'package:sadqahzakat/Screens/ContactUs/Screens/Branches.dart';
 import 'package:sadqahzakat/Screens/ContactUs/Screens/call_us.dart';
 import 'package:sadqahzakat/Screens/ContactUs/Screens/work_hour.dart';
 import 'package:sadqahzakat/Screens/Gallery/gallery.dart';
 import 'package:sadqahzakat/Screens/Home/home_main.dart';
-import 'package:sadqahzakat/Screens/Islam/widgets/get_location.dart';
-import 'package:sadqahzakat/Screens/Login/Screen/sing_up.dart';
+// import 'package:sadqahzakat/Screens/Islam/widgets/get_location.dart';
+// import 'package:sadqahzakat/Screens/Login/Screen/login_page.dart';
+// import 'package:sadqahzakat/Screens/Login/Screen/sing_up.dart';
 import 'package:sadqahzakat/Screens/Need%20Support/need_support.dart';
 import 'package:sadqahzakat/Screens/Volunteer/volunteer.dart';
 import 'package:sadqahzakat/Screens/What_We_DO/what_we_do.dart';
@@ -141,11 +142,11 @@ class MainDrawer extends StatelessWidget {
                   // ignore: deprecated_member_use
                   fontawesome: FontAwesomeIcons.donate,
                 ),
-                ManyOption(
-                  menuTitle: "Login",
-                  fontawesome: FontAwesomeIcons.rightToBracket,
-                  navigateTo: Signup(),
-                ),
+                // ManyOption(
+                //   menuTitle: "Login",
+                //   fontawesome: FontAwesomeIcons.rightToBracket,
+                //   navigateTo: LoginPage(),
+                // ),
                 ManyOption(
                   menuTitle: "Gallery",
                   fontawesome: Icons.picture_in_picture_sharp,
@@ -178,19 +179,19 @@ class ManyOption extends StatelessWidget {
       selectedColor: const Color(0xFF7fc23a),
       leading: Icon(
         fontawesome,
-        size: 22,
+        size: 18,
         color: Theme.of(context).colorScheme.onSurface,
       ),
       title: Text(
         menuTitle,
         style: Theme.of(context).textTheme.titleSmall!.copyWith(
               color: Theme.of(context).colorScheme.onSurface,
-              fontSize: 18,
+              fontSize: 15,
             ),
       ),
       onTap: () {
         // Handle the tap event here
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
               builder: (context) => navigateTo), // Navigate to the screen
@@ -249,7 +250,7 @@ class _DonationMenuState extends State<DonationMenu> {
           children: [
             Icon(
               widget.fontawesome,
-              //  size: 22,
+              size: 18,
               color: _isExpanded
                   ? const Color.fromARGB(255, 247, 247, 247)
                   : const Color.fromARGB(255, 12, 12, 12),
@@ -264,7 +265,7 @@ class _DonationMenuState extends State<DonationMenu> {
                   widget.menuTitle,
                   style: Theme.of(context).textTheme.titleSmall!.copyWith(
                         color: Theme.of(context).colorScheme.onSurface,
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                 ),
                 Icon(
@@ -295,22 +296,14 @@ class _DonationMenuState extends State<DonationMenu> {
                     ),
                   );
                   break;
-                case "Donate Quran":
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const DonateQuran(),
-                    ),
-                  );
-                  break;
-                case "Blood Donation":
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Blood(),
-                    ),
-                  );
-                  break;
+                // case "Blood Donation":
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //       builder: (context) => const BloodDetailCard(),
+                //     ),
+                //   );
+                //   break;
                 case 'Masjid Maintenance':
                   Navigator.push(
                     context,
@@ -372,14 +365,6 @@ class _DonationMenuState extends State<DonationMenu> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const WheelChair(),
-                    ),
-                  );
-                  break;
-                case 'Tree Donation':
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const TreeDonation(),
                     ),
                   );
                   break;
@@ -473,7 +458,7 @@ class _DonationMenuState extends State<DonationMenu> {
                   break;
                 // Add other cases for remaining options...
                 default:
-                  // print('$option tapped');
+                // print('$option tapped');
               }
             },
           ),

@@ -1,22 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:sadqahzakat/Screens/Home/home_main.dart';
 import 'package:sadqahzakat/Screens/donation_service.dart';
 import 'package:sadqahzakat/components/donate.dart';
+// import 'package:sadqahzakat/components/navigation.dart';
 import 'package:sadqahzakat/model/doantion_model.dart';
-// import 'package:zakat_app/Screens/donation_service.dart';
-// import 'package:zakat_app/components/donate.dart';
-// import 'package:zakat_app/model/doantion_model.dart';
-// import 'package:zakat_app/services/donation_service.dart'; // Import the service
 
-class Gaza extends StatefulWidget {
+void main() {
+  runApp(const Gaza());
+}
+
+class Gaza extends StatelessWidget {
   const Gaza({super.key});
 
   @override
-  _GazaState createState() => _GazaState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      // title: 'Queue Card System',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const CardQueueScreen(),
+    );
+  }
 }
 
-class _GazaState extends State<Gaza> {
-  String selectedSort = 'Not finished projects first';
+class CardQueueScreen extends StatefulWidget {
+  const CardQueueScreen({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _CardQueueScreenState createState() => _CardQueueScreenState();
+}
+
+class _CardQueueScreenState extends State<CardQueueScreen> {
+  String selectedSort = 'Not Finished Projects First';
   List<DonationModel> sortedClothes = [];
+  bool isLoading = true;
+  String? currentProjectId; // Tracks the project ID currently being donated to
+
+  final List<String> sortOptions = [
+    'Finished Projects',
+    'Not Finished Projects First',
+    // 'Oldest Items First',
+    // 'Newest Items First',
+    // 'Sort by Remaining Value: Low to High',
+    // 'Sort by Remaining Value: High to Low',
+  ];
 
   @override
   void initState() {
@@ -25,36 +53,104 @@ class _GazaState extends State<Gaza> {
   }
 
   Future<void> _fetchSortedClothes() async {
-    String filterValue = 'unfinished'; // Default filter, change as needed
+    String filterValue = 'unfinished'; // Default filter
     switch (selectedSort) {
-      case 'finished projects':
+      case 'Finished Projects':
         filterValue = 'finished';
         break;
-      case 'Not finished projects first':
+      case 'Not Finished Projects First':
         filterValue = 'unfinished';
         break;
     }
-    String sortvalue = 'newest';
-     switch (selectedSort) {
-      case 'Oldest Items First':
-        sortvalue = 'oldest'; // Keep the same filter for sorting
-        break;
-      case 'Newest Items First':
-        sortvalue = 'newest'; // Keep the same filter for sorting
-        break;
-      case 'Sort by Remaining Value: Low to High':
-        sortvalue = 'remaining_low_to_high'; // Keep the same filter for sorting
-        break;
-      case 'Sort by Remaining Value: High to Low':
-        sortvalue = 'remaining_high_to_low'; // Keep the same filter for sorting
-        break;
-    }
-    final donations = await DonationService().fetchDonations(
-        sort: sortvalue, filter: filterValue, category: "gaza",  selectCategory:"group");
+
+    String sortValue = 'oldest';
+    // switch (selectedSort) {
+    //   case 'Oldest Items First':
+    //     sortValue = 'oldest';
+    //     break;
+    //   case 'Newest Items First':
+    //     sortValue = 'newest';
+    //     break;
+    //   case 'Sort by Remaining Value: Low to High':
+    //     sortValue = 'remaining_low_to_high';
+    //     break;
+    //   case 'Sort by Remaining Value: High to Low':
+    //     sortValue = 'remaining_high_to_low';
+    //     break;
+    // }
 
     setState(() {
-      sortedClothes = donations;
+      isLoading = true;
     });
+
+    try {
+      final donations = await DonationService().fetchDonations(
+        sort: sortValue,
+        filter: filterValue,
+        category: "gaza",
+        selectCategory: "group",
+      );
+
+      setState(() {
+        sortedClothes = donations;
+      });
+    } catch (e) {
+      // print("Error fetching donations: $e");
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  // void donateToProject(String projectId) {
+  //   setState(() {
+  //     currentProjectId = projectId;
+  //   });
+  // }
+  void donateToProject(DonationModel donation) {
+    final currentProject = sortedClothes.firstWhere(
+      (project) => project.id == currentProjectId,
+      orElse: () => donation,
+    );
+
+    final currentProgress =
+        currentProject.paidValue! / currentProject.projectValue!;
+
+    if (currentProgress < 1.0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Please complete the current project "${currentProject.title}" before donating to another.',
+          ),
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      currentProjectId = donation.id;
+    });
+  }
+
+  void navigateToDetails(DonationModel donation) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Data(
+          imageUrl: donation.imageUrl,
+          title: donation.title,
+          description: donation.description,
+          projectvalue: donation.projectValue,
+          paidvlaue: donation.paidValue,
+          selectcategory: 'gaza',
+          screentitle: 'Gaza Donation',
+          address: donation.addres,
+               latitude: donation.latitude!,
+          longitude: donation.longitude!,
+        ),
+      ),
+    );
   }
 
   @override
@@ -74,81 +170,183 @@ class _GazaState extends State<Gaza> {
           ),
         ),
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Home()),
+            );
+          },
         ),
-        title: const Text("Gaza Donation"),
-        actions: [
-          PopupMenuButton<String>(
-            onSelected: (value) {
-              setState(() {
-                selectedSort = value;
-                _fetchSortedClothes();
-              });
-            },
-            itemBuilder: (BuildContext context) => [
-              const PopupMenuItem(
-                value: 'finished projects',
-                child: Text('Finished Projects'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text("Gaza Donation"),
+            IconButton(
+              icon: const Icon(Icons.home),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Home()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+      body: Column(
+        children: [
+          // Dropdown at the top of the list
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "Sort by: ",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(width: 8),
+                  DropdownButton<String>(
+                    value: selectedSort,
+                    isExpanded: false,
+                    dropdownColor: Colors.white,
+                    icon:
+                        const Icon(Icons.arrow_drop_down, color: Colors.black),
+                    items: sortOptions.map((String option) {
+                      return DropdownMenuItem<String>(
+                        value: option,
+                        child:
+                            Text(option, style: const TextStyle(fontSize: 14)),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          selectedSort = newValue;
+                          _fetchSortedClothes();
+                        });
+                      }
+                    },
+                  ),
+                ],
               ),
-              const PopupMenuItem(
-                value: 'Not finished projects first',
-                child: Text('Not Finished Projects First'),
-              ),
-              const PopupMenuItem(
-                value: 'Oldest Items First',
-                child: Text('Oldest Items First'),
-              ),
-              const PopupMenuItem(
-                value: 'Newest Items First',
-                child: Text('Newest Items First'),
-              ),
-              const PopupMenuItem(
-                value: 'Sort by Remaining Value: Low to High',
-                child: Text('Sort by Remaining Value: Low to High'),
-              ),
-              const PopupMenuItem(
-                value: 'Sort by Remaining Value: High to Low',
-                child: Text('Sort by Remaining Value: High to Low'),
-              ),
-            ],
-            icon: const Icon(Icons.sort),
+            ),
+          ),
+          // Card list
+          Expanded(
+            child: isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    itemCount: sortedClothes.length,
+                    itemBuilder: (context, index) {
+                      final donation = sortedClothes[index];
+                      final isLocked = index > 0 &&
+                          sortedClothes[index - 0].id != currentProjectId;
+
+                      final progress = donation.paidValue! /
+                          donation.projectValue!; // Calculate progress
+
+                      return GestureDetector(
+                        onTap: () {
+                          if (!isLocked) {
+                            donateToProject(donation);
+                            navigateToDetails(donation);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    'This project is locked. Complete the current one to unlock it.'),
+                              ),
+                            );
+                          }
+                        },
+                        child: Card(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Stack(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Card Image
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.vertical(
+                                        top: Radius.circular(12)),
+                                    child: Image.network(
+                                      "https://sadqahzakaat.com${donation.imageUrl}",
+                                      height: 150,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        // Title
+                                        Text(
+                                          donation.title,
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        // Linear Progress Indicator
+                                        LinearProgressIndicator(
+                                          value: progress,
+                                          backgroundColor: Colors.grey[300],
+                                          valueColor:
+                                              const AlwaysStoppedAnimation<
+                                                  Color>(
+                                            Color(0xFF7fc23a),
+                                          ),
+                                          minHeight: 10,
+                                        ),
+                                        const SizedBox(height: 8),
+                                        // Progress Text
+                                        Text(
+                                          'Progress: ${(progress * 100).toInt()}%',
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              if (isLocked)
+                                Positioned.fill(
+                                  child: Container(
+                                    // ignore: deprecated_member_use
+                                    color: Colors.black.withOpacity(0.5),
+                                    child: const Center(
+                                      child: Icon(
+                                        Icons.lock,
+                                        color: Colors.white,
+                                        size: 48,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
           ),
         ],
-      ),
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              if (sortedClothes.isNotEmpty)
-                Column(
-                  children: sortedClothes.map((donation) {
-                    return Data(
-                      imageUrl: donation.imageUrl,
-                      title: donation.title,
-                      description: donation.description,
-                      projectvalue: donation.projectValue,
-                      paidvlaue: donation.paidValue,
-                    );
-                  }).toList(),
-                )
-              else
-                const Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: Text(
-                    "This domain does not need donations at the moment.",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-            ],
-          ),
-        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:sadqahzakat/Screens/PaymentMethod/payment_method.dart';
@@ -13,7 +14,8 @@ class DataSpecial extends StatefulWidget {
   final String description;
   final double? projectvalue;
   final double? paidvlaue;
-
+  final String selectcategory;
+  final List<Map<String, dynamic>>? donationOptions;
   const DataSpecial({
     super.key,
     required this.imageUrl,
@@ -21,6 +23,8 @@ class DataSpecial extends StatefulWidget {
     required this.description,
     required this.projectvalue,
     required this.paidvlaue,
+    required this.donationOptions,
+    required this.selectcategory,
   });
 
   @override
@@ -40,13 +44,17 @@ class _DataSpecialState extends State<DataSpecial> {
   double donationAmount = 32.0;
   // Dropdown state
   Map<String, dynamic>? selectedDonation;
-  final List<Map<String, dynamic>> donationOptions = [
-    {'title': 'Food Donation', 'price': 100},
-    {'title': 'Clothes Donation', 'price': 50},
-    {'title': 'Health Donation', 'price': 150},
-    {'title': 'Education Donation', 'price': 200},
-  ];
+  // final List<Map<String, dynamic>> donationOptions = [
+  //   {'title': 'Food Donation', 'price': 100},
+  //   {'title': 'Clothes Donation', 'price': 50},
+  //   {'title': 'Health Donation', 'price': 150},
+  //   {'title': 'Education Donation', 'price': 200},
+  // ];
+  // List<Map<String, dynamic>> donationOptions = getDonationOptions();
 
+  // for (var donation in donationOptions) {
+  //   print('Title: ${donation['title']}, Price: ${donation['price']}');
+  // }
   @override
   void initState() {
     super.initState();
@@ -105,8 +113,10 @@ class _DataSpecialState extends State<DataSpecial> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
+              child: ExpandableText(
                 widget.description,
+                trimType: TrimType.lines,
+                trim: 2,
                 style: const TextStyle(
                   fontSize: 16,
                   color: Color.fromARGB(255, 88, 88, 88),
@@ -125,7 +135,7 @@ class _DataSpecialState extends State<DataSpecial> {
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
                   image: NetworkImage(
-                      "http://127.0.0.1:8000/data${widget.imageUrl}"),
+                      "https://sadqahzakaat.com/data${widget.imageUrl}"),
                   fit: BoxFit.contain,
                 ),
               ),
@@ -218,7 +228,12 @@ class _DataSpecialState extends State<DataSpecial> {
                     placeholderText: (_controller.text),
                     donationtitle: widget.title, iszakat: isZakat.toString(),
                     issadqah: isSadah.toString(),
-                    amount: _controller.text, quantity: (quantity.toString()),
+                    amount: _controller.text,
+                    quantity: (quantity.toString()),
+                    headingcategory: 'static',
+                    age: '',
+                    gender: '',
+                    selectcategory: widget.selectcategory,
                   ),
                 ),
                 buildAddToCartButton(),
@@ -247,7 +262,12 @@ class _DataSpecialState extends State<DataSpecial> {
               route: '/donation',
               price: totalDonationAmount,
               isZakat: isZakat,
+              isSadqah:isSadah,
               quantity: quantity,
+              age: '',
+              gender: '',
+              headingcategory: 'static',
+              selectcategory: widget.selectcategory,
             );
 
             controller.addToCart(donation);
@@ -255,7 +275,7 @@ class _DataSpecialState extends State<DataSpecial> {
         },
         splashColor: const Color(0xFF7fc23a),
         child: Container(
-          width: MediaQuery.of(context).size.width /2 -40,
+          width: MediaQuery.of(context).size.width / 2 - 40,
           height: 60,
           decoration: BoxDecoration(
             color: isSelected ? const Color(0xFF7fc23a) : Colors.white,
@@ -288,8 +308,6 @@ class _DataSpecialState extends State<DataSpecial> {
   Widget buildDonationDropdown() {
     return Material(
       color: Colors.white,
-
-      //  background-color:Colors.green,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
@@ -301,10 +319,8 @@ class _DataSpecialState extends State<DataSpecial> {
             const SizedBox(height: 10),
             Container(
               color: const Color(0xFF7fc23a),
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 12), // Optional padding
+              padding: const EdgeInsets.symmetric(horizontal: 12),
               child: DropdownButton<Map<String, dynamic>>(
-                // dropdownColor: Colors.red,
                 isExpanded: true,
                 hint: const Text(
                   'Choose a donation option',
@@ -313,7 +329,8 @@ class _DataSpecialState extends State<DataSpecial> {
                   ),
                 ),
                 value: selectedDonation,
-                items: donationOptions.map((Map<String, dynamic> option) {
+                items:
+                    widget.donationOptions!.map((Map<String, dynamic> option) {
                   return DropdownMenuItem<Map<String, dynamic>>(
                     value: option,
                     child: Row(
@@ -333,17 +350,71 @@ class _DataSpecialState extends State<DataSpecial> {
                 },
               ),
             ),
-            // const SizedBox(height: 10),
-            // if (selectedDonation != null)
-            // Text(
-            //   'Selected Donation: ${selectedDonation!['title']} for Rs ${selectedDonation!['price']}',
-            //   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            // ),
           ],
         ),
       ),
     );
   }
+
+  // Widget buildDonationDropdown() {
+  //   return Material(
+  //     color: Colors.white,
+
+  //     //  background-color:Colors.green,
+  //     child: Padding(
+  //       padding: const EdgeInsets.symmetric(horizontal: 20.0),
+  //       child: Column(
+  //         children: [
+  //           const Text(
+  //             'Select a donation option:',
+  //             style: TextStyle(fontSize: 18),
+  //           ),
+  //           const SizedBox(height: 10),
+  //           Container(
+  //             color: const Color(0xFF7fc23a),
+  //             padding: const EdgeInsets.symmetric(
+  //                 horizontal: 12), // Optional padding
+  //             child: DropdownButton<Map<String, dynamic>>(
+  //               // dropdownColor: Colors.red,
+  //               isExpanded: true,
+  //               hint: const Text(
+  //                 'Choose a donation option',
+  //                 style: TextStyle(
+  //                   fontSize: 18,
+  //                 ),
+  //               ),
+  //               value: selectedDonation,
+  //               items: donationOptions.map((Map<String, dynamic> option) {
+  //                 return DropdownMenuItem<Map<String, dynamic>>(
+  //                   value: option,
+  //                   child: Row(
+  //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                     children: [
+  //                       Text(option['title']),
+  //                       Text('Rs ${option['price']}'),
+  //                     ],
+  //                   ),
+  //                 );
+  //               }).toList(),
+  //               onChanged: (Map<String, dynamic>? newValue) {
+  //                 setState(() {
+  //                   selectedDonation = newValue;
+  //                   updateTotalAmount(); // Recalculate total donation amount
+  //                 });
+  //               },
+  //             ),
+  //           ),
+  //           // const SizedBox(height: 10),
+  //           // if (selectedDonation != null)
+  //           // Text(
+  //           //   'Selected Donation: ${selectedDonation!['title']} for Rs ${selectedDonation!['price']}',
+  //           //   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+  //           // ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget buildSecureDonation() {
     return Container(

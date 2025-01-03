@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:sadqahzakat/Screens/All_Category/Group/Screen/blood_donation.dart';
+// import 'package:sadqahzakat/Screens/All_Category/Group/Screen/blood_donation/blood_donation.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/clothes.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/daig_donation.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/food_relief.dart';
@@ -13,12 +14,13 @@ import 'package:sadqahzakat/Screens/All_Category/Group/Screen/medical_bed.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/orphan_support.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/other.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/portable_house.dart';
-import 'package:sadqahzakat/Screens/All_Category/Group/Screen/tree_donation.dart';
+import 'package:sadqahzakat/Screens/All_Category/Group/Screen/small_business.dart';
+// import 'package:sadqahzakat/Screens/All_Category/Group/Screen/tree_donation.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/water_cooler.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/wheel_chair.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/widow_family.dart';
-import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/donate_quran.dart';
-import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/small_business.dart';
+// import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/donate_quran.dart';
+// import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/small_business.dart';
 import 'package:sadqahzakat/Screens/Need%20Support/components/needsupport_card.dart';
 import 'package:sadqahzakat/model/all_category.dart';
 
@@ -37,7 +39,7 @@ class Show2 extends StatelessWidget {
     return InkWell(
       onTap: onSelectCategory,
       child: Container(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: const Color(0xFFFDFBFB),
@@ -48,23 +50,22 @@ class Show2 extends StatelessWidget {
             Text(
               category.title,
               style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                decoration: TextDecoration.none,
-                color: Colors.black,
-              ),
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.none,
+                  color: Color(0xFF7fc23a)),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 10),
+            // const SizedBox(height: 5),
             Container(
               width: double.infinity,
-              height: 100,
+              height: 75,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
                   image: NetworkImage(
-                      "http://127.0.0.1:8000/data${category.image}"),
-                  fit: BoxFit.contain,
+                      "https://sadqahzakaat.com/data${category.image}"),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -125,14 +126,14 @@ class NeedCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double height = (screenWidth < 400) ? 800 : 1100;
+    // double height = (screenWidth < 400) ? 800 : 1100;
 
     return MaterialApp(
       // initialRoute: '/PortableHouse': (context) => const PortableHouse(),
       routes: {
         '/PortableHouse': (context) => const PortableHouse(),
-        '/Blood': (context) => const Blood(),
-        '/DonateQuran': (context) => const DonateQuran(),
+        // '/Blood': (context) => const BloodDetailCard(),
+        // '/DonateQuran': (context) => const DonateQuran(),
         '/MasjidMaintenance': (context) => const MasjidMaintenance(),
         '/MarriageSupport': (context) => const MarriageSupport(),
         '/FloodRelief': (context) => const FloodRelief(),
@@ -141,7 +142,7 @@ class NeedCategory extends StatelessWidget {
         '/Clothes': (context) => const Clothes(),
         '/MedicalBed': (context) => const MedicalBed(),
         '/WheelChair': (context) => const WheelChair(),
-        '/TreeDonation': (context) => const TreeDonation(),
+        // '/TreeDonation': (context) => const TreeDonation(),
         '/DaigDonation': (context) => const DaigDonation(),
         '/MealDonation': (context) => const MealDonation(),
         '/OrphanSupport': (context) => const OrphanSupport(),
@@ -151,7 +152,7 @@ class NeedCategory extends StatelessWidget {
       },
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: const Color(0xFFC3BEBE),
+       backgroundColor: const Color.fromARGB(255, 238, 233, 233),
         appBar: AppBar(
           flexibleSpace: Container(
             decoration: const BoxDecoration(
@@ -162,11 +163,11 @@ class NeedCategory extends StatelessWidget {
               ),
             ),
           ),
-          title: const Text(
+          title: const ExpandableText(
             "Need Support",
             style: TextStyle(
               color: Colors.black,
-              fontSize: 30,
+              fontSize: 23,
               fontWeight: FontWeight.w700,
               fontFamily: "Roboto",
             ),
@@ -178,7 +179,7 @@ class NeedCategory extends StatelessWidget {
           ),
         ),
         body: SizedBox(
-          height: height,
+          // height: height,
           width: screenWidth,
           child: const NeedCategoryGrid(),
         ),
@@ -191,6 +192,7 @@ class NeedCategoryGrid extends StatefulWidget {
   const NeedCategoryGrid({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _NeedCategoryGridState createState() => _NeedCategoryGridState();
 }
 
@@ -206,7 +208,7 @@ class _NeedCategoryGridState extends State<NeedCategoryGrid> {
   // Fetch categories from API
   Future<List<AllCategoryModel>> fetchCategories() async {
     final response =
-        await http.get(Uri.parse('http://127.0.0.1:8000/data/categories/'));
+        await http.get(Uri.parse('https://sadqahzakaat.com/data/categories/'));
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
       return data.map((json) => AllCategoryModel.fromJson(json)).toList();
@@ -223,7 +225,7 @@ class _NeedCategoryGridState extends State<NeedCategoryGrid> {
         : (screenWidth < 900)
             ? 4
             : 5;
-    double childAspectRatio = (screenWidth < 400) ? 2 / 3.5 : 3 / 4;
+    // double childAspectRatio = (screenWidth < 400) ? 2 / 3.5 : 3 / 4;
 
     return
         // Mate(
@@ -242,11 +244,14 @@ class _NeedCategoryGridState extends State<NeedCategoryGrid> {
         return Padding(
           padding: const EdgeInsets.all(16.0),
           child: GridView.builder(
+            shrinkWrap: true,
+            // physics: const NeverScrollableScrollPhysics(),
+            primary: false,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: crossAxisCount,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
-              childAspectRatio: childAspectRatio,
+              // childAspectRatio: childAspectRatio,
             ),
             itemCount: categoryList.length,
             itemBuilder: (context, index) {

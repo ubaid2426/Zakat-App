@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:sadqahzakat/Screens/ContactUs/contact_us.dart';
+import 'package:sadqahzakat/Screens/ContactUs/Screens/call_us.dart';
+// import 'package:sadqahzakat/Screens/ContactUs/contact_us.dart';
 import 'package:sadqahzakat/Screens/Login/Screen/login_page.dart';
 import 'package:sadqahzakat/Screens/PaymentMethod/payment_method.dart';
 import 'package:sadqahzakat/Screens/Profile/Screens/my_detail.dart';
@@ -76,22 +78,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
   // Fetch data from the provided endpoint
 
   Future<void> fetchDonationHistory() async {
-          donorName = await storage.read(key: 'user_name');
-      donorId = await storage.read(key: 'user_id');
+    donorName = await storage.read(key: 'user_name');
+    donorId = await storage.read(key: 'user_id');
     if (donorId == null || donorName == null) {
       // You can show an error message or use default values if they are null
-      print("Donor ID or Name is null");
+      // print("Donor ID or Name is null");
       return;
     }
     try {
       final response = await http.get(
         Uri.parse(
-            'http://127.0.0.1:8000/data/donation-history/$donorId/$donorName/'),
+            'https://sadqahzakaat.com/data/donation-history/$donorId/$donorName/'),
       );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        print(data);
+        // print(data);
         setState(() {
           totalAmount = data['total_amount']?.toDouble() ?? 0.0;
           totalDonations = data['total_donations'] ?? 0;
@@ -103,6 +105,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         throw Exception('Failed to load data');
       }
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error loading data: $e')),
       );
@@ -140,6 +143,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   issadqah: null,
                   amount: '',
                   quantity: '',
+                  headingcategory: '',
+                  age: '',
+                  gender: '',
+                  selectcategory: '',
                 )),
             const SizedBox(
               height: 10,
@@ -154,7 +161,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const ManyOption1(
                 menuTitle: "Contact Us",
                 fontawesome: FontAwesomeIcons.addressBook,
-                navigateTo: ContactUs()),
+                navigateTo: CallUs()),
             const SizedBox(
               height: 10,
             ),
@@ -165,6 +172,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(
               height: 10,
             ),
+            const ManyOption1(
+                menuTitle: "LogIn",
+                fontawesome: FontAwesomeIcons.powerOff,
+                navigateTo: LoginPage()),
             ManyOption1(
               menuTitle: "LogOut",
               fontawesome: FontAwesomeIcons.powerOff,
@@ -184,7 +195,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 }
 
 // Secure storage initialization
-final FlutterSecureStorage storage = const FlutterSecureStorage();
+const FlutterSecureStorage storage = FlutterSecureStorage();
 
 class Profiler extends StatefulWidget {
   final double totalAmount;
@@ -360,17 +371,19 @@ class _ProfilerState extends State<Profiler> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              const Text(
+                                              const AutoSizeText(
                                                 "Donations",
+                                                maxLines: 1,
                                                 style: TextStyle(
                                                     color: Color.fromARGB(
                                                         255, 103, 102, 102),
-                                                    fontSize: 18,
+                                                    fontSize: 16,
                                                     fontWeight:
                                                         FontWeight.w400),
                                               ),
-                                              Text(
+                                              AutoSizeText(
                                                 "${widget.totalDonations}",
+                                                maxLines: 1,
                                                 style: const TextStyle(
                                                     color: Color.fromARGB(
                                                         255, 8, 8, 8),
@@ -390,17 +403,19 @@ class _ProfilerState extends State<Profiler> {
                                           ),
                                           Column(
                                             children: [
-                                              const Text(
+                                              const AutoSizeText(
                                                 "Total Amount",
+                                                maxLines: 1,
                                                 style: TextStyle(
                                                     color: Color.fromARGB(
                                                         255, 103, 102, 102),
-                                                    fontSize: 18,
+                                                    fontSize: 16,
                                                     fontWeight:
                                                         FontWeight.w400),
                                               ),
-                                              Text(
+                                              AutoSizeText(
                                                 "${widget.totalAmount}",
+                                                maxLines: 1,
                                                 style: const TextStyle(
                                                     color: Color.fromARGB(
                                                         255, 8, 8, 8),
@@ -423,17 +438,19 @@ class _ProfilerState extends State<Profiler> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              const Text(
+                                              const AutoSizeText(
                                                 "Total Zakat",
+                                                maxLines: 1,
                                                 style: TextStyle(
                                                     color: Color.fromARGB(
                                                         255, 103, 102, 102),
-                                                    fontSize: 18,
+                                                    fontSize: 16,
                                                     fontWeight:
                                                         FontWeight.w400),
                                               ),
-                                              Text(
+                                              AutoSizeText(
                                                 "${widget.zakatCount}",
+                                                maxLines: 1,
                                                 style: const TextStyle(
                                                     color: Color.fromARGB(
                                                         255, 8, 8, 8),
@@ -453,17 +470,19 @@ class _ProfilerState extends State<Profiler> {
                                           ),
                                           Column(
                                             children: [
-                                              const Text(
+                                              const AutoSizeText(
                                                 "Total Sadqah ",
+                                                maxLines: 1,
                                                 style: TextStyle(
                                                     color: Color.fromARGB(
                                                         255, 103, 102, 102),
-                                                    fontSize: 18,
+                                                    fontSize: 16,
                                                     fontWeight:
                                                         FontWeight.w400),
                                               ),
-                                              Text(
+                                              AutoSizeText(
                                                 "${widget.sadqahCount}",
+                                                maxLines: 1,
                                                 style: const TextStyle(
                                                     color: Color.fromARGB(
                                                         255, 8, 8, 8),

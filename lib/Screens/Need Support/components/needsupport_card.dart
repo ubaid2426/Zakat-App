@@ -41,7 +41,7 @@ class _NeedSupportState extends State<NeedSupport> {
       try {
         // Send the POST request
         final response = await http.post(
-          Uri.parse('http://127.0.0.1:8000/data/donation-request/'),
+          Uri.parse('https://sadqahzakaat.com/data/donation-request/'),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode(data),
         );

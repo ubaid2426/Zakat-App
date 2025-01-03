@@ -7,7 +7,6 @@ import 'package:sadqahzakat/components/navigation.dart';
 import 'package:sadqahzakat/controller/controller.dart';
 
 final FoodController controller = Get.put(FoodController());
-// const double amount=0;
 
 /// Helper function to fetch cart details as a list of maps
 List<Map<String, dynamic>> getCartDetails() {
@@ -18,6 +17,10 @@ List<Map<String, dynamic>> getCartDetails() {
       'image': item.image,
       'isZakat': item.isZakat,
       'isSadqah': item.isSadqah,
+      'age': item.age,
+      'gender': item.gender,
+      "headingcategory": item.headingcategory,
+      'selectcategory': item.selectcategory,
     };
   }).toList();
 }
@@ -30,6 +33,18 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  double _calculateTotal() {
+    // Convert placeholderText to double
+    final double subtotal =
+        double.tryParse(controller.subtotalPrice.value.toString()) ?? 0.0;
+    final double taxRate = 0.05; // 5% tax
+
+    // Calculate total
+    final double total = subtotal + (subtotal * taxRate);
+
+    return total;
+  }
+
   /// AppBar for the cart screen
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
@@ -66,7 +81,7 @@ class _CartScreenState extends State<CartScreen> {
   /// Bottom navigation bar showing cart subtotal and total
   Widget _buildBottomAppBar() {
     return BottomAppBar(
-      height: MediaQuery.of(context).size.height * 0.30,
+      height: MediaQuery.of(context).size.height * 0.35,
       child: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -80,43 +95,50 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
+          padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
           child: Column(
             children: [
-              _buildRow('Subtotal', "\$${controller.subtotalPrice.value}"),
-              const SizedBox(height: 15),
-              _buildRow('Taxes', "\$0.0"), // Assuming no taxes for donations
+              _buildRow('Subtotal', "${controller.subtotalPrice.value}"),
+              const SizedBox(height: 10),
+              _buildRow('Taxes', "5%"), // Assuming no taxes for donations
               const Divider(thickness: 4.0, height: 30.0, color: Colors.black),
               _buildRow(
                 'Total',
-                "\$${controller.totalPrice.value}",
+                "Rs. ${_calculateTotal()}",
                 isBold: true,
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.60,
                 height: 60,
                 child: ElevatedButton(
                   onPressed: () {
                     List<Map<String, dynamic>> cartDetails = getCartDetails();
-                    // List<Map<double?, int?>> cartDetailsAmount =
-                    //     getCartDetailsAmount();
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => PaymentMethod(
-                          // placeholderText: controller.totalPrice.value,
                           placeholderText:
-                              cartDetails.map((e) => e["amount"]).join(', '),
-                          // donationtitle: null,
+                              "${controller.subtotalPrice.value}",
                           donationtitle:
                               cartDetails.map((e) => e['title']).join(', '),
                           iszakat:
                               cartDetails.map((e) => e['isZakat']).join(', '),
                           issadqah:
                               cartDetails.map((e) => e['isSadqah']).join(', '),
-                          amount: cartDetails.map((e) => e['amount']).join(', '),
-                          quantity: cartDetails.map((e) => e['quantity']).join(', '),
+                          amount:
+                              cartDetails.map((e) => e['amount']).join(', '),
+                          quantity:
+                              cartDetails.map((e) => e['quantity']).join(', '),
+                          headingcategory: cartDetails
+                              .map((e) => e['headingcategory'])
+                              .join(', '),
+                          age: cartDetails.map((e) => e['age']).join(', '),
+                          gender:
+                              cartDetails.map((e) => e['gender']).join(', '),
+                          selectcategory: cartDetails
+                              .map((e) => e['selectcategory'])
+                              .join(', '),
                         ),
                       ),
                     );
@@ -208,9 +230,9 @@ class _CartScreenState extends State<CartScreen> {
   /// Builds the cart item header
   Widget _buildCartHeader(String title) {
     return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFF89D43F),
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+      decoration: const BoxDecoration(
+        color: Color(0xFF89D43F),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
       ),
       height: 40,
       width: double.infinity,
@@ -231,26 +253,65 @@ class _CartScreenState extends State<CartScreen> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             image: DecorationImage(
-              image: NetworkImage("http://127.0.0.1:8000/data${item.image}"),
+              image: _getImageProvider(item.image),
+              // image: NetworkImage("https://sadqahzakaat.com/data\${item.image}"),
               fit: BoxFit.cover,
             ),
           ),
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text("Donation Cost", style: TextStyle(fontSize: 18)),
-            Text("\$${item.price}",
-                style:
-                    const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 5),
-            Row(
-              children: [
-                if (item.isZakat) _buildDonationType("Zakat Donation"),
-                if (item.isSadqah) _buildDonationType("Sadqah Donation"),
-              ],
-            ),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text("Donation Cost", style: TextStyle(fontSize: 14)),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("\Rs. ${item.price}",
+                        style: const TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold)),
+                    Text("${item.quantity}")
+                  ],
+                ),
+              ),
+              const SizedBox(height: 5),
+              Row(
+                children: [
+                  if (item.isZakat) _buildDonationType("Zakat Donation"),
+                  if (item.isSadqah) _buildDonationType("Sadqah Donation"),
+                ],
+              ),
+              if (item.headingcategory.isNotEmpty &&
+                  item.selectcategory.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(item.headingcategory),
+                      const SizedBox(width: 5),
+                      Text(item.selectcategory),
+                    ],
+                  ),
+                ),
+              if (item.gender.isNotEmpty && item.age.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(item.gender),
+                      const SizedBox(width: 5),
+                      Text(item.age),
+                    ],
+                  ),
+                ),
+            ],
+          ),
         ),
       ],
     );
@@ -289,5 +350,14 @@ class _CartScreenState extends State<CartScreen> {
         ),
       ),
     );
+  }
+}
+
+/// Determines whether to use NetworkImage or AssetImage
+ImageProvider _getImageProvider(String image) {
+  if (image.startsWith('http') || image.startsWith('https')) {
+    return const NetworkImage("https://sadqahzakaat.com/data\${image}");
+  } else {
+    return AssetImage(image);
   }
 }

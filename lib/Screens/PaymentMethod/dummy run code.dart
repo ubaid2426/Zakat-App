@@ -64,3 +64,35 @@
   //   }
   //   return null;
   // }
+
+
+
+
+
+
+
+
+
+
+
+          // "heading_category": headcategoryList
+        //     .map((headingcategory) => {"headingcategory": headingcategory})
+        //     .toList(),
+        // "gender": genList.map((gender) => {"gender": gender}).toList(),
+        // "age": agecheckList.map((ageCheck) => {"ageCheck": ageCheck}).toList(),
+        // "select_category": scategoryList
+        //     .map((selectcategory) => {"selectcategory": selectcategory})
+        //     .toList(),
+
+
+
+    //         List<String> headcategoryList =
+    //     headcategory.split(',').map((e) => e.trim()).toList();
+    // String gen = widget.gender!;
+    // List<String> genList = gen.split(',').map((e) => e.trim()).toList();
+    // String agecheck = widget.age!;
+    // List<String> agecheckList =
+    //     agecheck.split(',').map((e) => e.trim()).toList();
+    // String scategory = widget.selectcategory!;
+    // List<String> scategoryList =
+    //     scategory.split(',').map((e) => e.trim()).toList();

@@ -15,7 +15,7 @@ class BukhariIdScreen extends StatefulWidget {
 class _BukhariIdScreenState extends State<BukhariIdScreen> {
   Future<List<dynamic>> fetchChapters() async {
     final response = await http.get(
-      Uri.parse('http://127.0.0.1:8000/islam/upload-hadith-data/'),
+      Uri.parse('https://sadqahzakaat.com/islam/upload-hadith-data/'),
     );
 
     if (response.statusCode == 200) {

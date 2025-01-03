@@ -28,7 +28,7 @@ class _QuranMainState extends State<QuranMain> {
   // Fetch Surah data from backend
   Future<List<Surah>> fetchSurahs() async {
     final response =
-        await http.get(Uri.parse('http://127.0.0.1:8000/islam/surah/'));
+        await http.get(Uri.parse('https://sadqahzakaat.com/islam/surah/'));
     if (response.statusCode == 200) {
       final decodedBody = utf8.decode(response.bodyBytes);
       final List surahJson = json.decode(decodedBody);

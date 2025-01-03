@@ -4,10 +4,15 @@ import 'package:intl/intl.dart';
 class DonationHistoryCard extends StatefulWidget {
   final String title;
   final String imageUrl;
-  final double? price;
+  final double price;
   final bool isZakat;
   final bool isSadqah;
   final DateTime dateTime;
+  final String? age;
+  final String? gender;
+  final String? headingcategory;
+  final String? selectcategory;
+  final String? quantity;
   final String? paymentStatus; // Added payment status to props
   const DonationHistoryCard({
     super.key,
@@ -17,7 +22,12 @@ class DonationHistoryCard extends StatefulWidget {
     required this.isZakat,
     required this.isSadqah,
     required this.dateTime,
-    required this.paymentStatus, // Pass the payment status from outside
+    required this.paymentStatus,
+    required this.age,
+    required this.gender,
+    required this.headingcategory,
+    required this.selectcategory,
+    required this.quantity, // Pass the payment status from outside
   });
 
   @override
@@ -85,7 +95,7 @@ class _DonationHistoryCardState extends State<DonationHistoryCard> {
                   borderRadius: BorderRadius.circular(15),
                   image: DecorationImage(
                     image: NetworkImage(
-                      "http://127.0.0.1:8000${widget.imageUrl}",
+                      "https://sadqahzakaat.com${widget.imageUrl}",
                     ),
                     fit: BoxFit.cover,
                   ),
@@ -104,40 +114,34 @@ class _DonationHistoryCardState extends State<DonationHistoryCard> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Payment Status
-
-                        // const SizedBox(width: 8),
-
-                        // Donation Cost Section
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
                               "Donation Cost",
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 14,
                                 color: Color.fromARGB(255, 85, 84, 84),
                               ),
                             ),
                             const SizedBox(height: 5),
-                            Text(
-                              "\$${widget.price?.toStringAsFixed(2)}",
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
+                            Row(
+                              children: [
+                                Text(
+                                  "\$${widget.price.toStringAsFixed(2)}",
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                Text(widget.quantity!)
+                              ],
                             ),
                           ],
                         ),
                         Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8, vertical: 4),
-                          // decoration: BoxDecoration(
-                          //   color: widget.paymentStatus == 'Pending'
-                          //       ? Colors.red
-                          //       : Colors.green,
-                          //   borderRadius: BorderRadius.circular(5),
-                          // ),
                           child: Text(
                             widget.paymentStatus ?? "Unknown Status",
                             style: TextStyle(
@@ -150,8 +154,6 @@ class _DonationHistoryCardState extends State<DonationHistoryCard> {
                         ),
                       ],
                     ),
-
-                    // Donation Type Tags
                     Row(
                       children: [
                         if (widget.isZakat) _buildTag("Zakat Donation"),
@@ -159,7 +161,33 @@ class _DonationHistoryCardState extends State<DonationHistoryCard> {
                         if (widget.isSadqah) _buildTag("Sadqah Donation"),
                       ],
                     ),
-
+                    if (widget.headingcategory!.isNotEmpty &&
+                        widget.selectcategory!.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(widget.headingcategory!),
+                            const SizedBox(width: 5),
+                            Text(widget.selectcategory!),
+                          ],
+                        ),
+                      ),
+                    if (widget.gender!.isNotEmpty && widget.age!.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(widget.gender!),
+                            const SizedBox(width: 5),
+                            Text(widget.age!),
+                          ],
+                        ),
+                      ),
                     // Date and Time
                     const SizedBox(height: 5),
                     Text(

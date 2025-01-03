@@ -236,26 +236,29 @@ class _PrayerTimingScreenState extends State<PrayerTimingScreen> {
       'Isha': prayerTimes.ishaStartTime,
     };
 
-    return Column(
-      children: timings.entries.map((entry) {
-        final time = entry.value != null ? formatTime(entry.value!) : '--';
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                entry.key,
-                style: const TextStyle(color: Colors.white, fontSize: 16),
-              ),
-              Text(
-                time,
-                style: const TextStyle(color: Colors.white, fontSize: 16),
-              ),
-            ],
-          ),
-        );
-      }).toList(),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 70),
+      child: Column(
+        children: timings.entries.map((entry) {
+          final time = entry.value != null ? formatTime(entry.value!) : '--';
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  entry.key,
+                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                ),
+                Text(
+                  time,
+                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ],
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 

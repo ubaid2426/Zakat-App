@@ -10,6 +10,7 @@ import 'package:sadqahzakat/Screens/Islam/widgets/appbar_expanded.dart';
 import 'package:sadqahzakat/Screens/Islam/widgets/home_silver_llist.dart';
 
 const FlutterSecureStorage _secureStorage = FlutterSecureStorage();
+
 class IslamScreen extends StatefulWidget {
   const IslamScreen({super.key});
 
@@ -18,18 +19,15 @@ class IslamScreen extends StatefulWidget {
 }
 
 class _IslamScreenState extends State<IslamScreen> {
-   final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
+  final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
   StreamSubscription<Position>? _positionStreamSubscription;
-  Position? _currentPosition;
-  double? _qiblaDirection;
-  double? _qiblaDistance;
-    @override
+  @override
   void initState() {
     super.initState();
-     _getCurrentPosition();
+    _getCurrentPosition();
   }
 
-    Future<void> writePositionToStorage(double latitude, double longitude) async {
+  Future<void> writePositionToStorage(double latitude, double longitude) async {
     await _secureStorage.write(key: 'latitude', value: latitude.toString());
     await _secureStorage.write(key: 'longitude', value: longitude.toString());
   }
@@ -40,12 +38,9 @@ class _IslamScreenState extends State<IslamScreen> {
 
     final position = await _geolocatorPlatform.getCurrentPosition();
     setState(() {
-      _currentPosition = position;
       final coordinate = Coordinate(position.latitude, position.longitude);
       writePositionToStorage(position.latitude, position.longitude);
       // debugPrint(position.latitude as String?);
-      _qiblaDirection = QiblaDirection.find(coordinate);
-      _qiblaDistance = QiblaDirection.countDistance(coordinate);
       // print(_currentPosition);
     });
   }
@@ -90,13 +85,13 @@ class _IslamScreenState extends State<IslamScreen> {
       ),
     );
   }
+
   final ScrollController controller = ScrollController();
   @override
   Widget build(BuildContext context) {
-    return 
-   const SingleChildScrollView(
+    return const SingleChildScrollView(
       // height: 300,
-      child:  Column(
+      child: Column(
         // mainAxisSize: MainAxisSize.min,
         children: [
           AppBarExpanded(),
@@ -113,7 +108,8 @@ class _IslamScreenState extends State<IslamScreen> {
     //   ],
     // );
   }
-    @override
+
+  @override
   void dispose() {
     _positionStreamSubscription?.cancel();
     super.dispose();

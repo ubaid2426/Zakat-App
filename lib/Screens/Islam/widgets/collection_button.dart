@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sadqahzakat/Screens/Islam/Screens/Quran/Dua/pdfview_dua.dart';
 import 'package:sadqahzakat/Screens/Islam/Screens/Quran/quran_main.dart';
 import 'package:sadqahzakat/Screens/Islam/Screens/Quran/widgets/hadith_main.dart';
 import 'package:sadqahzakat/Screens/Islam/Screens/Quran/widgets/name_allah.dart';
@@ -40,7 +41,7 @@ if (collection.routeName != '') {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => NameAllahScreen(), // Navigate to NameAllahScreen
+        builder: (context) =>const NameAllahScreen(), // Navigate to NameAllahScreen
       ),
     );
   }
@@ -48,18 +49,18 @@ if (collection.routeName != '') {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => HadithMain(),
+        builder: (context) =>const HadithMain(),
       ),
     );
   }
-  // else if (collection.routeName == 'QiblaScreen') {
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) =>  QiblahScreen() ,
-  //     ),
-  //   );
-  // }
+  else if (collection.routeName == 'Dua') {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const Dua() ,
+      ),
+    );
+  }
   else if (collection.routeName == 'PrayerTimingScreen') {
     Navigator.push(
       context,

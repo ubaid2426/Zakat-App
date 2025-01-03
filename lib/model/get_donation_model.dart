@@ -6,8 +6,18 @@ class GetDonation {
   final bool isSadqah;
   final DateTime dateTime;
   final String status;
+  final String age;
+  final String gender;
+  final String headingcategory;
+  final String selectcategory;
+  final String quantity;
 
   GetDonation({
+    required this.age,
+    required this.gender,
+    required this.headingcategory,
+    required this.selectcategory,
+    required this.quantity,
     required this.title,
     required this.status,
     required this.imageUrl,
@@ -19,38 +29,20 @@ class GetDonation {
 
   factory GetDonation.fromJson(Map<String, dynamic> json) {
     return GetDonation(
-      title: json['title'] as String,
-      status: json['payment_status'] as String,
-      imageUrl: json['imageUrl'] as String,
-      price: double.parse(json['price'] as String),
-      isZakat: json['isZakat'] as bool,
-      isSadqah: json['isSadqah'] as bool,
-      dateTime: DateTime.parse(json['dateTime'] as String),
+      title: json['title'] ?? "", // Default to empty string if null
+      status: json['payment_status'] ?? "", // Default to empty string
+      imageUrl: json['imageUrl'] ?? "", // Default to empty string
+      price: json['price'] != null ? double.tryParse(json['price'].toString()) ?? 0.0 : 0.0, // Safe parsing
+      isZakat: json['isZakat'] ?? false, // Default to false
+      isSadqah: json['isSadqah'] ?? false, // Default to false
+      dateTime: json['dateTime'] != null
+          ? DateTime.tryParse(json['dateTime']) ?? DateTime.now()
+          : DateTime.now(), // Safe parsing with fallback to current time
+      age: json['age'] ?? "", // Default to empty string
+      gender: json['gender'] ?? "", // Default to empty string
+      headingcategory: json['heading_category'] ?? "", // Default to empty string
+      selectcategory: json['select_category'] ?? "", // Default to empty string
+      quantity: json['quantity'] ?? "", // Default to empty string
     );
-  }
-  // Helper method to convert to double or null
-  static double? _toDouble(dynamic value) {
-    if (value == null) {
-      return null;
-    } else if (value is double) {
-      return value;
-    } else if (value is String) {
-      return double.tryParse(value);
-    } else {
-      return null;
-    }
-  }
-
-  static DateTime _toDateTime(dynamic value) {
-    if (value == null) {
-      return DateTime.now(); // Default to current date if null
-    } else if (value is String) {
-      return DateTime.tryParse(value) ??
-          DateTime.now(); // Try parsing or use current date
-    } else if (value is DateTime) {
-      return value;
-    } else {
-      return DateTime.now();
-    }
   }
 }

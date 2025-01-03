@@ -15,28 +15,29 @@ class HadithMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFF33A248),
-                  Color(0xFFB2EA50),
-                ],
-                begin: Alignment.topRight,
-                end: Alignment.topLeft,
-              ),
+    return
+        // MaterialApp(
+        //   debugShowCheckedModeBanner: false,
+        Scaffold(
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF33A248),
+                Color(0xFFB2EA50),
+              ],
+              begin: Alignment.topRight,
+              end: Alignment.topLeft,
             ),
           ),
-          title: const Text('Islamic Books'),
-          centerTitle: true,
         ),
-        body: const IslamicBooksGrid(),
+        title: const Text('Islamic Books'),
+        centerTitle: true,
       ),
+      body: const IslamicBooksGrid(),
     );
+    // );
   }
 }
 
@@ -53,7 +54,8 @@ class IslamicBooksGrid extends StatelessWidget {
       },
       {
         'image': 'Assests/images/HadithCard/muslim.jpg',
-        'screen': const ComingSoonDialog(), // Replace with the actual Muslim screen
+        'screen':
+            const ComingSoonDialog(), // Replace with the actual Muslim screen
       },
     ];
 

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sadqahzakat/controller/controller.dart';
@@ -67,17 +68,17 @@ class _CustomButtonState extends State<CustomButton> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(
+              AutoSizeText(
                 widget.title,
                 style: TextStyle(
-                  fontSize: 15,
+                  fontSize: 14,
                   fontWeight: FontWeight.w400,
                   color: isPressed ? Colors.white : const Color(0xFF7fc23a), // Change text color
                 ),
               ),
               Icon(
                 widget.icon,
-                size: 18,
+                size: 16,
                 color: isPressed ? Colors.white : const Color(0xFF7fc23a), // Change icon color
               ),
             ],

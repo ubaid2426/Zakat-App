@@ -33,7 +33,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
       String? token = await storage.read(key: 'access_token');
       
       // Prepare request
-      var url = Uri.parse('http://127.0.0.1:8000/api/auth/users/me/');
+      var url = Uri.parse('https://sadqahzakaat.com/api/auth/users/me/');
       var headers = {
         'Content-Type': 'application/json',
         'Authorization': 'JWT $token', // Attach the access token
@@ -75,40 +75,95 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Delete Account'),
+           flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF33A248), Color(0xFFB2EA50)],
+              begin: Alignment.topRight,
+              end: Alignment.topLeft,
+            ),
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _currentPasswordController,
-                decoration: const InputDecoration(labelText: 'Current Password'),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your current password';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
-              _isLoading
-                  ? const CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: _deleteAccount,
-                      child: const Text('Delete Account'),
-                    ),
-              const SizedBox(height: 20),
-              if (_errorMessage.isNotEmpty)
-                Text(
-                  _errorMessage,
-                  style: const TextStyle(color: Colors.red),
-                ),
-            ],
+  key: _formKey,
+  child: Padding(
+    padding: const EdgeInsets.all(16.0), // Adds padding around the form
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch, // Ensures children take full width
+      children: [
+        // Current Password Field
+        TextFormField(
+          controller: _currentPasswordController,
+          decoration: InputDecoration(
+            labelText: 'Current Password',
+            labelStyle: const TextStyle(color: Colors.grey, fontSize: 16),
+            filled: true,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Colors.green, width: 1.5),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Colors.blue, width: 2.0),
+            ),
           ),
+          obscureText: true,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter your current password';
+            }
+            return null;
+          },
         ),
+        const SizedBox(height: 24),
+
+        // Delete Account Button
+        _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : ElevatedButton(
+                onPressed: _deleteAccount,
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  backgroundColor: Colors.red,
+                ),
+                child: const Text(
+                  'Delete Account',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+        const SizedBox(height: 20),
+
+        // Error Message Display
+        if (_errorMessage.isNotEmpty)
+          Text(
+            _errorMessage,
+            style: const TextStyle(
+              color: Colors.red,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+            textAlign: TextAlign.center, // Centers the error message
+          ),
+      ],
+    ),
+  ),
+)
+
       ),
     );
   }

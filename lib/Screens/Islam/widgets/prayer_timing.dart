@@ -7,7 +7,7 @@ import 'package:prayers_times/prayers_times.dart';
 import 'package:sadqahzakat/Screens/Islam/widgets/timming_bloc.dart';
 
 // import 'package:zakat_app/Screens/Islam/widgets/timming_bloc.dart';
-final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
+const FlutterSecureStorage _secureStorage = FlutterSecureStorage();
 
 class PrayerTimingWidget extends StatefulWidget {
   const PrayerTimingWidget({super.key});

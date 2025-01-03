@@ -22,7 +22,7 @@ class _BukhariDetailState extends State<BukhariDetail> {
 
   Future<List<Hadith>> fetchFilteredHadiths() async {
     final response = await http
-        .get(Uri.parse('http://127.0.0.1:8000/islam/upload-hadith-data/'));
+        .get(Uri.parse('https://sadqahzakaat.com/islam/upload-hadith-data/'));
 
     if (response.statusCode == 200) {
       // Decode the JSON response

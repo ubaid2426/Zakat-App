@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:sadqahzakat/Screens/Home/home_main.dart';
 import 'package:sadqahzakat/Screens/Login/Screen/sing_up.dart';
 import 'package:sadqahzakat/Screens/Login/auth/widgets/email_field.dart';
 import 'package:sadqahzakat/Screens/Login/auth/widgets/password_field.dart';
@@ -10,8 +9,7 @@ import 'package:sadqahzakat/Screens/Login/components/clipper.dart';
 import 'package:sadqahzakat/Screens/Login/components/colors.dart';
 import 'package:sadqahzakat/Screens/Login/components/const.dart';
 import 'package:sadqahzakat/components/navigation.dart';
-import 'package:sadqahzakat/main.dart';
-// Secure storage for token
+
 const storage = FlutterSecureStorage();
 
 class LoginPage extends StatefulWidget {
@@ -27,16 +25,55 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool isLoading = false;
-
-  Future<void> login(String email, String password) async {
-    // Ensure widget is still mounted before calling setState
-    if (!mounted) return;
-
+  Future<void> _fetchUserDetails(String token) async {
     setState(() {
       isLoading = true;
     });
 
-    var url = Uri.parse('http://127.0.0.1:8000/api/auth/jwt/create/');
+    try {
+      var url = Uri.parse('https://sadqahzakaat.com/api/auth/users/me/');
+      var response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'JWT $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        String email = data['email'] ?? 'N/A';
+
+        String user_name = data['name'] ?? 'N/A';
+        String user_id = data['id'].toString();
+        setState(() {
+          isLoading = false;
+        });
+
+        // Store email in secure storage
+        await storage.write(key: 'user_name', value: user_name);
+        await storage.write(key: 'user_id', value: user_id);
+        await storage.write(key: 'email', value: email);
+      } else {
+        throw Exception('Failed to fetch user details');
+      }
+    } catch (error) {
+      setState(() {
+        isLoading = false;
+      });
+
+      // Handle error (e.g., show a message to the user)
+      print('Error fetching user details: $error');
+    }
+  }
+
+  Future<void> login(String email, String password) async {
+    if (!mounted) return;
+    setState(() {
+      isLoading = true;
+    });
+
+    var url = Uri.parse('https://sadqahzakaat.com/api/auth/jwt/create/');
     Map<String, String> body = {
       'email': email,
       'password': password,
@@ -49,17 +86,14 @@ class _LoginPageState extends State<LoginPage> {
         body: jsonEncode(body),
       );
 
-      // Ensure widget is still mounted before calling setState
       if (!mounted) return;
 
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         String accessToken = data['access'];
-
-        // Save token securely
         await storage.write(key: 'access_token', value: accessToken);
-
-        // Show success message using ScaffoldMessenger
+        await storage.write(key: 'email', value: email);
+        _fetchUserDetails(accessToken);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('You are successfully logged in!'),
@@ -67,7 +101,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         );
 
-        // Navigate to home page on success
         if (mounted) {
           Navigator.pushReplacement(
             context,
@@ -75,7 +108,6 @@ class _LoginPageState extends State<LoginPage> {
           );
         }
       } else {
-        // Show error message using ScaffoldMessenger
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Login failed. Please check your credentials.'),
@@ -107,6 +139,7 @@ class _LoginPageState extends State<LoginPage> {
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         child: isLoading
             ? const Center(child: CircularProgressIndicator())
@@ -118,7 +151,8 @@ class _LoginPageState extends State<LoginPage> {
                     ClipPath(
                       clipper: MyClipper(),
                       child: Container(
-                        height: 300,
+                        // height: 300,
+                        height: MediaQuery.of(context).size.height * 0.30,
                         width: width,
                         color: primaryColor.withOpacity(0.3),
                       ),
@@ -126,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                     ClipPath(
                       clipper: MyClipper(),
                       child: Container(
-                        height: 250,
+                        height: MediaQuery.of(context).size.height * 0.25,
                         width: MediaQuery.of(context).size.width - 50,
                         color: primaryColor,
                       ),
@@ -135,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                       padding: const EdgeInsets.only(
                         right: 20,
                         left: 20,
-                        top: 200,
+                        top: 100,
                         bottom: 50,
                       ),
                       child: Column(
@@ -146,7 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                               const Text(
                                 "Sign In",
                                 style: TextStyle(
-                                  fontSize: 35,
+                                  fontSize: 30,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -158,7 +192,7 @@ class _LoginPageState extends State<LoginPage> {
                                   color: Colors.black26,
                                 ),
                               ),
-                              const SizedBox(height: 50),
+                              const SizedBox(height: 20),
                               Form(
                                 key: loginKey,
                                 child: Padding(
@@ -170,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
                                       EmailField(email: emailController),
                                       PasswordField(
                                           password: passwordController),
-                                      const SizedBox(height: 20),
+                                      const SizedBox(height: 10),
                                       Align(
                                         alignment: Alignment.centerRight,
                                         child: InkWell(
@@ -186,13 +220,13 @@ class _LoginPageState extends State<LoginPage> {
                                             'Forgot Password?',
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 17,
+                                              fontSize: 14,
                                               color: MyColors().maincolor,
                                             ),
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(height: 20),
+                                      const SizedBox(height: 10),
                                       InkWell(
                                         onTap: () {
                                           if (loginKey.currentState!
@@ -202,7 +236,10 @@ class _LoginPageState extends State<LoginPage> {
                                           }
                                         },
                                         child: Container(
-                                          height: 55,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.08,
                                           width: 300,
                                           decoration: BoxDecoration(
                                             borderRadius:
@@ -245,8 +282,9 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 100,
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.10,
                               ),
                               InkWell(
                                 onTap: () {
@@ -254,12 +292,12 @@ class _LoginPageState extends State<LoginPage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const Navigation()), // Navigate to the screen
-                                            // const Home()), // Navigate to the screen
+                                            const Navigation()),
                                   );
                                 },
                                 child: Container(
-                                  height: 55,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.08,
                                   width:
                                       MediaQuery.of(context).size.width - 100,
                                   decoration: BoxDecoration(
@@ -333,9 +371,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         },
       );
     });
-    // }
 
-    var url = Uri.parse('http://127.0.0.1:8000/api/auth/users/reset_password/');
+    var url = Uri.parse('https://sadqahzakaat.com/api/auth/users/reset_password/');
     Map<String, String> body = {
       'email': email,
     };
@@ -348,18 +385,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       );
 
       if (response.statusCode == 204) {
-        // Here you would typically receive the token and UUID in the response
-        // For example: {"uid": "some-uuid", "token": "some-token"}
-
         var responseBody = json.decode(response.body);
-
-        String uid =
-            responseBody['uid']; // Replace with actual field if different
-        // print(uid);
-        String token =
-            responseBody['token']; // Replace with actual field if different
-        // print(token);
-        // Save token and UUID in Flutter Secure Storage
+        String uid = responseBody['uid']; // Replace with actual field
+        String token = responseBody['token']; // Replace with actual field
         await storage.write(key: 'reset_uid', value: uid);
         await storage.write(key: 'reset_token', value: token);
 

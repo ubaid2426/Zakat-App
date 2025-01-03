@@ -6,7 +6,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
-import 'package:sadqahzakat/Screens/PaymentMethod/value_reader.dart';
 import 'package:sadqahzakat/components/custom_button.dart';
 import 'package:sadqahzakat/model/payment_detail.dart';
 
@@ -18,6 +17,10 @@ class PaymentMethod extends StatefulWidget {
   final String? iszakat;
   final String? issadqah;
   final String? amount;
+  final String? age;
+  final String? gender;
+  final String? headingcategory;
+  final String? selectcategory;
   final String? quantity;
   const PaymentMethod({
     super.key,
@@ -27,6 +30,10 @@ class PaymentMethod extends StatefulWidget {
     required this.issadqah,
     required this.amount,
     required this.quantity,
+    required this.age,
+    required this.gender,
+    required this.headingcategory,
+    required this.selectcategory,
   });
 
   @override
@@ -49,7 +56,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
     try {
       String? donorId = await storage.read(key: 'user_id');
       final response = await http.get(
-        Uri.parse('http://127.0.0.1:8000/data/donor-history/$donorId/status/'),
+        Uri.parse('https://sadqahzakaat.com/data/donor-history/$donorId/status/'),
       );
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -59,6 +66,18 @@ class _PaymentMethodState extends State<PaymentMethod> {
     } catch (e) {
       return 'Error: $e';
     }
+  }
+
+  double _calculateTotalP() {
+    // Convert placeholderText to double
+    final double subtotal =
+        double.tryParse(widget.placeholderText.toString()) ?? 0.9;
+    const double taxRate = 0.05; // 5% tax
+
+    // Calculate total
+    final double total = subtotal + (subtotal * taxRate);
+
+    return total;
   }
 
   Future<PaymentDetail?> recordDonation() async {
@@ -80,12 +99,25 @@ class _PaymentMethodState extends State<PaymentMethod> {
         .split(',')
         .map((value) => double.tryParse(value.trim()) ?? 0.0)
         .toList();
+    String headcategory = widget.headingcategory!;
+    List<String> headcategoryList =
+        headcategory.split(',').map((e) => e.trim()).toList();
+    String gen = widget.gender!;
+    List<String> genList = gen.split(',').map((e) => e.trim()).toList();
+    String agecheck = widget.age!;
+    List<String> agecheckList =
+        agecheck.split(',').map((e) => e.trim()).toList();
+    String scategory = widget.selectcategory!;
+    List<String> scategoryList =
+        scategory.split(',').map((e) => e.trim()).toList();
 
     try {
       String? token = await storage.read(key: 'access_token');
       String? donorName = await storage.read(key: 'user_name');
       String? donorId = await storage.read(key: 'user_id');
-
+      String? Email = await storage.read(key: 'email');
+      print(Email);
+      // print(token);
       if ([token, donorName, donorId].contains(null)) {
         showMessage('Error: Missing user details.');
         return null;
@@ -94,22 +126,32 @@ class _PaymentMethodState extends State<PaymentMethod> {
       final payload = {
         "donor_name": donorName,
         "donor_id": donorId,
+        "email":Email,
         "is_zakat": iszakatList.map((isZakat) => {"isZakat": isZakat}).toList(),
         "is_sadqah":
             issadqahList.map((isSadqah) => {"isSadqah": isSadqah}).toList(),
-        "donation_title": donationList
-            .map((donation_title) => {"donation_title": donation_title})
+        "donationtitle": donationList
+            .map((donationtitle) => {"donationtitle": donationtitle})
             .toList(),
         "donations":
             convertedValues.map((amount) => {"amount": amount}).toList(),
-        "donations1":
-            convertedQuantity.map((quantity) => {"quantity": quantity}).toList(),
+        "donations1": convertedQuantity
+            .map((quantity) => {"quantity": quantity})
+            .toList(),
+        "headingcategory": headcategoryList
+            .map((headingcategory) => {"headingcategory": headingcategory})
+            .toList(),
+        "gender": genList.map((gender) => {"gender": gender}).toList(),
+        "age": agecheckList.map((age) => {"age": age}).toList(),
+        "selectcategory": scategoryList
+            .map((selectcategory) => {"selectcategory": selectcategory})
+            .toList(),
       };
-      print(payload);
+      // print(payload);
       // Create a MultipartRequest
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('http://127.0.0.1:8000/data/donor-history/'),
+        Uri.parse('https://sadqahzakaat.com/data/donor-history/'),
       )
         ..headers['Authorization'] = 'JWT $token'
         ..fields['data'] = jsonEncode(payload); // Add JSON payload as a field
@@ -257,6 +299,28 @@ class _PaymentMethodState extends State<PaymentMethod> {
     );
   }
 
+  Widget _buildRow(String label, String value, {bool isBold = false}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: isBold ? FontWeight.w700 : FontWeight.normal,
+          ),
+        ),
+        Text(
+          value,
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget buildPaymentStatus() {
     return FutureBuilder<String>(
       future: paymentStatus,
@@ -336,7 +400,18 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 accountHolder: 'Zuha Rashid',
                 icon: FontAwesomeIcons.paypal,
               ),
-              ValueReader(widget.placeholderText.toString()),
+              const SizedBox(height: 20),
+              _buildRow('Subtotal', "Rs. ${widget.placeholderText.toString()}"),
+              const SizedBox(height: 10),
+              _buildRow('Taxes', "5%"), // Assuming no taxes for donations
+              const Divider(thickness: 4.0, height: 30.0, color: Colors.black),
+              _buildRow(
+                'Total',
+                "Rs. ${_calculateTotalP()}",
+                isBold: true,
+              ),
+              const SizedBox(height: 10),
+              // ValueReader(widget.placeholderText.toString()),
               const SizedBox(height: 30),
               buildImagePicker(),
               const SizedBox(height: 20),

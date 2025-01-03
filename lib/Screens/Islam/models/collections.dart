@@ -24,7 +24,7 @@ List<Collection> collections = [
     'assets/images/collection_icon/svg/duas.svg',
     'Dua',
     // RouteGenerator.dua,
-    'Coming Soon',
+    'Dua',
   ),
   Collection(
     'assets/images/collection_icon/svg/tasbih.svg',

@@ -10,8 +10,13 @@ class DonationModel {
   final DateTime date;
   final String? category;
   final String imageUrl;
-
-  DonationModel( {
+  final String addres;
+  final double? latitude;
+  final double? longitude;
+  DonationModel({
+    required this.addres,
+    required this.latitude,
+    required this.longitude,
     required this.id,
     required this.category,
     required this.title,
@@ -20,14 +25,11 @@ class DonationModel {
     required this.paidValue,
     required this.remainingValue,
     required this.date,
-
     required this.imageUrl,
   });
 
   // Factory method to create a DonationModel from JSON
   factory DonationModel.fromJson(Map<String, dynamic> json) {
-    // print(json['image']);
-    // print(json['title']);
     return DonationModel(
       id: json['id'] ?? '',
       title: json['title'] ?? '', // Default to an empty string if null
@@ -39,6 +41,9 @@ class DonationModel {
       paidValue: _toDouble(json['paid_value']),
       category: json['category'],
       date: _toDateTime(json['date']),
+      addres: json['address'] ?? '',
+      latitude: _toDouble(json['latitude']) ?? 0,
+      longitude: _toDouble(json['longitude']) ?? 0,
     );
   }
 

@@ -8,6 +8,18 @@ class CallUs extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Contact Us'),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF33A248),
+                Color(0xFFB2EA50),
+              ],
+              begin: Alignment.topRight,
+              end: Alignment.topLeft,
+            ),
+          ),
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -29,21 +41,21 @@ class CallUs extends StatelessWidget {
               icon: Icons.email,
               title: 'Email',
               subtitle: 'contact@sadaqa.org.au',
-              iconBackgroundColor: Colors.green,
+              iconBackgroundColor: Color(0xFF7fc23a),
             ),
             SizedBox(height: 20),
             ContactOption(
               icon: Icons.phone,
               title: 'Phone',
               subtitle: '1300 234 673',
-              iconBackgroundColor: Colors.green,
+              iconBackgroundColor: Color(0xFF7fc23a),
             ),
             SizedBox(height: 20),
             ContactOption(
               icon: Icons.person,
               title: 'Contact Form',
               subtitle: '',
-              iconBackgroundColor: Colors.green,
+              iconBackgroundColor: Color(0xFF7fc23a),
             ),
           ],
         ),

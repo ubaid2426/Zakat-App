@@ -37,7 +37,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       String? token = await storage.read(key: 'access_token');
       // print("$token");
       // Prepare request
-      var url = Uri.parse('http://127.0.0.1:8000/api/auth/users/set_password/');
+      var url =
+          Uri.parse('https://sadqahzakaat.com/api/auth/users/set_password/');
       var headers = {
         'Content-Type': 'application/json',
         'Authorization': 'JWT $token', // Attach the access token
@@ -81,17 +82,55 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Change Password'),
+           flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF33A248), Color(0xFFB2EA50)],
+              begin: Alignment.topRight,
+              end: Alignment.topLeft,
+            ),
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Text(
+                "Change Password",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF7fc23a),
+                ),
+              ),
+              const SizedBox(height: 20),
               TextFormField(
                 controller: _currentPasswordController,
-                decoration:
-                    const InputDecoration(labelText: 'Current Password'),
+                decoration: InputDecoration(
+                  labelText: 'Current Password',
+                  labelStyle: const TextStyle(fontSize: 16, color: Colors.grey),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                   enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                        color: Colors.green,
+                        width: 2.0), // Green border when enabled
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                        color: Colors.redAccent,
+                        width: 2.0), // Red border when focused and error exists
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -103,7 +142,29 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: _newPasswordController,
-                decoration: const InputDecoration(labelText: 'New Password'),
+                decoration: InputDecoration(
+                  labelText: 'New Password',
+                  labelStyle: const TextStyle(fontSize: 16, color: Colors.grey),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide:
+                        const BorderSide(color: Colors.grey, width: 1.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                        color: Colors.green,
+                        width: 2.0), // Green border when enabled
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                        color: Colors.redAccent,
+                        width: 2.0), // Red border when focused and error exists
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -115,8 +176,27 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: _confirmPasswordController,
-                decoration:
-                    const InputDecoration(labelText: 'Confirm New Password'),
+                decoration: InputDecoration(
+                  labelText: 'Confirm New Password',
+                  labelStyle: const TextStyle(fontSize: 16, color: Colors.grey),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                   enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                        color: Colors.green,
+                        width: 2.0), // Green border when enabled
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                        color: Colors.redAccent,
+                        width: 2.0), // Red border when focused and error exists
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -128,18 +208,39 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   return null;
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
               _isLoading
-                  ? const CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: _changePassword,
-                      child: const Text('Change Password'),
+                  ? const Center(child: CircularProgressIndicator())
+                  : SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: _changePassword,
+                        child: const Text(
+                          'Change Password',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          backgroundColor: const Color(0xFF7fc23a),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          elevation: 4,
+                        ),
+                      ),
                     ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
               if (_errorMessage.isNotEmpty)
-                Text(
-                  _errorMessage,
-                  style: const TextStyle(color: Colors.red),
+                Center(
+                  child: Text(
+                    _errorMessage,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
             ],
           ),

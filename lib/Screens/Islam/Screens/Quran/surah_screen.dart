@@ -28,7 +28,7 @@ class _SurahScreenState extends State<SurahScreen> {
   // Function to fetch Surah data from the API
 Future<List<Verse>> fetchSurahDetails() async {
   final response = await http.get(
-    Uri.parse('http://127.0.0.1:8000/islam/surah-detail/${widget.surahId}/'),
+    Uri.parse('https://sadqahzakaat.com/islam/surah-detail/${widget.surahId}/'),
   );
 
   if (response.statusCode == 200) {

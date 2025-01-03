@@ -5,7 +5,10 @@ import 'package:sadqahzakat/model/name_allah.dart';
 // import 'package:zakat_app/model/name_allah.dart';
 
 class NameAllahScreen extends StatefulWidget {
+  const NameAllahScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _NameAllahScreenState createState() => _NameAllahScreenState();
 }
 
@@ -21,7 +24,7 @@ class _NameAllahScreenState extends State<NameAllahScreen> {
   // Fetch data from API
   Future<List<AllahName>> fetchData() async {
     final response =
-        await http.get(Uri.parse('http://127.0.0.1:8000/islam/name-allah/'));
+        await http.get(Uri.parse('https://sadqahzakaat.com/islam/name-allah/'));
 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
@@ -49,16 +52,16 @@ class _NameAllahScreenState extends State<NameAllahScreen> {
               ),
             ),
           ),
-          title: Text("Allah's Names")),
+          title: const Text("Allah's Names")),
       body: FutureBuilder<List<AllahName>>(
         future: _allahNames,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No data available'));
+            return const Center(child: Text('No data available'));
           } else {
             final names = snapshot.data!;
             return ListView.builder(
@@ -69,7 +72,7 @@ class _NameAllahScreenState extends State<NameAllahScreen> {
                   children: [
                     _buildCartDetails(name),
                     _buildCartHeader(name.explanation),
-                    Divider(),
+                    const Divider(),
                     // SizedBox(height: 5,)
                   ],
                 );
@@ -89,9 +92,9 @@ class _NameAllahScreenState extends State<NameAllahScreen> {
 
   Widget _buildCartHeader(String title) {
     return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFF89D43F),
-        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(15)),
+      decoration: const BoxDecoration(
+        color: Color(0xFF89D43F),
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
       ),
       height: 40,
       width: double.infinity,
@@ -130,7 +133,7 @@ class _NameAllahScreenState extends State<NameAllahScreen> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               image: DecorationImage(
-                image: NetworkImage("http://127.0.0.1:8000/data${item.icon}"),
+                image: NetworkImage("https://sadqahzakaat.com/data${item.icon}"),
                 fit: BoxFit.cover,
               ),
             ),

@@ -4,13 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:sadqahzakat/Screens/Islam/widgets/comming_soon_dialog.dart';
+// import 'package:sadqahzakat/Screens/Islam/widgets/comming_soon_dialog.dart';
 import 'package:sadqahzakat/Screens/Islam/widgets/prayer_timing.dart';
-
-// import 'package:zakat_app/Screens/Islam/widgets/comming_soon_dialog.dart';
-// import 'package:zakat_app/Screens/Islam/widgets/prayer_timing.dart';
-// import 'package:zakat_app/Screens/Login/components/colors.dart';
-final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
+const FlutterSecureStorage _secureStorage = FlutterSecureStorage();
 
 class KiblatCard extends StatefulWidget {
   const KiblatCard({super.key});

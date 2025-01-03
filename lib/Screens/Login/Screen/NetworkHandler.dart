@@ -7,7 +7,7 @@ import 'package:logger/web.dart';
 // import 'package:logger/logger.dart';
 
 class NetworkHandler {
-  String baseurl = "http://127.00.0.1:8000";
+  String baseurl = "http://127.0.0.1:8000/";
   var log = Logger();
   FlutterSecureStorage storage = const FlutterSecureStorage();
   Future get(String url) async {

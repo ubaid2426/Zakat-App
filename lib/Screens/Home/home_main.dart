@@ -2,15 +2,19 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:dio/dio.dart';
 import 'package:fc_native_video_thumbnail/fc_native_video_thumbnail.dart';
+// import 'package:fc_native_video_thumbnail/fc_native_video_thumbnail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path_provider/path_provider.dart';
-import 'package:sadqahzakat/Screens/All_Category/Group/Screen/blood_donation.dart';
+import 'package:sadqahzakat/Screens/All_Category/Group/Screen/blood_donation/blood_main.dart';
+// import 'package:sadqahzakat/Screens/All_Category/Group/Screen/blood_donation/blood_donation.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/clothes.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/daig_donation.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/donate_quran.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/food_relief.dart';
+import 'package:sadqahzakat/Screens/All_Category/Group/Screen/gaza.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/marriage_support.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/masjid_const.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/masjid_maintenance.dart';
@@ -19,12 +23,18 @@ import 'package:sadqahzakat/Screens/All_Category/Group/Screen/medical_bed.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/orphan_support.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/other.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/portable_house.dart';
-import 'package:sadqahzakat/Screens/All_Category/Group/Screen/tree_donation.dart';
+// import 'package:sadqahzakat/Screens/All_Category/Group/Screen/tree_donation.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/urgent_donation.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/water_cooler.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/wheel_chair.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/widow_family.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/all_category.dart';
+import 'package:sadqahzakat/Screens/All_Category/Static_Category/screens/static_clothes.dart';
+import 'package:sadqahzakat/Screens/All_Category/Static_Category/screens/static_daig.dart';
+import 'package:sadqahzakat/Screens/All_Category/Static_Category/screens/static_meal.dart';
+import 'package:sadqahzakat/Screens/All_Category/Static_Category/screens/static_quran.dart';
+import 'package:sadqahzakat/Screens/All_Category/Static_Category/screens/static_rashan.dart';
+import 'package:sadqahzakat/Screens/All_Category/Static_Category/screens/static_tree.dart';
 import 'package:sadqahzakat/Screens/Islam/islam_main.dart';
 import 'package:sadqahzakat/Screens/Login/Screen/login_page.dart';
 import 'package:sadqahzakat/Screens/Need%20Support/need_support.dart';
@@ -32,16 +42,18 @@ import 'package:sadqahzakat/Screens/Notification/Screen/notification.dart';
 import 'package:sadqahzakat/Screens/donation_service.dart';
 import 'package:sadqahzakat/Widgets/drawers_main.dart';
 import 'package:sadqahzakat/components/custom_button.dart';
-import 'package:sadqahzakat/components/help_child.dart';
-import 'package:sadqahzakat/components/homeScreen_carousel.dart';
+// import 'package:sadqahzakat/components/help_child.dart';
+// import 'package:sadqahzakat/components/homeScreen_carousel.dart';
 import 'package:sadqahzakat/components/upcoming_project.dart';
 import 'package:sadqahzakat/model/all_category.dart';
+import 'package:sadqahzakat/model/complete_project.dart';
 import 'package:sadqahzakat/model/doantion_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+// import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../All_Category/Group/Screen/small_business.dart';
 
@@ -55,22 +67,22 @@ class Home extends StatefulWidget {
 bool _hasShownLoginDialog = false;
 
 class _HomeState extends State<Home> {
-    late TutorialCoachMark tutorialCoachMark;
-    GlobalKey keyButton = GlobalKey();
+  late TutorialCoachMark tutorialCoachMark;
+  GlobalKey keyButton = GlobalKey();
   GlobalKey keyButton1 = GlobalKey();
   GlobalKey keyButton2 = GlobalKey();
   GlobalKey keyButton3 = GlobalKey();
   GlobalKey keyButton4 = GlobalKey();
   GlobalKey keyButton5 = GlobalKey();
 
-    GlobalKey keyBottomNavigation1 = GlobalKey();
+  GlobalKey keyBottomNavigation1 = GlobalKey();
   GlobalKey keyBottomNavigation2 = GlobalKey();
   GlobalKey keyBottomNavigation3 = GlobalKey();
   @override
   void initState() {
     super.initState();
-        createTutorial();
-    Future.delayed(Duration.zero, showTutorial);
+    // createTutorial();
+    // Future.delayed(Duration.zero, showTutorial);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _showLoginDialog();
     });
@@ -129,7 +141,7 @@ class _HomeState extends State<Home> {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF7fc23a),
+                          backgroundColor: const Color(0xFF7fc23a),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -194,564 +206,103 @@ class _HomeState extends State<Home> {
           ),
         ),
         drawer: const MainDrawer(),
-        body: const SingleChildScrollView(
-          child: Column(
-            children: [
-              // MyHomePage(showFoodDialog: showFoodDialog),
-              HomeH1(),
-              ReelsSection(),
-              CarouselHome(),
-              // MainCategory(),
-              DisplayCategory(),
-              // H1Main(),
-              // BoxText(),
-              SizedBox(
-                height: 50,
-              ),
-              FinalCard(),
-              // MarriageSupportH(
-              //   h3: "Our Numbers",
-              //   h1: 'Rs.100000+',
-              //   h2: 'Meal Donations',
-              //   fontawesome: FontAwesomeIcons.faceDizzy,
-              // ),
-              // MarriageSupportH(
-              //   h1: 'Rs.400000+',
-              //   h2: 'Flood Donations',
-              //   fontawesome: FontAwesomeIcons.bolt,
-              // ),
-              // MarriageSupportH(
-              //   h1: 'Rs.200000+',
-              //   h2: 'Medical Donations',
-              //   fontawesome: FontAwesomeIcons.houseChimneyUser,
-              // ),
-              // MarriageSupportH(
-              //   h1: 'Rs.300000+',
-              //   h2: 'Marriage Support',
-              //   fontawesome: FontAwesomeIcons.solidHeart,
-              // ),
-              // SizedBox(
-              //   height: 50,
-              // ),
-              // FoodDonation(),
-              UpComingRender(),
-              //  MyHomePage(showFoodDialog: showFoodDialog),
-              // UpComingProjects(
-              //     image: AssetImage("Assests/images/screen1/upcoming1.png")),
-              // UpComingMain(image: AssetImage("Assests/images/screen1/upcoming1.png")),
-            ],
-          ),
+        body: ListView(
+          // child: Column(
+          children: const [
+            HomeH1(),
+            ReelsSection(),
+            StaticCategory(),
+            // CarouselHome(),
+            DisplayCategory(),
+            FinalCard(),
+            UpComingRender(),
+          ],
+          // ),
         ),
       ),
     );
-  }
-    void showTutorial() {
-    tutorialCoachMark.show(context: context);
-  }
-
-
-
-
-  void createTutorial() {
-    tutorialCoachMark = TutorialCoachMark(
-      targets: _createTargets(),
-      colorShadow: Colors.red,
-      textSkip: "SKIP",
-      paddingFocus: 10,
-      opacityShadow: 0.5,
-      imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-      onFinish: () {
-        print("finish");
-      },
-      onClickTarget: (target) {
-        print('onClickTarget: $target');
-      },
-      onClickTargetWithTapPosition: (target, tapDetails) {
-        print("target: $target");
-        print(
-            "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
-      },
-      onClickOverlay: (target) {
-        print('onClickOverlay: $target');
-      },
-      onSkip: () {
-        print("skip");
-        return true;
-      },
-    );
-  }
-
-  List<TargetFocus> _createTargets() {
-    List<TargetFocus> targets = [];
-    targets.add(
-      TargetFocus(
-        // identify: "keyBottomNavigation1",
-        keyTarget: keyBottomNavigation1,
-        alignSkip: Alignment.topRight,
-        enableOverlayTab: true,
-        contents: [
-          TargetContent(
-            align: ContentAlign.top,
-            builder: (context, controller) {
-              return const Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Titulo lorem ipsum",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-        ],
-      ),
-    );
-
-    targets.add(
-      TargetFocus(
-        // identify: "keyBottomNavigation2",
-        keyTarget: keyBottomNavigation2,
-        alignSkip: Alignment.topRight,
-        contents: [
-          TargetContent(
-            align: ContentAlign.top,
-            builder: (context, controller) {
-              return const Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Titulo lorem ipsum",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-        ],
-      ),
-    );
-
-    targets.add(
-      TargetFocus(
-        // identify: "keyBottomNavigation3",
-        keyTarget: keyBottomNavigation3,
-        alignSkip: Alignment.topRight,
-        contents: [
-          TargetContent(
-            align: ContentAlign.top,
-            builder: (context, controller) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const Text(
-                    "Titulo lorem ipsum",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      tutorialCoachMark.goTo(0);
-                    },
-                    child: const Text('Go to index 0'),
-                  ),
-                ],
-              );
-            },
-          ),
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: "Target 0",
-        keyTarget: keyButton1,
-        contents: [
-          TargetContent(
-            align: ContentAlign.bottom,
-            builder: (context, controller) {
-              return const Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Titulo lorem ipsum",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 20.0),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 10.0),
-                    child: Text(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: "Target 1",
-        keyTarget: keyButton,
-        color: Colors.purple,
-        contents: [
-          TargetContent(
-            align: ContentAlign.bottom,
-            builder: (context, controller) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const Text(
-                    "Titulo lorem ipsum",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 20.0,
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 10.0),
-                    child: Text(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      controller.previous();
-                    },
-                    child: const Icon(Icons.chevron_left),
-                  ),
-                ],
-              );
-            },
-          )
-        ],
-        shape: ShapeLightFocus.RRect,
-        radius: 5,
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: "Target 2",
-        keyTarget: keyButton4,
-        contents: [
-          TargetContent(
-            align: ContentAlign.left,
-            child: const Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Multiples content",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 20.0),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0),
-                  child: Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                )
-              ],
-            ),
-          ),
-          TargetContent(
-              align: ContentAlign.top,
-              child: const Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Multiples content",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 20.0),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 10.0),
-                    child: Text(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )
-                ],
-              ))
-        ],
-        shape: ShapeLightFocus.RRect,
-      ),
-    );
-    targets.add(TargetFocus(
-      identify: "Target 3",
-      keyTarget: keyButton5,
-      contents: [
-        TargetContent(
-            align: ContentAlign.right,
-            child: const Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Title lorem ipsum",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 20.0),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0),
-                  child: Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                )
-              ],
-            ))
-      ],
-      shape: ShapeLightFocus.RRect,
-    ));
-    targets.add(TargetFocus(
-      identify: "Target 4",
-      keyTarget: keyButton3,
-      contents: [
-        TargetContent(
-          align: ContentAlign.top,
-          child: Column(
-            children: <Widget>[
-              InkWell(
-                onTap: () {
-                  tutorialCoachMark.previous();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Image.network(
-                    "https://juststickers.in/wp-content/uploads/2019/01/flutter.png",
-                    height: 200,
-                  ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 20.0),
-                child: Text(
-                  "Image Load network",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0),
-                ),
-              ),
-              const Text(
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
-                style: TextStyle(color: Colors.white),
-              ),
-            ],
-          ),
-        ),
-      ],
-      shape: ShapeLightFocus.Circle,
-    ));
-    targets.add(
-      TargetFocus(
-        identify: "Target 5",
-        keyTarget: keyButton2,
-        shape: ShapeLightFocus.Circle,
-        contents: [
-          TargetContent(
-            align: ContentAlign.top,
-            child: const Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(bottom: 20.0),
-                  child: Text(
-                    "Multiples contents",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0),
-                  ),
-                ),
-                Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ],
-            ),
-          ),
-          TargetContent(
-              align: ContentAlign.bottom,
-              child: const Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 20.0),
-                    child: Text(
-                      "Multiples contents",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0),
-                    ),
-                  ),
-                  Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
-              ))
-        ],
-      ),
-    );
-
-    return targets;
   }
 }
 
-// class MainCategory extends StatelessWidget {
-//   const MainCategory({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         Padding(
-//           padding: const EdgeInsets.all(15.0),
-//           child: Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: [
-//               const Text(
-//                 "All categories",
-//                 style: TextStyle(
-//                     fontSize: 20,
-//                     fontWeight: FontWeight.bold,
-//                     color: Color(0xFF7fc23a)),
-//               ),
-//               TextButton(
-//                 onPressed: () {},
-//                 child: const Text(
-//                   "see more",
-//                   style: TextStyle(
-//                     fontSize: 15,
-//                     fontWeight: FontWeight.bold,
-//                     // color: Colors.black,
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//         const SizedBox(
-//           width: double.infinity,
-//           height: 600,
-//           // color: Colors.pink,
-//           child: Category(),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
-class UpComingRender extends StatelessWidget {
+class UpComingRender extends StatefulWidget {
   const UpComingRender({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
+  _UpComingRenderState createState() => _UpComingRenderState();
+}
+
+class _UpComingRenderState extends State<UpComingRender> {
+  late Future<List<CompleteProject>> futureProjects;
+
+  @override
+  void initState() {
+    super.initState();
+    futureProjects =
+        fetchProjects(); // Fetch projects when the widget is initialized
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        Text(
-          "Our UpComing Projects",
-          style: TextStyle(
-              color: Colors.black,
-              fontSize: 30,
-              fontWeight: FontWeight.w900,
-              //  decoration: TextDecoration.underline,
-              fontFamily: "Roboto"),
-        ),
-        SizedBox(
-          width: 300,
-          child: Divider(
-            thickness: 5,
-            color: Color(0xFF29C77B),
-            height: 30,
-          ),
-        ),
-        UpComingProjects(
-          image: AssetImage("Assests/images/screen1/upcoming3.png"),
-          text1: 'SEPT',
-          text2: '02',
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(25, 15, 25, 25),
-          child: Text(
-            "Your Donation can help provide food to people",
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 25,
-                fontWeight: FontWeight.w900,
-                fontFamily: "Roboto"),
-          ),
-        ),
-        UpComingProjects(
-          image: AssetImage("Assests/images/screen1/upcoming2.png"),
-          text1: 'OCT',
-          text2: '20',
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(25, 15, 25, 25),
-          child: Text(
-            "The shop makes donation for conjure EarthQuake. ",
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 25,
-                fontWeight: FontWeight.w900,
-                fontFamily: "Roboto"),
-          ),
-        ),
-        UpComingProjects(
-          image: AssetImage("Assests/images/screen1/upcoming1.png"),
-          text1: 'Nov',
-          text2: '16',
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(25, 15, 25, 25),
-          child: Text(
-            "Your Donation can help provide food to people",
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 25,
-                fontWeight: FontWeight.w900,
-                fontFamily: "Roboto"),
-          ),
-        ),
-      ],
+    return FutureBuilder<List<CompleteProject>>(
+      future: futureProjects,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Center(child: Text('No Complete projects'));
+        } else {
+          List<CompleteProject> projects = snapshot.data!.take(3).toList();
+
+          return Column(
+            children: [
+              const Text(
+                "Our Complete Projects",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                    fontFamily: "Roboto"),
+              ),
+              const SizedBox(
+                width: 300,
+                child: Divider(
+                  thickness: 5,
+                  color: Color(0xFF7fc23a),
+                  height: 30,
+                ),
+              ),
+              // Dynamically load each project
+              for (var project in projects) ...[
+                OurCompleteProject(
+                  image: NetworkImage(project.image),
+                  text1: project.text1,
+                  text2: project.text2,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(25, 5, 25, 25),
+                  child: Text(
+                    project.detail,
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w900,
+                        fontFamily: "Roboto"),
+                  ),
+                ),
+              ],
+            ],
+          );
+        }
+      },
     );
   }
 }
 
-class UpComingProjects extends StatelessWidget {
-  const UpComingProjects(
+class OurCompleteProject extends StatelessWidget {
+  const OurCompleteProject(
       {super.key,
       required this.image,
       required this.text1,
@@ -778,8 +329,8 @@ class UpComingProjects extends StatelessWidget {
                   children: [
                     UpComingMain(image: image),
                     Positioned(
-                      top: 0,
-                      right: 10,
+                      top: 5,
+                      right: 5,
                       width: 100,
                       height: 100,
                       child: SizedBox(
@@ -832,67 +383,14 @@ class UpComingProjects extends StatelessWidget {
       );
 }
 
-class BoxText extends StatelessWidget {
-  const BoxText({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        HelpChild(image: AssetImage("Assests/images/screen1/poverty3.png")),
-        HelpText(text: "Help children Rise out of the poverty"),
-        HelpChild(image: AssetImage("Assests/images/screen1/poverty4.png")),
-        HelpText(text: "Little help that gooes a long way"),
-      ],
-    );
-  }
-}
-
-class HelpText extends StatelessWidget {
-  const HelpText({super.key, required this.text});
-  final String text;
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: const TextStyle(
-        color: Colors.black,
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-      ),
-    );
-  }
-}
-
-class CarouselHome extends StatelessWidget {
-  const CarouselHome({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: 200,
-        // color: Colors.red,
-        child: const HomePageCarousel(
-          imageList: [
-            "Assests/images/screen1/10007.png",
-            "Assests/images/screen1/10008.png",
-            "Assests/images/screen1/10009.png",
-            "Assests/images/screen1/10010.png",
-            "Assests/images/screen1/10011.png",
-          ],
-          carouselHeight: 200,
-        ),
-      ),
-    );
-  }
-}
-
-class HomeH1 extends StatelessWidget {
+class HomeH1 extends StatefulWidget {
   const HomeH1({super.key});
 
+  @override
+  State<HomeH1> createState() => _HomeH1State();
+}
+
+class _HomeH1State extends State<HomeH1> {
   @override
   Widget build(BuildContext context) {
     return const Stack(
@@ -908,17 +406,44 @@ class HomeH1 extends StatelessWidget {
   }
 }
 
-class HomeH2 extends StatelessWidget {
+class HomeH2 extends StatefulWidget {
   const HomeH2({super.key});
 
   @override
+  State<HomeH2> createState() => _HomeH2State();
+}
+
+class _HomeH2State extends State<HomeH2> {
+  String? username = "unknown";
+
+  Future<void> _getname() async {
+    String? fetchedUsername = await storage.read(key: 'user_name');
+    if (fetchedUsername != null) {
+      setState(() {
+        username = fetchedUsername; // Update username and rebuild UI
+      });
+    } else {
+      username = "unknown"; // Fallback if no username is found in storage
+    }
+    // print(username);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getname();
+  }
+  // String? username;
+
+  @override
   Widget build(BuildContext context) {
+    // print(username);
     return SizedBox(
-      height: 230,
+      height: 200,
       child: Column(
         children: [
           Container(
-            height: 160,
+            height: 130,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               gradient: const LinearGradient(
@@ -935,6 +460,7 @@ class HomeH2 extends StatelessWidget {
               ),
               boxShadow: [
                 BoxShadow(
+                  // ignore: deprecated_member_use
                   color: Colors.black.withOpacity(0.1),
                   spreadRadius: 0,
                   blurRadius: 10,
@@ -952,8 +478,8 @@ class HomeH2 extends StatelessWidget {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.20,
                         child: const SizedBox(
-                          width: 70,
-                          height: 70,
+                          width: 50,
+                          height: 50,
                           child: DecoratedBox(
                             decoration: BoxDecoration(
                               borderRadius:
@@ -971,24 +497,24 @@ class HomeH2 extends StatelessWidget {
                       const SizedBox(width: 20),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.60 - 20,
-                        child: const Column(
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Aslam O Alaikum, Ubaid',
-                              style: TextStyle(
+                              'Aslam O Alaikum, \n $username',
+                              style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w300,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                             // SizedBox(height: 10),
-                            Text(
+                            const Text(
                               'Is your zakat payment up to date?',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 14,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -1011,11 +537,12 @@ class HomeH2 extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const NotificationMain()));
+                                          NotificationMain()));
                             },
                             icon: const Icon(
                               FontAwesomeIcons.bell,
                               color: Colors.white,
+                              // size: 15,
                             ),
                           ),
                         ),
@@ -1040,7 +567,7 @@ class HomeH3 extends StatefulWidget {
 }
 
 class _HomeH3State extends State<HomeH3> {
-    late TutorialCoachMark tutorialCoachMark;
+  late TutorialCoachMark tutorialCoachMark;
 
   GlobalKey keyButton = GlobalKey();
   GlobalKey keyButton1 = GlobalKey();
@@ -1053,13 +580,15 @@ class _HomeH3State extends State<HomeH3> {
     // Future.delayed(Duration.zero, showTutorial);
     super.initState();
   }
-    Future<void> _checkAndShowTutorial() async {
+
+  Future<void> _checkAndShowTutorial() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isTutorialShown = prefs.getBool('tutorialShown') ?? false;
 
     if (!isTutorialShown) {
       createTutorial();
       Future.delayed(Duration.zero, () {
+        // ignore: use_build_context_synchronously
         tutorialCoachMark.show(context: context);
       });
 
@@ -1067,11 +596,12 @@ class _HomeH3State extends State<HomeH3> {
       prefs.setBool('tutorialShown', true);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        height: 100,
+        height: 90,
         // color: Colors.red,
         width: MediaQuery.of(context).size.width - 50,
         decoration: BoxDecoration(
@@ -1079,6 +609,7 @@ class _HomeH3State extends State<HomeH3> {
           borderRadius: const BorderRadius.all(Radius.circular(20)),
           boxShadow: [
             BoxShadow(
+              // ignore: deprecated_member_use
               color: Colors.grey.withOpacity(0.3),
               spreadRadius: 1,
               blurRadius: 5,
@@ -1086,37 +617,27 @@ class _HomeH3State extends State<HomeH3> {
             ),
           ],
         ),
-        child:  Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // ButtonNavBar(
-            //   text: 'Zakat\nCalculator',
-            //   fontawesome: FontAwesomeIcons.bell,
-            //   navigateTo: ZakatCalculator(),
-            // ),
             ButtonNavBar(
               key: keyButton,
               text: 'Islam',
               fontawesome: FontAwesomeIcons.mosque,
-              navigateTo: IslamScreen(),
+              navigateTo: const IslamScreen(),
             ),
             ButtonNavBar(
               key: keyButton1,
               text: 'Need Support',
               fontawesome: FontAwesomeIcons.handshake,
-              navigateTo: NeedCategoryGrid(),
+              navigateTo: const NeedCategory(),
             ),
-            // ButtonNavBar(
-            //   text: 'History',
-            //   fontawesome: FontAwesomeIcons.rotateLeft,
-            //   navigateTo: DonationHistory(),
-            // ),
             ButtonNavBar(
               key: keyButton2,
               text: 'Urgent Donation',
-              fontawesome: FontAwesomeIcons.rotateLeft,
-              navigateTo: UrgentDonation(),
+              fontawesome: FontAwesomeIcons.bullhorn,
+              navigateTo: const UrgentDonation(),
             ),
           ],
         ),
@@ -1124,9 +645,9 @@ class _HomeH3State extends State<HomeH3> {
     );
   }
 
-  void showTutorial() {
-    tutorialCoachMark.show(context: context);
-  }
+  // void showTutorial() {
+  //   tutorialCoachMark.show(context: context);
+  // }
 
   void createTutorial() {
     tutorialCoachMark = TutorialCoachMark(
@@ -1137,21 +658,21 @@ class _HomeH3State extends State<HomeH3> {
       opacityShadow: 0.5,
       imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
       onFinish: () {
-        print("finish");
+        // print("finish");
       },
       onClickTarget: (target) {
-        print('onClickTarget: $target');
+        // print('onClickTarget: $target');
       },
       onClickTargetWithTapPosition: (target, tapDetails) {
-        print("target: $target");
-        print(
-            "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
+        // print("target: $target");
+        // print(
+        // "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
       },
       onClickOverlay: (target) {
-        print('onClickOverlay: $target');
+        // print('onClickOverlay: $target');
       },
       onSkip: () {
-        print("skip");
+        // print("skip");
         return true;
       },
     );
@@ -1159,7 +680,7 @@ class _HomeH3State extends State<HomeH3> {
 
   List<TargetFocus> _createTargets() {
     List<TargetFocus> targets = [];
-      targets.add(
+    targets.add(
       TargetFocus(
         identify: "Target 0",
         keyTarget: keyButton,
@@ -1192,9 +713,9 @@ class _HomeH3State extends State<HomeH3> {
         ],
       ),
     );
-      targets.add(
+    targets.add(
       TargetFocus(
-        identify: "Target 0",
+        identify: "Target 1",
         keyTarget: keyButton1,
         contents: [
           TargetContent(
@@ -1225,9 +746,9 @@ class _HomeH3State extends State<HomeH3> {
         ],
       ),
     );
-      targets.add(
+    targets.add(
       TargetFocus(
-        identify: "Target 0",
+        identify: "Target 2",
         keyTarget: keyButton2,
         contents: [
           TargetContent(
@@ -1259,7 +780,7 @@ class _HomeH3State extends State<HomeH3> {
       ),
     );
 
-        return targets;
+    return targets;
   }
 }
 
@@ -1294,6 +815,7 @@ class ButtonNavBar extends StatelessWidget {
                 borderRadius: const BorderRadius.all(Radius.circular(100)),
                 boxShadow: [
                   BoxShadow(
+                    // ignore: deprecated_member_use
                     color: Colors.grey.withOpacity(0.3),
                     // color: const Color.fromARGB(255, 240, 4, 4).withOpacity(0.3),
                     spreadRadius: 1,
@@ -1322,32 +844,11 @@ class ButtonNavBar extends StatelessWidget {
   }
 }
 
-// import 'dart:convert';
-// import 'dart:io';
-// import 'package:flutter/material.dart';
-// import 'package:http/http.dart' as http;
-// import 'package:video_player/video_player.dart';
-// import 'package:video_thumbnail/video_thumbnail.dart';
-// import 'dart:convert';
-// import 'dart:io';
-// import 'package:flutter/material.dart';
-// import 'package:video_player/video_player.dart';
-// import 'package:video_thumbnail/video_thumbnail.dart';
-// import 'package:dio/dio.dart';
-// import 'package:path_provider/path_provider.dart';
-
-// / Reels Section: Displays a list of videos with thumbnails.
-// import 'dart:convert';
-// import 'dart:io';
-// import 'package:flutter/material.dart';
-// import 'package:dio/dio.dart';
-// import 'package:path_provider/path_provider.dart';
-// import 'package:fc_native_video_thumbnail/fc_native_video_thumbnail.dart';
-
 class ReelsSection extends StatefulWidget {
-  const ReelsSection({Key? key}) : super(key: key);
+  const ReelsSection({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ReelsSectionState createState() => _ReelsSectionState();
 }
 
@@ -1356,109 +857,203 @@ class _ReelsSectionState extends State<ReelsSection>
   late AnimationController _controller;
   List<Map<String, dynamic>> videoData = [];
   List<String?> thumbnails = [];
+  Set<String> viewedVideos = {};
+  List<String> downloadedVideos = [];
   bool isLoading = true;
+  late Directory videoDirectory;
+  Dio dio = Dio();
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
-    )..repeat();
-    fetchVideos();
+    _controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1))
+          ..repeat();
+    initApp();
   }
 
-  /// Fetch videos from the API
-  Future<void> fetchVideos() async {
-    const String apiUrl =
-        'http://127.0.0.1:8000/data/videos/'; // Replace with your API endpoint
+  Future<void> initApp() async {
+    videoDirectory = await getApplicationDocumentsDirectory();
+    await Future.wait([_loadDownloadedVideos(), _syncWithServer()]);
+    await _generateThumbnails();
+    setState(() => isLoading = false);
+  }
+
+  Future<void> _loadDownloadedVideos() async {
+    final prefs = await SharedPreferences.getInstance();
+    downloadedVideos = prefs.getStringList('downloadedVideos') ?? [];
+    viewedVideos = prefs.getStringList('viewedVideos')?.toSet() ?? {};
+  }
+
+  Future<void> _savePreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('downloadedVideos', downloadedVideos);
+    await prefs.setStringList('viewedVideos', viewedVideos.toList());
+  }
+
+  Future<void> _syncWithServer() async {
+    const apiUrl = 'https://sadqahzakaat.com/data/videos/';
     try {
-      final response = await Dio().get(apiUrl);
+      final response = await dio.get(apiUrl);
       if (response.statusCode == 200) {
-        final List<dynamic> data = response.data;
-        setState(() {
-          videoData = data
-              .map((item) => {
-                    'url': item['video'], // Video URL from API
-                    'title': item['title'], // Title from API
-                  })
-              .toList();
-        });
-        await _generateThumbnails();
-      } else {
-        throw Exception('Failed to load videos');
+        final List<dynamic> serverVideos = response.data;
+        // print(serverVideos);
+        // Download new videos and remove obsolete ones in parallel
+        final serverVideoUrls =
+            serverVideos.map((video) => video['video'] as String).toList();
+        final newVideos = serverVideos
+            .where((video) => !downloadedVideos.contains(video['video']))
+            .toList();
+        final obsoleteVideos = downloadedVideos
+            .where((video) => !serverVideoUrls.contains(video))
+            .toList();
+
+        await Future.wait([
+          ...newVideos.map((video) => _downloadVideo(video['video'])),
+          ...obsoleteVideos.map((video) => _deleteVideo(video))
+        ]);
+
+        downloadedVideos = serverVideoUrls;
+        videoData = serverVideos
+            .map((item) => {'url': item['video'], 'title': item['title']})
+            .toList();
+
+        await _savePreferences();
       }
     } catch (e) {
-      print("Error fetching videos: $e");
-      setState(() => isLoading = false);
+      // print("Error syncing with server: $e");
     }
   }
 
-  /// Generate thumbnails for videos
+  Future<void> _downloadVideo(String videoUrl) async {
+    final filePath = '${videoDirectory.path}/${videoUrl.split('/').last}';
+    try {
+      await dio.download("https://sadqahzakaat.com$videoUrl", filePath);
+    } catch (e) {
+      // print("Error downloading video: $e");
+    }
+  }
+
+  Future<void> _deleteVideo(String videoUrl) async {
+    final filePath = '${videoDirectory.path}/${videoUrl.split('/').last}';
+    final file = File(filePath);
+    if (await file.exists()) {
+      await file.delete();
+    }
+  }
+// Future<void> _generateThumbnails() async {
+//   final plugin = FcNativeVideoThumbnail();
+
+//   thumbnails = await Future.wait(videoData.map((video) async {
+//     final thumbnailPath =
+//         '${videoDirectory.path}/thumbnail_${video['url'].split('/').last}.png';
+
+//     // Check if the thumbnail already exists
+//     if (File(thumbnailPath).existsSync()) {
+//       return thumbnailPath;
+//     }
+
+//     try {
+//       // Generate thumbnail using FcNativeVideoThumbnail
+//       final generatedThumbnail = await plugin.getVideoThumbnail(
+//         srcFile: "http://127.0.0.1:8000${video['url']}", // Full network URL
+//         destFile: thumbnailPath, // Path to save the thumbnail
+//         width: 250, // Thumbnail width
+//         height: 250, // Thumbnail height
+//         quality: 75, // Thumbnail quality
+//       );
+
+//       if (generatedThumbnail == false) {
+//         print("Thumbnail generation failed for: ${video['url']}");
+//         return null;
+//       }
+
+//       return generatedThumbnail ? thumbnailPath : null;
+//     } catch (e) {
+//       print("Error generating thumbnail: $e");
+//       return null;
+//     }
+//   }).toList());
+// }
+
+  // Future<void> _generateThumbnails() async {
+  //   thumbnails = await Future.wait(videoData.map((video) async {
+  //     final thumbnailPath =
+  //         '${videoDirectory.path}/thumbnail_${video['url'].split('/').last}.png';
+
+  //     // Check if the thumbnail already exists
+  //     if (File(thumbnailPath).existsSync()) {
+  //       return thumbnailPath;
+  //     }
+
+  //     try {
+  //       // print("Generating thumbnail for network video: ${video['url']}");
+
+  //       // Generate thumbnail from network video
+  //       print("http://127.0.0.1:8000${video['url']}");
+  //       final thumbnail = await VideoThumbnail.thumbnailFile(
+  //         video: "http://127.0.0.1:8000${video['url']}", // Full network URL
+  //         thumbnailPath: thumbnailPath, // Optional; will save to this path
+  //         imageFormat: ImageFormat.PNG,
+  //         maxHeight: 250,
+  //         quality: 75,
+  //       );
+
+  //       if (thumbnail != null) {
+  //         // print("Thumbnail generated: $thumbnail");
+  //         return thumbnail; // Return the generated thumbnail path
+  //       } else {
+  //         // print("Thumbnail generation failed for: ${video['url']}");
+  //         return null;
+  //       }
+  //     } catch (e) {
+  //       // print("Error generating thumbnail: $e");
+  //       return null; // Return null in case of an error
+  //     }
+  //   }).toList());
+  // }
   Future<void> _generateThumbnails() async {
-    List<String?> tempThumbnails = [];
-    for (var video in videoData) {
-      try {
-        final String videoUrl = video['url'];
-        print("http://127.0.0.1:8000${videoUrl}");
-        final thumbnail = await generateThumbnailFromNetwork(
-            "http://127.0.0.1:8000${videoUrl}");
-        tempThumbnails.add(thumbnail);
-      } catch (e) {
-        print("Error generating thumbnail for ${video['url']}: $e");
-        tempThumbnails.add(null);
+    thumbnails = await Future.wait(videoData.map((video) async {
+      final videoPath =
+          '${videoDirectory.path}/${video['url'].split('/').last}';
+      final thumbnailPath =
+          '${videoDirectory.path}/thumbnail_${video['url'].split('/').last}.png';
+      print(videoPath);
+      // Check if the thumbnail already exists
+      if (File(thumbnailPath).existsSync()) {
+        return thumbnailPath;
       }
-    }
-    setState(() {
-      thumbnails = tempThumbnails;
-      isLoading = false;
-    });
+
+      try {
+        final plugin = FcNativeVideoThumbnail();
+        // Generate thumbnail using fc_native_video_thumbnail
+        final generatedThumbnail = await plugin.getVideoThumbnail(
+          srcFile: videoPath,
+          destFile: thumbnailPath,
+          width: 250,
+          height: 250,
+          quality: 75,
+        );
+        if (generatedThumbnail == false) {
+          print("Thumbnail generation failed for: $videoPath");
+          return null;
+        }
+        return generatedThumbnail
+            ? thumbnailPath
+            : null; // Return the generated thumbnail path
+      } catch (e) {
+        print("Error generating thumbnail: $e");
+        return null; // Return null in case of an error
+      }
+    }));
   }
 
-  /// Download video and generate a thumbnail
-Future<String?> generateThumbnailFromNetwork(String videoUrl) async {
-  try {
-    // Download the video file to a temporary location
-    final tempDir = await getTemporaryDirectory();
-    final filePath = '${tempDir.path}/${videoUrl.split('/').last}';
-    await Dio().download(videoUrl, filePath);
-
-    // Generate thumbnail using fc_native_video_thumbnail
-    final destFile = '${tempDir.path}/thumbnail_${videoUrl.split('/').last}.jpg';
-    final plugin = FcNativeVideoThumbnail();
-    final thumbnailGenerated = await plugin.getVideoThumbnail(
-      srcFile: filePath,
-      destFile: destFile,
-      width: 300,
-      height: 300,
-      quality: 75,
-    );
-
-    if (thumbnailGenerated) {
-      return destFile;
-    } else {
-      print("Thumbnail generation failed.");
-      return null;
-    }
-  } catch (e) {
-    print("Error downloading or generating thumbnail: $e");
-    return null;
-  }
-}
-
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  Color getAnimatedBorderColor() {
-    return ColorTween(
-          begin: const Color(0xFF33A248),
-          end: const Color(0xFFB2EA50),
-        ).evaluate(_controller) ??
-        Colors.green;
+  Color getAnimatedBorderColor(String url) {
+    return viewedVideos.contains(url)
+        ? Colors.grey
+        : ColorTween(begin: Colors.green, end: Colors.lightGreen)
+                .evaluate(_controller) ??
+            Colors.green;
   }
 
   @override
@@ -1466,45 +1061,36 @@ Future<String?> generateThumbnailFromNetwork(String videoUrl) async {
     return isLoading
         ? const Center(child: CircularProgressIndicator())
         : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Reels Section",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF7fc23a)),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        "See More",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
-                  ],
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                child: Text(
+                  "Reels Section",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green),
+                  textAlign: TextAlign.start,
                 ),
               ),
               SizedBox(
-                height: 120,
+                height: 100,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: videoData.length,
                   itemBuilder: (context, index) {
+                    final video = videoData[index];
                     return GestureDetector(
                       onTap: () {
+                        setState(() {
+                          viewedVideos.add(video['url']);
+                        });
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                ReelsPage(videoUrl: videoData[index]['url']),
+                                ReelsPage(videoUrl: video['url']),
                           ),
                         );
                       },
@@ -1520,10 +1106,11 @@ Future<String?> generateThumbnailFromNetwork(String videoUrl) async {
                                   height: 70,
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                        color: getAnimatedBorderColor(),
+                                        color: getAnimatedBorderColor(
+                                            video['url']),
                                         width: 3.0),
                                     borderRadius: BorderRadius.circular(100.0),
-                                    image: thumbnails.length > index &&
+                                    image: thumbnails.isNotEmpty &&
                                             thumbnails[index] != null
                                         ? DecorationImage(
                                             image: FileImage(
@@ -1537,12 +1124,11 @@ Future<String?> generateThumbnailFromNetwork(String videoUrl) async {
                             ),
                             const SizedBox(height: 5),
                             Text(
-                              videoData[index]['title'],
+                              video['title'],
                               style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
+                                  fontSize: 10,
+                                  // fontWeight: FontWeight.bold,
+                                  color: Colors.black),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ],
@@ -1555,13 +1141,18 @@ Future<String?> generateThumbnailFromNetwork(String videoUrl) async {
             ],
           );
   }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 }
 
-/// Reels Page: Plays the selected video
 class ReelsPage extends StatelessWidget {
   final String videoUrl;
 
-  const ReelsPage({Key? key, required this.videoUrl}) : super(key: key);
+  const ReelsPage({super.key, required this.videoUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -1589,13 +1180,13 @@ class ReelsPage extends StatelessWidget {
   }
 }
 
-/// Reel Video Player
 class ReelVideoPlayer extends StatefulWidget {
   final String videoUrl;
 
-  const ReelVideoPlayer({Key? key, required this.videoUrl}) : super(key: key);
+  const ReelVideoPlayer({super.key, required this.videoUrl});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ReelVideoPlayerState createState() => _ReelVideoPlayerState();
 }
 
@@ -1606,17 +1197,24 @@ class _ReelVideoPlayerState extends State<ReelVideoPlayer> {
   @override
   void initState() {
     super.initState();
-    // final videoUrl = "http://127.0.0.1:8000${widget.videoUrl}";
-    // Use VideoPlayerController.network instead of networkUrl
-    _controller = VideoPlayerController.networkUrl(
-      Uri.parse("http://127.0.0.1:8000${widget.videoUrl}"),
-    )..initialize().then((_) {
-        setState(() {
-          _controller.play();
-        });
-      }).catchError((error) {
-        print("Error initializing video: $error");
-      });
+    _controller =
+        // ignore: deprecated_member_use
+        VideoPlayerController.network(
+            "https://sadqahzakaat.com${widget.videoUrl}")
+          ..initialize().then((_) {
+            setState(() {
+              _controller.play();
+            });
+          }).catchError((error) {
+            // print("Error initializing video: $error");
+          });
+
+    _controller.addListener(() {
+      if (_controller.value.isInitialized &&
+          _controller.value.position >= _controller.value.duration) {
+        Navigator.pop(context); // Go back to home screen when video completes
+      }
+    });
   }
 
   @override
@@ -1638,26 +1236,35 @@ class _ReelVideoPlayerState extends State<ReelVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    print("http://127.0.0.1:8000${widget.videoUrl}");
+    // print(widget.videoUrl);
     return Center(
       child: _controller.value.isInitialized
-          ? GestureDetector(
-              onTap: _togglePlayPause,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  AspectRatio(
-                    aspectRatio: _controller.value.aspectRatio,
-                    child: VideoPlayer(_controller),
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                LinearProgressIndicator(
+                  value: _controller.value.position.inMilliseconds /
+                      _controller.value.duration.inMilliseconds,
+                ),
+                GestureDetector(
+                  onTap: _togglePlayPause,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      AspectRatio(
+                        aspectRatio: _controller.value.aspectRatio,
+                        child: VideoPlayer(_controller),
+                      ),
+                      if (!_isPlaying)
+                        const Icon(
+                          Icons.play_arrow,
+                          color: Colors.white,
+                          size: 80.0,
+                        ),
+                    ],
                   ),
-                  if (!_isPlaying)
-                    const Icon(
-                      Icons.play_arrow,
-                      color: Colors.white,
-                      size: 80.0,
-                    ),
-                ],
-              ),
+                ),
+              ],
             )
           : const CircularProgressIndicator(),
     );
@@ -1725,7 +1332,7 @@ class _PerCategoryState extends State<PerCategory> {
     return Material(
       //  color: const Color.fromARGB(255, 209, 206, 206),
       child: Padding(
-        padding: const EdgeInsets.all(30.0),
+        padding: const EdgeInsets.fromLTRB(30, 30, 30, 10),
         child: Center(
           child: Container(
             decoration: BoxDecoration(
@@ -1733,6 +1340,7 @@ class _PerCategoryState extends State<PerCategory> {
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
+                  // ignore: deprecated_member_use
                   color: Colors.grey.withOpacity(0.5),
                   spreadRadius: 5,
                   blurRadius: 7,
@@ -1741,7 +1349,7 @@ class _PerCategoryState extends State<PerCategory> {
               ],
             ),
             width: MediaQuery.of(context).size.width * 0.7, // Adjust width
-            height: 600,
+            height: 525,
             child: Column(
               children: [
                 Text(
@@ -1768,7 +1376,7 @@ class _PerCategoryState extends State<PerCategory> {
                     borderRadius: BorderRadius.circular(15),
                     image: DecorationImage(
                       image: NetworkImage(
-                          "http://127.0.0.1:8000/data${widget.imageUrl}"),
+                          "https://sadqahzakaat.com/data${widget.imageUrl}"),
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -1794,7 +1402,7 @@ class _PerCategoryState extends State<PerCategory> {
 
   Widget buildProjectDetails() {
     return Container(
-      height: 100,
+      height: 70,
       decoration: BoxDecoration(
         border: Border.all(
           color: const Color.fromARGB(255, 237, 228, 228),
@@ -1829,7 +1437,7 @@ class _PerCategoryState extends State<PerCategory> {
             Text(
               value,
               style: const TextStyle(
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: FontWeight.w600,
                 decoration: TextDecoration.none,
               ),
@@ -1838,7 +1446,7 @@ class _PerCategoryState extends State<PerCategory> {
             Text(
               label,
               style: const TextStyle(
-                fontSize: 16,
+                fontSize: 10,
                 fontWeight: FontWeight.w600,
                 color: Color.fromARGB(255, 128, 126, 126),
                 fontFamily: "Montserrat",
@@ -1946,7 +1554,8 @@ class _FinalCardState extends State<FinalCard> {
                     LeftToRight(
                       projects:
                           projects.where((p) => p.category == "blood").toList(),
-                      navigate: const Blood(),
+                      navigate: BloodMain(),
+                      // navigate: const BloodDetailCard(),
                     ),
                     LeftToRight(
                       projects: projects
@@ -1958,8 +1567,7 @@ class _FinalCardState extends State<FinalCard> {
                       projects: projects
                           .where((p) => p.category == "	SmallBusinessSetup")
                           .toList(),
-                      navigate: const 
-                      SmallBusiness(),
+                      navigate: const SmallBusiness(),
                     ),
                     LeftToRight(
                       projects: projects
@@ -1990,12 +1598,6 @@ class _FinalCardState extends State<FinalCard> {
                           .where((p) => p.category == "daigdonation")
                           .toList(),
                       navigate: const DaigDonation(),
-                    ),
-                    LeftToRight(
-                      projects: projects
-                          .where((p) => p.category == "treedonation")
-                          .toList(),
-                      navigate: const TreeDonation(),
                     ),
                     LeftToRight(
                       projects: projects
@@ -2057,23 +1659,31 @@ class DisplayCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double height = (screenWidth < 400) ? 1300 : 1100;
+    double height = (screenWidth < 400) ? 750 : 780;
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                "Select Category",
+                "Dynamic Category",
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF7fc23a)),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AllCategoryGroup(),
+                      // builder: (context) => const QiblaApp(),
+                    ),
+                  );
+                },
                 child: const Text(
                   "see more -->",
                   style: TextStyle(
@@ -2086,11 +1696,7 @@ class DisplayCategory extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(
-          // color: Colors.black,
-          height: height,
-          child: const CategoryGrid(),
-        ),
+        const CategoryGrid(),
       ],
     );
   }
@@ -2100,6 +1706,7 @@ class CategoryGrid extends StatefulWidget {
   const CategoryGrid({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _CategoryGridState createState() => _CategoryGridState();
 }
 
@@ -2115,7 +1722,7 @@ class _CategoryGridState extends State<CategoryGrid> {
   // Fetch categories from API
   Future<List<AllCategoryModel>> fetchCategories() async {
     final response =
-        await http.get(Uri.parse('http://127.0.0.1:8000/data/categories/'));
+        await http.get(Uri.parse('https://sadqahzakaat.com/data/categories/'));
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
       return data.map((json) => AllCategoryModel.fromJson(json)).toList();
@@ -2142,7 +1749,7 @@ class _CategoryGridState extends State<CategoryGrid> {
       case '/Other':
         return const Other();
       case '/TreeDonation':
-        return const TreeDonation();
+      // return const TreeDonation();
       case '/WaterCooler':
         return const WaterCooler();
       case '/SmallBusinessSetup':
@@ -2161,10 +1768,12 @@ class _CategoryGridState extends State<CategoryGrid> {
         return const MasjidConst();
       case '/DonateQuran':
         return const DonateQuran();
+      case '/Gaza':
+        return const Gaza();
       case '/Blood':
-        return const Blood();
+        return const BloodMain();
       default:
-        print('Unknown route tapped: $route');
+        // print('Unknown route tapped: $route');
         return const Center(
           child: Text('Page not found'),
         ); // or replace with a custom error widget
@@ -2179,7 +1788,8 @@ class _CategoryGridState extends State<CategoryGrid> {
         : (screenWidth < 900)
             ? 4
             : 5;
-    double childAspectRatio = (screenWidth < 400) ? 2 / 3.5 : 3 / 4;
+    // double childAspectRatio = (screenWidth < 400) ? 3 / 3.9 : 3 / 4;
+    // double childAspectRatio = (screenWidth < 400) ? 2 / 3.5 : 3 / 4;
 
     return FutureBuilder<List<AllCategoryModel>>(
       future: categories,
@@ -2193,7 +1803,7 @@ class _CategoryGridState extends State<CategoryGrid> {
         final categoryList = snapshot.data!;
 
         return Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
           child: GridView.builder(
             shrinkWrap: true,
             primary: false,
@@ -2201,7 +1811,7 @@ class _CategoryGridState extends State<CategoryGrid> {
               crossAxisCount: crossAxisCount,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
-              childAspectRatio: childAspectRatio,
+              // childAspectRatio: childAspectRatio,
             ),
             itemCount: categoryList.length,
             itemBuilder: (context, index) {
@@ -2209,11 +1819,156 @@ class _CategoryGridState extends State<CategoryGrid> {
               return CategoryTile(
                 category: category,
                 onSelectCategory: () {
-                  print("Navigating to: ${category.route}");
+                  // print("Navigating to: ${category.route}");
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => getRouteWidget(category.route),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+}
+
+class StaticCategory extends StatelessWidget {
+  const StaticCategory({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // double screenWidth = MediaQuery.of(context).size.width;
+    // double height = (screenWidth < 400) ? 370 : 330;
+    return const Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Static Category",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF7fc23a)),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          child: StaticCategoryGrid(),
+        ),
+      ],
+    );
+  }
+}
+
+class StaticCategoryGrid extends StatefulWidget {
+  const StaticCategoryGrid({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _StaticCategoryGridState createState() => _StaticCategoryGridState();
+}
+
+class _StaticCategoryGridState extends State<StaticCategoryGrid> {
+  late Future<List<AllCategoryModel>> categories;
+
+  @override
+  void initState() {
+    super.initState();
+    categories = fetchCategories();
+  }
+
+  // Fetch categories from API
+  Future<List<AllCategoryModel>> fetchCategories() async {
+    final response = await http
+        .get(Uri.parse('https://sadqahzakaat.com/data/staticcategories/'));
+    if (response.statusCode == 200) {
+      List<dynamic> data = json.decode(response.body);
+      return data.map((json) => AllCategoryModel.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load categories');
+    }
+  }
+
+  // Route mapping function
+  Widget getRouteWidget1(String route) {
+    switch (route) {
+      case '/DaigDonation3':
+        return const StaticDaig();
+      case '/Clothes3':
+        return const StaticClothes();
+      case '/MealDonation3':
+        return const StaticMeal();
+      case '/Quran3':
+        return const StaticQuran();
+      case '/TreeDonation3':
+        return const StaticTree();
+      case '/Rashan3':
+        return const StaticRashan();
+      default:
+        // print('Unknown route tapped: $route');
+        return const Center(
+          child: Text('Page not found'),
+        ); // or replace with a custom error widget
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    int crossAxisCount = (screenWidth < 600)
+        ? 3
+        : (screenWidth < 900)
+            ? 4
+            : 5;
+    // double childAspectRatio = (screenWidth < 400) ? 3 / 3.9 : 3 / 4;
+    // double childAspectRatio = (screenWidth < 400) ? 2 / 3.5 : 3 / 4;
+
+    return FutureBuilder<List<AllCategoryModel>>(
+      future: categories,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return const Center(child: Text('Failed to load categories'));
+        }
+
+        final categoryList = snapshot.data!;
+
+        return Padding(
+          //         padding: EdgeInsets.only(
+          //   bottom: MediaQuery.of(context).viewInsets.bottom, // Handle insets
+          // ),
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+          child: GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            primary: false,
+            // physics: BouncingScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              childAspectRatio: 1,
+            ),
+            itemCount: categoryList.length,
+            itemBuilder: (context, index) {
+              final category = categoryList[index];
+              return CategoryTile(
+                category: category,
+                onSelectCategory: () {
+                  // print("Navigating to: ${category.route}");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => getRouteWidget1(category.route),
                     ),
                   );
                 },

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:sadqahzakat/Screens/All_Category/Group/Screen/blood_donation.dart';
+import 'package:sadqahzakat/Screens/All_Category/Group/Screen/blood_donation/blood_main.dart';
+// import 'package:sadqahzakat/Screens/All_Category/Group/Screen/blood_donation/blood_donation.dart';
+// import 'package:sadqahzakat/Screens/All_Category/Group/Screen/blood_donation/blood_main.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/clothes.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/daig_donation.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/food_relief.dart';
@@ -14,7 +17,8 @@ import 'package:sadqahzakat/Screens/All_Category/Group/Screen/orphan_support.dar
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/other.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/portable_house.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/small_business.dart';
-import 'package:sadqahzakat/Screens/All_Category/Group/Screen/tree_donation.dart';
+// import 'package:sadqahzakat/Screens/All_Category/Group/Screen/small_business.dart';
+// import 'package:sadqahzakat/Screens/All_Category/Group/Screen/tree_donation.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/water_cooler.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/wheel_chair.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/widow_family.dart';
@@ -26,7 +30,7 @@ class AllCategoryGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double height = (screenWidth < 400) ? 800 : 1300;
+    // double height = (screenWidth < 400) ?1100 : 1200;
 
     return MaterialApp(
       routes: {
@@ -37,10 +41,10 @@ class AllCategoryGroup extends StatelessWidget {
         '/WidowFamily': (context) => const WidowFamily(),
         '/SmallBusinessSetup': (context) => const SmallBusiness(),
         '/Clothes': (context) => const Clothes(),
-        '/Blood': (context) => const Blood(),
+        '/Blood': (context) => const BloodMain(),
         '/MedicalBed': (context) => const MedicalBed(),
         '/WheelChair': (context) => const WheelChair(),
-        '/TreeDonation': (context) => const TreeDonation(),
+        // '/TreeDonation': (context) => const TreeDonation(),
         '/DaigDonation': (context) => const DaigDonation(),
         '/MealDonation': (context) => const MealDonation(),
         '/OrphanSupport': (context) => const OrphanSupport(),
@@ -50,7 +54,7 @@ class AllCategoryGroup extends StatelessWidget {
       },
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: const Color(0xFFC3BEBE),
+        backgroundColor: const Color.fromARGB(255, 238, 233, 233),
         appBar: AppBar(
           flexibleSpace: Container(
             decoration: const BoxDecoration(
@@ -61,11 +65,11 @@ class AllCategoryGroup extends StatelessWidget {
               ),
             ),
           ),
-          title: const Text(
-            "ALL CATEGORIES",
+          title:const ExpandableText(
+            "All Dynamic Categories",
             style: TextStyle(
               color: Colors.black,
-              fontSize: 30,
+              fontSize: 23,
               fontWeight: FontWeight.w700,
               fontFamily: "Roboto",
             ),
@@ -77,7 +81,7 @@ class AllCategoryGroup extends StatelessWidget {
           ),
         ),
         body: SizedBox(
-          height: height,
+          // height: height,
           width: screenWidth,
           child: const CategoryGrid(),
         ),
@@ -104,7 +108,7 @@ class _CategoryGridState extends State<CategoryGrid> {
 
   // Fetch categories from API
   Future<List<AllCategoryModel>> fetchCategories() async {
-    final response = await http.get(Uri.parse('http://127.0.0.1:8000/data/categories/'));
+    final response = await http.get(Uri.parse('https://sadqahzakaat.com/data/categories/'));
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
       return data.map((json) => AllCategoryModel.fromJson(json)).toList();
@@ -117,7 +121,8 @@ class _CategoryGridState extends State<CategoryGrid> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     int crossAxisCount = (screenWidth < 600) ? 3 : (screenWidth < 900) ? 4 : 5;
-    double childAspectRatio = (screenWidth < 400) ? 2 / 3.5 : 3 / 4;
+    // double childAspectRatio = (screenWidth < 400) ? 3 / 3.9 : 3 / 4;
+    // double childAspectRatio = (screenWidth < 400) ? 2 / 3.5 : 3 / 4;
 
     return FutureBuilder<List<AllCategoryModel>>(
       future: categories,
@@ -137,7 +142,7 @@ class _CategoryGridState extends State<CategoryGrid> {
               crossAxisCount: crossAxisCount,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
-              childAspectRatio: childAspectRatio,
+              // childAspectRatio: childAspectRatio,
             ),
             itemCount: categoryList.length,
             itemBuilder: (context, index) {
@@ -171,7 +176,7 @@ class CategoryTile extends StatelessWidget {
     return InkWell(
       onTap: onSelectCategory,
       child: Container(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: const Color(0xFFFDFBFB),
@@ -181,18 +186,20 @@ class CategoryTile extends StatelessWidget {
           children: [
             Text(
               category.title,
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color:Color(0xFF7fc23a)),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 4),
             Container(
               width: double.infinity,
-              height: 100,
+              height: 75,
               decoration: BoxDecoration(
+                backgroundBlendMode: BlendMode.multiply,
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
-                  image: NetworkImage("http://127.0.0.1:8000/data${category.image}"),
-                  fit: BoxFit.contain,
+                  image: NetworkImage("https://sadqahzakaat.com/data${category.image}"),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),

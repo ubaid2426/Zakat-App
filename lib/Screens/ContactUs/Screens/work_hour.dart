@@ -9,7 +9,18 @@ class WorkingHour extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF33A248),
+                Color(0xFFB2EA50),
+              ],
+              begin: Alignment.topRight,
+              end: Alignment.topLeft,
+            ),
+          ),
+        ),
         title: const Text('Working Hours'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -39,7 +50,7 @@ class WorkingHour extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.green,
+                      color: Color(0xFF7fc23a),
                     ),
                   ),
                   const SizedBox(height: 10),

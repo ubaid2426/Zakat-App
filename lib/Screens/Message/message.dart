@@ -53,7 +53,7 @@ class _MessageState extends State<Message> {
     }
 
     var response = await http.get(
-      Uri.parse('http://127.0.0.1:8000/chat/message/retrieve/'),
+      Uri.parse('https://sadqahzakaat.com/chat/message/retrieve/'),
       headers: {'Authorization': 'JWT $token'},
     );
 
@@ -105,7 +105,7 @@ class _MessageState extends State<Message> {
     }
 
     var response = await http.post(
-      Uri.parse('http://127.0.0.1:8000/chat/message/'),
+      Uri.parse('https://sadqahzakaat.com/chat/message/'),
       headers: {
         'Authorization': 'JWT $token',
         'Content-Type': 'application/json',
@@ -164,7 +164,7 @@ class _MessageState extends State<Message> {
 
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse('http://127.0.0.1:8000/chat/message/'),
+      Uri.parse('https://sadqahzakaat.com/chat/message/'),
     );
     request.headers['Authorization'] = 'JWT $token';
     request.files.add(await http.MultipartFile.fromPath(type, file.path));

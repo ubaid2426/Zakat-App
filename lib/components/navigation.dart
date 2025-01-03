@@ -1,105 +1,75 @@
 import 'dart:ui';
-
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/all_category.dart';
 import 'package:sadqahzakat/Screens/All_Category/Individual/all_category.dart';
 import 'package:sadqahzakat/Screens/Home/home_main.dart';
-// import 'package:sadqahzakat/Screens/Home/home_main.dart';
 import 'package:sadqahzakat/Screens/Message/message.dart';
 import 'package:sadqahzakat/Screens/Profile/profileScreen.dart';
 import 'package:sadqahzakat/Screens/cart/cartScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-// import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class Navigation extends StatefulWidget {
-  // final Function(BuildContext) showFoodDialog;
-
   const Navigation({super.key});
 
   @override
-  State<Navigation> createState() => _NavigationState();
+  // ignore: library_private_types_in_public_api
+  _NavigationState createState() => _NavigationState();
 }
 
-class _NavigationState extends State<Navigation> {
-  @override
-  Widget build(BuildContext context) {
-    return
-        // MaterialApp(
-        // debugShowCheckedModeBanner: false,
-        // title: 'Flutter Demo',
-        const MyHomePage();
-    // );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  final Function(BuildContext)? showFoodDialog;
-  const MyHomePage({
-    super.key,
-    this.showFoodDialog,
-  });
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+class _NavigationState extends State<Navigation> with TickerProviderStateMixin {
+  int _bottomNavIndex = 0; // Default index
+  bool _isFabVisible = true; // To control FAB visibility
   late TutorialCoachMark tutorialCoachMark;
-  GlobalKey keyButton = GlobalKey();
-  GlobalKey keyButton1 = GlobalKey();
-  GlobalKey keyButton2 = GlobalKey();
-  GlobalKey keyButton3 = GlobalKey();
-  GlobalKey keyButton4 = GlobalKey();
-  GlobalKey keyButton5 = GlobalKey();
-  @override
-  void initState() {
-    super.initState();
-    _fabAnimationController = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      vsync: this,
-    );
 
-    _hideBottomBarAnimationController = AnimationController(
-      duration: const Duration(milliseconds: 200),
-      vsync: this,
-    );
-    // createTutorial();
-    // Future.delayed(Duration.zero, showTutorial);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // _showLoginDialog();
-    });
-    _checkAndShowTutorial();
-  }
+  final GlobalKey navigationButton = GlobalKey();
+  final GlobalKey navigationButton1 = GlobalKey();
+  final GlobalKey navigationButton2 = GlobalKey();
+  final GlobalKey navigationButton3 = GlobalKey();
 
-Future<void> _checkAndShowTutorial() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+  late AnimationController _fabAnimationController;
+  late AnimationController _borderRadiusAnimationController;
+  late Animation<double> fabAnimation;
+  late Animation<double> borderRadiusAnimation;
+  late CurvedAnimation fabCurve;
+  late CurvedAnimation borderRadiusCurve;
+  late AnimationController _hideBottomBarAnimationController;
+  final ScrollController _scrollController = ScrollController();
 
-  // Fetch the flag; default is false
-  bool isTutorialShown = prefs.getBool('tutorialShown') ?? false;
-  print("Is tutorial already shown? $isTutorialShown");
+  // ... (other code remains the same)
+  final List<Widget> screens = [
+    const Home(),
+    const Message(),
+    const CartScreen(),
+    const ProfileScreen(),
+  ];
 
-  // Only run if the tutorial has NOT been shown
-  if (!isTutorialShown) {
-    createTutorial();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      tutorialCoachMark.show(context: context);
-    });
+  final List<IconData> iconList = [
+    Icons.home,
+    Icons.message,
+    Icons.shopping_cart,
+    Icons.person,
+  ];
 
-    // Update the flag to prevent re-showing
-    prefs.setBool('tutorialShown', true);
-  }
-}
-
-
+  final List<String> itemLabels = [
+    'Home',
+    'Message',
+    'Cart',
+    'Profile',
+  ];
   void _showLoginDialog() {
+    //  _checkAndShowTutorial1();
     showDialog(
+      
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
+          // key: navigationButton1,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
@@ -157,6 +127,7 @@ Future<void> _checkAndShowTutorial() async {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       _buildDonationButton(
+                        key1:  navigationButton1,
                         context: context,
                         label: 'Group\nDonation',
                         icon: Icons.group,
@@ -164,6 +135,7 @@ Future<void> _checkAndShowTutorial() async {
                         navigateTo: const AllCategoryGroup(),
                       ),
                       _buildDonationButton(
+                        key1:  navigationButton2,
                         context: context,
                         label: 'Individual\nDonation',
                         icon: Icons.person,
@@ -188,9 +160,13 @@ Future<void> _checkAndShowTutorial() async {
     required IconData icon,
     required Color color,
     required Widget navigateTo,
+    required Key key1,
   }) {
     return ElevatedButton.icon(
+      key: key1,
+      // key: navigationButton3,
       onPressed: () {
+        
         Navigator.pop(context);
         Navigator.push(
           context,
@@ -214,150 +190,209 @@ Future<void> _checkAndShowTutorial() async {
     );
   }
 
-  var _bottomNavIndex = 0; // Default index
-  late AnimationController _fabAnimationController;
-  late AnimationController _hideBottomBarAnimationController;
-
-  final List<IconData> iconList = [
-    Icons.home,
-    Icons.message,
-    Icons.shopping_cart,
-    Icons.person
-  ];
-
-  final List<Widget> screens = [
-    const Home(),
-    const Message(),
-    const CartScreen(),
-    const ProfileScreen(),
-  ];
-  final List<GlobalKey> navigationKeys = [
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-  ];
-
-  final List<String> itemLabels = [
-    'Home',
-    'Message',
-    'Cart',
-    'Profile',
-  ];
   @override
-  // void initState() {
-  //   super.initState();
+  void initState() {
+    _checkAndShowTutorial();
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   _checkAndShowTutorial();
+    // });
+    super.initState();
+    _bottomNavIndex = 0;
+    // Initialize Animation Controllers
+    _fabAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+    _borderRadiusAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+    fabCurve = CurvedAnimation(
+      parent: _fabAnimationController,
+      curve: const Interval(0.5, 1.0, curve: Curves.fastOutSlowIn),
+    );
+    borderRadiusCurve = CurvedAnimation(
+      parent: _borderRadiusAnimationController,
+      curve: const Interval(0.5, 1.0, curve: Curves.fastOutSlowIn),
+    );
 
-  //   _fabAnimationController = AnimationController(
-  //     duration: const Duration(milliseconds: 500),
-  //     vsync: this,
-  //   );
+    fabAnimation = Tween<double>(begin: 0, end: 1).animate(fabCurve);
+    borderRadiusAnimation =
+        Tween<double>(begin: 0, end: 1).animate(borderRadiusCurve);
 
-  //   _hideBottomBarAnimationController = AnimationController(
-  //     duration: const Duration(milliseconds: 200),
-  //     vsync: this,
-  //   );
-  // }
+    _hideBottomBarAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+
+    // Start animations after a delay
+    Future.delayed(
+        const Duration(seconds: 1), () => _fabAnimationController.forward());
+    Future.delayed(const Duration(seconds: 1),
+        () => _borderRadiusAnimationController.forward());
+  }
 
   @override
   void dispose() {
-    _fabAnimationController.dispose();
-    _hideBottomBarAnimationController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
+  bool onScrollNotification(ScrollNotification notification) {
+    if (notification is UserScrollNotification &&
+        notification.metrics.axis == Axis.vertical) {
+      setState(() {
+        // Hide FAB on scroll up and show on scroll down
+        _isFabVisible = notification.direction == ScrollDirection.forward;
+      });
+
+      switch (notification.direction) {
+        case ScrollDirection.forward:
+          _hideBottomBarAnimationController.reverse();
+          _fabAnimationController.forward(from: 0);
+          break;
+        case ScrollDirection.reverse:
+          _hideBottomBarAnimationController.forward();
+          _fabAnimationController.reverse(from: 1);
+          break;
+        case ScrollDirection.idle:
+          break;
+      }
+    }
+    return false;
+  }
+
+  Future<void> _checkAndShowTutorial() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isTutorialShown = prefs.getBool('istutorialShown') ?? false;
+
+    if (!isTutorialShown) {
+      createTutorial();
+      Future.delayed(Duration.zero, () {
+        // ignore: use_build_context_synchronously
+        tutorialCoachMark.show(context: context);
+      });
+
+      // Mark the tutorial as shown
+      prefs.setBool('istutorialShown', true);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // extendBody: true,
-      body: screens[_bottomNavIndex], // Display corresponding screen
-
-      floatingActionButton: SizedBox(
-        width: 80,
-        height: 80,
-        child: FloatingActionButton(
-          key: keyButton,
-          backgroundColor: const Color(0xFF7fc23a),
-          shape: const CircleBorder(),
-          onPressed: _showLoginDialog,
-          child: const Icon(
-            FontAwesomeIcons.handHoldingDollar,
-            size: 35,
-          ), // Show popup on button press
-          // onPressed: () {
-          //   Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (context) =>
-          //             AllCategory()), // Navigate to the screen
-          //   );
-          //   // Action for FAB
-          // },
-        ),
+      // key: ValueKey("Navigation Screen"),
+      extendBody: true,
+      body: NotificationListener<ScrollNotification>(
+        onNotification: onScrollNotification,
+        child: screens[_bottomNavIndex], // Show selected screen
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-      bottomNavigationBar: AnimatedBottomNavigationBar.builder(
-        itemCount: iconList.length,
-        notchMargin: 10,
-        borderColor: const Color(0xFF7fc23a),
-        tabBuilder: (int index, bool isActive) {
-          final color = isActive ? const Color(0xFF7fc23a) : Colors.grey;
-          return Column(
-            key: navigationKeys[index],
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(iconList[index], size: 24, color: color),
-              const SizedBox(height: 4),
-              Text(itemLabels[index], style: TextStyle(color: color)),
-            ],
-          );
-        },
-        backgroundColor: Colors.black87,
-        activeIndex: _bottomNavIndex,
-        splashColor: const Color(0xFF7fc23a),
-        notchSmoothness: NotchSmoothness.defaultEdge,
-        gapLocation: GapLocation.center,
-        leftCornerRadius: 32,
-        rightCornerRadius: 32,
-        onTap: (index) => setState(() => _bottomNavIndex = index),
-        hideAnimationController: _hideBottomBarAnimationController,
-        shadow: const BoxShadow(
-          offset: Offset(0, 1),
-          blurRadius: 12,
-          spreadRadius: 0.5,
-          color: Color(0xFF7fc23a),
-        ),
-      ),
+      floatingActionButton: (_bottomNavIndex != 0 &&
+              _bottomNavIndex != 1 &&
+              _bottomNavIndex != 2 &&
+              _bottomNavIndex != 3)
+          ? null
+          : _isFabVisible // Show FAB only if it's visible
+              ? FloatingActionButton(
+                  key: navigationButton,
+                  backgroundColor: const Color(0xFF7fc23a),
+                  shape: const CircleBorder(),
+                  onPressed: () {
+                    _showLoginDialog();
+                    // _checkAndShowTutorial1();
+                    _fabAnimationController.reset();
+                    _borderRadiusAnimationController.reset();
+                    _borderRadiusAnimationController.forward();
+                    _fabAnimationController.forward();
+                  },
+                  child: const Icon(
+                    FontAwesomeIcons.handHoldingDollar,
+                    size: 30,
+                  ),
+                )
+              : null,
+      floatingActionButtonLocation: (_bottomNavIndex != 0 &&
+              _bottomNavIndex != 1 &&
+              _bottomNavIndex != 2 &&
+              _bottomNavIndex != 3)
+          ? null
+          : (_isFabVisible // Set FAB location only if it's visible
+              ? FloatingActionButtonLocation.centerDocked
+              : null),
+      bottomNavigationBar: (_bottomNavIndex != 0 &&
+              _bottomNavIndex != 1 &&
+              _bottomNavIndex != 2 &&
+              _bottomNavIndex != 3)
+          ? null
+          : AnimatedBottomNavigationBar.builder(
+              itemCount: iconList.length,
+              tabBuilder: (int index, bool isActive) {
+                final color = isActive ? const Color(0xFF7fc23a) : Colors.grey;
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      iconList[index],
+                      size: 24,
+                      color: color,
+                    ),
+                    const SizedBox(height: 4),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: AutoSizeText(
+                        itemLabels[index],
+                        maxLines: 1,
+                        style: TextStyle(color: color),
+                      ),
+                    ),
+                  ],
+                );
+              },
+              backgroundColor: Colors.black87,
+              activeIndex: _bottomNavIndex,
+              splashColor: const Color(0xFF7fc23a),
+              notchAndCornersAnimation: borderRadiusAnimation,
+              splashSpeedInMilliseconds: 300,
+              notchSmoothness: NotchSmoothness.defaultEdge,
+              gapLocation: GapLocation.center,
+              leftCornerRadius: 32,
+              rightCornerRadius: 32,
+              onTap: (index) {
+                setState(() {
+                  _bottomNavIndex = index;
+                  _isFabVisible =
+                      index == 0 || index == 1 || index == 2 || index == 3;
+                });
+              },
+              hideAnimationController: _hideBottomBarAnimationController,
+              shadow: const BoxShadow(
+                offset: Offset(0, 1),
+                blurRadius: 12,
+                spreadRadius: 0.5,
+                color: Color(0xFF7fc23a),
+              ),
+            ),
     );
   }
-
-  // void showTutorial() {
-  //   tutorialCoachMark.show(context: context);
-  // }
 
   void createTutorial() {
     tutorialCoachMark = TutorialCoachMark(
       targets: _createTargets(),
-      colorShadow: const Color.fromARGB(255, 80, 183, 57),
+      colorShadow: const Color.fromARGB(13, 25, 192, 59),
       textSkip: "SKIP",
       paddingFocus: 10,
       opacityShadow: 0.5,
       imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
       onFinish: () {
-        // SharedPreferences prefs = await SharedPreferences.getInstance();
-        // await prefs.setBool('isTutorialShown', true);
         print("finish");
-        // return true;
       },
       onClickTarget: (target) {
         print('onClickTarget: $target');
       },
       onClickTargetWithTapPosition: (target, tapDetails) {
         print("target: $target");
-        print(
-            "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
+        // print(
+        // "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
       },
       onClickOverlay: (target) {
         print('onClickOverlay: $target');
@@ -371,169 +406,10 @@ Future<void> _checkAndShowTutorial() async {
 
   List<TargetFocus> _createTargets() {
     List<TargetFocus> targets = [];
-    // for (int i = 0; i < navigationKeys.length; i++) {
-    //   targets.add(
-    //     TargetFocus(
-    //       // identify: "keyBottomNavigation1",
-    //       keyTarget: navigationKeys[0],
-    //       alignSkip: Alignment.topRight,
-    //       enableOverlayTab: true,
-    //       contents: [
-    //         TargetContent(
-    //           align: ContentAlign.top,
-    //           builder: (context, controller) {
-    //             return const Column(
-    //               mainAxisSize: MainAxisSize.min,
-    //               crossAxisAlignment: CrossAxisAlignment.start,
-    //               children: <Widget>[
-    //                 Text(
-    //                   "Go To The HomePage",
-    //                   style: TextStyle(
-    //                     color: Colors.white,
-    //                   ),
-    //                 ),
-    //               ],
-    //             );
-    //           },
-    //         ),
-    //       ],
-    //     ),
-    //   );
-    //   targets.add(
-    //     TargetFocus(
-    //       // identify: "keyBottomNavigation1",
-    //       keyTarget: navigationKeys[1],
-    //       alignSkip: Alignment.topRight,
-    //       enableOverlayTab: true,
-    //       contents: [
-    //         TargetContent(
-    //           align: ContentAlign.top,
-    //           builder: (context, controller) {
-    //             return const Column(
-    //               mainAxisSize: MainAxisSize.min,
-    //               crossAxisAlignment: CrossAxisAlignment.start,
-    //               children: <Widget>[
-    //                 Text(
-    //                   "Communication between Donor and Admin",
-    //                   style: TextStyle(
-    //                     color: Colors.white,
-    //                   ),
-    //                 ),
-    //               ],
-    //             );
-    //           },
-    //         ),
-    //       ],
-    //     ),
-    //   );
-    //   targets.add(
-    //     TargetFocus(
-    //       // identify: "keyBottomNavigation2",
-    //       keyTarget: navigationKeys[3],
-    //       alignSkip: Alignment.topRight,
-    //       contents: [
-    //         TargetContent(
-    //           align: ContentAlign.top,
-    //           builder: (context, controller) {
-    //             return const Column(
-    //               mainAxisSize: MainAxisSize.min,
-    //               crossAxisAlignment: CrossAxisAlignment.start,
-    //               children: <Widget>[
-    //                 Text(
-    //                   "App Profile and Donation detail",
-    //                   style: TextStyle(
-    //                     color: Colors.white,
-    //                   ),
-    //                 ),
-    //               ],
-    //             );
-    //           },
-    //         ),
-    //       ],
-    //     ),
-    //   );
-    //   targets.add(
-    //     TargetFocus(
-    //       // identify: "keyBottomNavigation2",
-    //       keyTarget: navigationKeys[2],
-    //       alignSkip: Alignment.topRight,
-    //       contents: [
-    //         TargetContent(
-    //           align: ContentAlign.top,
-    //           builder: (context, controller) {
-    //             return const Column(
-    //               mainAxisSize: MainAxisSize.min,
-    //               crossAxisAlignment: CrossAxisAlignment.start,
-    //               children: <Widget>[
-    //                 Text(
-    //                   "For multiple Donation at a time",
-    //                   style: TextStyle(
-    //                     color: Colors.white,
-    //                   ),
-    //                 ),
-    //               ],
-    //             );
-    //           },
-    //         ),
-    //       ],
-    //     ),
-    //   );
-
-    // targets.add(
-    //   TargetFocus(
-    //     identify: "Target 1",
-    //     keyTarget: navigationKeys[2],
-    //     color: Colors.purple,
-    //     contents: [
-    //       TargetContent(
-    //         align: ContentAlign.bottom,
-    //         builder: (context, controller) {
-    //           return Column(
-    //             mainAxisSize: MainAxisSize.min,
-    //             crossAxisAlignment: CrossAxisAlignment.start,
-    //             children: <Widget>[
-    //               const Text(
-    //                 "Two Types of Donation You Perform",
-    //                 style: TextStyle(
-    //                   fontWeight: FontWeight.bold,
-    //                   color: Colors.white,
-    //                   fontSize: 20.0,
-    //                 ),
-    //               ),
-    //               const Padding(
-    //                 padding: EdgeInsets.only(top: 10.0),
-    //                 child: Column(
-    //                   children: [
-    //                     Text(
-    //                       "1.Group Donation",
-    //                       style: TextStyle(color: Colors.white),
-    //                     ),
-    //                     Text(
-    //                       "2.Individual Donation",
-    //                       style: TextStyle(color: Colors.white),
-    //                     ),
-    //                   ],
-    //                 ),
-    //               ),
-    //               ElevatedButton(
-    //                 onPressed: () {
-    //                   controller.previous();
-    //                 },
-    //                 child: const Icon(Icons.chevron_left),
-    //               ),
-    //             ],
-    //           );
-    //         },
-    //       )
-    //     ],
-    //     shape: ShapeLightFocus.RRect,
-    //     radius: 5,
-    //   ),
-    // );
     targets.add(
       TargetFocus(
         // identify: "Target 2",
-        keyTarget: keyButton,
+        keyTarget: navigationButton,
         contents: [
           TargetContent(
             align: ContentAlign.top,
@@ -597,60 +473,65 @@ Future<void> _checkAndShowTutorial() async {
         shape: ShapeLightFocus.RRect,
       ),
     );
-    // }
-    targets.add(
-      TargetFocus(
-        // identify: "Target 1",
-        keyTarget: keyButton5,
-        color: Colors.purple,
-        contents: [
-          TargetContent(
-            align: ContentAlign.top,
-            builder: (context, controller) {
-              return Column(
-                // mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const Text(
-                    "Two Types of Donation You Perform",
-                    style: TextStyle(
+    targets.add(TargetFocus(
+      identify: "Target 3",
+      keyTarget: navigationButton3,
+      contents: [
+        TargetContent(
+            align: ContentAlign.right,
+            child: const Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Title lorem ipsum",
+                  style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
-                      fontSize: 20.0,
-                    ),
+                      fontSize: 20.0),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 10.0),
+                  child: Text(
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                    style: TextStyle(color: Colors.white),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 10.0),
-                    child: Column(
-                      children: [
-                        Text(
-                          "1.Group Donation",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        Text(
-                          "2.Individual Donation",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ],
-                    ),
+                )
+              ],
+            ))
+      ],
+      shape: ShapeLightFocus.RRect,
+    ));
+        targets.add(TargetFocus(
+      identify: "Target 3",
+      keyTarget: navigationButton2,
+      contents: [
+        TargetContent(
+            align: ContentAlign.right,
+            child: const Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Title lorem ipsum",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 20.0),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 10.0),
+                  child: Text(
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                    style: TextStyle(color: Colors.white),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // keyButton1;
-                      // controller.previous();
-                    },
-                    child: const Icon(Icons.chevron_left),
-                  ),
-                ],
-              );
-            },
-          )
-        ],
-        shape: ShapeLightFocus.RRect,
-        radius: 5,
-      ),
-    );
+                )
+              ],
+            ))
+      ],
+      shape: ShapeLightFocus.RRect,
+    ));
     return targets;
   }
+
 }

@@ -47,7 +47,7 @@ class _DonationHistoryState extends State<DonationHistory>
 
     final response = await http.get(
       Uri.parse(
-          "http://127.0.0.1:8000/data/donation-history/$donorId/$donorName/"),
+          "https://sadqahzakaat.com/data/donation-history/$donorId/$donorName/"),
     );
 
     if (response.statusCode == 200) {
@@ -227,6 +227,11 @@ class _DonationHistoryState extends State<DonationHistory>
             isSadqah: donation.isSadqah,
             dateTime: donation.dateTime,
             paymentStatus: donation.status,
+            age: donation.age,
+            gender: donation.gender,
+            headingcategory: donation.headingcategory,
+            selectcategory: donation.selectcategory,
+            quantity: donation.quantity,
           );
         },
       );

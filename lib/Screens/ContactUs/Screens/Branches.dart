@@ -95,7 +95,18 @@ class _BranchScreenState extends State<BranchScreen>
         //   icon: const Icon(Icons.arrow_back),
         // ),
         title: const Text("Kuwait Branches"),
-        backgroundColor: Colors.green,
+       flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF33A248),
+                Color(0xFFB2EA50),
+              ],
+              begin: Alignment.topRight,
+              end: Alignment.topLeft,
+            ),
+          ),
+        ),
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Colors.white,

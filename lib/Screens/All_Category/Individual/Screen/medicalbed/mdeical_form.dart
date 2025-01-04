@@ -18,9 +18,9 @@ class _MedicalFormState extends State<MedicalForm> {
   final TextEditingController _addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final List<Map<String, dynamic>> donationOptionsmeal = [
-    {'title': 'Standing Wheelchair', 'price': 1000},
-    {'title': 'Lightweight Wheelchair', 'price': 5000},
-    {'title': 'Electric WheelChair', 'price': 10000},
+    {'title': 'Simple Bed', 'price': 5000},
+    {'title': 'Medicated Bed', 'price': 10000},
+    {'title': 'Electric Bed', 'price': 15000},
   ];
   Map<String, dynamic>? selectedDonation;
   // String? _selectedDonationOption;

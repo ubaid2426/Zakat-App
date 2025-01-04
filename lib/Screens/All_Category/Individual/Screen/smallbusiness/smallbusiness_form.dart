@@ -18,9 +18,9 @@ class _SmallbusinessFormState extends State<SmallbusinessForm> {
   final TextEditingController _addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final List<Map<String, dynamic>> donationOptionsmeal = [
-    {'title': 'Standing Wheelchair', 'price': 1000},
-    {'title': 'Lightweight Wheelchair', 'price': 5000},
-    {'title': 'Electric WheelChair', 'price': 10000},
+    {'title': 'Mini Stall', 'price': 5000},
+    {'title': 'Rickshaw', 'price': 10000},
+    {'title': 'HomeMade Food', 'price': 10000},
   ];
   Map<String, dynamic>? selectedDonation;
   // String? _selectedDonationOption;

@@ -1,16 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 import 'package:http/http.dart' as http;
 
 class WidowFamilyForm extends StatefulWidget {
-  final String selectedCategory;
-
-  const WidowFamilyForm({
-    super.key,
-    required this.selectedCategory,
-  });
+  const WidowFamilyForm({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -18,51 +12,55 @@ class WidowFamilyForm extends StatefulWidget {
 }
 
 class _WidowFamilyFormState extends State<WidowFamilyForm> {
-    final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _bloodtypeController = TextEditingController();
-  final TextEditingController _distanceController = TextEditingController();
-  final TextEditingController _timerequiredController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
+  final List<Map<String, dynamic>> donationOptionsmeal = [
+    {'title': 'Kid', 'price': 1000},
+    {'title': 'Adult', 'price': 2500},
+    {'title': 'Young', 'price': 3500},
+  ];
+  final Map<String, double> _donationOptions = {
+    'Monthly (100 PKR)': 100.0,
+    'Yearly (~100 PKR/month)': 100.0,
+    'Lifetime (~100 PKR/month)': 100.0,
+  };
+  Map<String, dynamic>? selectedDonation;
+  String? _selectedDonationOption;
+  String? donationtitle;
   Future<void> _submitForm() async {
-double? distance = double.tryParse(_distanceController.text);
-double? quantity = double.tryParse(widget.selectedCategory);
     if (_formKey.currentState!.validate()) {
       // Gather data from form fields
       final data = {
         "name": _nameController.text,
         "contact_number": _phoneController.text,
-        "blood_type": _bloodtypeController.text,
-        "distance_km": distance,
-        "time_required": _timerequiredController.text,
-        "quantity": quantity,
+        "address": _addressController.text,
+        "donation_type": _selectedDonationOption,
+        "amount": _donationOptions[_selectedDonationOption],
       };
 
       try {
-        print(data);
+        print(data); // For debugging
         // Send the POST request
         final response = await http.post(
-          Uri.parse('https://sadqahzakaat.com/data/blood-requests/'),
+          Uri.parse('YOUR_API_URL_HERE'), // Replace with your API endpoint
           headers: {"Content-Type": "application/json"},
           body: jsonEncode(data),
         );
 
         // Check the response status
         if (response.statusCode == 201) {
-          // Successfully created
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
                 content: Text('Donation request submitted successfully')),
           );
         } else {
-          // Handle server error
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Failed to submit: ${response.body}')),
           );
         }
       } catch (e) {
-        // Handle network or other errors
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: $e')),
         );
@@ -70,13 +68,11 @@ double? quantity = double.tryParse(widget.selectedCategory);
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Blood Donations Form'),
+        title: const Text('Widow Support Form'),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -119,52 +115,23 @@ double? quantity = double.tryParse(widget.selectedCategory);
                   keyboardType: TextInputType.phone,
                 ),
                 const SizedBox(height: 16),
-                Text(
-                  'Quantity: ${widget.selectedCategory}',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF7fc23a),
-                  ),
-                ),
-                const SizedBox(height: 16),
+                // _buildDropdown(),
+                _buildDonationDropdown(),
+
+                const SizedBox(height: 20),
                 _buildTextField(
-                  controller: _bloodtypeController,
-                  label: 'Blood Type',
-                  hint: 'E.g. AB-',
-                  icon: Icons.bloodtype,
-                  // keyboardType: TextInputType.number,
-                ),
-                const SizedBox(height: 16),
-                _buildTextField(
-                  controller: _distanceController,
-                  label: 'Distance',
-                  hint: '5.5km',
-                  icon: Icons.description,
-                  // maxLines: 4,
-                  keyboardType: TextInputType.number,
-                ),
-                const SizedBox(height: 16),
-                _buildTextField(
-                  controller: _timerequiredController,
-                  label: 'Time Required',
-                  hint: '00:15:00',
-                  icon: Icons.location_on,
-                  keyboardType: TextInputType.number,
+                  controller: _addressController,
+                  label: 'Current Address',
+                  hint: 'E.g House no, Society and City',
+                  icon: Icons.home_filled,
+                  maxLines: 3,
                 ),
                 const SizedBox(height: 20),
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 30),
                     child: ElevatedButton.icon(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Submitting form')),
-                          );
-                        }
-                        _submitForm();
-                      },
+                      onPressed: _submitForm,
                       icon: const Icon(Icons.send),
                       label: const Text('SUBMIT'),
                       style: ElevatedButton.styleFrom(
@@ -221,11 +188,93 @@ double? quantity = double.tryParse(widget.selectedCategory);
         if (value == null || value.isEmpty) {
           return 'Please enter your $label';
         }
-        if (label == 'Amount Required' && double.tryParse(value) == null) {
-          return 'Please enter a valid number';
-        }
         return null;
       },
+    );
+  }
+
+  Widget _buildDropdown() {
+    return DropdownButtonFormField<String>(
+      value: _selectedDonationOption,
+      items: _donationOptions.keys.map((String key) {
+        return DropdownMenuItem<String>(
+          value: key,
+          child: Text(key),
+        );
+      }).toList(),
+      decoration: InputDecoration(
+        labelText: 'Donation Type',
+        prefixIcon: const Icon(Icons.monetization_on, color: Color(0xFF7fc23a)),
+        filled: true,
+        fillColor: Colors.grey[100],
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: Color(0xFF7fc23a), width: 2),
+        ),
+      ),
+      onChanged: (String? value) {
+        setState(() {
+          _selectedDonationOption = value;
+        });
+      },
+      validator: (value) =>
+          value == null ? 'Please select a donation type' : null,
+    );
+  }
+
+  Widget _buildDonationDropdown() {
+    return Material(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(
+          children: [
+            const Text(
+              'Select a donation option:',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              decoration: BoxDecoration(
+                color: const Color(0xFF7fc23a),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: DropdownButton<Map<String, dynamic>>(
+                isExpanded: true,
+                hint: const Text(
+                  'Choose a donation option',
+                  style: TextStyle(fontSize: 14, color: Colors.white),
+                ),
+                value: selectedDonation,
+                items: donationOptionsmeal
+                    .map((option) => DropdownMenuItem<Map<String, dynamic>>(
+                          value: option,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(option['title']),
+                              Text('Rs ${option['price']}'),
+                            ],
+                          ),
+                        ))
+                    .toList(),
+                onChanged: (newValue) {
+                  setState(() {
+                    selectedDonation = newValue;
+                    donationtitle = selectedDonation?['title'];
+                    // updateTotalAmount();
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

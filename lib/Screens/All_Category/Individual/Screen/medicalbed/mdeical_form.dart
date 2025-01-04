@@ -5,11 +5,11 @@ import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 import 'package:http/http.dart' as http;
 
 class MedicalForm extends StatefulWidget {
-  final String selectedCategory;
+  // final String selectedCategory;
 
   const MedicalForm({
     super.key,
-    required this.selectedCategory,
+    // required this.selectedCategory,
   });
 
   @override
@@ -26,7 +26,7 @@ class _MedicalFormState extends State<MedicalForm> {
   final _formKey = GlobalKey<FormState>();
   Future<void> _submitForm() async {
 double? distance = double.tryParse(_distanceController.text);
-double? quantity = double.tryParse(widget.selectedCategory);
+// double? quantity = double.tryParse(widget.selectedCategory);
     if (_formKey.currentState!.validate()) {
       // Gather data from form fields
       final data = {
@@ -35,7 +35,7 @@ double? quantity = double.tryParse(widget.selectedCategory);
         "blood_type": _bloodtypeController.text,
         "distance_km": distance,
         "time_required": _timerequiredController.text,
-        "quantity": quantity,
+        // "quantity": quantity,
       };
 
       try {
@@ -116,15 +116,6 @@ double? quantity = double.tryParse(widget.selectedCategory);
                   hint: 'E.g. +92 3000000000',
                   icon: Icons.phone,
                   keyboardType: TextInputType.phone,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'Quantity: ${widget.selectedCategory}',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF7fc23a),
-                  ),
                 ),
                 const SizedBox(height: 16),
                 _buildTextField(

@@ -5,11 +5,11 @@ import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 import 'package:http/http.dart' as http;
 
 class AmbulanceForm extends StatefulWidget {
-  final String selectedCategory;
+  // final String selectedCategory;
 
   const AmbulanceForm({
     super.key,
-    required this.selectedCategory,
+    // required this.selectedCategory,
   });
 
   @override
@@ -26,7 +26,7 @@ class _AmbulanceFormState extends State<AmbulanceForm> {
   final _formKey = GlobalKey<FormState>(); 
   Future<void> _submitForm() async {
 double? distance = double.tryParse(_distanceController.text);
-double? quantity = double.tryParse(widget.selectedCategory);
+// double? quantity = double.tryParse(widget.selectedCategory);
     if (_formKey.currentState!.validate()) {
       // Gather data from form fields
       final data = {
@@ -35,7 +35,7 @@ double? quantity = double.tryParse(widget.selectedCategory);
         "blood_type": _bloodtypeController.text,
         "distance_km": distance,
         "time_required": _timerequiredController.text,
-        "quantity": quantity,
+        // "quantity": quantity,
       };
 
       try {
@@ -118,15 +118,6 @@ double? quantity = double.tryParse(widget.selectedCategory);
                   hint: 'E.g. +92 3000000000',
                   icon: Icons.phone,
                   keyboardType: TextInputType.phone,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'Quantity: ${widget.selectedCategory}',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF7fc23a),
-                  ),
                 ),
                 const SizedBox(height: 16),
                 _buildTextField(
@@ -229,4 +220,56 @@ double? quantity = double.tryParse(widget.selectedCategory);
       },
     );
   }
+
+  //   Widget _buildDonationDropdown() {
+  //   return Material(
+  //     color: Colors.white,
+  //     child: Padding(
+  //       padding: const EdgeInsets.symmetric(horizontal: 20.0),
+  //       child: Column(
+  //         children: [
+  //           const Text(
+  //             'Select a donation option:',
+  //             style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+  //           ),
+  //           const SizedBox(height: 10),
+  //           Container(
+  //             padding: const EdgeInsets.symmetric(horizontal: 12),
+  //             decoration: BoxDecoration(
+  //               color: const Color(0xFF7fc23a),
+  //               borderRadius: BorderRadius.circular(8),
+  //             ),
+  //             child: DropdownButton<Map<String, dynamic>>(
+  //               isExpanded: true,
+  //               hint: const Text(
+  //                 'Choose a donation option',
+  //                 style: TextStyle(fontSize: 14, color: Colors.white),
+  //               ),
+  //               value: selectedDonation,
+  //               items: widget.donationOptions!
+  //                   .map((option) => DropdownMenuItem<Map<String, dynamic>>(
+  //                         value: option,
+  //                         child: Row(
+  //                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                           children: [
+  //                             Text(option['title']),
+  //                             Text('Rs ${option['price']}'),
+  //                           ],
+  //                         ),
+  //                       ))
+  //                   .toList(),
+  //               // onChanged: (newValue) {
+  //               //   setState(() {
+  //               //     selectedDonation = newValue;
+  //               //     ageTitle = selectedDonation?['title'];
+  //               //     updateTotalAmount();
+  //               //   });
+  //               // },
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 }

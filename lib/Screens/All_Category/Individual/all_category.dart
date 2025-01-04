@@ -2,25 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-// import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/blood_donation.dart';
-// import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/clothes.dart';
-// import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/daig_donation.dart';
-// import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/donate_quran.dart';
-// import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/food_relief.dart';
-// import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/gaza.dart';
-// import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/marriage_support.dart';
-// import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/masjid_const.dart';
-// // import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/masjid_maintenance.dart';
-// // import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/meal_donation.dart';
-// import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/medical_bed.dart';
-// import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/orphan_support.dart';
-// // import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/other.dart';
-// // import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/portable_house.dart';
-// import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/small_business.dart';
-// // import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/tree_donation.dart';
-// import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/water_cooler.dart';
-// import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/wheel_chair.dart';
-// import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/widow_family.dart';
+import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/masjidConst/masjid_form.dart';
+import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/medicalbed/mdeical_form.dart';
+import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/orphanSupport/orphan_form.dart';
+import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/smallbusiness/smallbusiness_form.dart';
+import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/watercooler/watercooler_form.dart';
+import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/wheelchair/wheelchair_form.dart';
+import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/widowfamily/widowfamily_form.dart';
 import 'package:sadqahzakat/model/all_category.dart';
 
 class AllCategoryIndividual extends StatelessWidget {
@@ -33,13 +21,13 @@ class AllCategoryIndividual extends StatelessWidget {
 
     return MaterialApp(
       routes: {
-        // '/WidowFamily': (context) => const WidowFamily(),
-        // '/SmallBusinessSetup': (context) => const SmallBusiness(),
-        // '/MedicalBed': (context) => const MedicalBed(),
-        // '/WheelChair': (context) => const WheelChair(),
-        // '/OrphanSupport': (context) => const OrphanSupport(),
-        // '/WaterCooler': (context) => const WaterCooler(),
-        // '/MasjidConst': (context) => const MasjidConst(),
+        '/WidowFamily1': (context) => const WidowFamilyForm(),
+        '/SmallBusinessSetup': (context) => const SmallBusinessForm(),
+        '/MedicalBed': (context) => const MedicalForm(),
+        '/WheelChair': (context) => const WheelChairForm(),
+        '/OrphanSupport': (context) => const OrphanForm(),
+        '/WaterCooler': (context) => const WaterCoolerForm(),
+        '/MasjidConst': (context) => const MasjidForm(),
         
       },
       debugShowCheckedModeBanner: false,

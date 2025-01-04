@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_text/flutter_expandable_text.dart';
+// import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class WidowFamilyForm extends StatefulWidget {
@@ -17,17 +18,12 @@ class _WidowFamilyFormState extends State<WidowFamilyForm> {
   final TextEditingController _addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final List<Map<String, dynamic>> donationOptionsmeal = [
-    {'title': 'Kid', 'price': 1000},
-    {'title': 'Adult', 'price': 2500},
-    {'title': 'Young', 'price': 3500},
+    {'title': 'Monthly', 'price': 1000},
+    {'title': 'Yearly include all dues /per month', 'price': 1000},
+    {'title': 'LifeTime include all dues /per month', 'price': 1000},
   ];
-  final Map<String, double> _donationOptions = {
-    'Monthly (100 PKR)': 100.0,
-    'Yearly (~100 PKR/month)': 100.0,
-    'Lifetime (~100 PKR/month)': 100.0,
-  };
   Map<String, dynamic>? selectedDonation;
-  String? _selectedDonationOption;
+  // String? _selectedDonationOption;
   String? donationtitle;
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
@@ -36,8 +32,8 @@ class _WidowFamilyFormState extends State<WidowFamilyForm> {
         "name": _nameController.text,
         "contact_number": _phoneController.text,
         "address": _addressController.text,
-        "donation_type": _selectedDonationOption,
-        "amount": _donationOptions[_selectedDonationOption],
+        // "donation_type": _selectedDonationOption,
+        "donationtitle": donationtitle,
       };
 
       try {
@@ -193,38 +189,6 @@ class _WidowFamilyFormState extends State<WidowFamilyForm> {
     );
   }
 
-  Widget _buildDropdown() {
-    return DropdownButtonFormField<String>(
-      value: _selectedDonationOption,
-      items: _donationOptions.keys.map((String key) {
-        return DropdownMenuItem<String>(
-          value: key,
-          child: Text(key),
-        );
-      }).toList(),
-      decoration: InputDecoration(
-        labelText: 'Donation Type',
-        prefixIcon: const Icon(Icons.monetization_on, color: Color(0xFF7fc23a)),
-        filled: true,
-        fillColor: Colors.grey[100],
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF7fc23a), width: 2),
-        ),
-      ),
-      onChanged: (String? value) {
-        setState(() {
-          _selectedDonationOption = value;
-        });
-      },
-      validator: (value) =>
-          value == null ? 'Please select a donation type' : null,
-    );
-  }
 
   Widget _buildDonationDropdown() {
     return Material(
@@ -257,8 +221,8 @@ class _WidowFamilyFormState extends State<WidowFamilyForm> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(option['title']),
-                              Text('Rs ${option['price']}'),
+                              Text(option['title'], style: TextStyle(fontSize: 13),),
+                              Text('Rs ~ ${option['price']}'),
                             ],
                           ),
                         ))

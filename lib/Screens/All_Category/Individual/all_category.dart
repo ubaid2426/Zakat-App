@@ -22,12 +22,12 @@ class AllCategoryIndividual extends StatelessWidget {
     return MaterialApp(
       routes: {
         '/WidowFamily1': (context) => const WidowFamilyForm(),
-        '/SmallBusinessSetup': (context) => const SmallBusinessForm(),
-        '/MedicalBed': (context) => const MedicalForm(),
-        '/WheelChair': (context) => const WheelChairForm(),
-        '/OrphanSupport': (context) => const OrphanForm(),
-        '/WaterCooler': (context) => const WaterCoolerForm(),
-        '/MasjidConst': (context) => const MasjidForm(),
+        '/SmallBusinessSetup1': (context) => const SmallbusinessForm(),
+        '/MedicalBed1': (context) => const MedicalForm(),
+        '/WheelChair1': (context) => const WheelchairForm(),
+        '/OrphanSupport1': (context) => const OrphanForm(),
+        '/WaterCooler1': (context) => const WaterCoolerForm(),
+        '/MasjidConst1': (context) => const MasjidForm(),
         
       },
       debugShowCheckedModeBanner: false,

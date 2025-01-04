@@ -24,9 +24,6 @@ class _MedicalFormState extends State<MedicalForm> {
   final TextEditingController _distanceController = TextEditingController();
   final TextEditingController _timerequiredController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
-
   Future<void> _submitForm() async {
 double? distance = double.tryParse(_distanceController.text);
 double? quantity = double.tryParse(widget.selectedCategory);

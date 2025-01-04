@@ -23,10 +23,7 @@ class _AmbulanceFormState extends State<AmbulanceForm> {
   final TextEditingController _bloodtypeController = TextEditingController();
   final TextEditingController _distanceController = TextEditingController();
   final TextEditingController _timerequiredController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
-
+  final _formKey = GlobalKey<FormState>(); 
   Future<void> _submitForm() async {
 double? distance = double.tryParse(_distanceController.text);
 double? quantity = double.tryParse(widget.selectedCategory);
@@ -53,12 +50,14 @@ double? quantity = double.tryParse(widget.selectedCategory);
         // Check the response status
         if (response.statusCode == 201) {
           // Successfully created
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
                 content: Text('Donation request submitted successfully')),
           );
         } else {
           // Handle server error
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Failed to submit: ${response.body}')),
           );

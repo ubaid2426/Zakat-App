@@ -42,7 +42,7 @@ class _OrphanFormState extends State<OrphanForm> {
         print(data); // For debugging
         // Send the POST request
         final response = await http.post(
-          Uri.parse('YOUR_API_URL_HERE'), // Replace with your API endpoint
+          Uri.parse('http://127.0.0.1:8000/data/donations/'), // Replace with your API endpoint
           headers: {"Content-Type": "application/json"},
           body: jsonEncode(data),
         );
@@ -235,6 +235,7 @@ class _OrphanFormState extends State<OrphanForm> {
                   setState(() {
                     selectedDonation = newValue;
                     donationtitle = selectedDonation?['title'];
+                    amount = selectedDonation?['price']?.toDouble();
                     // updateTotalAmount();
                   });
                 },

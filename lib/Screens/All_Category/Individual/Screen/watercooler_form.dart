@@ -19,12 +19,17 @@ class _WaterCoolerFormState extends State<WaterCoolerForm> {
   final _formKey = GlobalKey<FormState>();
   final List<Map<String, dynamic>> donationOptionsmeal = [
     {'title': 'Electric Water Cooler', 'price': 10000},
-    {'title': 'Cooler(~10000) and include all \n dues Lifetime (~5000) /per month', 'price': 15000},
+    {
+      'title':
+          'Cooler(~10000) and include all \n dues Lifetime (~5000) /per month',
+      'price': 15000
+    },
     // {'title': 'LifeTime include all dues /per month', 'price': 1000},
   ];
   Map<String, dynamic>? selectedDonation;
   // String? _selectedDonationOption;
   String? donationtitle;
+  double? amount;
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       // Gather data from form fields
@@ -33,7 +38,8 @@ class _WaterCoolerFormState extends State<WaterCoolerForm> {
         "contact_number": _phoneController.text,
         "address": _addressController.text,
         // "donation_type": _selectedDonationOption,
-        "donationtitle": donationtitle,
+        "donation_type": donationtitle,
+        'amount':amount,
       };
 
       try {
@@ -189,7 +195,6 @@ class _WaterCoolerFormState extends State<WaterCoolerForm> {
     );
   }
 
-
   Widget _buildDonationDropdown() {
     return Material(
       color: Colors.white,
@@ -221,7 +226,10 @@ class _WaterCoolerFormState extends State<WaterCoolerForm> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(option['title'], style: const TextStyle(fontSize: 13),),
+                              Text(
+                                option['title'],
+                                style: const TextStyle(fontSize: 13),
+                              ),
                               Text('Rs ~ ${option['price']}'),
                             ],
                           ),

@@ -33,8 +33,6 @@ class _SmallbusinessFormState extends State<SmallbusinessForm> {
         "name": _nameController.text,
         "contact_number": _phoneController.text,
         "address": _addressController.text,
-        // "donation_type": _selectedDonationOption,
-
         "donation_type": donationtitle,
         'amount': amount
       };

@@ -4,27 +4,28 @@ import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 // import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-class WidowFamilyForm extends StatefulWidget {
-  const WidowFamilyForm({super.key});
+class MedicalForm extends StatefulWidget {
+  const MedicalForm({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _WidowFamilyFormState createState() => _WidowFamilyFormState();
+  _MedicalFormState createState() => _MedicalFormState();
 }
 
-class _WidowFamilyFormState extends State<WidowFamilyForm> {
+class _MedicalFormState extends State<MedicalForm> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final List<Map<String, dynamic>> donationOptionsmeal = [
-    {'title': 'Monthly', 'price': 1000},
-    {'title': 'Yearly include all dues /per month', 'price': 1000},
-    {'title': 'LifeTime include all dues /per month', 'price': 1000},
+    {'title': 'Simple Bed', 'price': 5000},
+    {'title': 'Medicated Bed', 'price': 10000},
+    {'title': 'Electric Bed', 'price': 15000},
   ];
   Map<String, dynamic>? selectedDonation;
   // String? _selectedDonationOption;
   String? donationtitle;
+  double? amount;
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       // Gather data from form fields
@@ -33,7 +34,8 @@ class _WidowFamilyFormState extends State<WidowFamilyForm> {
         "contact_number": _phoneController.text,
         "address": _addressController.text,
         // "donation_type": _selectedDonationOption,
-        "donationtitle": donationtitle,
+        "donation_type": donationtitle,
+        'amount':amount,
       };
 
       try {
@@ -68,7 +70,7 @@ class _WidowFamilyFormState extends State<WidowFamilyForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Widow Support Form'),
+        title: const Text('Medical Bed Form'),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -189,7 +191,6 @@ class _WidowFamilyFormState extends State<WidowFamilyForm> {
     );
   }
 
-
   Widget _buildDonationDropdown() {
     return Material(
       color: Colors.white,
@@ -221,7 +222,10 @@ class _WidowFamilyFormState extends State<WidowFamilyForm> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(option['title'], style: TextStyle(fontSize: 13),),
+                              Text(
+                                option['title'],
+                                style: TextStyle(fontSize: 13),
+                              ),
                               Text('Rs ~ ${option['price']}'),
                             ],
                           ),

@@ -4,43 +4,44 @@ import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 // import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-class WheelchairForm extends StatefulWidget {
-  const WheelchairForm({super.key});
+class WidowFamilyForm extends StatefulWidget {
+  const WidowFamilyForm({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _WheelchairFormState createState() => _WheelchairFormState();
+  _WidowFamilyFormState createState() => _WidowFamilyFormState();
 }
 
-class _WheelchairFormState extends State<WheelchairForm> {
+class _WidowFamilyFormState extends State<WidowFamilyForm> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final List<Map<String, dynamic>> donationOptionsmeal = [
-    {'title': 'Standing Wheelchair', 'price': 1000},
-    {'title': 'Lightweight Wheelchair', 'price': 5000},
-    {'title': 'Electric WheelChair', 'price': 10000},
+    {'title': 'Monthly', 'price': 1000},
+    {'title': 'Yearly include all dues /per month', 'price': 1000},
+    {'title': 'LifeTime include all dues /per month', 'price': 1000},
   ];
   Map<String, dynamic>? selectedDonation;
   // String? _selectedDonationOption;
   String? donationtitle;
+  double? amount;
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       // Gather data from form fields
       final data = {
         "name": _nameController.text,
         "contact_number": _phoneController.text,
-        "address": _addressController.text,
-        // "donation_type": _selectedDonationOption,
-        "donationtitle": donationtitle,
+        "current_location": _addressController.text,
+        "donation_type": donationtitle,
+        "amount": amount,
       };
 
       try {
         print(data); // For debugging
         // Send the POST request
         final response = await http.post(
-          Uri.parse('YOUR_API_URL_HERE'), // Replace with your API endpoint
+          Uri.parse('http://127.0.0.1:8000/data/donations/'), // Replace with your API endpoint
           headers: {"Content-Type": "application/json"},
           body: jsonEncode(data),
         );
@@ -68,7 +69,7 @@ class _WheelchairFormState extends State<WheelchairForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Widow Support Form'),
+        title: const Text('WidowFamily Support Form'),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -189,7 +190,6 @@ class _WheelchairFormState extends State<WheelchairForm> {
     );
   }
 
-
   Widget _buildDonationDropdown() {
     return Material(
       color: Colors.white,
@@ -221,7 +221,10 @@ class _WheelchairFormState extends State<WheelchairForm> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(option['title'], style: TextStyle(fontSize: 13),),
+                              Text(
+                                option['title'],
+                                style: const TextStyle(fontSize: 13),
+                              ),
                               Text('Rs ~ ${option['price']}'),
                             ],
                           ),
@@ -231,6 +234,7 @@ class _WheelchairFormState extends State<WheelchairForm> {
                   setState(() {
                     selectedDonation = newValue;
                     donationtitle = selectedDonation?['title'];
+                    amount = selectedDonation?['price']?.toDouble();
                     // updateTotalAmount();
                   });
                 },

@@ -4,23 +4,23 @@ import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 // import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-class MasjidConstForm extends StatefulWidget {
-  const MasjidConstForm({super.key});
+class WaterCoolerForm extends StatefulWidget {
+  const WaterCoolerForm({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _MasjidConstFormState createState() => _MasjidConstFormState();
+  _WaterCoolerFormState createState() => _WaterCoolerFormState();
 }
 
-class _MasjidConstFormState extends State<MasjidConstForm> {
+class _WaterCoolerFormState extends State<WaterCoolerForm> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final List<Map<String, dynamic>> donationOptionsmeal = [
-    {'title': 'You will give land', 'price': 0},
-    {'title': 'You contribute in Constuction \n like (Bricks, Marble, cement, Electric Equipment etc)', 'price': 0},
-    // {'title': 'Electric WheelChair', 'price': 10000},
+    {'title': 'Electric Water Cooler', 'price': 10000},
+    {'title': 'Cooler(~10000) and include all \n dues Lifetime (~5000) /per month', 'price': 15000},
+    // {'title': 'LifeTime include all dues /per month', 'price': 1000},
   ];
   Map<String, dynamic>? selectedDonation;
   // String? _selectedDonationOption;
@@ -68,7 +68,7 @@ class _MasjidConstFormState extends State<MasjidConstForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Widow Support Form'),
+        title: const Text('Water Cooler Form'),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -221,7 +221,7 @@ class _MasjidConstFormState extends State<MasjidConstForm> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(option['title'], style: TextStyle(fontSize: 13),),
+                              Text(option['title'], style: const TextStyle(fontSize: 13),),
                               Text('Rs ~ ${option['price']}'),
                             ],
                           ),

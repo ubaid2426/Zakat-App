@@ -4,27 +4,28 @@ import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 // import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-class OrphanForm extends StatefulWidget {
-  const OrphanForm({super.key});
+class AmbulanceForm extends StatefulWidget {
+  const AmbulanceForm({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _OrphanFormState createState() => _OrphanFormState();
+  _AmbulanceFormState createState() => _AmbulanceFormState();
 }
 
-class _OrphanFormState extends State<OrphanForm> {
+class _AmbulanceFormState extends State<AmbulanceForm> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final List<Map<String, dynamic>> donationOptionsmeal = [
-    {'title': 'Monthly', 'price': 1000},
-    {'title': 'Yearly include all dues /per month', 'price': 1000},
-    {'title': 'LifeTime include all dues /per month', 'price': 1000},
+    {'title': 'Basic Life Support ambulance', 'price': 50000},
+    {'title': 'Advanced Life Support ambulance', 'price': 100000},
+    // {'title': 'Electric WheelChair', 'price': 10000},
   ];
   Map<String, dynamic>? selectedDonation;
   // String? _selectedDonationOption;
   String? donationtitle;
+  double? amount;
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       // Gather data from form fields
@@ -33,7 +34,8 @@ class _OrphanFormState extends State<OrphanForm> {
         "contact_number": _phoneController.text,
         "address": _addressController.text,
         // "donation_type": _selectedDonationOption,
-        "donationtitle": donationtitle,
+        "donation_type": donationtitle,
+        'amount':amount,
       };
 
       try {
@@ -68,7 +70,7 @@ class _OrphanFormState extends State<OrphanForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Widow Support Form'),
+        title: const Text('Ambulance Form'),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(

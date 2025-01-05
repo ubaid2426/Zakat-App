@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/masjidConst/masjid_form.dart';
-import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/medicalbed/mdeical_form.dart';
-import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/orphanSupport/orphan_form.dart';
-import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/smallbusiness/smallbusiness_form.dart';
-import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/watercooler/watercooler_form.dart';
-import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/wheelchair/wheelchair_form.dart';
-import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/widowfamily/widowfamily_form.dart';
+import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/ambulance_form.dart';
+import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/masjid_form.dart';
+import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/mdeical_form.dart';
+import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/orphan_form.dart';
+import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/smallbusiness_form.dart';
+import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/watercooler_form.dart';
+import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/wheelchair_form.dart';
+import 'package:sadqahzakat/Screens/All_Category/Individual/Screen/widowfamily_form.dart';
 import 'package:sadqahzakat/model/all_category.dart';
 
 class AllCategoryIndividual extends StatelessWidget {
@@ -27,7 +28,8 @@ class AllCategoryIndividual extends StatelessWidget {
         '/WheelChair1': (context) => const WheelchairForm(),
         '/OrphanSupport1': (context) => const OrphanForm(),
         '/WaterCooler1': (context) => const WaterCoolerForm(),
-        '/MasjidConst1': (context) => const MasjidForm(),
+        '/MasjidConst1': (context) => const MasjidConstForm(),
+        '/Ambulance1': (context) => const AmbulanceForm(),
         
       },
       debugShowCheckedModeBanner: false,

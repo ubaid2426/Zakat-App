@@ -942,77 +942,7 @@ class _ReelsSectionState extends State<ReelsSection>
       await file.delete();
     }
   }
-// Future<void> _generateThumbnails() async {
-//   final plugin = FcNativeVideoThumbnail();
 
-//   thumbnails = await Future.wait(videoData.map((video) async {
-//     final thumbnailPath =
-//         '${videoDirectory.path}/thumbnail_${video['url'].split('/').last}.png';
-
-//     // Check if the thumbnail already exists
-//     if (File(thumbnailPath).existsSync()) {
-//       return thumbnailPath;
-//     }
-
-//     try {
-//       // Generate thumbnail using FcNativeVideoThumbnail
-//       final generatedThumbnail = await plugin.getVideoThumbnail(
-//         srcFile: "http://127.0.0.1:8000${video['url']}", // Full network URL
-//         destFile: thumbnailPath, // Path to save the thumbnail
-//         width: 250, // Thumbnail width
-//         height: 250, // Thumbnail height
-//         quality: 75, // Thumbnail quality
-//       );
-
-//       if (generatedThumbnail == false) {
-//         print("Thumbnail generation failed for: ${video['url']}");
-//         return null;
-//       }
-
-//       return generatedThumbnail ? thumbnailPath : null;
-//     } catch (e) {
-//       print("Error generating thumbnail: $e");
-//       return null;
-//     }
-//   }).toList());
-// }
-
-  // Future<void> _generateThumbnails() async {
-  //   thumbnails = await Future.wait(videoData.map((video) async {
-  //     final thumbnailPath =
-  //         '${videoDirectory.path}/thumbnail_${video['url'].split('/').last}.png';
-
-  //     // Check if the thumbnail already exists
-  //     if (File(thumbnailPath).existsSync()) {
-  //       return thumbnailPath;
-  //     }
-
-  //     try {
-  //       // print("Generating thumbnail for network video: ${video['url']}");
-
-  //       // Generate thumbnail from network video
-  //       print("http://127.0.0.1:8000${video['url']}");
-  //       final thumbnail = await VideoThumbnail.thumbnailFile(
-  //         video: "http://127.0.0.1:8000${video['url']}", // Full network URL
-  //         thumbnailPath: thumbnailPath, // Optional; will save to this path
-  //         imageFormat: ImageFormat.PNG,
-  //         maxHeight: 250,
-  //         quality: 75,
-  //       );
-
-  //       if (thumbnail != null) {
-  //         // print("Thumbnail generated: $thumbnail");
-  //         return thumbnail; // Return the generated thumbnail path
-  //       } else {
-  //         // print("Thumbnail generation failed for: ${video['url']}");
-  //         return null;
-  //       }
-  //     } catch (e) {
-  //       // print("Error generating thumbnail: $e");
-  //       return null; // Return null in case of an error
-  //     }
-  //   }).toList());
-  // }
   Future<void> _generateThumbnails() async {
     thumbnails = await Future.wait(videoData.map((video) async {
       final videoPath =

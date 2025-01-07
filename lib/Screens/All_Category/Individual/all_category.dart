@@ -46,7 +46,7 @@ class AllCategoryIndividual extends StatelessWidget {
             ),
           ),
           title: const ExpandableText(
-            "All Individual Categories",
+            "Sadqah Jaria Categories",
             style: TextStyle(
               color: Colors.black,
               fontSize: 23,

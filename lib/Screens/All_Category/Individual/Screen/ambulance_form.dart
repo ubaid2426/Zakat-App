@@ -16,6 +16,7 @@ class _AmbulanceFormState extends State<AmbulanceForm> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _optionalController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final List<Map<String, dynamic>> donationOptionsmeal = [
     {'title': 'Basic Life Support ambulance', 'price': 50000},
@@ -123,6 +124,13 @@ class _AmbulanceFormState extends State<AmbulanceForm> {
                   hint: 'E.g House no, Society and City',
                   icon: Icons.home_filled,
                   maxLines: 3,
+                ),
+                  const SizedBox(height: 20),
+                _buildTextField(
+                  controller: _optionalController,
+                  label: 'For whose sake are you giving charity?',
+                  hint: 'E.g. Shahid',
+                  icon: Icons.person,
                 ),
                 const SizedBox(height: 20),
                 Center(

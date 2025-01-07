@@ -1658,8 +1658,8 @@ class DisplayCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double height = (screenWidth < 400) ? 750 : 780;
+    // double screenWidth = MediaQuery.of(context).size.width;
+    // double height = (screenWidth < 400) ? 750 : 780;
     return Column(
       children: [
         Padding(
@@ -1668,7 +1668,7 @@ class DisplayCategory extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                "Dynamic Category",
+                "Group Category",
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -1851,7 +1851,7 @@ class StaticCategory extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Static Category",
+                "Single Category",
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

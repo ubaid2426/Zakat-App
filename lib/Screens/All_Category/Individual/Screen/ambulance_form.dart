@@ -35,7 +35,6 @@ class _AmbulanceFormState extends State<AmbulanceForm> {
         "contact_number": _phoneController.text,
         "current_location": _addressController.text,
         "optional": _optionalController.text,
-        // "donation_type": _selectedDonationOption,
         "donation_type": donationtitle,
         'amount': amount,
       };

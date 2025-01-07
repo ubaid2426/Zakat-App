@@ -152,7 +152,7 @@ class NeedCategory extends StatelessWidget {
       },
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-       backgroundColor: const Color.fromARGB(255, 238, 233, 233),
+        backgroundColor: const Color.fromARGB(255, 238, 233, 233),
         appBar: AppBar(
           flexibleSpace: Container(
             decoration: const BoxDecoration(
@@ -210,11 +210,32 @@ class _NeedCategoryGridState extends State<NeedCategoryGrid> {
     final response =
         await http.get(Uri.parse('https://sadqahzakaat.com/data/categories/'));
     if (response.statusCode == 200) {
+      _showSuccessDialog();
       List<dynamic> data = json.decode(response.body);
       return data.map((json) => AllCategoryModel.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load categories');
     }
+  }
+
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Success'),
+        content: const Text(
+            'Your donation request has been successfully uploaded. The admin will contact you as soon as possible.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override

@@ -33,23 +33,26 @@ class _AmbulanceFormState extends State<AmbulanceForm> {
       final data = {
         "name": _nameController.text,
         "contact_number": _phoneController.text,
-        "address": _addressController.text,
+        "current_location": _addressController.text,
+        "optional": _optionalController.text,
         // "donation_type": _selectedDonationOption,
         "donation_type": donationtitle,
-        'amount':amount,
+        'amount': amount,
       };
 
       try {
         print(data); // For debugging
         // Send the POST request
         final response = await http.post(
-          Uri.parse('http://127.0.0.1:8000/data/donations/'), // Replace with your API endpoint
+          Uri.parse(
+              'http://127.0.0.1:8000/data/donations/'), // Replace with your API endpoint
           headers: {"Content-Type": "application/json"},
           body: jsonEncode(data),
         );
 
         // Check the response status
         if (response.statusCode == 201) {
+          _showSuccessDialog();
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
                 content: Text('Donation request submitted successfully')),
@@ -65,6 +68,26 @@ class _AmbulanceFormState extends State<AmbulanceForm> {
         );
       }
     }
+  }
+
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Success'),
+        content: const Text(
+            'Your donation request has been successfully uploaded. The admin will contact you as soon as possible.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -125,7 +148,7 @@ class _AmbulanceFormState extends State<AmbulanceForm> {
                   icon: Icons.home_filled,
                   maxLines: 3,
                 ),
-                  const SizedBox(height: 20),
+                const SizedBox(height: 20),
                 _buildTextField(
                   controller: _optionalController,
                   label: 'For whose sake are you giving charity?',
@@ -199,7 +222,6 @@ class _AmbulanceFormState extends State<AmbulanceForm> {
     );
   }
 
-
   Widget _buildDonationDropdown() {
     return Material(
       color: Colors.white,
@@ -231,7 +253,10 @@ class _AmbulanceFormState extends State<AmbulanceForm> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(option['title'], style: TextStyle(fontSize: 13),),
+                              Text(
+                                option['title'],
+                                style: TextStyle(fontSize: 13),
+                              ),
                               Text('Rs ~ ${option['price']}'),
                             ],
                           ),

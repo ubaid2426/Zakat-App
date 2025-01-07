@@ -56,7 +56,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
     try {
       String? donorId = await storage.read(key: 'user_id');
       final response = await http.get(
-        Uri.parse('https://sadqahzakaat.com/data/donor-history/$donorId/status/'),
+        Uri.parse(
+            'https://sadqahzakaat.com/data/donor-history/$donorId/status/'),
       );
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -126,7 +127,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
       final payload = {
         "donor_name": donorName,
         "donor_id": donorId,
-        "email":Email,
+        "email": Email,
         "is_zakat": iszakatList.map((isZakat) => {"isZakat": isZakat}).toList(),
         "is_sadqah":
             issadqahList.map((isSadqah) => {"isSadqah": isSadqah}).toList(),
@@ -169,6 +170,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
 
       // Handle the response
       if (response.statusCode == 200) {
+        _showSuccessDialog();
         final responseBody = await response.stream.bytesToString();
         showMessage('Donation recorded successfully');
         return PaymentDetail.fromJson(jsonDecode(responseBody));
@@ -182,6 +184,26 @@ class _PaymentMethodState extends State<PaymentMethod> {
       showMessage('Error: $e');
     }
     return null;
+  }
+
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Success'),
+        content: const Text(
+            'Your donation has been successfully done.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   // Pick and Process Image

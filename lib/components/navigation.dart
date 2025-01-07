@@ -237,15 +237,22 @@ class _NavigationState extends State<Navigation> with TickerProviderStateMixin {
     _scrollController.dispose();
     super.dispose();
   }
+bool onScrollNotification(ScrollNotification notification) {
+  if (notification is UserScrollNotification && notification.metrics.axis == Axis.vertical) {
+    if (notification.direction == ScrollDirection.forward) {
+      if (!_isFabVisible) {
+        setState(() {
+          _isFabVisible = true;
+        });
 
-  bool onScrollNotification(ScrollNotification notification) {
-    if (notification is UserScrollNotification &&
-        notification.metrics.axis == Axis.vertical) {
-      setState(() {
-        // Hide FAB on scroll up and show on scroll down
-        _isFabVisible = notification.direction == ScrollDirection.forward;
-      });
-
+      }
+    } else if (notification.direction == ScrollDirection.reverse) {
+      if (_isFabVisible) {
+        setState(() {
+          _isFabVisible = false;
+        });
+      }
+    }
       switch (notification.direction) {
         case ScrollDirection.forward:
           _hideBottomBarAnimationController.reverse();
@@ -258,9 +265,33 @@ class _NavigationState extends State<Navigation> with TickerProviderStateMixin {
         case ScrollDirection.idle:
           break;
       }
-    }
-    return false;
   }
+  return false;
+}
+
+  // bool onScrollNotification(ScrollNotification notification) {
+  //   if (notification is UserScrollNotification &&
+  //       notification.metrics.axis == Axis.vertical) {
+  //     setState(() {
+  //       // Hide FAB on scroll up and show on scroll down
+  //       _isFabVisible = notification.direction == ScrollDirection.forward;
+  //     });
+
+  //     switch (notification.direction) {
+  //       case ScrollDirection.forward:
+  //         _hideBottomBarAnimationController.reverse();
+  //         _fabAnimationController.forward(from: 0);
+  //         break;
+  //       case ScrollDirection.reverse:
+  //         _hideBottomBarAnimationController.forward();
+  //         _fabAnimationController.reverse(from: 1);
+  //         break;
+  //       case ScrollDirection.idle:
+  //         break;
+  //     }
+  //   }
+  //   return false;
+  // }
 
   Future<void> _checkAndShowTutorial() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

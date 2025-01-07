@@ -36,105 +36,108 @@
 // //   )
 // // ];
 
-// const availableCategories = [
-//   AllCategoryModel(
-//     id: 'c1',
-//     title: 'Portable House',
-//     image: "Assests/images/AllCategory/tent.png",
-//     // image: "Assests/images/AllCategory/file.png",
-//     route: '/PortableHouse',
-//   ),
-//   AllCategoryModel(
-//     id: 'c2',
-//     title: 'Masjid Maintenance',
-//     image: "Assests/images/AllCategory/masjid.png",
-//     route: '/MasjidMaintenance',
-//   ),
-//   AllCategoryModel(
-//     id: 'c3',
-//     title: 'Marriage Support',
-//     image: "Assests/images/AllCategory/marry.png",
-//     route: '/MarriageSupport',
-//   ),
-//   AllCategoryModel(
-//     id: 'c4',
-//     title: 'Flood Relief',
-//     image: "Assests/images/AllCategory/food1.png",
-//     route: '/FloodRelief',
-//   ),
-//   AllCategoryModel(
-//     id: 'c5',
-//     title: 'Widow Family Support',
-//     image: "Assests/images/AllCategory/widow.png",
-//     route: '/WidowFamily',
-//   ),
-//   AllCategoryModel(
-//     id: 'c6',
-//     title: 'Small Business Setup',
-//     image: "Assests/images/AllCategory/smallbusiness.png",
-//     route: '/SmallBusinessSetup',
-//   ),
-//   AllCategoryModel(
-//     id: 'c7',
-//     title: 'Clothes',
-//     image: "Assests/images/AllCategory/clothes1.png",
-//     route: '/Clothes',
-//   ),
-//   AllCategoryModel(
-//     id: 'c8',
-//     title: 'Medical Bed',
-//     image: "Assests/images/AllCategory/medicalbed.png",
-//     route: '/MedicalBed',
-//   ),
-//   AllCategoryModel(
-//     id: 'c9',
-//     title: 'Wheel Chair',
-//     image: "Assests/images/AllCategory/wheelchair.png",
-//     route: '/WheelChair',
-//   ),
-//   AllCategoryModel(
-//     id: 'c10',
-//     title: 'Tree Donation',
-//     image: "Assests/images/AllCategory/tree.png",
-//     route: '/TreeDonation',
-//   ),
-//   AllCategoryModel(
-//     id: 'c11',
-//     title: 'Daig Donation',
-//     image: "Assests/images/AllCategory/dgg.png",
-//     route: '/DaigDonation',
-//   ),
-//   AllCategoryModel(
-//     id: 'c12',
-//     title: 'Meal Donation',
-//     image: "Assests/images/AllCategory/meal.png",
-//     route: '/MealDonation',
-//   ),
-//   AllCategoryModel(
-//     id: 'c13',
-//     title: 'Orphan Support',
-//     image: "Assests/images/AllCategory/orphan.png",
-//     route: '/OrphanSupport',
-//   ),
-//   AllCategoryModel(
-//     id: 'c14',
-//     title: 'Water Cooler',
-//     image: "Assests/images/AllCategory/watercooler.png",
-//     route: '/WaterCooler',
-//   ),
-//   AllCategoryModel(
-//     id: 'c15',
-//     title: 'Masjid Construction',
-//     image: "Assests/images/AllCategory/masjidcot.png",
-//     route: '/MasjidConst',
-//   ),
-//   AllCategoryModel(
-//     id: 'c16',
-//     title: 'Other',
-//     image: "Assests/images/AllCategory/other.png",
-//     route: '/Other',
-//   ),
-// ];
+import 'package:sadqahzakat/model/all_category.dart';
+import 'package:sadqahzakat/model/working_model.dart';
+
+const availableCategories = [
+  AllCategoryModel(
+    id: 'c1',
+    title: 'Portable House',
+    image: "Assests/images/AllCategory/tent.png",
+    // image: "Assests/images/AllCategory/file.png",
+    route: '/PortableHouse',
+  ),
+  AllCategoryModel(
+    id: 'c2',
+    title: 'Masjid Maintenance',
+    image: "Assests/images/AllCategory/masjid.png",
+    route: '/MasjidMaintenance',
+  ),
+  AllCategoryModel(
+    id: 'c3',
+    title: 'Marriage Support',
+    image: "Assests/images/AllCategory/marry.png",
+    route: '/MarriageSupport',
+  ),
+  AllCategoryModel(
+    id: 'c4',
+    title: 'Flood Relief',
+    image: "Assests/images/AllCategory/food1.png",
+    route: '/FloodRelief',
+  ),
+  AllCategoryModel(
+    id: 'c5',
+    title: 'Widow Family Support',
+    image: "Assests/images/AllCategory/widow.png",
+    route: '/WidowFamily',
+  ),
+  AllCategoryModel(
+    id: 'c6',
+    title: 'Small Business Setup',
+    image: "Assests/images/AllCategory/smallbusiness.png",
+    route: '/SmallBusinessSetup',
+  ),
+  AllCategoryModel(
+    id: 'c7',
+    title: 'Clothes',
+    image: "Assests/images/AllCategory/clothes1.png",
+    route: '/Clothes',
+  ),
+  AllCategoryModel(
+    id: 'c8',
+    title: 'Medical Bed',
+    image: "Assests/images/AllCategory/medicalbed.png",
+    route: '/MedicalBed',
+  ),
+  AllCategoryModel(
+    id: 'c9',
+    title: 'Wheel Chair',
+    image: "Assests/images/AllCategory/wheelchair.png",
+    route: '/WheelChair',
+  ),
+  AllCategoryModel(
+    id: 'c10',
+    title: 'Tree Donation',
+    image: "Assests/images/AllCategory/tree.png",
+    route: '/TreeDonation',
+  ),
+  AllCategoryModel(
+    id: 'c11',
+    title: 'Daig Donation',
+    image: "Assests/images/AllCategory/dgg.png",
+    route: '/DaigDonation',
+  ),
+  AllCategoryModel(
+    id: 'c12',
+    title: 'Meal Donation',
+    image: "Assests/images/AllCategory/meal.png",
+    route: '/MealDonation',
+  ),
+  AllCategoryModel(
+    id: 'c13',
+    title: 'Orphan Support',
+    image: "Assests/images/AllCategory/orphan.png",
+    route: '/OrphanSupport',
+  ),
+  AllCategoryModel(
+    id: 'c14',
+    title: 'Water Cooler',
+    image: "Assests/images/AllCategory/watercooler.png",
+    route: '/WaterCooler',
+  ),
+  AllCategoryModel(
+    id: 'c15',
+    title: 'Masjid Construction',
+    image: "Assests/images/AllCategory/masjidcot.png",
+    route: '/MasjidConst',
+  ),
+  AllCategoryModel(
+    id: 'c16',
+    title: 'Other',
+    image: "Assests/images/AllCategory/other.png",
+    route: '/Other',
+  ),
+];
 
 // // const daigcatogories = [
 // //    DonateModel(
@@ -414,7 +417,8 @@
 
 
 
-    import 'package:sadqahzakat/model/working_model.dart';
+//     import 'package:sadqahzakat/model/all_category.dart';
+// import 'package:sadqahzakat/model/working_model.dart';
 
 final List<WorkingHoursModel> workingHoursData = [
   const WorkingHoursModel(

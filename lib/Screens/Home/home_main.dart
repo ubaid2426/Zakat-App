@@ -45,6 +45,7 @@ import 'package:sadqahzakat/components/custom_button.dart';
 // import 'package:sadqahzakat/components/help_child.dart';
 // import 'package:sadqahzakat/components/homeScreen_carousel.dart';
 import 'package:sadqahzakat/components/upcoming_project.dart';
+import 'package:sadqahzakat/core/app_dummy.dart';
 import 'package:sadqahzakat/model/all_category.dart';
 import 'package:sadqahzakat/model/complete_project.dart';
 import 'package:sadqahzakat/model/doantion_model.dart';
@@ -1702,6 +1703,40 @@ class DisplayCategory extends StatelessWidget {
   }
 }
 
+// class CategoryGrid extends StatelessWidget {
+//   const CategoryGrid({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     double screenWidth = MediaQuery.of(context).size.width;
+//     int crossAxisCount = (screenWidth < 600)
+//         ? 3
+//         : (screenWidth < 900)
+//             ? 4
+//             : 5;
+
+//     return Padding(
+//       padding: const EdgeInsets.all(16.0),
+//       child: GridView.builder(
+//         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//           crossAxisCount: crossAxisCount,
+//           crossAxisSpacing: 10,
+//           mainAxisSpacing: 10,
+//         ),
+//         itemCount: availableCategories.length,
+//         itemBuilder: (context, index) {
+//           final category = availableCategories[index];
+//           return CategoryTile(
+//             category: category,
+//             onSelectCategory: () {
+//               Navigator.pushNamed(context, category.route);
+//             },
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
 class CategoryGrid extends StatefulWidget {
   const CategoryGrid({super.key});
 

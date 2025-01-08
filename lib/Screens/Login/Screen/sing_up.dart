@@ -30,6 +30,7 @@ class _SignupState extends State<Signup> {
   String message = '';
   Future<void> _registerUser(String name, String email, String password, String nationality, String whatsapp, String residense, String phonenumber) async {
     var url = Uri.parse(
+        // 'https://sadqahzakaat.com/api/auth/users/'); // Replace with your IP
         'https://sadqahzakaat.com/api/auth/users/'); // Replace with your IP
 
     // Construct the payload

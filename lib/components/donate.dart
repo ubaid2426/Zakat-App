@@ -70,7 +70,7 @@ class _DataState extends State<Data> {
       builder: (context) => AlertDialog(
         title: const Text('Success'),
         content: const Text(
-            'Please log in to access and submit the donation request form.'),
+            'Please log in to access the form and help those in need.'),
         actions: [
           TextButton(
             onPressed: () {

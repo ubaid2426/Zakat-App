@@ -16,6 +16,7 @@ class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _LoginPageState createState() => _LoginPageState();
 }
 
@@ -31,7 +32,8 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     try {
-      var url = Uri.parse('https://sadqahzakaat.com/api/auth/users/me/');
+      // var url = Uri.parse('https://sadqahzakaat.com/api/auth/users/me/');
+      var url = Uri.parse('http://127.0.0.1:8000/api/auth/users/me/');
       var response = await http.get(
         url,
         headers: {
@@ -44,15 +46,15 @@ class _LoginPageState extends State<LoginPage> {
         var data = json.decode(response.body);
         String email = data['email'] ?? 'N/A';
 
-        String user_name = data['name'] ?? 'N/A';
-        String user_id = data['id'].toString();
+        String username = data['name'] ?? 'N/A';
+        String userid = data['id'].toString();
         setState(() {
           isLoading = false;
         });
 
         // Store email in secure storage
-        await storage.write(key: 'user_name', value: user_name);
-        await storage.write(key: 'user_id', value: user_id);
+        await storage.write(key: 'user_name', value: username);
+        await storage.write(key: 'user_id', value: userid);
         await storage.write(key: 'email', value: email);
       } else {
         throw Exception('Failed to fetch user details');
@@ -361,8 +363,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                  Navigator.of(context).pop(); // Go back to login screen
+                     Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ),
+                  );
+                  // Navigator.of(context).pop(); // Close the dialog
+                  // Navigator.of(context).pop(); // Go back to login screen
                 },
                 child: const Text('OK'),
               ),

@@ -7,32 +7,32 @@ import 'package:sadqahzakat/components/donate.dart';
 // import 'package:sadqahzakat/components/navigation.dart';
 import 'package:sadqahzakat/model/doantion_model.dart';
 
-void main() {
-  runApp(const Clothes());
-}
+// void main() {
+//   runApp(const Clothes());
+// }
 
-class Clothes extends StatelessWidget {
+// class Clothes extends StatelessWidget {
+//   const Clothes({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       // title: 'Clothes Donation',
+//       theme: ThemeData(primarySwatch: Colors.blue),
+//       home: const CardQueueScreen(),
+//     );
+//   }
+// }
+
+class Clothes extends StatefulWidget {
   const Clothes({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      // title: 'Clothes Donation',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const CardQueueScreen(),
-    );
-  }
+  _ClothesState createState() => _ClothesState();
 }
 
-class CardQueueScreen extends StatefulWidget {
-  const CardQueueScreen({super.key});
-
-  @override
-  _CardQueueScreenState createState() => _CardQueueScreenState();
-}
-
-class _CardQueueScreenState extends State<CardQueueScreen> {
+class _ClothesState extends State<Clothes> {
   String selectedSort = 'Not Finished Projects First';
   List<DonationModel> sortedClothes = [];
   bool isLoading = true;
@@ -165,28 +165,28 @@ class _CardQueueScreenState extends State<CardQueueScreen> {
             ),
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Home()),
-            );
-          },
-        ),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back),
+        //   onPressed: () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => const Home()),
+        //     );
+        //   },
+        // ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text("Clothes Donation"),
-            IconButton(
-              icon: const Icon(Icons.home),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Home()),
-                );
-              },
-            ),
+            // IconButton(
+            //   icon: const Icon(Icons.home),
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(builder: (context) => const Home()),
+            //     );
+            //   },
+            // ),
           ],
         ),
       ),

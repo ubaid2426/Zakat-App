@@ -46,7 +46,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
   File? imageFile;
   late Future<String> paymentStatus;
   bool isLoading = false;
-   TextEditingController nameController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController userIdController = TextEditingController();
   // bool isLoading = true;
@@ -56,7 +56,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
   void initState() {
     super.initState();
     paymentStatus = fetchPaymentStatus();
-     _checkAccessToken();
+    _checkAccessToken();
   }
 
   // Fetch Payment Status
@@ -122,19 +122,22 @@ class _PaymentMethodState extends State<PaymentMethod> {
 
     try {
       String? token = await storage.read(key: 'access_token');
-      String? donorName = await storage.read(key: 'user_name');
-      String? donorId = await storage.read(key: 'user_id');
+      // String? donorName = await storage.read(key: 'user_name');
+      // String? donorId = await storage.read(key: 'user_id');
       String? Email = await storage.read(key: 'email');
       print(Email);
+      print(token);
+      print(nameController.text);
+      print(userIdController.text);
       // print(token);
-      if ([token, donorName, donorId].contains(null)) {
+      if ([token].contains(null)) {
         showMessage('Error: Missing user details.');
         return null;
       }
 
       final payload = {
-        "donor_name": donorName,
-        "donor_id": donorId,
+        "donor_name": nameController.text,
+        "donor_id": userIdController.text,
         "email": Email,
         "is_zakat": iszakatList.map((isZakat) => {"isZakat": isZakat}).toList(),
         "is_sadqah":
@@ -160,7 +163,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
       // Create a MultipartRequest
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('https://sadqahzakaat.com/data/donor-history/'),
+        // Uri.parse('https://sadqahzakaat.com/data/donor-history/'),
+        Uri.parse('http://127.0.0.1:8000/data/donor-history/'),
       )
         ..headers['Authorization'] = 'JWT $token'
         ..fields['data'] = jsonEncode(payload); // Add JSON payload as a field
@@ -199,8 +203,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Success'),
-        content: const Text(
-            'Your donation has been successfully done.'),
+        content: const Text('Your donation has been successfully done.'),
         actions: [
           TextButton(
             onPressed: () {
@@ -213,7 +216,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
       ),
     );
   }
-void _showloginDialog() {
+
+  void _showloginDialog() {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -241,7 +245,7 @@ void _showloginDialog() {
     });
 
     try {
-      var url = Uri.parse('https://sadqahzakaat.com/api/auth/users/me/');
+      var url = Uri.parse('http://127.0.0.1:8000/api/auth/users/me/');
       var response = await http.get(
         url,
         headers: {
@@ -268,7 +272,6 @@ void _showloginDialog() {
       });
     }
   }
-
 
   Future<void> _checkAccessToken() async {
     setState(() {

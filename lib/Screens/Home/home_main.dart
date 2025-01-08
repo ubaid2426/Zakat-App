@@ -2,14 +2,12 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:dio/dio.dart';
 import 'package:fc_native_video_thumbnail/fc_native_video_thumbnail.dart';
-// import 'package:fc_native_video_thumbnail/fc_native_video_thumbnail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path_provider/path_provider.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/blood_donation/blood_main.dart';
-// import 'package:sadqahzakat/Screens/All_Category/Group/Screen/blood_donation/blood_donation.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/clothes.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/daig_donation.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/donate_quran.dart';
@@ -23,7 +21,6 @@ import 'package:sadqahzakat/Screens/All_Category/Group/Screen/medical_bed.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/orphan_support.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/other.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/portable_house.dart';
-// import 'package:sadqahzakat/Screens/All_Category/Group/Screen/tree_donation.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/urgent_donation.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/water_cooler.dart';
 import 'package:sadqahzakat/Screens/All_Category/Group/Screen/wheel_chair.dart';
@@ -42,10 +39,7 @@ import 'package:sadqahzakat/Screens/Notification/Screen/notification.dart';
 import 'package:sadqahzakat/Screens/donation_service.dart';
 import 'package:sadqahzakat/Widgets/drawers_main.dart';
 import 'package:sadqahzakat/components/custom_button.dart';
-// import 'package:sadqahzakat/components/help_child.dart';
-// import 'package:sadqahzakat/components/homeScreen_carousel.dart';
 import 'package:sadqahzakat/components/upcoming_project.dart';
-// import 'package:sadqahzakat/core/app_dummy.dart';
 import 'package:sadqahzakat/model/all_category.dart';
 import 'package:sadqahzakat/model/complete_project.dart';
 import 'package:sadqahzakat/model/doantion_model.dart';
@@ -54,7 +48,6 @@ import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-// import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../All_Category/Group/Screen/small_business.dart';
 
@@ -68,6 +61,12 @@ class Home extends StatefulWidget {
 bool _hasShownLoginDialog = false;
 
 class _HomeState extends State<Home> {
+   TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController userIdController = TextEditingController();
+  bool isLoading = true;
+  bool isUpdating = false;
+  String errorMessage = '';
   late TutorialCoachMark tutorialCoachMark;
   GlobalKey keyButton = GlobalKey();
   GlobalKey keyButton1 = GlobalKey();
@@ -85,10 +84,79 @@ class _HomeState extends State<Home> {
     // createTutorial();
     // Future.delayed(Duration.zero, showTutorial);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showLoginDialog();
+      _checkAccessToken();
     });
   }
 
+  // void _showloginDialog() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) => AlertDialog(
+  //       title: const Text('Success'),
+  //       content: const Text(
+  //           'Please log in to access and submit the donation request form.'),
+  //       actions: [
+  //         TextButton(
+  //           onPressed: () {
+  //             Navigator.pushReplacement(
+  //               context,
+  //               MaterialPageRoute(builder: (context) => const LoginPage()),
+  //             );
+  //           },
+  //           child: const Text('OK'),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  Future<void> _fetchUserDetails(String token) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      var url = Uri.parse('https://sadqahzakaat.com/api/auth/users/me/');
+      var response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'JWT $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        setState(() {
+          nameController.text = data['name'] ?? 'N/A';
+          emailController.text = data['email'] ?? 'N/A';
+          userIdController.text = data['id'].toString();
+          isLoading = false;
+        });
+      } else {
+         _showLoginDialog();
+      }
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Error occurred: $e';
+        isLoading = false;
+      });
+    }
+  }
+
+
+  Future<void> _checkAccessToken() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    String? token = await storage.read(key: 'access_token');
+    if (token == null) {
+      _showLoginDialog();
+    } else {
+      _fetchUserDetails(token);
+    }
+  }
   void _showLoginDialog() {
     if (!_hasShownLoginDialog) {
       _hasShownLoginDialog = true;
@@ -317,10 +385,6 @@ class OurCompleteProject extends StatelessWidget {
         // home: Scaffold(
         home: SafeArea(
           child: InkWell(
-            // onTap: () {
-            //   Navigator.push(context,
-            //       MaterialPageRoute(builder: (context) => const AllCategory()));
-            // },
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: SizedBox(

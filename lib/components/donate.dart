@@ -1,10 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_text/flutter_expandable_text.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
+// import 'package:sadqahzakat/Screens/Login/Screen/login_page.dart';
 import 'package:sadqahzakat/Screens/PaymentMethod/payment_method.dart';
 import 'package:sadqahzakat/Screens/cart/cartScreen.dart';
 import 'package:sadqahzakat/model/donate_model.dart';
+import 'package:http/http.dart' as http;
+
+import '../Screens/Login/Screen/login_page.dart';
 class Data extends StatefulWidget {
   final String imageUrl;
   final String title;
@@ -42,12 +49,90 @@ class _DataState extends State<Data> {
   bool isZakat = false;
   bool isSadah = false;
   int totalDonationAmount = 0;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController userIdController = TextEditingController();
+  bool isLoading = true;
+  bool isUpdating = false;
+    final FlutterSecureStorage storage = const FlutterSecureStorage();
+  String errorMessage = '';
   String cityName = 'Loading...';
   @override
   void initState() {
     super.initState();
+    _checkAccessToken();
     _fetchCityName(widget.latitude, widget.longitude);
   }
+
+  void _showloginDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Success'),
+        content: const Text(
+            'Please log in to access and submit the donation request form.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+              );
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _fetchUserDetails(String token) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      var url = Uri.parse('https://sadqahzakaat.com/api/auth/users/me/');
+      var response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'JWT $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        setState(() {
+          nameController.text = data['name'] ?? 'N/A';
+          emailController.text = data['email'] ?? 'N/A';
+          userIdController.text = data['id'].toString();
+          isLoading = false;
+        });
+      } else {
+        _showloginDialog();
+      }
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Error occurred: $e';
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _checkAccessToken() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    String? token = await storage.read(key: 'access_token');
+    if (token == null) {
+      _showloginDialog();
+    } else {
+      _fetchUserDetails(token);
+    }
+  }
+
   // This is the method to get city name from coordinates
   Future<void> _fetchCityName(double latitude, double longitude) async {
     String city = await getCityName(latitude, longitude);
@@ -55,6 +140,7 @@ class _DataState extends State<Data> {
       cityName = city; // Update cityName after fetching
     });
   }
+
   // Map<String, dynamic>? selectedDonation;
   Future<String> getCityName(double latitude, double longitude) async {
     try {

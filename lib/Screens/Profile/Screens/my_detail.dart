@@ -15,6 +15,7 @@ class MyDetail extends StatefulWidget {
   const MyDetail({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _MyDetailState createState() => _MyDetailState();
 }
 

@@ -6,7 +6,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:qibla_direction/qibla_direction.dart';
 // import 'package:geolocator/geolocator.dart';
 import 'package:sadqahzakat/Screens/Islam/widgets/appbar_expanded.dart';
-// import 'package:sadqahzakat/Screens/Islam/widgets/get_location.dart';
 import 'package:sadqahzakat/Screens/Islam/widgets/home_silver_llist.dart';
 
 const FlutterSecureStorage _secureStorage = FlutterSecureStorage();

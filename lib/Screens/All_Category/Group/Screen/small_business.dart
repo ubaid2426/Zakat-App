@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sadqahzakat/Screens/Home/home_main.dart';
+// import 'package:sadqahzakat/Screens/Home/home_main.dart';
 import 'package:sadqahzakat/Screens/donation_service.dart';
 import 'package:sadqahzakat/components/donate.dart';
 // import 'package:sadqahzakat/components/navigation.dart';
@@ -169,30 +169,7 @@ class _SmallBusinessState extends State<SmallBusiness> {
             ),
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Home()),
-            );
-          },
-        ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text("Small Business Setup"),
-            IconButton(
-              icon: const Icon(Icons.home),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Home()),
-                );
-              },
-            ),
-          ],
-        ),
+        title: const Text("Small Business Setup"),
       ),
       body: Column(
         children: [

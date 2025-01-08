@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:sadqahzakat/Screens/Home/home_main.dart';
 import 'package:sadqahzakat/Screens/donation_service.dart';
@@ -5,32 +7,32 @@ import 'package:sadqahzakat/components/donate.dart';
 // import 'package:sadqahzakat/components/navigation.dart';
 import 'package:sadqahzakat/model/doantion_model.dart';
 
-void main() {
-  runApp(const MealDonation());
-}
+// void main() {
+//   runApp(const MealDonation());
+// }
 
-class MealDonation extends StatelessWidget {
+// class MealDonation extends StatelessWidget {
+//   const MealDonation({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       // title: 'Queue Card System',
+//       theme: ThemeData(primarySwatch: Colors.blue),
+//       home: const CardQueueScreen(),
+//     );
+//   }
+// }
+
+class MealDonation extends StatefulWidget {
   const MealDonation({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      // title: 'Queue Card System',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const CardQueueScreen(),
-    );
-  }
+  _MealDonationState createState() => _MealDonationState();
 }
 
-class CardQueueScreen extends StatefulWidget {
-  const CardQueueScreen({super.key});
-
-  @override
-  _CardQueueScreenState createState() => _CardQueueScreenState();
-}
-
-class _CardQueueScreenState extends State<CardQueueScreen> {
+class _MealDonationState extends State<MealDonation> {
   String selectedSort = 'Not Finished Projects First';
   List<DonationModel> sortedClothes = [];
   bool isLoading = true;
@@ -146,7 +148,7 @@ class _CardQueueScreenState extends State<CardQueueScreen> {
           screentitle: 'Meal Donation',
           address: donation.addres,
                   latitude: donation.latitude!,
-          longitude: donation.longitude!,
+          longitude: donation.longitude!, titlenotice:donation.titlenotice,
         ),
       ),
     );

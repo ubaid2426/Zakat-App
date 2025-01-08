@@ -5,32 +5,33 @@ import 'package:sadqahzakat/components/donate.dart';
 // import 'package:sadqahzakat/components/navigation.dart';
 import 'package:sadqahzakat/model/doantion_model.dart';
 
-void main() {
-  runApp(const WaterCooler());
-}
+// void main() {
+//   runApp(const WaterCooler());
+// }
 
-class WaterCooler extends StatelessWidget {
+// class WaterCooler extends StatelessWidget {
+//   const WaterCooler({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       // title: 'Queue Card System',
+//       theme: ThemeData(primarySwatch: Colors.blue),
+//       home: const CardQueueScreen(),
+//     );
+//   }
+// }
+
+class WaterCooler extends StatefulWidget {
   const WaterCooler({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      // title: 'Queue Card System',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const CardQueueScreen(),
-    );
-  }
+  // ignore: library_private_types_in_public_api
+  _WaterCoolerState createState() => _WaterCoolerState();
 }
 
-class CardQueueScreen extends StatefulWidget {
-  const CardQueueScreen({super.key});
-
-  @override
-  _CardQueueScreenState createState() => _CardQueueScreenState();
-}
-
-class _CardQueueScreenState extends State<CardQueueScreen> {
+class _WaterCoolerState extends State<WaterCooler> {
   String selectedSort = 'Not Finished Projects First';
   List<DonationModel> sortedClothes = [];
   bool isLoading = true;
@@ -146,7 +147,7 @@ class _CardQueueScreenState extends State<CardQueueScreen> {
           screentitle: 'Water Cooler Donation',
           address: donation.addres,
                   latitude: donation.latitude!,
-          longitude: donation.longitude!,
+          longitude: donation.longitude!, titlenotice: donation.titlenotice,
         ),
       ),
     );

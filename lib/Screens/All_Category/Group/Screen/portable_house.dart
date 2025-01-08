@@ -5,32 +5,33 @@ import 'package:sadqahzakat/components/donate.dart';
 // import 'package:sadqahzakat/components/navigation.dart';
 import 'package:sadqahzakat/model/doantion_model.dart';
 
-void main() {
-  runApp(const PortableHouse());
-}
+// void main() {
+//   runApp(const PortableHouse());
+// }
 
-class PortableHouse extends StatelessWidget {
+// class PortableHouse extends StatelessWidget {
+//   const PortableHouse({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       title: 'Queue Card System',
+//       theme: ThemeData(primarySwatch: Colors.blue),
+//       home: const CardQueueScreen(),
+//     );
+//   }
+// }
+
+class PortableHouse extends StatefulWidget {
   const PortableHouse({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Queue Card System',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const CardQueueScreen(),
-    );
-  }
+  // ignore: library_private_types_in_public_api
+  _PortableHouseState createState() => _PortableHouseState();
 }
 
-class CardQueueScreen extends StatefulWidget {
-  const CardQueueScreen({super.key});
-
-  @override
-  _CardQueueScreenState createState() => _CardQueueScreenState();
-}
-
-class _CardQueueScreenState extends State<CardQueueScreen> {
+class _PortableHouseState extends State<PortableHouse> {
   String selectedSort = 'Not Finished Projects First';
   List<DonationModel> sortedClothes = [];
   bool isLoading = true;
@@ -146,7 +147,7 @@ class _CardQueueScreenState extends State<CardQueueScreen> {
           screentitle: 'Portable House',
           address: donation.addres,
                  latitude: donation.latitude!,
-          longitude: donation.longitude!,
+          longitude: donation.longitude!, titlenotice: donation.titlenotice,
         ),
       ),
     );

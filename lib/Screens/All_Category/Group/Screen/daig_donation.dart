@@ -142,8 +142,9 @@ class _DaigDonationState extends State<DaigDonation> {
           selectcategory: 'daigdonation',
           screentitle: 'Daig Donation',
           address: donation.addres,
-                 latitude: donation.latitude!,
+          latitude: donation.latitude!,
           longitude: donation.longitude!,
+          titlenotice: donation.titlenotice,
         ),
       ),
     );
@@ -165,30 +166,16 @@ class _DaigDonationState extends State<DaigDonation> {
             ),
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Home()),
-            );
-          },
-        ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text("Daig Donation"),
-            IconButton(
-              icon: const Icon(Icons.home),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Home()),
-                );
-              },
-            ),
-          ],
-        ),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back),
+        //   onPressed: () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => const Home()),
+        //     );
+        //   },
+        // ),
+        title: const Text("Daig Donation"),
       ),
       body: Column(
         children: [

@@ -5,32 +5,33 @@ import 'package:sadqahzakat/components/donate.dart';
 // import 'package:sadqahzakat/components/navigation.dart';
 import 'package:sadqahzakat/model/doantion_model.dart';
 
-void main() {
-  runApp(const MarriageSupport());
-}
+// void main() {
+//   runApp(const MarriageSupport());
+// }
 
-class MarriageSupport extends StatelessWidget {
+// class MarriageSupport extends StatelessWidget {
+//   const MarriageSupport({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       // title: 'Queue Card System',
+//       theme: ThemeData(primarySwatch: Colors.blue),
+//       home: const CardQueueScreen(),
+//     );
+//   }
+// }
+
+class MarriageSupport extends StatefulWidget {
   const MarriageSupport({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      // title: 'Queue Card System',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const CardQueueScreen(),
-    );
-  }
+  // ignore: library_private_types_in_public_api
+  _MarriageSupportState createState() => _MarriageSupportState();
 }
 
-class CardQueueScreen extends StatefulWidget {
-  const CardQueueScreen({super.key});
-
-  @override
-  _CardQueueScreenState createState() => _CardQueueScreenState();
-}
-
-class _CardQueueScreenState extends State<CardQueueScreen> {
+class _MarriageSupportState extends State<MarriageSupport> {
   String selectedSort = 'Not Finished Projects First';
   List<DonationModel> sortedClothes = [];
   bool isLoading = true;
@@ -146,7 +147,7 @@ class _CardQueueScreenState extends State<CardQueueScreen> {
           screentitle: 'Marriage Support',
           address: donation.addres,
               latitude: donation.latitude!,
-          longitude: donation.longitude!,
+          longitude: donation.longitude!, titlenotice: donation.titlenotice,
         ),
       ),
     );

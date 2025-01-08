@@ -108,7 +108,7 @@ class _ClothesState extends State<Clothes> {
           address: donation.addres,
           latitude: donation.latitude!,
           longitude: donation.longitude!,
-          titlenotice: '',
+          titlenotice: donation.titlenotice,
         ),
       ),
     );

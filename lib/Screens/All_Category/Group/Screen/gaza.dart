@@ -5,33 +5,33 @@ import 'package:sadqahzakat/components/donate.dart';
 // import 'package:sadqahzakat/components/navigation.dart';
 import 'package:sadqahzakat/model/doantion_model.dart';
 
-void main() {
-  runApp(const Gaza());
-}
+// void main() {
+//   runApp(const Gaza());
+// }
 
-class Gaza extends StatelessWidget {
+// class Gaza extends StatelessWidget {
+//   const Gaza({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       // title: 'Queue Card System',
+//       theme: ThemeData(primarySwatch: Colors.blue),
+//       home: const CardQueueScreen(),
+//     );
+//   }
+// }
+
+class Gaza extends StatefulWidget {
   const Gaza({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      // title: 'Queue Card System',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const CardQueueScreen(),
-    );
-  }
-}
-
-class CardQueueScreen extends StatefulWidget {
-  const CardQueueScreen({super.key});
-
-  @override
   // ignore: library_private_types_in_public_api
-  _CardQueueScreenState createState() => _CardQueueScreenState();
+  _GazaState createState() => _GazaState();
 }
 
-class _CardQueueScreenState extends State<CardQueueScreen> {
+class _GazaState extends State<Gaza> {
   String selectedSort = 'Not Finished Projects First';
   List<DonationModel> sortedClothes = [];
   bool isLoading = true;
@@ -64,20 +64,6 @@ class _CardQueueScreenState extends State<CardQueueScreen> {
     }
 
     String sortValue = 'oldest';
-    // switch (selectedSort) {
-    //   case 'Oldest Items First':
-    //     sortValue = 'oldest';
-    //     break;
-    //   case 'Newest Items First':
-    //     sortValue = 'newest';
-    //     break;
-    //   case 'Sort by Remaining Value: Low to High':
-    //     sortValue = 'remaining_low_to_high';
-    //     break;
-    //   case 'Sort by Remaining Value: High to Low':
-    //     sortValue = 'remaining_high_to_low';
-    //     break;
-    // }
 
     setState(() {
       isLoading = true;
@@ -146,8 +132,9 @@ class _CardQueueScreenState extends State<CardQueueScreen> {
           selectcategory: 'gaza',
           screentitle: 'Gaza Donation',
           address: donation.addres,
-               latitude: donation.latitude!,
+          latitude: donation.latitude!,
           longitude: donation.longitude!,
+          titlenotice: donation.titlenotice,
         ),
       ),
     );

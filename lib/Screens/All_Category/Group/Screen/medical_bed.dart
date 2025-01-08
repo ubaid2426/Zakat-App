@@ -5,32 +5,33 @@ import 'package:sadqahzakat/components/donate.dart';
 // import 'package:sadqahzakat/components/navigation.dart';
 import 'package:sadqahzakat/model/doantion_model.dart';
 
-void main() {
-  runApp(const MedicalBed());
-}
+// void main() {
+//   runApp(const MedicalBed());
+// }
 
-class MedicalBed extends StatelessWidget {
+// class MedicalBed extends StatelessWidget {
+//   const MedicalBed({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       title: 'Queue Card System',
+//       theme: ThemeData(primarySwatch: Colors.blue),
+//       home: const CardQueueScreen(),
+//     );
+//   }
+// }
+
+class MedicalBed extends StatefulWidget {
   const MedicalBed({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Queue Card System',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const CardQueueScreen(),
-    );
-  }
+  // ignore: library_private_types_in_public_api
+  _MedicalBedState createState() => _MedicalBedState();
 }
 
-class CardQueueScreen extends StatefulWidget {
-  const CardQueueScreen({super.key});
-
-  @override
-  _CardQueueScreenState createState() => _CardQueueScreenState();
-}
-
-class _CardQueueScreenState extends State<CardQueueScreen> {
+class _MedicalBedState extends State<MedicalBed> {
   String selectedSort = 'Not Finished Projects First';
   List<DonationModel> sortedClothes = [];
   bool isLoading = true;
@@ -146,7 +147,7 @@ class _CardQueueScreenState extends State<CardQueueScreen> {
           screentitle: 'Medical Bed',
           address: donation.addres,
                     latitude: donation.latitude!,
-          longitude: donation.longitude!,
+          longitude: donation.longitude!, titlenotice: donation.titlenotice,
         ),
       ),
     );

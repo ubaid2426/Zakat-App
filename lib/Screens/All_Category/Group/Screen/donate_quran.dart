@@ -5,32 +5,32 @@ import 'package:sadqahzakat/components/donate.dart';
 // import 'package:sadqahzakat/components/navigation.dart';
 import 'package:sadqahzakat/model/doantion_model.dart';
 
-void main() {
-  runApp(const DonateQuran());
-}
+// void main() {
+//   runApp(const DonateQuran());
+// }
 
-class DonateQuran extends StatelessWidget {
+// class DonateQuran extends StatelessWidget {
+//   const DonateQuran({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       // title: 'Queue Card System',
+//       theme: ThemeData(primarySwatch: Colors.blue),
+//       home: const CardQueueScreen(),
+//     );
+//   }
+// }
+
+class DonateQuran extends StatefulWidget {
   const DonateQuran({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      // title: 'Queue Card System',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const CardQueueScreen(),
-    );
-  }
+  _DonateQuranState createState() => _DonateQuranState();
 }
 
-class CardQueueScreen extends StatefulWidget {
-  const CardQueueScreen({super.key});
-
-  @override
-  _CardQueueScreenState createState() => _CardQueueScreenState();
-}
-
-class _CardQueueScreenState extends State<CardQueueScreen> {
+class _DonateQuranState extends State<DonateQuran> {
   String selectedSort = 'Not Finished Projects First';
   List<DonationModel> sortedClothes = [];
   bool isLoading = true;
@@ -145,8 +145,9 @@ class _CardQueueScreenState extends State<CardQueueScreen> {
           selectcategory: 'donatequran',
           screentitle: 'Quran Donation',
           address: donation.addres,
-                  latitude: donation.latitude!,
+          latitude: donation.latitude!,
           longitude: donation.longitude!,
+          titlenotice: donation.titlenotice,
         ),
       ),
     );

@@ -169,30 +169,7 @@ class _MasjidMaintenanceState extends State<MasjidMaintenance> {
             ),
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Home()),
-            );
-          },
-        ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text("Masjid Maintainance"),
-            IconButton(
-              icon: const Icon(Icons.home),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Home()),
-                );
-              },
-            ),
-          ],
-        ),
+        title: const Text("Masjid Maintainance"),
       ),
       body: Column(
         children: [

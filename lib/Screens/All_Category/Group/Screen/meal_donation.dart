@@ -170,30 +170,7 @@ class _MealDonationState extends State<MealDonation> {
             ),
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Home()),
-            );
-          },
-        ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text("Meal Donation"),
-            IconButton(
-              icon: const Icon(Icons.home),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Home()),
-                );
-              },
-            ),
-          ],
-        ),
+        title: const Text("Meal Donation"),
       ),
       body: Column(
         children: [

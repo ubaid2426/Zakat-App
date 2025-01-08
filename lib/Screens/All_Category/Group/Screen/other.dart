@@ -169,30 +169,7 @@ class _OtherState extends State<Other> {
             ),
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Home()),
-            );
-          },
-        ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text("Other Donations"),
-            IconButton(
-              icon: const Icon(Icons.home),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Home()),
-                );
-              },
-            ),
-          ],
-        ),
+        title: const Text("Other Donations"),
       ),
       body: Column(
         children: [

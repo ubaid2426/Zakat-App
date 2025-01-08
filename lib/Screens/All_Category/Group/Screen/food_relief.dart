@@ -169,30 +169,7 @@ class _FloodReliefState extends State<FloodRelief> {
             ),
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Home()),
-            );
-          },
-        ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text("Flood Relief Donation"),
-            IconButton(
-              icon: const Icon(Icons.home),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Home()),
-                );
-              },
-            ),
-          ],
-        ),
+        title: const Text("Flood Relief Donation"),
       ),
       body: Column(
         children: [

@@ -166,15 +166,6 @@ class _DaigDonationState extends State<DaigDonation> {
             ),
           ),
         ),
-        // leading: IconButton(
-        //   icon: const Icon(Icons.arrow_back),
-        //   onPressed: () {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(builder: (context) => const Home()),
-        //     );
-        //   },
-        // ),
         title: const Text("Daig Donation"),
       ),
       body: Column(

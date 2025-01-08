@@ -4,10 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:sadqahzakat/Screens/PaymentMethod/payment_method.dart';
 import 'package:sadqahzakat/Screens/cart/cartScreen.dart';
-// import 'package:sadqahzakat/components/map_main.dart';
 import 'package:sadqahzakat/model/donate_model.dart';
-// import 'package:sadqahzakat/model/donate_model.dart';
-
 class Data extends StatefulWidget {
   final String imageUrl;
   final String title;
@@ -34,6 +31,7 @@ class Data extends StatefulWidget {
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _DataState createState() => _DataState();
 }
 
@@ -72,7 +70,7 @@ class _DataState extends State<Data> {
         return 'City not found';
       }
     } catch (e) {
-      print('Error occurred: $e');
+      // print('Error occurred: $e');
       return 'Error getting city name';
     }
   }
@@ -95,6 +93,7 @@ class _DataState extends State<Data> {
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
+                // ignore: deprecated_member_use
                 color: Colors.grey.withOpacity(0.5),
                 spreadRadius: 5,
                 blurRadius: 7,
@@ -172,6 +171,7 @@ class _DataState extends State<Data> {
         color: Colors.grey[100],
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
+          // ignore: deprecated_member_use
           BoxShadow(color: Colors.grey.withOpacity(0.3), blurRadius: 6),
         ],
       ),
@@ -250,11 +250,11 @@ class _DataState extends State<Data> {
 
   Widget buildAddress() {
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+      margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
       child: ListTile(
-        leading: Icon(Icons.location_on, color: Color(0xFF7fc23a)),
+        leading: const Icon(Icons.location_on, color: Color(0xFF7fc23a)),
         title:
-            Text(cityName, style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(cityName, style: const TextStyle(fontWeight: FontWeight.bold)),
         subtitle: Text(widget.address),
         onTap: () {
           print("button press location");

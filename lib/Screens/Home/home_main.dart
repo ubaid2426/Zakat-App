@@ -45,7 +45,7 @@ import 'package:sadqahzakat/components/custom_button.dart';
 // import 'package:sadqahzakat/components/help_child.dart';
 // import 'package:sadqahzakat/components/homeScreen_carousel.dart';
 import 'package:sadqahzakat/components/upcoming_project.dart';
-import 'package:sadqahzakat/core/app_dummy.dart';
+// import 'package:sadqahzakat/core/app_dummy.dart';
 import 'package:sadqahzakat/model/all_category.dart';
 import 'package:sadqahzakat/model/complete_project.dart';
 import 'package:sadqahzakat/model/doantion_model.dart';
@@ -949,7 +949,7 @@ class _ReelsSectionState extends State<ReelsSection>
           '${videoDirectory.path}/${video['url'].split('/').last}';
       final thumbnailPath =
           '${videoDirectory.path}/thumbnail_${video['url'].split('/').last}.png';
-      print(videoPath);
+      // print(videoPath);
       // Check if the thumbnail already exists
       if (File(thumbnailPath).existsSync()) {
         return thumbnailPath;
@@ -966,14 +966,14 @@ class _ReelsSectionState extends State<ReelsSection>
           quality: 75,
         );
         if (generatedThumbnail == false) {
-          print("Thumbnail generation failed for: $videoPath");
+          // print("Thumbnail generation failed for: $videoPath");
           return null;
         }
         return generatedThumbnail
             ? thumbnailPath
             : null; // Return the generated thumbnail path
       } catch (e) {
-        print("Error generating thumbnail: $e");
+        // print("Error generating thumbnail: $e");
         return null; // Return null in case of an error
       }
     }));
@@ -1485,7 +1485,7 @@ class _FinalCardState extends State<FinalCard> {
                     LeftToRight(
                       projects:
                           projects.where((p) => p.category == "blood").toList(),
-                      navigate: BloodMain(),
+                      navigate: const BloodMain(),
                       // navigate: const BloodDetailCard(),
                     ),
                     LeftToRight(

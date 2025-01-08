@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
+import 'package:sadqahzakat/Screens/Login/Screen/login_page.dart';
 import 'package:sadqahzakat/components/custom_button.dart';
 import 'package:sadqahzakat/model/payment_detail.dart';
 
@@ -37,6 +38,7 @@ class PaymentMethod extends StatefulWidget {
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _PaymentMethodState createState() => _PaymentMethodState();
 }
 
@@ -44,11 +46,17 @@ class _PaymentMethodState extends State<PaymentMethod> {
   File? imageFile;
   late Future<String> paymentStatus;
   bool isLoading = false;
-
+   TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController userIdController = TextEditingController();
+  // bool isLoading = true;
+  bool isUpdating = false;
+  String errorMessage = '';
   @override
   void initState() {
     super.initState();
     paymentStatus = fetchPaymentStatus();
+     _checkAccessToken();
   }
 
   // Fetch Payment Status
@@ -204,6 +212,75 @@ class _PaymentMethodState extends State<PaymentMethod> {
         ],
       ),
     );
+  }
+void _showloginDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Success'),
+        content: const Text(
+            'Please log in to access and submit the donation request form.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+              );
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _fetchUserDetails(String token) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      var url = Uri.parse('https://sadqahzakaat.com/api/auth/users/me/');
+      var response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'JWT $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        setState(() {
+          nameController.text = data['name'] ?? 'N/A';
+          emailController.text = data['email'] ?? 'N/A';
+          userIdController.text = data['id'].toString();
+          isLoading = false;
+        });
+      } else {
+        _showloginDialog();
+      }
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Error occurred: $e';
+        isLoading = false;
+      });
+    }
+  }
+
+
+  Future<void> _checkAccessToken() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    String? token = await storage.read(key: 'access_token');
+    if (token == null) {
+      _showloginDialog();
+    } else {
+      _fetchUserDetails(token);
+    }
   }
 
   // Pick and Process Image

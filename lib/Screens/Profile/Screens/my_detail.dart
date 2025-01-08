@@ -39,13 +39,13 @@ class _MyDetailState extends State<MyDetail> {
 
     String? token = await storage.read(key: 'access_token');
     if (token == null) {
-      _redirectToLogin();
+      redirectToLogin();
     } else {
       _fetchUserDetails(token);
     }
   }
 
-  void _redirectToLogin() {
+  void redirectToLogin() {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const LoginPage()),
@@ -76,7 +76,7 @@ class _MyDetailState extends State<MyDetail> {
           isLoading = false;
         });
       } else {
-        _redirectToLogin();
+        redirectToLogin();
       }
     } catch (e) {
       setState(() {

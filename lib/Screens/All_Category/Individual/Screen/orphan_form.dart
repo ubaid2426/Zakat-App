@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 // import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:sadqahzakat/Screens/Login/Screen/login_page.dart';
 
 class OrphanForm extends StatefulWidget {
   const OrphanForm({super.key});
@@ -16,6 +17,16 @@ class _OrphanFormState extends State<OrphanForm> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _optionalController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+   TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController userIdController = TextEditingController();
+  bool isLoading = true;
+  bool isUpdating = false;
+  String errorMessage = '';
+    void initState() {
+    super.initState();
+    _checkAccessToken();
+  }
   final TextEditingController _addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final List<Map<String, dynamic>> donationOptionsmeal = [
@@ -67,6 +78,75 @@ class _OrphanFormState extends State<OrphanForm> {
           SnackBar(content: Text('Error: $e')),
         );
       }
+    }
+  }
+void _showloginDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Success'),
+        content: const Text(
+            'Please log in to access and submit the donation request form.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+              );
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _fetchUserDetails(String token) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      var url = Uri.parse('https://sadqahzakaat.com/api/auth/users/me/');
+      var response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'JWT $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        setState(() {
+          nameController.text = data['name'] ?? 'N/A';
+          emailController.text = data['email'] ?? 'N/A';
+          userIdController.text = data['id'].toString();
+          isLoading = false;
+        });
+      } else {
+        _showloginDialog();
+      }
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Error occurred: $e';
+        isLoading = false;
+      });
+    }
+  }
+
+
+  Future<void> _checkAccessToken() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    String? token = await storage.read(key: 'access_token');
+    if (token == null) {
+      _showloginDialog();
+    } else {
+      _fetchUserDetails(token);
     }
   }
 

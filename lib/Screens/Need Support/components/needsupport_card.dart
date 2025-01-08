@@ -4,6 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 import 'package:http/http.dart' as http;
 
+import '../../Login/Screen/login_page.dart';
+
+// import '../../Login/Screen/login_page.dart';
+
+// import '../../PaymentMethod/payment_method.dart';
+
 class NeedSupport extends StatefulWidget {
   final String selectedCategory;
 
@@ -13,19 +19,34 @@ class NeedSupport extends StatefulWidget {
   });
 
   @override
+
+  // ignore: library_private_types_in_public_api
   _NeedSupportState createState() => _NeedSupportState();
 }
 
 class _NeedSupportState extends State<NeedSupport> {
+  @override
+  void initState() {
+    super.initState();
+    _checkAccessToken();
+  }
+
   final _formKey = GlobalKey<FormState>();
 // import 'package:http/http.dart' as http;
 // import 'dart:convert';
-
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController userIdController = TextEditingController();
+  bool isLoading = true;
+  bool isUpdating = false;
+  String errorMessage = '';
   Future<void> _submitForm() async {
+    String? Email = await storage.read(key: 'email');
     if (_formKey.currentState!.validate()) {
       // Gather data from form fields
       final data = {
         "name": _nameController.text,
+        "email": Email,
         "phone": _phoneController.text,
         "amount_required": _amountController.text,
         "description": _descriptionController.text,
@@ -37,35 +58,156 @@ class _NeedSupportState extends State<NeedSupport> {
         "is_zakat": _isZakat,
         "is_sadqah": _isSadqah,
       };
-
       try {
-        // Send the POST request
         final response = await http.post(
-          Uri.parse('https://sadqahzakaat.com/data/donation-request/'),
+          Uri.parse('http://127.0.0.1:8000/data/donation-request/'),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode(data),
         );
 
-        // Check the response status
         if (response.statusCode == 201) {
-          // Successfully created
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
                 content: Text('Donation request submitted successfully')),
           );
+          _showSuccessDialog();
         } else {
-          // Handle server error
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Failed to submit: ${response.body}')),
           );
         }
       } catch (e) {
-        // Handle network or other errors
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: $e')),
         );
       }
     }
+  }
+
+  Future<void> _checkAccessToken() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    String? token = await storage.read(key: 'access_token');
+    if (token == null) {
+      _showloginDialog();
+    } else {
+      _fetchUserDetails(token);
+    }
+  }
+
+  Future<void> _fetchUserDetails(String token) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      var url = Uri.parse('https://sadqahzakaat.com/api/auth/users/me/');
+      var response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'JWT $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        setState(() {
+          nameController.text = data['name'] ?? 'N/A';
+          emailController.text = data['email'] ?? 'N/A';
+          userIdController.text = data['id'].toString();
+          isLoading = false;
+        });
+      } else {
+        _showloginDialog();
+      }
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Error occurred: $e';
+        isLoading = false;
+      });
+    }
+  }
+
+  // void _redirectToLogin() {
+  //   Navigator.pushReplacement(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => const LoginPage()),
+  //   );
+  // }
+  //     try {
+  //       // Send the POST request
+  //       final response = await http.post(
+  //         Uri.parse('http://127.0.0.1:8000/data/donation-request/'),
+  //         headers: {"Content-Type": "application/json"},
+  //         body: jsonEncode(data),
+  //       );
+
+  //       // Check the response status
+  //       if (response.statusCode == 201) {
+
+  //         // Successfully created
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           const SnackBar(
+  //               content: Text('Donation request submitted successfully')),
+  //         );
+  //         //  _showSuccessDialog();
+  //       } else {
+  //         // Handle server error
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           SnackBar(content: Text('Failed to submit: ${response.body}')),
+  //         );
+  //       }
+  //     } catch (e) {
+  //       // Handle network or other errors
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text('Error: $e')),
+  //       );
+  //     }
+  //   }
+  // }
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Success'),
+        content: const Text(
+            'Your donation request has been successfully uploaded. The admin will contact you as soon as possible.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showloginDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Success'),
+        content: const Text(
+            'Please log in to access and submit the donation request form.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+              );
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   final TextEditingController _nameController = TextEditingController();

@@ -99,14 +99,6 @@ class _IslamScreenState extends State<IslamScreen> {
         ],
       ),
     );
-    // CustomScrollView(
-    //   controller: controller,
-    //   keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-    //   slivers: const [
-    //     // HomeSliverAppbar(),
-    //     HomeSliverList(),
-    //   ],
-    // );
   }
 
   @override

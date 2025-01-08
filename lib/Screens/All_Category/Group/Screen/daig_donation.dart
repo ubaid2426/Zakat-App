@@ -5,32 +5,33 @@ import 'package:sadqahzakat/components/donate.dart';
 // import 'package:sadqahzakat/components/navigation.dart';
 import 'package:sadqahzakat/model/doantion_model.dart';
 
-void main() {
-  runApp(const DaigDonation());
-}
+// void main() {
+//   runApp(const DaigDonation());
+// }
 
-class DaigDonation extends StatelessWidget {
+// class DaigDonation extends StatelessWidget {
+//   const DaigDonation({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       // title: 'Queue Card System',
+//       theme: ThemeData(primarySwatch: Colors.blue),
+//       home: const CardQueueScreen(),
+//     );
+//   }
+// }
+
+class DaigDonation extends StatefulWidget {
   const DaigDonation({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      // title: 'Queue Card System',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const CardQueueScreen(),
-    );
-  }
+  // ignore: library_private_types_in_public_api
+  _DaigDonationState createState() => _DaigDonationState();
 }
 
-class CardQueueScreen extends StatefulWidget {
-  const CardQueueScreen({super.key});
-
-  @override
-  _CardQueueScreenState createState() => _CardQueueScreenState();
-}
-
-class _CardQueueScreenState extends State<CardQueueScreen> {
+class _DaigDonationState extends State<DaigDonation> {
   String selectedSort = 'Not Finished Projects First';
   List<DonationModel> sortedClothes = [];
   bool isLoading = true;
@@ -39,10 +40,6 @@ class _CardQueueScreenState extends State<CardQueueScreen> {
   final List<String> sortOptions = [
     'Finished Projects',
     'Not Finished Projects First',
-    // 'Oldest Items First',
-    // 'Newest Items First',
-    // 'Sort by Remaining Value: Low to High',
-    // 'Sort by Remaining Value: High to Low',
   ];
 
   @override

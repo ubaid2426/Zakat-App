@@ -11,10 +11,12 @@ class DonationModel {
   final String? category;
   final String imageUrl;
   final String addres;
+  final String titlenotice;
   final double? latitude;
   final double? longitude;
-  DonationModel({
+  DonationModel( {
     required this.addres,
+    required this.titlenotice,
     required this.latitude,
     required this.longitude,
     required this.id,
@@ -32,7 +34,8 @@ class DonationModel {
   factory DonationModel.fromJson(Map<String, dynamic> json) {
     return DonationModel(
       id: json['id'] ?? '',
-      title: json['title'] ?? '', // Default to an empty string if null
+      title: json['title'] ?? '',
+      titlenotice: json['title_notice'] ?? '', // Default to an empty string if null
       description: json['description'] ?? '',
       imageUrl: json['image'] ?? '',
       remainingValue: _toDouble(json['remainingValue']) ??

@@ -164,7 +164,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
       final request = http.MultipartRequest(
         'POST',
         // Uri.parse('https://sadqahzakaat.com/data/donor-history/'),
-        Uri.parse('http://127.0.0.1:8000/data/donor-history/'),
+        Uri.parse('https://sadqahzakaat.com/data/donor-history/'),
       )
         ..headers['Authorization'] = 'JWT $token'
         ..fields['data'] = jsonEncode(payload); // Add JSON payload as a field
@@ -245,7 +245,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
     });
 
     try {
-      var url = Uri.parse('http://127.0.0.1:8000/api/auth/users/me/');
+      var url = Uri.parse('https://sadqahzakaat.com/api/auth/users/me/');
       var response = await http.get(
         url,
         headers: {

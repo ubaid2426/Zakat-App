@@ -7,24 +7,6 @@ import 'package:sadqahzakat/components/donate.dart';
 // import 'package:sadqahzakat/components/navigation.dart';
 import 'package:sadqahzakat/model/doantion_model.dart';
 
-// void main() {
-//   runApp(const Clothes());
-// }
-
-// class Clothes extends StatelessWidget {
-//   const Clothes({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       // title: 'Clothes Donation',
-//       theme: ThemeData(primarySwatch: Colors.blue),
-//       home: const CardQueueScreen(),
-//     );
-//   }
-// }
-
 class Clothes extends StatefulWidget {
   const Clothes({super.key});
 
@@ -41,10 +23,6 @@ class _ClothesState extends State<Clothes> {
   final List<String> sortOptions = [
     'Finished Projects',
     'Not Finished Projects First',
-    // 'Oldest Items First',
-    // 'Newest Items First',
-    // 'Sort by Remaining Value: Low to High',
-    // 'Sort by Remaining Value: High to Low',
   ];
 
   @override
@@ -65,20 +43,6 @@ class _ClothesState extends State<Clothes> {
     }
 
     String sortValue = 'oldest';
-    // switch (selectedSort) {
-    //   case 'Oldest Items First':
-    //     sortValue = 'oldest';
-    //     break;
-    //   case 'Newest Items First':
-    //     sortValue = 'newest';
-    //     break;
-    //   case 'Sort by Remaining Value: Low to High':
-    //     sortValue = 'remaining_low_to_high';
-    //     break;
-    //   case 'Sort by Remaining Value: High to Low':
-    //     sortValue = 'remaining_high_to_low';
-    //     break;
-    // }
 
     setState(() {
       isLoading = true;
@@ -142,8 +106,9 @@ class _ClothesState extends State<Clothes> {
           selectcategory: 'clothes',
           screentitle: 'Clothes Donation',
           address: donation.addres,
-                    latitude: donation.latitude!,
+          latitude: donation.latitude!,
           longitude: donation.longitude!,
+          titlenotice: '',
         ),
       ),
     );

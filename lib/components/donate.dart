@@ -12,9 +12,11 @@ import 'package:sadqahzakat/model/donate_model.dart';
 import 'package:http/http.dart' as http;
 
 import '../Screens/Login/Screen/login_page.dart';
+
 class Data extends StatefulWidget {
   final String imageUrl;
   final String title;
+  final String titlenotice;
   final String screentitle;
   final String description;
   final double? projectvalue;
@@ -34,7 +36,7 @@ class Data extends StatefulWidget {
     required this.screentitle,
     required this.address,
     required this.latitude,
-    required this.longitude,
+    required this.longitude, required this.titlenotice,
   });
 
   @override
@@ -54,7 +56,7 @@ class _DataState extends State<Data> {
   TextEditingController userIdController = TextEditingController();
   bool isLoading = true;
   bool isUpdating = false;
-    final FlutterSecureStorage storage = const FlutterSecureStorage();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
   String errorMessage = '';
   String cityName = 'Loading...';
   @override
@@ -231,14 +233,38 @@ class _DataState extends State<Data> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.title,
-          style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF7fc23a),
-          ),
+        Text.rich(
+  TextSpan(
+    children: [
+      TextSpan(
+        text: widget.title,
+        style: const TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: Color(0xFF7fc23a),
         ),
+      ),
+      TextSpan(
+        text: "(" "${widget.titlenotice}" ")" , // Add space or any separator if needed
+        style: const TextStyle(
+          fontSize: 20, // Adjust font size if needed
+          fontWeight: FontWeight.normal,
+          color: Colors.black, // Different color or style for titlenotice
+        ),
+      ),
+    ],
+  ),
+),
+
+        // Text(
+        //   widget.title,
+        //   style: const TextStyle(
+        //     fontSize: 24,
+        //     fontWeight: FontWeight.bold,
+        //     color: Color(0xFF7fc23a),
+        //   ),
+        // ),
+        // Text(),
         const SizedBox(height: 8),
         ExpandableText(
           widget.description,

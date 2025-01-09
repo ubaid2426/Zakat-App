@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-// import 'package:sadqahzakat/Screens/All_Category/Group/all_category.dart';
-// import 'package:sadqahzakat/Screens/Home/home_main.dart';
 import 'package:sadqahzakat/Screens/donation_service.dart';
 import 'package:sadqahzakat/components/donate.dart';
-// import 'package:sadqahzakat/components/navigation.dart';
-// import 'package:sadqahzakat/components/navigation.dart';
 import 'package:sadqahzakat/model/doantion_model.dart';
 
 class Clothes extends StatefulWidget {
   const Clothes({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ClothesState createState() => _ClothesState();
 }
 
@@ -130,30 +127,7 @@ class _ClothesState extends State<Clothes> {
             ),
           ),
         ),
-        // leading: IconButton(
-        //   icon: const Icon(Icons.arrow_back),
-        //   onPressed: () {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(builder: (context) => const Home()),
-        //     );
-        //   },
-        // ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text("Clothes Donation"),
-            // IconButton(
-            //   icon: const Icon(Icons.home),
-            //   onPressed: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(builder: (context) => const Home()),
-            //     );
-            //   },
-            // ),
-          ],
-        ),
+        title: const Text("Clothes Donation"),
       ),
       body: Column(
         children: [

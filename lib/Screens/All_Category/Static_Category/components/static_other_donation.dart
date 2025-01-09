@@ -39,7 +39,6 @@ class _StaticOtherDesignState extends State<StaticOtherDesign> {
 
   Map<String, dynamic>? selectedDonation;
 
-
   void updateTotalAmount() {
     if (selectedDonation != null) {
       setState(() {
@@ -54,6 +53,7 @@ class _StaticOtherDesignState extends State<StaticOtherDesign> {
     super.initState();
     _controller.text = totalDonationAmount.toString();
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -76,7 +76,7 @@ class _StaticOtherDesignState extends State<StaticOtherDesign> {
             children: [
               buildHeader(),
               buildImageSection(),
-              buildDonationDropdown(),
+              _buildDonationDropdown(),
               const SizedBox(height: 15),
               buildDonationSection(),
               const SizedBox(height: 15),
@@ -133,43 +133,259 @@ class _StaticOtherDesignState extends State<StaticOtherDesign> {
     );
   }
 
-  Widget buildDonationDropdown() {
-    return Material(
-      elevation: 2,
-      borderRadius: BorderRadius.circular(12),
-      color: Colors.white,
+  // Widget _buildDonationDropdown() {
+  //   return Material(
+  //     color: Colors.transparent,
+  //     child: Padding(
+  //       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+  //       child: Column(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           const Text(
+  //             'Select a donation option:',
+  //             style: TextStyle(
+  //               fontSize: 16,
+  //               fontWeight: FontWeight.bold,
+  //               color: Colors.black87,
+  //             ),
+  //           ),
+  //           const SizedBox(height: 12),
+  //           Container(
+  //             decoration: BoxDecoration(
+  //               gradient: const LinearGradient(
+  //                 colors: [
+  //                   Color(0xFF7fc23a),
+  //                   Color.fromARGB(255, 145, 191, 100)
+  //                 ],
+  //                 begin: Alignment.topLeft,
+  //                 end: Alignment.bottomRight,
+  //               ),
+  //               borderRadius: BorderRadius.circular(16),
+  //               boxShadow: [
+  //                 BoxShadow(
+  //                   color: Colors.grey.withOpacity(0.4),
+  //                   spreadRadius: 2,
+  //                   blurRadius: 10,
+  //                   offset: const Offset(0, 3),
+  //                 ),
+  //               ],
+  //             ),
+  //             child: Padding(
+  //               padding:
+  //                   const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+  //               child: Row(
+  //                 children: [
+  //                   const Icon(
+  //                     Icons.volunteer_activism,
+  //                     color: Colors.white,
+  //                     size: 30,
+  //                   ),
+  //                   const SizedBox(width: 10),
+  //                   Expanded(
+  //                     child: DropdownButtonHideUnderline(
+  //                       child: DropdownButton<Map<String, dynamic>>(
+  //                         isExpanded: true,
+  //                         hint: const Text(
+  //                           'Choose a donation option',
+  //                           style:
+  //                               TextStyle(fontSize: 16, color: Colors.white70),
+  //                         ),
+  //                         value: selectedDonation,
+  //                         items: widget.donationOptions!
+  //                             .map((option) =>
+  //                                 DropdownMenuItem<Map<String, dynamic>>(
+  //                                   value: option,
+  //                                   child: Row(
+  //                                     mainAxisAlignment:
+  //                                         MainAxisAlignment.spaceBetween,
+  //                                     children: [
+  //                                       Text(
+  //                                         option['title'],
+  //                                         style: const TextStyle(
+  //                                           fontSize: 16,
+  //                                           color: Colors.white,
+  //                                         ),
+  //                                       ),
+  //                                       Text(
+  //                                         'Rs ${option['price']}',
+  //                                         style: const TextStyle(
+  //                                           fontSize: 16,
+  //                                           fontWeight: FontWeight.bold,
+  //                                           color: Colors.white,
+  //                                         ),
+  //                                       ),
+  //                                     ],
+  //                                   ),
+  //                                 ))
+  //                             .toList(),
+  //                         onChanged: (newValue) {
+  //                           setState(() {
+  //                             selectedDonation = newValue;
+  //                             // ageTitle = selectedDonation?['title'];
+  //                             updateTotalAmount();
+  //                           });
+  //                         },
+  //                         icon: const Icon(
+  //                           Icons.arrow_drop_down,
+  //                           color: Colors.white,
+  //                         ),
+  //                         dropdownColor: const Color(0xFF7fc23a),
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+Widget _buildDonationDropdown() {
+  return Material(
+      color: Colors.transparent,
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Container(
-          color: const Color(0xFF7fc23a),
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: DropdownButton<Map<String, dynamic>>(
-            isExpanded: true,
-            value: selectedDonation,
-            hint: const Text('Select a donation option'),
-            items: widget.donationOptions?.map((option) {
-              return DropdownMenuItem<Map<String, dynamic>>(
-                value: option,
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Select a donation option:',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF7fc23a), Color.fromARGB(255, 145, 191, 100)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.4),
+                    spreadRadius: 2,
+                    blurRadius: 10,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(option['title']),
-                    Text('Rs ${option['price']}'),
+                    const Icon(
+                      Icons.volunteer_activism,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: DropdownButtonFormField<Map<String, dynamic>>(
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: const Color(0xFF7fc23a),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                        hint: const Text(
+                          'Choose a donation option',
+                          style: TextStyle(fontSize: 16, color: Colors.white70),
+                        ),
+                        value: selectedDonation,
+                        items: widget.donationOptions?.map((option) {
+                          return DropdownMenuItem<Map<String, dynamic>>(
+                            value: option,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  option['title'],
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  'Rs ${option['price']}',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (newValue) {
+                          setState(() {
+                            selectedDonation = newValue;
+                          });
+                          // widget.onDonationSelected(newValue);
+                        },
+                        icon: const Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.white,
+                        ),
+                        dropdownColor: const Color(0xFF7fc23a),
+                      ),
+                    ),
                   ],
                 ),
-              );
-            }).toList(),
-            onChanged: (newValue) {
-              setState(() {
-                selectedDonation = newValue;
-                updateTotalAmount();
-              });
-            },
-          ),
+              ),
+            ),
+          ],
         ),
       ),
     );
-  }
+}
+
+  // Widget buildDonationDropdown() {
+  //   return Material(
+  //     elevation: 2,
+  //     borderRadius: BorderRadius.circular(12),
+  //     color: Colors.white,
+  //     child: Padding(
+  //       padding: const EdgeInsets.all(10.0),
+  //       child: Container(
+  //         color: const Color(0xFF7fc23a),
+  //         padding: const EdgeInsets.symmetric(horizontal: 12),
+  //         child: DropdownButton<Map<String, dynamic>>(
+  //           isExpanded: true,
+  //           value: selectedDonation,
+  //           hint: const Text('Select a donation option'),
+  //           items: widget.donationOptions?.map((option) {
+  //             return DropdownMenuItem<Map<String, dynamic>>(
+  //               value: option,
+  //               child: Row(
+  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                 children: [
+  //                   Text(option['title']),
+  //                   Text('Rs ${option['price']}'),
+  //                 ],
+  //               ),
+  //             );
+  //           }).toList(),
+  //           onChanged: (newValue) {
+  //             setState(() {
+  //               selectedDonation = newValue;
+  //               updateTotalAmount();
+  //             });
+  //           },
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget buildDonationSection() {
     return Padding(

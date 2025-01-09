@@ -1,8 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 import 'package:http/http.dart' as http;
+import 'package:sadqahzakat/components/navigation.dart';
 
 import '../../Login/Screen/login_page.dart';
 
@@ -42,6 +45,7 @@ class _NeedSupportState extends State<NeedSupport> {
   String errorMessage = '';
   Future<void> _submitForm() async {
     String? Email = await storage.read(key: 'email');
+    print(Email);
     if (_formKey.currentState!.validate()) {
       // Gather data from form fields
       final data = {
@@ -60,7 +64,8 @@ class _NeedSupportState extends State<NeedSupport> {
       };
       try {
         final response = await http.post(
-          Uri.parse('http://127.0.0.1:8000/data/donation-request/'),
+          Uri.parse('https://sadqahzakaat.com/data/donation-request/'),
+          // Uri.parse('http://127.0.0.1:8000/data/donation-request/'),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode(data),
         );
@@ -178,8 +183,10 @@ class _NeedSupportState extends State<NeedSupport> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
+                Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const Navigation()),
+              );
             },
             child: const Text('OK'),
           ),

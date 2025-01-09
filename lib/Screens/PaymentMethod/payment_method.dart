@@ -6,8 +6,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
+import 'package:sadqahzakat/Screens/Home/home_main.dart';
 import 'package:sadqahzakat/Screens/Login/Screen/login_page.dart';
 import 'package:sadqahzakat/components/custom_button.dart';
+import 'package:sadqahzakat/components/navigation.dart';
 import 'package:sadqahzakat/model/payment_detail.dart';
 
 const storage = FlutterSecureStorage();
@@ -207,8 +209,10 @@ class _PaymentMethodState extends State<PaymentMethod> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
+               Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const Navigation()),
+              );
             },
             child: const Text('OK'),
           ),

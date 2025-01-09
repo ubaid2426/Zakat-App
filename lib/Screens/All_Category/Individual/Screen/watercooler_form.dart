@@ -60,7 +60,7 @@ class _WaterCoolerFormState extends State<WaterCoolerForm> {
         // Send the POST request
         final response = await http.post(
           Uri.parse(
-              'http://127.0.0.1:8000/data/donations/'), // Replace with your API endpoint
+              'https://sadqahzakaat.com/data/donationsindividual/'), // Replace with your API endpoint
           headers: {"Content-Type": "application/json"},
           body: jsonEncode(data),
         );

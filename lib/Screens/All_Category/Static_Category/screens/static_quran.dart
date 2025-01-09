@@ -25,9 +25,9 @@ class StaticQuranCard extends StatefulWidget {
 
 class _StaticQuranCardState extends State<StaticQuranCard> {
   final List<Map<String, dynamic>> donationOptionsmeal = [
-    {'title': 'Kid', 'price': 1000},
-    {'title': 'Adult', 'price': 2500},
-    {'title': 'Young', 'price': 3500},
+    {'title': 'Juzs', 'price': 150},
+    {'title': 'Small Words', 'price': 1000},
+    {'title': 'Big Words', 'price': 2500},
   ];
 
   @override

@@ -25,9 +25,9 @@ class StaticDaigCard extends StatefulWidget {
 
 class _StaticDaigCardState extends State<StaticDaigCard> {
   final List<Map<String, dynamic>> donationOptionsmeal = [
-    {'title': 'Kid', 'price': 1000},
-    {'title': 'Adult', 'price': 2500},
-    {'title': 'Young', 'price': 3500},
+    {'title': 'Chana Biryani', 'price': 3500},
+    {'title': 'Chicken Biryani', 'price': 10000},
+    {'title': 'Beef biryani', 'price': 15000},
   ];
 
   @override
